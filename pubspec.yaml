@@ -1,0 +1,16 @@
+name: swagger_model_generator
+description: Dart tool to automaticly generate models from a swagger json
+version: 0.0.1
+author: Koen Van Looveren <koen.vanlooveren@icapps.com>
+homepage: https://github.com/icapps/flutter-icapps-generator
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  path: ^1.6.2
+  yaml: ^2.1.15
+  recase: ^2.0.1
+
+dev_dependencies:
+  test: ^1.0.0

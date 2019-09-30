@@ -1,0 +1,58 @@
+OGM:
+  type: object
+  required:
+    - beneficiary
+    - beneficiaryIBAN
+    - structuredMessage
+  properties:
+    structuredMessage:
+      type: string
+    beneficiary:
+      type: string
+    beneficiaryIBAN:
+      type: string
+Testing:
+  type: object
+  required:
+    - beneficiary
+  properties:
+    structuredMessage:
+      type: string
+    beneficiary:
+      type: string
+    beneficiaryIBAN:
+      type: string
+UserProfileData:
+  type: object
+  required:
+    - externalAccountNumber
+    - firstName
+    - lastName
+    - legalAddress
+    - legalEmail
+    - mainAccountNumber
+    - phones
+    - standardLanguage
+  properties:
+    firstName:
+      type: string
+    lastName:
+      type: string
+    standardLanguage:
+      type: string
+    mainAccountNumber:
+      type: string
+    legalEmail:
+      type: string
+    phones:
+      $ref: '#/definitions/Testing'
+    legalAddress:
+      $ref: '#/definitions/OGM'
+    offTrack:
+      type: array
+      items:
+        type: string
+    onTrack:
+      type: array
+      items:
+        $ref: '#/definitions/OGM'
