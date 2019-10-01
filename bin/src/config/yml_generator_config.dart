@@ -14,16 +14,15 @@ import '../model/item_type/string_type.dart';
 import '../model/model.dart';
 import '../util/type_checker.dart';
 
-class SwaggerGeneratorConfig {
+class YmlGeneratorConfig {
   final models = List<Model>();
 
-  SwaggerGeneratorConfig(String configContent) {
+  YmlGeneratorConfig(String configContent) {
     loadYaml(configContent).forEach((key, value) {
       final requiredFields = getRequiredFields(value);
       final YamlMap properties = value['properties'];
       final fields = List<Field>();
-      properties.forEach(
-          (key, value) => fields.add(getField(key, value, requiredFields)));
+      properties.forEach((key, value) => fields.add(getField(key, value, requiredFields)));
       models.add(Model(key, fields));
     });
 
@@ -57,8 +56,7 @@ class SwaggerGeneratorConfig {
         if (format == null) {
           itemType = StringType();
         } else if (format == 'date-time') {
-          print(
-              'A date time formatter should be added in the config for : `$name`');
+          print('A date time formatter should be added in the config for : `$name`');
           itemType = DateTimeType();
         } else if (format == 'date') {
           print('A date formatter should be added in the config for : `$name`');
@@ -114,8 +112,7 @@ class SwaggerGeneratorConfig {
     print(types);
     types.forEach((type) {
       if (!TypeChecker.isPrimitiveType(type) && !names.contains(type)) {
-        throw Exception(
-            'Could not generate all models. `$type` is not added to the config file');
+        throw Exception('Could not generate all models. `$type` is not added to the config file');
       }
     });
   }

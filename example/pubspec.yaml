@@ -1,5 +1,5 @@
 name: model_generator_example
-description: A project used to demo the swagger model generator
+description: A project used to demo the model generator
 version: 1.0.0+1
 
 environment:
