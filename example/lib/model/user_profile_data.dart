@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:swagger_model_generator_example/model/ogm.dart';
-import 'package:swagger_model_generator_example/model/testing.dart';
-import 'package:swagger_model_generator_example/model/ogm.dart';
+import 'package:model_generator_example/model/ogm.dart';
+import 'package:model_generator_example/model/testing.dart';
+import 'package:model_generator_example/model/ogm.dart';
 
 part 'user_profile_data.g.dart';
 
@@ -27,16 +27,16 @@ class UserProfileData {
   final String mainAccountNumber;
 
   UserProfileData(
-  this.firstName,
-  this.legalAddress,
-  this.phones,
-  this.offTrack,
-  this.legalEmail,
-  this.onTrack,
-  this.standardLanguage,
-  this.lastName,
-  this.mainAccountNumber,
-);
+    this.firstName,
+    this.legalAddress,
+    this.phones,
+    this.offTrack,
+    this.legalEmail,
+    this.onTrack,
+    this.standardLanguage,
+    this.lastName,
+    this.mainAccountNumber,
+  );
 
   factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
 

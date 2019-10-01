@@ -12,10 +12,10 @@ class Testing {
   final String beneficiaryIBAN;
 
   Testing(
-  this.beneficiary,
-  this.structuredMessage,
-  this.beneficiaryIBAN,
-);
+    this.beneficiary,
+    this.structuredMessage,
+    this.beneficiaryIBAN,
+  );
 
   factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
 

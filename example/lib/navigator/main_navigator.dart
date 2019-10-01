@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swagger_model_generator_example/screen/home_screen.dart';
-import 'package:swagger_model_generator_example/widgets/general/flavor_banner.dart';
+import 'package:model_generator_example/screen/home_screen.dart';
+import 'package:model_generator_example/widgets/general/flavor_banner.dart';
 
 class MainNavigatorWidget extends StatefulWidget {
   const MainNavigatorWidget({Key key}) : super(key: key);

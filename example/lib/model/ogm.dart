@@ -12,10 +12,10 @@ class OGM {
   final String beneficiaryIBAN;
 
   OGM(
-  this.beneficiary,
-  this.structuredMessage,
-  this.beneficiaryIBAN,
-);
+    this.beneficiary,
+    this.structuredMessage,
+    this.beneficiaryIBAN,
+  );
 
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);
 

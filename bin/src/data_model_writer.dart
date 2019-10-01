@@ -37,10 +37,10 @@ class DataModelWriter {
     sb..writeln()..writeln('  ${jsonModel.name}(');
 
     jsonModel.fields.forEach((key) {
-      sb.writeln('  this.${key.name},');
+      sb.writeln('    this.${key.name},');
     });
     sb
-      ..writeln(');')
+      ..writeln('  );')
       ..writeln()
       ..writeln('  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
       ..writeln()

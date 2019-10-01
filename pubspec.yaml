@@ -1,8 +1,8 @@
-name: swagger_model_generator
-description: Dart tool to automaticly generate models from a swagger json
+name: model_generator
+description: Dart tool to automaticly generate models from a yml file
 version: 0.0.1
 author: Koen Van Looveren <koen.vanlooveren@icapps.com>
-homepage: https://github.com/icapps/flutter-icapps-generator
+homepage: https://github.com/icapps/flutter-icapps-model-generator
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

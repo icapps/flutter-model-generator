@@ -1,4 +1,4 @@
-name: swagger_model_generator_example
+name: model_generator_example
 description: A project used to demo the swagger model generator
 version: 1.0.0+1
 
@@ -17,5 +17,5 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^1.7.0
   kiwi_generator: 0.4.0
-  swagger_model_generator:
+  model_generator:
     path: ../

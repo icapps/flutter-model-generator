@@ -1,5 +1,5 @@
 import 'package:kiwi/kiwi.dart';
-import 'package:swagger_model_generator_example/util/util.dart';
+import 'package:model_generator_example/util/util.dart';
 
 part 'injector.g.dart';
 
