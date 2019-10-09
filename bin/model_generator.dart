@@ -37,14 +37,25 @@ void writeToFiles(
   }
   modelGeneratorConfig.models.forEach((model) {
     final content = DataModelWriter(pubspecConfig.projectName, model).write();
-    final file = File(join('lib', 'model', '${model.fileName}.dart'));
+    File file;
+    if (model.path == null) {
+      file = File(join('lib', 'model', '${model.fileName}.dart'));
+    } else {
+      file = File(join('lib', 'model', model.path, '${model.fileName}.dart'));
+    }
     if (!file.existsSync()) {
       file.createSync(recursive: true);
     }
     file.writeAsStringSync(content);
 
-    File(join('lib', 'model', '${model.fileName}.g.dart'))
-        .writeAsStringSync("part of '${model.fileName}.dart';");
+    File generatedFile;
+    if (model.path == null) {
+      generatedFile = File(join('lib', 'model', '${model.fileName}.g.dart'));
+    } else {
+      generatedFile =
+          File(join('lib', 'model', model.path, '${model.fileName}.g.dart'));
+    }
+    generatedFile.writeAsStringSync("part of '${model.fileName}.dart';");
   });
 }
 

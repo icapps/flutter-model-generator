@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.0] - 2019-10-09
+### Added
+- Custom Path 
+
 ## [0.1.0] - 2019-10-09
 ### Fixed
 - Bugfixing for unknown types

@@ -20,5 +20,4 @@ class Testing {
   factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
-
 }

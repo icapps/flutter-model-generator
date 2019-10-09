@@ -16,8 +16,17 @@ class DataModelWriter {
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
         final reCaseFieldName = ReCase(field.type.name);
-        sb.writeln(
-            "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';");
+        String import;
+        if (field.path == null) {
+          import =
+              "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
+        } else {
+          import =
+              "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
+        }
+        if (!sb.toString().contains(import)) {
+          sb.writeln(import);
+        }
       }
     });
 

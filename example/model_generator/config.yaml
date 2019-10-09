@@ -12,6 +12,7 @@ OGM:
     beneficiaryIBAN:
       type: string
 Testing:
+  path: user
   type: object
   required:
     - beneficiary
@@ -23,6 +24,7 @@ Testing:
     beneficiaryIBAN:
       type: string
 UserProfileData:
+  path: user/profile
   type: object
   required:
     - externalAccountNumber

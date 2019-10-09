@@ -19,14 +19,16 @@ class YmlGeneratorConfig {
   YmlGeneratorConfig(String configContent) {
     loadYaml(configContent).forEach((key, value) {
       final requiredFields = getRequiredFields(value);
+      final String path = value['path'];
       final YamlMap properties = value['properties'];
       final fields = List<Field>();
       properties.forEach(
           (key, value) => fields.add(getField(key, value, requiredFields)));
-      models.add(Model(key, fields));
+      models.add(Model(key, path, fields));
     });
 
     checkIfTypesAvailable();
+    addPathsToFields();
   }
 
   List<String> getRequiredFields(YamlMap model) {
@@ -91,6 +93,18 @@ class YmlGeneratorConfig {
       itemType = ObjectType(ref);
     }
     return Field(name, itemType, required);
+  }
+
+  void addPathsToFields() {
+    models.forEach((model) {
+      model.fields.forEach((field) {
+        final foundModels =
+            models.where((model) => model.name == field.type.name).toList();
+        if (foundModels.isNotEmpty) {
+          field.path = foundModels[0].path;
+        }
+      });
+    });
   }
 
   void checkIfTypesAvailable() {
