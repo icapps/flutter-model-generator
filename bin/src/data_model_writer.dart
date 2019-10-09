@@ -41,6 +41,8 @@ class DataModelWriter {
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.required) {
         sb.write(', required: true');
+      } else {
+        sb.write(', nullable: true');
       }
       sb.writeln(')');
       if (key.type is ArrayType) {

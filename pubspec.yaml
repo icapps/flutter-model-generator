@@ -1,6 +1,6 @@
 name: model_generator
 description: Dart tool to automaticly generate models from a yml file to speed up your development flow.
-version: 0.2.1
+version: 0.3.0
 author: Koen Van Looveren <koen.vanlooveren@icapps.com>
 homepage: https://github.com/icapps/flutter-model-generator
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.0] - 2019-10-09
+### Added
+- Nullable fields added 
+
 ## [0.2.1] - 2019-10-09
 ### Fixed
 - Crash when using keywords 
