@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.1] - 2019-10-09
+### Fixed
+- Crash when using keywords 
+
 ## [0.2.0] - 2019-10-09
 ### Added
 - Custom Path 

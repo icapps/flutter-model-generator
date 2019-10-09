@@ -1,13 +1,19 @@
+import '../util/keyword_helper.dart';
 import 'item_type/item_type.dart';
 
 class Field {
-  final String name;
+  String name;
+  String serializedName;
   final ItemType type;
   final bool required;
 
   String path;
 
-  Field(this.name, this.type, this.required);
+  Field(String name, this.type, this.required) {
+    // ignore: prefer_initializing_formals
+    serializedName = name;
+    this.name = KeywordHelper.getCorrectKeyword(name);
+  }
 
   @override
   String toString() {
