@@ -4,7 +4,6 @@ import '../model/field.dart';
 import '../model/item_type/array_type.dart';
 import '../model/item_type/boolean_type.dart';
 import '../model/item_type/date_time_type.dart';
-import '../model/item_type/date_type.dart';
 import '../model/item_type/double_type.dart';
 import '../model/item_type/dynamic_type.dart';
 import '../model/item_type/integer_type.dart';
@@ -22,8 +21,7 @@ class YmlGeneratorConfig {
       final requiredFields = getRequiredFields(value);
       final YamlMap properties = value['properties'];
       final fields = List<Field>();
-      properties.forEach(
-          (key, value) => fields.add(getField(key, value, requiredFields)));
+      properties.forEach((key, value) => fields.add(getField(key, value, requiredFields)));
       models.add(Model(key, fields));
     });
 
@@ -56,13 +54,9 @@ class YmlGeneratorConfig {
         final format = property['format'];
         if (format == null) {
           itemType = StringType();
-        } else if (format == 'date-time') {
-          print(
-              'A date time formatter should be added in the config for : `$name`');
+        } else if (format == 'date-time' || format == 'date') {
+          print('A date time formatter should be added in the config for : `$name`');
           itemType = DateTimeType();
-        } else if (format == 'date') {
-          print('A date formatter should be added in the config for : `$name`');
-          itemType = DateType();
         }
       } else if (type == 'array') {
         final items = property['items'];
@@ -77,15 +71,17 @@ class YmlGeneratorConfig {
           final ref = items['\$ref'];
           itemType = ArrayType(ref);
         }
-      } else {
+      } else if (type == 'number') {
         final format = property['format'];
         if (format == 'int32') {
           itemType = IntegerType();
         } else if (format == 'double') {
           itemType = DoubleType();
         } else {
-          throw Exception();
+          itemType = DoubleType();
         }
+      } else {
+        throw Exception();
       }
     }
     final ref = property['\$ref'];
@@ -113,9 +109,8 @@ class YmlGeneratorConfig {
     print('=======');
     print(types);
     types.forEach((type) {
-      if (!TypeChecker.isPrimitiveType(type) && !names.contains(type)) {
-        throw Exception(
-            'Could not generate all models. `$type` is not added to the config file');
+      if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
+        throw Exception('Could not generate all models. `$type` is not added to the config file');
       }
     });
   }

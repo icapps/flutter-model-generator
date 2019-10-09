@@ -1,23 +1,19 @@
-# Example for the icapps generator
+# Example for the model generator
 
 ### Run package with Flutter
 
 ```
-flutter packages pub run icapps_generator your_screen_name
+flutter packages pub run model_generator
 ```
 
 ### Run package with Dart
 
 ```
-pub run icapps_generator your_screen_name
+pub run model_generator
 ```
 
 ### Result
 
 Code will be generated:
 
-- Screen
-- ViewModel
-- Add @Register.factory to the injector file
-- Add code to make sure you can navigate to your new screen in the MainNavigatorWidget
-- Generate the dependecy tree
+- Models for every item in the yml file
