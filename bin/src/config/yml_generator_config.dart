@@ -25,7 +25,8 @@ class YmlGeneratorConfig {
         throw Exception('Properties can not be null. model: $key');
       }
       final fields = List<Field>();
-      properties.forEach((key, value) => fields.add(getField(key, value, requiredFields)));
+      properties.forEach(
+          (key, value) => fields.add(getField(key, value, requiredFields)));
       models.add(Model(key, path, fields));
     });
 
@@ -61,7 +62,8 @@ class YmlGeneratorConfig {
         if (format == null) {
           itemType = StringType();
         } else if (format == 'date-time' || format == 'date') {
-          print('A date time formatter should be added in the config for : `$name`');
+          print(
+              'A date time formatter should be added in the config for : `$name`');
           itemType = DateTimeType();
         }
       } else if (type == 'array') {
@@ -82,7 +84,8 @@ class YmlGeneratorConfig {
         if (format == 'double') {
           itemType = DoubleType();
         } else {
-          print('No format was found for format: $format of type: $type from ($name)');
+          print(
+              'No format was found for format: $format of type: $type from ($name)');
           itemType = DoubleType();
         }
       } else if (type == 'integer') {
@@ -90,7 +93,8 @@ class YmlGeneratorConfig {
         if (format == 'int32') {
           itemType = IntegerType();
         } else {
-          throw Exception('Failed to resolve format: $format for type: $type from ($name)');
+          throw Exception(
+              'Failed to resolve format: $format for type: $type from ($name)');
         }
       } else {
         throw Exception('Failed to resolve type: $type from ($name)');
@@ -106,7 +110,8 @@ class YmlGeneratorConfig {
   void addPathsToFields() {
     models.forEach((model) {
       model.fields.forEach((field) {
-        final foundModels = models.where((model) => model.name == field.type.name).toList();
+        final foundModels =
+            models.where((model) => model.name == field.type.name).toList();
         if (foundModels.isNotEmpty) {
           field.path = foundModels[0].path;
         }
@@ -133,7 +138,8 @@ class YmlGeneratorConfig {
     print(types);
     types.forEach((type) {
       if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
-        throw Exception('Could not generate all models. `$type` is not added to the config file');
+        throw Exception(
+            'Could not generate all models. `$type` is not added to the config file');
       }
     });
   }
