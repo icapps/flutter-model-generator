@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.1] - 2019-10-09
+### Fixed
+- Formatting for the named params. Required first
+
 ## [0.4.0] - 2019-10-09
 ### Added
 - Named params to the models

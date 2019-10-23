@@ -11,18 +11,16 @@ class DataModelWriter {
   const DataModelWriter(this.projectName, this.jsonModel);
 
   String write() {
-    final sb = StringBuffer()
-      ..writeln("import 'package:json_annotation/json_annotation.dart';");
+    final sb = StringBuffer()..writeln("import 'package:json_annotation/json_annotation.dart';");
+
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
         final reCaseFieldName = ReCase(field.type.name);
         String import;
         if (field.path == null) {
-          import =
-              "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
+          import = "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
         } else {
-          import =
-              "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
+          import = "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
         }
         if (!sb.toString().contains(import)) {
           sb.writeln(import);
@@ -30,12 +28,13 @@ class DataModelWriter {
       }
     });
 
-    sb
-      ..writeln()
-      ..writeln("part '${jsonModel.fileName}.g.dart';")
-      ..writeln()
-      ..writeln('@JsonSerializable(nullable: false)')
-      ..writeln('class ${jsonModel.name} {');
+    sb..writeln()..writeln("part '${jsonModel.fileName}.g.dart';")..writeln()..writeln('@JsonSerializable(nullable: false)')..writeln('class ${jsonModel.name} {');
+
+    jsonModel.fields.sort((a, b) {
+      final b1 = a.required ? 1 : 0;
+      final b2 = b.required ? 1 : 0;
+      return b2 - b1;
+    });
 
     jsonModel.fields.forEach((key) {
       sb.write("  @JsonKey(name: '${key.serializedName}'");
@@ -56,7 +55,7 @@ class DataModelWriter {
 
     jsonModel.fields.forEach((key) {
       if (key.required) {
-        sb.write('    @required this.${key.name},');
+        sb.writeln('    @required this.${key.name},');
       } else {
         sb.writeln('    this.${key.name},');
       }
@@ -64,11 +63,9 @@ class DataModelWriter {
     sb
       ..writeln('  });')
       ..writeln()
-      ..writeln(
-          '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
+      ..writeln('  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
       ..writeln()
-      ..writeln(
-          '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')
+      ..writeln('  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')
       ..writeln()
       ..writeln('}');
     return sb.toString();
