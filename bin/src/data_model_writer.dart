@@ -52,13 +52,17 @@ class DataModelWriter {
       }
     });
 
-    sb..writeln()..writeln('  ${jsonModel.name}(');
+    sb..writeln()..writeln('  ${jsonModel.name}({');
 
     jsonModel.fields.forEach((key) {
-      sb.writeln('    this.${key.name},');
+      if (key.required) {
+        sb.write('    @required this.${key.name},');
+      } else {
+        sb.writeln('    this.${key.name},');
+      }
     });
     sb
-      ..writeln('  );')
+      ..writeln('  });')
       ..writeln()
       ..writeln(
           '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
