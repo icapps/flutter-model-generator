@@ -11,8 +11,15 @@ class DataModelWriter {
   const DataModelWriter(this.projectName, this.jsonModel);
 
   String write() {
-    final sb = StringBuffer()
-      ..writeln("import 'package:json_annotation/json_annotation.dart';");
+    final sb = StringBuffer();
+
+    final containsRequiredFields =
+        jsonModel.fields.where((item) => item.required).toList().isNotEmpty;
+    if (containsRequiredFields) {
+      sb.writeln("import 'package:flutter/material.dart';");
+    }
+
+    sb.writeln("import 'package:json_annotation/json_annotation.dart';");
 
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {

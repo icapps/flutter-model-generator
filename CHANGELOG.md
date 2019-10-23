@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.4.1] - 2019-10-09
+## [0.4.2] - 2019-10-09
 ### Fixed
-- Formatting for the named params. Required first
+- Fixed import for @required
 
 ## [0.4.0] - 2019-10-09
 ### Added
