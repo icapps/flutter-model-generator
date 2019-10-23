@@ -11,8 +11,16 @@ class DataModelWriter {
   const DataModelWriter(this.projectName, this.jsonModel);
 
   String write() {
-    final sb = StringBuffer()
-      ..writeln("import 'package:json_annotation/json_annotation.dart';");
+    final sb = StringBuffer();
+
+    final containsRequiredFields =
+        jsonModel.fields.where((item) => item.required).toList().isNotEmpty;
+    if (containsRequiredFields) {
+      sb.writeln("import 'package:flutter/material.dart';");
+    }
+
+    sb.writeln("import 'package:json_annotation/json_annotation.dart';");
+
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
         final reCaseFieldName = ReCase(field.type.name);
@@ -37,6 +45,12 @@ class DataModelWriter {
       ..writeln('@JsonSerializable(nullable: false)')
       ..writeln('class ${jsonModel.name} {');
 
+    jsonModel.fields.sort((a, b) {
+      final b1 = a.required ? 1 : 0;
+      final b2 = b.required ? 1 : 0;
+      return b2 - b1;
+    });
+
     jsonModel.fields.forEach((key) {
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.required) {
@@ -52,13 +66,17 @@ class DataModelWriter {
       }
     });
 
-    sb..writeln()..writeln('  ${jsonModel.name}(');
+    sb..writeln()..writeln('  ${jsonModel.name}({');
 
     jsonModel.fields.forEach((key) {
-      sb.writeln('    this.${key.name},');
+      if (key.required) {
+        sb.writeln('    @required this.${key.name},');
+      } else {
+        sb.writeln('    this.${key.name},');
+      }
     });
     sb
-      ..writeln('  );')
+      ..writeln('  });')
       ..writeln()
       ..writeln(
           '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
