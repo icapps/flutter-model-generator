@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0] - 2019-10-09
+### Added
+- Named params to the models
+
 ## [0.3.0] - 2019-10-09
 ### Added
 - Nullable fields added 
