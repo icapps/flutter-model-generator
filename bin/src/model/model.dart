@@ -16,9 +16,4 @@ class Model {
     final fileName = ReCase(name).snakeCase;
     return Model._(name, path, fileName, fields);
   }
-
-  @override
-  String toString() {
-    return 'Model{name: $name, fields: $fields}';
-  }
 }

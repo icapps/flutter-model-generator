@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.04.2] - 2020-01-21
+### Fixed
+- #6 yield is not supported. (keywords are changed to `yieldValue` the jsonName will still be `yield`)
+- #7 fixed readme
+- #8 _ should be removed
+- Some extra bugs and a more standard form is used.
+
 ## [0.4.2] - 2019-10-09
 ### Fixed
 - Fixed import for @required
