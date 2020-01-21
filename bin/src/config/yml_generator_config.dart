@@ -18,15 +18,18 @@ class YmlGeneratorConfig {
 
   YmlGeneratorConfig(String configContent) {
     loadYaml(configContent).forEach((key, value) {
-      final requiredFields = getRequiredFields(value);
       final String path = value['path'];
       final YamlMap properties = value['properties'];
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
       final fields = List<Field>();
-      properties.forEach(
-          (key, value) => fields.add(getField(key, value, requiredFields)));
+      properties.forEach((key, value) {
+        if (!(value is YamlMap)) {
+          throw Exception('$key should be an object');
+        }
+        fields.add(getField(key, value));
+      });
       models.add(Model(key, path, fields));
     });
 
@@ -34,77 +37,55 @@ class YmlGeneratorConfig {
     addPathsToFields();
   }
 
-  List<String> getRequiredFields(YamlMap model) {
-    final YamlList requiredProperties = model['required'];
-    if (requiredProperties == null) return List();
-    final requiredFields = List<String>();
-    requiredProperties.forEach((key) {
-      if (requiredFields.contains(key)) {
-        throw Exception('Field is already added. This is unsupported');
-      }
-      requiredFields.add(key);
-    });
-    return requiredFields;
-  }
+  Field getField(String name, YamlMap property) {
+    try {
+      final required =
+          property.containsKey('required') && property['required'] == true;
+      final type = property['type'];
+      ItemType itemType;
 
-  Field getField(String name, YamlMap property, List<String> requiredFields) {
-    final required = requiredFields.contains(name);
-    final type = property['type'];
-    ItemType itemType;
-
-    if (type != null) {
-      if (type == 'object') {
-        itemType = DynamicType();
-      } else if (type == 'boolean') {
-        itemType = BooleanType();
-      } else if (type == 'string') {
-        final format = property['format'];
-        if (format == null) {
+      if (type != null) {
+        if (type == 'object' || type == 'dynamic' || type == 'any') {
+          itemType = DynamicType();
+        } else if (type == 'bool' || type == 'boolean') {
+          itemType = BooleanType();
+        } else if (type == 'string') {
           itemType = StringType();
-        } else if (format == 'date-time' || format == 'date') {
-          print(
-              'A date time formatter should be added in the config for : `$name`');
+        } else if (type == 'date' || type == 'datetime') {
           itemType = DateTimeType();
-        }
-      } else if (type == 'array') {
-        final items = property['items'];
-        final arrayType = items['type'];
-        if (arrayType != null) {
+        } else if (type == 'double') {
+          itemType = DoubleType();
+        } else if (type == 'int' || type == 'integer') {
+          itemType = IntegerType();
+        } else if (type == 'array') {
+          final items = property['items'];
+          final arrayType = items['type'];
           if (arrayType == 'string') {
             itemType = ArrayType('String');
+          } else if (arrayType == 'boolean') {
+            itemType = ArrayType('bool');
+          } else if (arrayType == 'datetime') {
+            itemType = ArrayType('DateTime');
+          } else if (arrayType == 'integer') {
+            itemType = ArrayType('int');
+          } else if (arrayType == 'object' || arrayType == 'any') {
+            itemType = ArrayType('dynamic');
           } else {
             itemType = ArrayType(arrayType);
           }
         } else {
-          final ref = items['\$ref'];
-          itemType = ArrayType(ref);
+          itemType = ObjectType(type);
         }
-      } else if (type == 'number') {
-        final format = property['format'];
-        if (format == 'double') {
-          itemType = DoubleType();
-        } else {
-          print(
-              'No format was found for format: $format of type: $type from ($name)');
-          itemType = DoubleType();
-        }
-      } else if (type == 'integer') {
-        final format = property['format'];
-        if (format == 'int32') {
-          itemType = IntegerType();
-        } else {
-          throw Exception(
-              'Failed to resolve format: $format for type: $type from ($name)');
-        }
-      } else {
-        throw Exception('Failed to resolve type: $type from ($name)');
       }
+      final ref = property['\$ref'];
+      if (ref != null) {
+        itemType = ObjectType(ref);
+      }
+      return Field(name, itemType, required);
+    } catch (e) {
+      print('Something went wrong with $name:\n\n${e.toString()}');
+      throw e;
     }
-    final ref = property['\$ref'];
-    if (ref != null) {
-      itemType = ObjectType(ref);
-    }
-    return Field(name, itemType, required);
   }
 
   void addPathsToFields() {

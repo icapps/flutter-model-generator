@@ -42,7 +42,7 @@ class DataModelWriter {
       ..writeln()
       ..writeln("part '${jsonModel.fileName}.g.dart';")
       ..writeln()
-      ..writeln('@JsonSerializable(nullable: false)')
+      ..writeln('@JsonSerializable()')
       ..writeln('class ${jsonModel.name} {');
 
     jsonModel.fields.sort((a, b) {

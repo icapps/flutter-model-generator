@@ -1,60 +1,36 @@
-# flutter icapps generator
+# Model Generator
 
-A dart package to automaticly generate new code when creating a new screen. 
-This package should be used in combination with the [icapps template](https://github.com/icapps/flutter-template)
+This model generator can be used to generate JsonSerializable models
 
-[![pub package](https://img.shields.io/pub/v/icapps_generator.svg)](https://pub.dartlang.org/packages/icapps_generator)
+[![pub package](https://img.shields.io/pub/v/model_generator.svg)](https://pub.dev/packages/model_generator)
 
-This repo contains an example how to use this package.
-
-Packages used:
- - provider
- - kiwi
- - icapps_generator
-
-## Setup
-
-### Add dependency to pubspec
-
-[![pub package](https://img.shields.io/pub/v/icapps_generator.svg)](https://pub.dartlang.org/packages/icapps_generator)
+Example of the `model_generator/config.yaml` file
 ```
-dev-dependencies:
-  icapps_generator: <latest-version>
-```
-### Run package with Flutter
+UserModel:
+  path: webservice/user
+  properties:
+    id:
+      type: int
+    name:
+      type: string
+    salary:
+      type: double
+    something:
+      type: dynamic
+    isLoggedIn:
+      type: bool
+    roles:
+      type: array
+      items:
+        type: string
+    addresses:
+      type: array
+      items:
+        type: Address
 
-```
-flutter packages pub run icapps_generator your_screen_name
-```
-
-### Run package with Dart
-
-```
-pub run icapps_generator your_screen_name
-```
-
-### Result
-
-Code will be generated:
-
-- Screen
-- ViewModel
-- Add @Register.factory to the injector file
-- Add code to make sure you can navigate to your new screen in the MainNavigatorWidget
-- Generate the dependecy tree
-
-### Working on mac?
-
-add this to you .bash_profile
-
-```
-fluttergenerator(){
- flutter packages pub run icapps_generator $1
-}
-```
-
-now you can use the icapps generator with a single command.
-
-```
-fluttergenerator your_screen_name
+Address
+  path: webservice/user
+  properties:
+    street:
+      type: string
 ```
