@@ -1,5 +1,5 @@
 abstract class ItemType {
-  final name;
+  final String name;
   ItemType(this.name);
 
   @override

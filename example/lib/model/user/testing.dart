@@ -1,23 +1,28 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'testing.g.dart';
 
-@JsonSerializable(nullable: false)
+@JsonSerializable()
 class Testing {
   @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
-  @JsonKey(name: 'structuredMessage')
+  @JsonKey(name: 'isFavourite', nullable: true, ignore: true)
+  final String isFavourite;
+  @JsonKey(name: 'structuredMessage', nullable: true)
   final String structuredMessage;
-  @JsonKey(name: 'beneficiaryIBAN')
+  @JsonKey(name: 'beneficiaryIBAN', nullable: true)
   final String beneficiaryIBAN;
 
-  Testing(
-    this.beneficiary,
+  Testing({
+    @required this.beneficiary,
+    this.isFavourite,
     this.structuredMessage,
     this.beneficiaryIBAN,
-  );
+  });
 
   factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
+
 }

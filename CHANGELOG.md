@@ -1,6 +1,10 @@
 # Changelog
 
-## [1.0.04.2] - 2020-01-21
+## [1.1.0] - 2020-02-01
+### Added
+- #11 option to ignore a field in the json serialization
+
+## [1.0.0] - 2020-01-21
 ### Fixed
 - #6 yield is not supported. (keywords are changed to `yieldValue` the jsonName will still be `yield`)
 - #7 fixed readme

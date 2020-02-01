@@ -41,6 +41,8 @@ class YmlGeneratorConfig {
     try {
       final required =
           property.containsKey('required') && property['required'] == true;
+      final ignored =
+          property.containsKey('ignore') && property['ignore'] == true;
       final type = property['type'];
       ItemType itemType;
 
@@ -64,9 +66,9 @@ class YmlGeneratorConfig {
             itemType = ArrayType('String');
           } else if (arrayType == 'boolean') {
             itemType = ArrayType('bool');
-          } else if (arrayType == 'datetime') {
+          } else if (arrayType == 'date' || arrayType == 'datetime') {
             itemType = ArrayType('DateTime');
-          } else if (arrayType == 'integer') {
+          } else if (arrayType == 'integer' || arrayType == 'int') {
             itemType = ArrayType('int');
           } else if (arrayType == 'object' || arrayType == 'any') {
             itemType = ArrayType('dynamic');
@@ -81,10 +83,11 @@ class YmlGeneratorConfig {
       if (ref != null) {
         itemType = ObjectType(ref);
       }
-      return Field(name, itemType, required);
+      return Field(
+          name: name, type: itemType, required: required, ignore: ignored);
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
-      throw e;
+      rethrow;
     }
   }
 
