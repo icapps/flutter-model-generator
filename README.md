@@ -28,9 +28,13 @@ UserModel:
       items:
         type: Address
 
-Address
+Address:
   path: webservice/user
   properties:
     street:
       type: string
 ```
+
+Run: 
+
+`flutter packages run model_generator`
