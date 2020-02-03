@@ -7,28 +7,43 @@ part of 'user_profile_data.dart';
 // **************************************************************************
 
 UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const ['firstName', 'legalAddress', 'phones', 'legalEmail', 'standardLanguage', 'lastName', 'mainAccountNumber']);
+  $checkKeys(json, requiredKeys: const [
+    'firstName',
+    'lastName',
+    'standardLanguage',
+    'mainAccountNumber',
+    'legalEmail',
+    'phones',
+    'legalAddress'
+  ]);
   return UserProfileData(
-    json['firstName'] as String,
-    OGM.fromJson(json['legalAddress'] as Map<String, dynamic>),
-    Testing.fromJson(json['phones'] as Map<String, dynamic>),
-    (json['offTrack'] as List).map((e) => e as String).toList(),
-    json['legalEmail'] as String,
-    (json['onTrack'] as List).map((e) => OGM.fromJson(e as Map<String, dynamic>)).toList(),
-    json['standardLanguage'] as String,
-    json['lastName'] as String,
-    json['mainAccountNumber'] as String,
+    firstName: json['firstName'] as String,
+    lastName: json['lastName'] as String,
+    standardLanguage: json['standardLanguage'] as String,
+    mainAccountNumber: json['mainAccountNumber'] as String,
+    legalEmail: json['legalEmail'] as String,
+    phones: json['phones'] == null
+        ? null
+        : Testing.fromJson(json['phones'] as Map<String, dynamic>),
+    legalAddress: json['legalAddress'] == null
+        ? null
+        : OGM.fromJson(json['legalAddress'] as Map<String, dynamic>),
+    offTrack: (json['offTrack'] as List)?.map((e) => e as String)?.toList(),
+    onTrack: (json['onTrack'] as List)
+        ?.map((e) => e == null ? null : OGM.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
-Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) => <String, dynamic>{
+Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) =>
+    <String, dynamic>{
       'firstName': instance.firstName,
-      'legalAddress': instance.legalAddress,
-      'phones': instance.phones,
-      'offTrack': instance.offTrack,
-      'legalEmail': instance.legalEmail,
-      'onTrack': instance.onTrack,
-      'standardLanguage': instance.standardLanguage,
       'lastName': instance.lastName,
+      'standardLanguage': instance.standardLanguage,
       'mainAccountNumber': instance.mainAccountNumber,
+      'legalEmail': instance.legalEmail,
+      'phones': instance.phones,
+      'legalAddress': instance.legalAddress,
+      'offTrack': instance.offTrack,
+      'onTrack': instance.onTrack,
     };

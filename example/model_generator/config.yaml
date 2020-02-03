@@ -1,55 +1,54 @@
 OGM:
   type: object
-  required:
-    - beneficiary
-    - beneficiaryIBAN
-    - structuredMessage
   properties:
     structuredMessage:
+      required: true
       type: string
     beneficiary:
+      required: true
       type: string
     beneficiaryIBAN:
+      required: true
       type: string
 Testing:
   path: user
   type: object
-  required:
-    - beneficiary
   properties:
+    isFavourite:
+      ignore: true
+      type: string
     structuredMessage:
       type: string
     beneficiary:
+      required: true
       type: string
     beneficiaryIBAN:
       type: string
 UserProfileData:
   path: user/profile
   type: object
-  required:
-    - externalAccountNumber
-    - firstName
-    - lastName
-    - legalAddress
-    - legalEmail
-    - mainAccountNumber
-    - phones
-    - standardLanguage
   properties:
     firstName:
+      required: true
       type: string
     lastName:
+      required: true
       type: string
     standardLanguage:
+      required: true
       type: string
     mainAccountNumber:
+      required: true
       type: string
     legalEmail:
+      required: true
       type: string
     phones:
-      $ref: '#/definitions/Testing'
+      required: true
+      type: Testing
     legalAddress:
-      $ref: '#/definitions/OGM'
+      required: true
+      type: OGM
     offTrack:
       type: array
       items:
@@ -57,4 +56,4 @@ UserProfileData:
     onTrack:
       type: array
       items:
-        $ref: '#/definitions/OGM'
+        type: OGM
