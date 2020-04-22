@@ -63,10 +63,15 @@ class DataModelWriter {
         sb.write(', ignore: true');
       }
       sb.writeln(')');
-      if (key.type is ArrayType) {
-        sb.writeln('  final List<${key.type.name}> ${key.name};');
+      if (key.ignore) {
+        sb.write('  ');
       } else {
-        sb.writeln('  final ${key.type.name} ${key.name};');
+        sb.write('  final ');
+      }
+      if (key.type is ArrayType) {
+        sb.writeln('List<${key.type.name}> ${key.name};');
+      } else {
+        sb.writeln('${key.type.name} ${key.name};');
       }
     });
 

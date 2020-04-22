@@ -2,7 +2,7 @@
 
 This model generator can be used to generate JsonSerializable models
 
-[![pub package](https://img.shields.io/pub/v/model_generator.svg)](https://pub.dev/packages/model_generator)
+[![pub package](https://img.shields.io/pub/v/model_generator.svg)](https://pub.dartlang.org/packages/model_generator)
 
 Example of the `model_generator/config.yaml` file
 ```

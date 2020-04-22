@@ -8,7 +8,8 @@ class MainNavigatorWidget extends StatefulWidget {
   @override
   MainNavigatorWidgetState createState() => MainNavigatorWidgetState();
 
-  static MainNavigatorWidgetState of(context, {rootNavigator = false, nullOk = false}) {
+  static MainNavigatorWidgetState of(context,
+      {rootNavigator = false, nullOk = false}) {
     final MainNavigatorWidgetState navigator = rootNavigator
         ? context.rootAncestorStateOfType(
             const TypeMatcher<MainNavigatorWidgetState>(),
@@ -18,7 +19,8 @@ class MainNavigatorWidget extends StatefulWidget {
           );
     assert(() {
       if (navigator == null && !nullOk) {
-        throw FlutterError('MainNavigatorWidget operation requested with a context that does not include a MainNavigatorWidget.\n'
+        throw FlutterError(
+            'MainNavigatorWidget operation requested with a context that does not include a MainNavigatorWidget.\n'
             'The context used to push or pop routes from the MainNavigatorWidget must be that of a '
             'widget that is a descendant of a MainNavigatorWidget widget.');
       }
@@ -46,7 +48,9 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget> {
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case HomeScreen.routeName:
-        return MaterialPageRoute(builder: (context) => FlavorBanner(child: HomeScreen()), settings: settings);
+        return MaterialPageRoute(
+            builder: (context) => FlavorBanner(child: HomeScreen()),
+            settings: settings);
       default:
         return null;
     }

@@ -10,6 +10,15 @@ OGM:
     beneficiaryIBAN:
       required: true
       type: string
+    test_Test:
+      required: true
+      type: string
+    some_Thing:
+      required: true
+      type: string
+    some_ThinG_huGE:
+      required: true
+      type: string
 Testing:
   path: user
   type: object
