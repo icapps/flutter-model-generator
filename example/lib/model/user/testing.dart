@@ -8,7 +8,7 @@ class Testing {
   @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
   @JsonKey(name: 'isFavourite', nullable: true, ignore: true)
-  final String isFavourite;
+  String isFavourite;
   @JsonKey(name: 'structuredMessage', nullable: true)
   final String structuredMessage;
   @JsonKey(name: 'beneficiaryIBAN', nullable: true)
@@ -21,8 +21,8 @@ class Testing {
     this.beneficiaryIBAN,
   });
 
-  factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
+  factory Testing.fromJson(Map<String, dynamic> json) =>
+      _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
-
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] - 2020-04-22
+### Fixed
+- #13 @JsonKey( ignore: true) should be a variable instead of a final field 
+
 ## [1.1.0] - 2020-02-01
 ### Added
 - #11 option to ignore a field in the json serialization
