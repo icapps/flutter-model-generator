@@ -21,8 +21,8 @@ class Testing {
     this.beneficiaryIBAN,
   });
 
-  factory Testing.fromJson(Map<String, dynamic> json) =>
-      _$TestingFromJson(json);
+  factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
+
 }

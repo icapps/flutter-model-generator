@@ -32,6 +32,10 @@ UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
     onTrack: (json['onTrack'] as List)
         ?.map((e) => e == null ? null : OGM.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    persons: (json['persons'] as List)
+        ?.map((e) =>
+            e == null ? null : Person.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -46,4 +50,5 @@ Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) =>
       'legalAddress': instance.legalAddress,
       'offTrack': instance.offTrack,
       'onTrack': instance.onTrack,
+      'persons': instance.persons,
     };

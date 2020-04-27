@@ -8,7 +8,17 @@ class Field {
   final bool required;
   final bool ignore;
 
-  String path;
+  String _path;
+
+  set path(String path) {
+    if (path != null && path.endsWith('/')) {
+      _path = path.substring(0, path.length - 1);
+    } else {
+      _path = path;
+    }
+  }
+
+  String get path => _path;
 
   Field({String name, this.type, this.required, this.ignore})
       // ignore: prefer_initializing_formals

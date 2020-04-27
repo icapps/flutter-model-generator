@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2020-04-22
+### Fixed
+- #17 path ending with a / would crash your app 
+
 ## [1.2.0] - 2020-04-22
 ### Fixed
 - #13 @JsonKey( ignore: true) should be a variable instead of a final field 
