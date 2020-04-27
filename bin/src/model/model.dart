@@ -14,6 +14,9 @@ class Model {
 
   factory Model(String name, String path, List<Field> fields) {
     final fileName = ReCase(name).snakeCase;
+    if (path != null && path.endsWith('/')) {
+      path = path.substring(0, path.length - 1);
+    }
     return Model._(name, path, fileName, fields);
   }
 }

@@ -66,3 +66,14 @@ UserProfileData:
       type: array
       items:
         type: OGM
+    persons:
+      type: array
+      items:
+        type: Person
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      required: true
+      type: string

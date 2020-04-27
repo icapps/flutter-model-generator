@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/user/testing.dart';
 import 'package:model_generator_example/model/ogm.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
 
 part 'user_profile_data.g.dart';
 
@@ -25,6 +26,8 @@ class UserProfileData {
   final List<String> offTrack;
   @JsonKey(name: 'onTrack', nullable: true)
   final List<OGM> onTrack;
+  @JsonKey(name: 'persons', nullable: true)
+  final List<Person> persons;
 
   UserProfileData({
     @required this.firstName,
@@ -36,10 +39,11 @@ class UserProfileData {
     @required this.legalAddress,
     this.offTrack,
     this.onTrack,
+    this.persons,
   });
 
-  factory UserProfileData.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataFromJson(json);
+  factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
+
 }
