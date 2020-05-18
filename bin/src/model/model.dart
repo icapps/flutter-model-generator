@@ -1,22 +1,24 @@
-import 'package:recase/recase.dart';
+import '../util/case_util.dart';
 
-import 'field.dart';
-
-class Model {
+abstract class Model {
   final String fileName;
 
   //nullable
   final String path;
   final String name;
-  final List<Field> fields;
 
-  Model._(this.name, this.path, this.fileName, this.fields);
+  Model(
+    this.name,
+    String path,
+  )   : path = getPath(path),
+        fileName = getFileName(name);
 
-  factory Model(String name, String path, List<Field> fields) {
-    final fileName = ReCase(name).snakeCase;
+  static String getPath(String path) {
     if (path != null && path.endsWith('/')) {
-      path = path.substring(0, path.length - 1);
+      return path.substring(0, path.length - 1);
     }
-    return Model._(name, path, fileName, fields);
+    return path;
   }
+
+  static String getFileName(String name) => CaseUtil(name).snakeCase;
 }

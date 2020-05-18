@@ -4,7 +4,10 @@ import 'package:path/path.dart';
 
 import 'src/config/pubspec_config.dart';
 import 'src/config/yml_generator_config.dart';
-import 'src/data_model_writer.dart';
+import 'src/model/enum_model.dart';
+import 'src/model/object_model.dart';
+import 'src/writer/enum_model_writer.dart';
+import 'src/writer/object_model_writer.dart';
 
 Future<void> main(List<String> args) async {
   final pubspecYaml = File(join(Directory.current.path, 'pubspec.yaml'));
@@ -15,13 +18,13 @@ Future<void> main(List<String> args) async {
   final pubspecContent = pubspecYaml.readAsStringSync();
   final pubspecConfig = PubspecConfig(pubspecContent);
 
-  final swagerGeneratorConfigFile =
+  final configFile =
       File(join(Directory.current.path, 'model_generator', 'config.yaml'));
-  if (!swagerGeneratorConfigFile.existsSync()) {
+  if (!configFile.existsSync()) {
     throw Exception(
         'This program requires a config file. `model_generator/config.yaml`');
   }
-  final modelGeneratorContent = swagerGeneratorConfigFile.readAsStringSync();
+  final modelGeneratorContent = configFile.readAsStringSync();
   final modelGeneratorConfig = YmlGeneratorConfig(modelGeneratorContent);
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
@@ -36,7 +39,16 @@ void writeToFiles(
     modelDirectory.createSync(recursive: true);
   }
   modelGeneratorConfig.models.forEach((model) {
-    final content = DataModelWriter(pubspecConfig.projectName, model).write();
+    String content;
+    if (model is ObjectModel) {
+      content = ObjectModelWriter(pubspecConfig.projectName, model).write();
+    } else if (model is EnumModel) {
+      content = EnumModelWriter(pubspecConfig.projectName, model).write();
+    }
+    if (content == null) {
+      throw Exception(
+          'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
+    }
     File file;
     if (model.path == null) {
       file = File(join('lib', 'model', '${model.fileName}.dart'));

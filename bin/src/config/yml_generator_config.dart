@@ -1,5 +1,6 @@
 import 'package:yaml/yaml.dart';
 
+import '../model/enum_model.dart';
 import '../model/field.dart';
 import '../model/item_type/array_type.dart';
 import '../model/item_type/boolean_type.dart';
@@ -11,6 +12,7 @@ import '../model/item_type/item_type.dart';
 import '../model/item_type/object_type.dart';
 import '../model/item_type/string_type.dart';
 import '../model/model.dart';
+import '../model/object_model.dart';
 import '../util/type_checker.dart';
 
 class YmlGeneratorConfig {
@@ -20,17 +22,30 @@ class YmlGeneratorConfig {
     loadYaml(configContent).forEach((key, value) {
       final String path = value['path'];
       final YamlMap properties = value['properties'];
+      final String type = value['type'];
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
-      final fields = List<Field>();
-      properties.forEach((key, value) {
-        if (!(value is YamlMap)) {
-          throw Exception('$key should be an object');
-        }
-        fields.add(getField(key, value));
-      });
-      models.add(Model(key, path, fields));
+      if (type == 'object') {
+        final fields = List<Field>();
+        properties.forEach((propertyKey, propertyValue) {
+          if (!(propertyValue is YamlMap)) {
+            throw Exception('$propertyValue should be an object');
+          }
+          fields.add(getField(propertyKey, propertyValue));
+        });
+        models.add(ObjectModel(key, path, fields));
+      } else {
+        final fields = List<EnumField>();
+        properties.forEach((propertyKey, propertyValue) {
+          if (propertyValue != null && !(propertyValue is YamlMap)) {
+            throw Exception('$propertyValue should be an object');
+          }
+          fields.add(EnumField(propertyKey,
+              propertyValue == null ? '' : propertyValue['value']));
+        });
+        models.add(EnumModel(key, path, fields));
+      }
     });
 
     checkIfTypesAvailable();
@@ -93,13 +108,15 @@ class YmlGeneratorConfig {
 
   void addPathsToFields() {
     models.forEach((model) {
-      model.fields.forEach((field) {
-        final foundModels =
-            models.where((model) => model.name == field.type.name).toList();
-        if (foundModels.isNotEmpty) {
-          field.path = foundModels[0].path;
-        }
-      });
+      if (model is ObjectModel) {
+        model.fields.forEach((field) {
+          final foundModels =
+              models.where((model) => model.name == field.type.name).toList();
+          if (foundModels.isNotEmpty) {
+            field.path = foundModels[0].path;
+          }
+        });
+      } else if (model is EnumModel) {}
     });
   }
 
@@ -110,11 +127,13 @@ class YmlGeneratorConfig {
       if (!names.contains(model.name)) {
         names.add(model.name);
       }
-      model.fields.forEach((field) {
-        if (!types.contains(field.type.name)) {
-          types.add(field.type.name);
-        }
-      });
+      if (model is ObjectModel) {
+        model.fields.forEach((field) {
+          if (!types.contains(field.type.name)) {
+            types.add(field.type.name);
+          }
+        });
+      }
     });
 
     print(names);
