@@ -17,5 +17,6 @@ class EnumField {
 
   EnumField._(this.name, this.serializedName, this.value);
 
-  factory EnumField(String name, String value) => EnumField._(name, name.toUpperCase(), value);
+  factory EnumField(String name, String value) =>
+      EnumField._(name, name.toUpperCase(), value);
 }

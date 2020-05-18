@@ -1,7 +1,11 @@
 # Changelog
 
-## [1.4.0] - 2020-04-22
+## [1.4.1] - 2020-05-18
 ### Fixed
+- Formatting
+
+## [1.4.0] - 2020-05-18
+### Added
 - #19 Enum support you can now use add enums (with values) to your config.yaml 
 
 ## [1.3.0] - 2020-04-22
