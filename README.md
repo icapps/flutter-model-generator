@@ -35,6 +35,21 @@ Address:
       type: string
 ```
 
+Support for Enums:
+
+```
+Gender:
+  path: webservice/user
+  type: enum
+  properties:
+    MALE:
+      value: _mAl3
+    FEMALE:
+      value: femAle
+    X:
+      value: X
+```
+
 Run: 
 
 `flutter packages run model_generator`

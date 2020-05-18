@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.4.0] - 2020-04-22
+### Fixed
+- #19 Enum support you can now use add enums (with values) to your config.yaml 
+
 ## [1.3.0] - 2020-04-22
 ### Fixed
 - #17 path ending with a / would crash your app 

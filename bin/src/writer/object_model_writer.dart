@@ -1,14 +1,13 @@
-import 'package:recase/recase.dart';
+import '../model/item_type/array_type.dart';
+import '../model/object_model.dart';
+import '../util/case_util.dart';
+import '../util/type_checker.dart';
 
-import 'model/item_type/array_type.dart';
-import 'model/model.dart';
-import 'util/type_checker.dart';
-
-class DataModelWriter {
+class ObjectModelWriter {
   final String projectName;
-  final Model jsonModel;
+  final ObjectModel jsonModel;
 
-  const DataModelWriter(this.projectName, this.jsonModel);
+  const ObjectModelWriter(this.projectName, this.jsonModel);
 
   String write() {
     final sb = StringBuffer();
@@ -23,7 +22,7 @@ class DataModelWriter {
 
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
-        final reCaseFieldName = ReCase(field.type.name);
+        final reCaseFieldName = CaseUtil(field.type.name);
         String import;
         if (field.path == null) {
           import =
