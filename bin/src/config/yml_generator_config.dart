@@ -26,16 +26,7 @@ class YmlGeneratorConfig {
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
-      if (type == 'object') {
-        final fields = List<Field>();
-        properties.forEach((propertyKey, propertyValue) {
-          if (!(propertyValue is YamlMap)) {
-            throw Exception('$propertyValue should be an object');
-          }
-          fields.add(getField(propertyKey, propertyValue));
-        });
-        models.add(ObjectModel(key, path, fields));
-      } else {
+      if (type == 'enum') {
         final fields = List<EnumField>();
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue != null && !(propertyValue is YamlMap)) {
@@ -45,6 +36,15 @@ class YmlGeneratorConfig {
               propertyValue == null ? '' : propertyValue['value']));
         });
         models.add(EnumModel(key, path, fields));
+      } else {
+        final fields = List<Field>();
+        properties.forEach((propertyKey, propertyValue) {
+          if (!(propertyValue is YamlMap)) {
+            throw Exception('$propertyValue should be an object');
+          }
+          fields.add(getField(propertyKey, propertyValue));
+        });
+        models.add(ObjectModel(key, path, fields));
       }
     });
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.0] - 2020-05-19
+### Fixed 
+- Major bug when you did not specify object. (object is the default now)
+
 ## [1.4.1] - 2020-05-18
 ### Fixed
 - Formatting
