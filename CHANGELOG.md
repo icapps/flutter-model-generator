@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.0] - 2020-06-11
+### Added 
+- Custom jsonKey support (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
+
 ## [1.5.0] - 2020-05-19
 ### Fixed 
 - Major bug when you did not specify object. (object is the default now)
