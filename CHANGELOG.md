@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.0] - 2020-06-11
+### BREAKING 
+### Added
+- Change snake case to camelCase (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
+
 ## [1.6.0] - 2020-06-11
 ### Added 
 - Custom jsonKey support (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
