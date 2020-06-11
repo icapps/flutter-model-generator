@@ -16,7 +16,7 @@ class OGM {
   @JsonKey(name: 'some_Thing', required: true)
   final String someThing;
   @JsonKey(name: 'some_ThinG_huGE', required: true)
-  final String someThinGhuGE;
+  final String someThinGHuGE;
   @JsonKey(name: 'securityIndicator', nullable: true)
   final String securityRole;
 
@@ -26,7 +26,7 @@ class OGM {
     @required this.beneficiaryIBAN,
     @required this.testTest,
     @required this.someThing,
-    @required this.someThinGhuGE,
+    @required this.someThinGHuGE,
     this.securityRole,
   });
 

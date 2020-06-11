@@ -21,7 +21,7 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     beneficiaryIBAN: json['beneficiaryIBAN'] as String,
     testTest: json['test_Test'] as String,
     someThing: json['some_Thing'] as String,
-    someThinGhuGE: json['some_ThinG_huGE'] as String,
+    someThinGHuGE: json['some_ThinG_huGE'] as String,
     securityRole: json['securityIndicator'] as String,
   );
 }
@@ -32,6 +32,6 @@ Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
       'beneficiaryIBAN': instance.beneficiaryIBAN,
       'test_Test': instance.testTest,
       'some_Thing': instance.someThing,
-      'some_ThinG_huGE': instance.someThinGhuGE,
+      'some_ThinG_huGE': instance.someThinGHuGE,
       'securityIndicator': instance.securityRole,
     };
