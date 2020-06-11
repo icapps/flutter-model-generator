@@ -1,3 +1,4 @@
+import '../util/case_util.dart';
 import '../util/keyword_helper.dart';
 import 'item_type/item_type.dart';
 
@@ -23,5 +24,5 @@ class Field {
   Field({String name, this.type, this.required, this.ignore, String jsonKey})
       // ignore: prefer_initializing_formals
       : serializedName = jsonKey ?? name,
-        name = KeywordHelper.getCorrectKeyword(name).replaceAll('_', '');
+        name = CaseUtil(KeywordHelper.getCorrectKeyword(name)).camelCase;
 }
