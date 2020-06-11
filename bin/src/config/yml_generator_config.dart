@@ -58,6 +58,7 @@ class YmlGeneratorConfig {
           property.containsKey('required') && property['required'] == true;
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
+      final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
       ItemType itemType;
 
@@ -99,7 +100,11 @@ class YmlGeneratorConfig {
         itemType = ObjectType(ref);
       }
       return Field(
-          name: name, type: itemType, required: required, ignore: ignored);
+          name: name,
+          type: itemType,
+          required: required,
+          ignore: ignored,
+          jsonKey: jsonKey);
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
       rethrow;

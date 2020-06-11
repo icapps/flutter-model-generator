@@ -19,6 +19,9 @@ OGM:
     some_ThinG_huGE:
       required: true
       type: string
+    securityRole:
+      type: string
+      jsonKey: securityIndicator
 Testing:
   path: user
   type: object
