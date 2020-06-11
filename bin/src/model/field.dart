@@ -20,8 +20,8 @@ class Field {
 
   String get path => _path;
 
-  Field({String name, this.type, this.required, this.ignore})
+  Field({String name, this.type, this.required, this.ignore, String jsonKey})
       // ignore: prefer_initializing_formals
-      : serializedName = name,
+      : serializedName = jsonKey ?? name,
         name = KeywordHelper.getCorrectKeyword(name).replaceAll('_', '');
 }

@@ -27,6 +27,9 @@ UserModel:
       type: array
       items:
         type: Address
+    securityRole:
+      type: string
+      jsonKey: securityIndicator
 
 Address:
   path: webservice/user

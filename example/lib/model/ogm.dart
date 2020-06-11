@@ -17,6 +17,8 @@ class OGM {
   final String someThing;
   @JsonKey(name: 'some_ThinG_huGE', required: true)
   final String someThinGhuGE;
+  @JsonKey(name: 'securityIndicator', nullable: true)
+  final String securityRole;
 
   OGM({
     @required this.structuredMessage,
@@ -25,6 +27,7 @@ class OGM {
     @required this.testTest,
     @required this.someThing,
     @required this.someThinGhuGE,
+    this.securityRole,
   });
 
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);
