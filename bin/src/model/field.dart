@@ -7,7 +7,6 @@ class Field {
   final ItemType type;
   final bool required;
   final bool ignore;
-  final String jsonKey;
 
   String _path;
 
@@ -21,7 +20,7 @@ class Field {
 
   String get path => _path;
 
-  Field({String name, this.type, this.required, this.ignore, this.jsonKey})
+  Field({String name, this.type, this.required, this.ignore, String jsonKey})
       // ignore: prefer_initializing_formals
       : serializedName = jsonKey ?? name,
         name = KeywordHelper.getCorrectKeyword(name).replaceAll('_', '');
