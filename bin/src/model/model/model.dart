@@ -1,4 +1,4 @@
-import '../util/case_util.dart';
+import '../../util/case_util.dart';
 
 abstract class Model {
   final String fileName;

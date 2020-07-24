@@ -1,6 +1,8 @@
 import 'package:yaml/yaml.dart';
 
-import '../model/enum_model.dart';
+import '../model/model/custom_from_to_json_model.dart';
+import '../model/model/custom_model.dart';
+import '../model/model/enum_model.dart';
 import '../model/field.dart';
 import '../model/item_type/array_type.dart';
 import '../model/item_type/boolean_type.dart';
@@ -11,23 +13,33 @@ import '../model/item_type/integer_type.dart';
 import '../model/item_type/item_type.dart';
 import '../model/item_type/object_type.dart';
 import '../model/item_type/string_type.dart';
-import '../model/model.dart';
+import '../model/model/model.dart';
 import '../model/object_model.dart';
 import '../util/type_checker.dart';
 
 class YmlGeneratorConfig {
-  final models = List<Model>();
+  static final _models = <Model>[];
+
+  List<Model> get models => _models;
 
   YmlGeneratorConfig(String configContent) {
     loadYaml(configContent).forEach((key, value) {
       final String path = value['path'];
       final YamlMap properties = value['properties'];
       final String type = value['type'];
+      if (type == 'custom') {
+        models.add(CustomModel(key, path));
+        return;
+      }
+      if (type == 'custom_from_to_json') {
+        models.add(CustomFromToJsonModel(key, path));
+        return;
+      }
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
       if (type == 'enum') {
-        final fields = List<EnumField>();
+        final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue != null && !(propertyValue is YamlMap)) {
             throw Exception('$propertyValue should be an object');
@@ -37,7 +49,7 @@ class YmlGeneratorConfig {
         });
         models.add(EnumModel(key, path, fields));
       } else {
-        final fields = List<Field>();
+        final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
           if (!(propertyValue is YamlMap)) {
             throw Exception('$propertyValue should be an object');
@@ -126,8 +138,8 @@ class YmlGeneratorConfig {
   }
 
   void checkIfTypesAvailable() {
-    final names = List<String>();
-    final types = List<String>();
+    final names = <String>[];
+    final types = <String>[];
     models.forEach((model) {
       if (!names.contains(model.name)) {
         names.add(model.name);
@@ -141,8 +153,10 @@ class YmlGeneratorConfig {
       }
     });
 
+    print('Registered models:');
     print(names);
     print('=======');
+    print('Models used as a field in another model:');
     print(types);
     types.forEach((type) {
       if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
@@ -150,5 +164,14 @@ class YmlGeneratorConfig {
             'Could not generate all models. `$type` is not added to the config file');
       }
     });
+  }
+
+  static Model getModelByName(ItemType itemType) {
+    if (itemType is! ObjectType) return null;
+    final model = _models.firstWhere((element) => element.name == itemType.name,
+        orElse: () => null);
+    if (model == null)
+      throw ArgumentError('getModelByname is null: given name: `$itemType`');
+    return model;
   }
 }

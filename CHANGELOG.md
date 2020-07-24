@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.1.0] - 2020-06-11
+### Added
+- #26 supprot for custom objects
+- #28 support for custom fromJson & toJson objects
+
 ## [2.0.0] - 2020-06-11
 ### BREAKING 
 ### Added

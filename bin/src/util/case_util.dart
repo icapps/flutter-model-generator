@@ -13,7 +13,7 @@ class CaseUtil {
 
   List<String> _groupIntoWords(String text) {
     final sb = StringBuffer();
-    final words = List<String>();
+    final words = <String>[];
     final isAllCaps = !text.contains(RegExp('[a-z]'));
 
     for (var i = 0; i < text.length; i++) {

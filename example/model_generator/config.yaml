@@ -36,6 +36,10 @@ Testing:
       type: string
     beneficiaryIBAN:
       type: string
+    duration:
+      type: Duration
+    duration_from_json_test:
+      type: DurationFromToJson
 UserProfileData:
   path: user/profile
   type: object
@@ -103,6 +107,12 @@ Gender:
       value:
     GENDER_lap:
       value: GENDER_lap
+Duration:
+  path: data/custom/
+  type: custom
+DurationFromToJson:
+  path: data/custom/
+  type: custom_from_to_json
 
 
 

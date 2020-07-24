@@ -1,4 +1,6 @@
+import '../config/yml_generator_config.dart';
 import '../model/item_type/array_type.dart';
+import '../model/model/custom_from_to_json_model.dart';
 import '../model/object_model.dart';
 import '../util/case_util.dart';
 import '../util/type_checker.dart';
@@ -60,6 +62,13 @@ class ObjectModelWriter {
 
       if (key.ignore) {
         sb.write(', ignore: true');
+      }
+      final fieldModel = YmlGeneratorConfig.getModelByName(key.type);
+      if (fieldModel is CustomFromToJsonModel) {
+        sb.write(', fromJson: handle${fieldModel.name}FromJson');
+      }
+      if (fieldModel is CustomFromToJsonModel) {
+        sb.write(', toJson: handle${fieldModel.name}ToJson');
       }
       sb.writeln(')');
       if (key.ignore) {
