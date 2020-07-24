@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.1.0] - 2020-06-11
+## [2.1.1] - 2020-07-24
+### Fixed
+- Analyzer
+
+## [2.1.0] - 2020-07-24
 ### Added
 - #26 supprot for custom objects
 - #28 support for custom fromJson & toJson objects
