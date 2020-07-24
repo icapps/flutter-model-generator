@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.2] - 2020-07-24
+### Fixed
+- Formatting
+
 ## [2.1.1] - 2020-07-24
 ### Fixed
 - Analyzer

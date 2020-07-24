@@ -170,7 +170,7 @@ class YmlGeneratorConfig {
     if (itemType is! ObjectType) return null;
     final model = _models.firstWhere((element) => element.name == itemType.name,
         orElse: () => null);
-    if (model == null){
+    if (model == null) {
       throw ArgumentError('getModelByname is null: given name: `$itemType`');
     }
     return model;
