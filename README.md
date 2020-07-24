@@ -4,6 +4,10 @@ This model generator can be used to generate JsonSerializable models
 
 [![pub package](https://img.shields.io/pub/v/model_generator.svg)](https://pub.dartlang.org/packages/model_generator)
 
+## Run 
+
+`flutter packages run model_generator`
+
 ## Default setup
 Example of the `model_generator/config.yaml` file
 ```
@@ -78,14 +82,10 @@ CustomObjectFromToJson:
   path: data/custom/
   type: custom_from_to_json
 ```
-### Required methods outside your class
+### Required functions outside your class
 
 ```
 {Model_Name} handle{Model_Name}FromJson(object) => {Model_Name}.fromJson(object);
 
 {Original_Type} handle{Model_Name}ToJson({Model_Name} data) => data.toJson();
 ```
-
-Run: 
-
-`flutter packages run model_generator`
