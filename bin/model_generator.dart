@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 
 import 'src/config/pubspec_config.dart';
 import 'src/config/yml_generator_config.dart';
+import 'src/model/custom_model.dart';
 import 'src/model/enum_model.dart';
 import 'src/model/object_model.dart';
 import 'src/writer/enum_model_writer.dart';
@@ -45,7 +46,7 @@ void writeToFiles(
     } else if (model is EnumModel) {
       content = EnumModelWriter(pubspecConfig.projectName, model).write();
     }
-    if (content == null) {
+    if (model is! CustomModel && content == null) {
       throw Exception(
           'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
     }
@@ -58,16 +59,19 @@ void writeToFiles(
     if (!file.existsSync()) {
       file.createSync(recursive: true);
     }
-    file.writeAsStringSync(content);
 
-    File generatedFile;
-    if (model.path == null) {
-      generatedFile = File(join('lib', 'model', '${model.fileName}.g.dart'));
-    } else {
-      generatedFile =
-          File(join('lib', 'model', model.path, '${model.fileName}.g.dart'));
+    if (model is! CustomModel) {
+      file.writeAsStringSync(content);
+
+      File generatedFile;
+      if (model.path == null) {
+        generatedFile = File(join('lib', 'model', '${model.fileName}.g.dart'));
+      } else {
+        generatedFile =
+            File(join('lib', 'model', model.path, '${model.fileName}.g.dart'));
+      }
+      generatedFile.writeAsStringSync("part of '${model.fileName}.dart';");
     }
-    generatedFile.writeAsStringSync("part of '${model.fileName}.dart';");
   });
 }
 

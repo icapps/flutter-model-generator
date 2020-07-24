@@ -1,5 +1,6 @@
 import 'package:yaml/yaml.dart';
 
+import '../model/custom_model.dart';
 import '../model/enum_model.dart';
 import '../model/field.dart';
 import '../model/item_type/array_type.dart';
@@ -16,18 +17,22 @@ import '../model/object_model.dart';
 import '../util/type_checker.dart';
 
 class YmlGeneratorConfig {
-  final models = List<Model>();
+  final models = <Model>[];
 
   YmlGeneratorConfig(String configContent) {
     loadYaml(configContent).forEach((key, value) {
       final String path = value['path'];
       final YamlMap properties = value['properties'];
       final String type = value['type'];
+      if (type == 'custom') {
+        models.add(CustomModel(key, path));
+        return;
+      }
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
       if (type == 'enum') {
-        final fields = List<EnumField>();
+        final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue != null && !(propertyValue is YamlMap)) {
             throw Exception('$propertyValue should be an object');
@@ -37,7 +42,7 @@ class YmlGeneratorConfig {
         });
         models.add(EnumModel(key, path, fields));
       } else {
-        final fields = List<Field>();
+        final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
           if (!(propertyValue is YamlMap)) {
             throw Exception('$propertyValue should be an object');
@@ -126,8 +131,8 @@ class YmlGeneratorConfig {
   }
 
   void checkIfTypesAvailable() {
-    final names = List<String>();
-    final types = List<String>();
+    final names = <String>[];
+    final types = <String>[];
     models.forEach((model) {
       if (!names.contains(model.name)) {
         names.add(model.name);

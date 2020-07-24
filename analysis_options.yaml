@@ -9,6 +9,7 @@ analyzer:
 
 linter:
   rules:
+    - prefer_collection_literals
     - always_put_required_named_parameters_first
     - always_require_non_null_named_parameters
     - annotate_overrides
