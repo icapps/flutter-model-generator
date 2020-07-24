@@ -4,8 +4,8 @@ import 'package:path/path.dart';
 
 import 'src/config/pubspec_config.dart';
 import 'src/config/yml_generator_config.dart';
-import 'src/model/custom_model.dart';
-import 'src/model/enum_model.dart';
+import 'src/model/model/custom_model.dart';
+import 'src/model/model/enum_model.dart';
 import 'src/model/object_model.dart';
 import 'src/writer/enum_model_writer.dart';
 import 'src/writer/object_model_writer.dart';

@@ -1,4 +1,6 @@
+import '../config/yml_generator_config.dart';
 import '../model/item_type/array_type.dart';
+import '../model/model/custom_from_to_json_model.dart';
 import '../model/object_model.dart';
 import '../util/case_util.dart';
 import '../util/type_checker.dart';
@@ -12,8 +14,7 @@ class ObjectModelWriter {
   String write() {
     final sb = StringBuffer();
 
-    final containsRequiredFields =
-        jsonModel.fields.where((item) => item.required).toList().isNotEmpty;
+    final containsRequiredFields = jsonModel.fields.where((item) => item.required).toList().isNotEmpty;
     if (containsRequiredFields) {
       sb.writeln("import 'package:flutter/material.dart';");
     }
@@ -25,11 +26,9 @@ class ObjectModelWriter {
         final reCaseFieldName = CaseUtil(field.type.name);
         String import;
         if (field.path == null) {
-          import =
-              "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
+          import = "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
         } else {
-          import =
-              "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
+          import = "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
         }
         if (!sb.toString().contains(import)) {
           sb.writeln(import);
@@ -37,12 +36,7 @@ class ObjectModelWriter {
       }
     });
 
-    sb
-      ..writeln()
-      ..writeln("part '${jsonModel.fileName}.g.dart';")
-      ..writeln()
-      ..writeln('@JsonSerializable()')
-      ..writeln('class ${jsonModel.name} {');
+    sb..writeln()..writeln("part '${jsonModel.fileName}.g.dart';")..writeln()..writeln('@JsonSerializable()')..writeln('class ${jsonModel.name} {');
 
     jsonModel.fields.sort((a, b) {
       final b1 = a.required ? 1 : 0;
@@ -60,6 +54,13 @@ class ObjectModelWriter {
 
       if (key.ignore) {
         sb.write(', ignore: true');
+      }
+      final fieldModel = YmlGeneratorConfig.getModelByName(key.type);
+      if (fieldModel is CustomFromToJsonModel) {
+        sb.write(', fromJson: handle${fieldModel.name}FromJson');
+      }
+      if (fieldModel is CustomFromToJsonModel) {
+        sb.write(', toJson: handle${fieldModel.name}ToJson');
       }
       sb.writeln(')');
       if (key.ignore) {
@@ -86,11 +87,9 @@ class ObjectModelWriter {
     sb
       ..writeln('  });')
       ..writeln()
-      ..writeln(
-          '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
+      ..writeln('  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
       ..writeln()
-      ..writeln(
-          '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')
+      ..writeln('  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')
       ..writeln()
       ..writeln('}');
     return sb.toString();

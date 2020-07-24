@@ -1,4 +1,4 @@
-import '../model/enum_model.dart';
+import '../model/model/enum_model.dart';
 
 class EnumModelWriter {
   final String projectName;

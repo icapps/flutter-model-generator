@@ -15,6 +15,8 @@ Testing _$TestingFromJson(Map<String, dynamic> json) {
     duration: json['duration'] == null
         ? null
         : Duration.fromJson(json['duration'] as Map<String, dynamic>),
+    durationFromJsonTest:
+        handleDurationFromToJsonFromJson(json['duration_from_json_test']),
   );
 }
 
@@ -23,4 +25,6 @@ Map<String, dynamic> _$TestingToJson(Testing instance) => <String, dynamic>{
       'structuredMessage': instance.structuredMessage,
       'beneficiaryIBAN': instance.beneficiaryIBAN,
       'duration': instance.duration,
+      'duration_from_json_test':
+          handleDurationFromToJsonToJson(instance.durationFromJsonTest),
     };

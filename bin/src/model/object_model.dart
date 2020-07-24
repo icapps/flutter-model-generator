@@ -1,5 +1,5 @@
 import 'field.dart';
-import 'model.dart';
+import 'model/model.dart';
 
 class ObjectModel extends Model {
   final List<Field> fields;
