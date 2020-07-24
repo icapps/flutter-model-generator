@@ -44,7 +44,8 @@ class YmlGeneratorConfig {
           if (propertyValue != null && !(propertyValue is YamlMap)) {
             throw Exception('$propertyValue should be an object');
           }
-          fields.add(EnumField(propertyKey, propertyValue == null ? '' : propertyValue['value']));
+          fields.add(EnumField(propertyKey,
+              propertyValue == null ? '' : propertyValue['value']));
         });
         models.add(EnumModel(key, path, fields));
       } else {
@@ -65,8 +66,10 @@ class YmlGeneratorConfig {
 
   Field getField(String name, YamlMap property) {
     try {
-      final required = property.containsKey('required') && property['required'] == true;
-      final ignored = property.containsKey('ignore') && property['ignore'] == true;
+      final required =
+          property.containsKey('required') && property['required'] == true;
+      final ignored =
+          property.containsKey('ignore') && property['ignore'] == true;
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
       ItemType itemType;
@@ -108,7 +111,12 @@ class YmlGeneratorConfig {
       if (ref != null) {
         itemType = ObjectType(ref);
       }
-      return Field(name: name, type: itemType, required: required, ignore: ignored, jsonKey: jsonKey);
+      return Field(
+          name: name,
+          type: itemType,
+          required: required,
+          ignore: ignored,
+          jsonKey: jsonKey);
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
       rethrow;
@@ -119,7 +127,8 @@ class YmlGeneratorConfig {
     models.forEach((model) {
       if (model is ObjectModel) {
         model.fields.forEach((field) {
-          final foundModels = models.where((model) => model.name == field.type.name).toList();
+          final foundModels =
+              models.where((model) => model.name == field.type.name).toList();
           if (foundModels.isNotEmpty) {
             field.path = foundModels[0].path;
           }
@@ -151,15 +160,18 @@ class YmlGeneratorConfig {
     print(types);
     types.forEach((type) {
       if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
-        throw Exception('Could not generate all models. `$type` is not added to the config file');
+        throw Exception(
+            'Could not generate all models. `$type` is not added to the config file');
       }
     });
   }
 
   static Model getModelByName(ItemType itemType) {
     if (itemType is! ObjectType) return null;
-    final model = _models.firstWhere((element) => element.name == itemType.name, orElse: () => null);
-    if (model == null) throw ArgumentError('getModelByname is null: given name: `$itemType`');
+    final model = _models.firstWhere((element) => element.name == itemType.name,
+        orElse: () => null);
+    if (model == null)
+      throw ArgumentError('getModelByname is null: given name: `$itemType`');
     return model;
   }
 }
