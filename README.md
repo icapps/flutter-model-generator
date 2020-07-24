@@ -63,7 +63,7 @@ CustomObject:
   path: data/custom/
   type: custom
 ```
-### Required methods outside your class
+### Required methods inside your class
 
 ```
   factory {Model_Name}.fromJson(Map<String, dynamic> json) => _${Model_Name}FromJson(json);
@@ -78,7 +78,7 @@ CustomObjectFromToJson:
   path: data/custom/
   type: custom_from_to_json
 ```
-### Required methods
+### Required methods outside your class
 
 ```
 {Model_Name} handle{Model_Name}FromJson(object) => {Model_Name}.fromJson(object);
