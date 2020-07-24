@@ -1,4 +1,5 @@
-DurationFromToJson handleDurationFromToJsonFromJson(object) => DurationFromToJson.fromJson(object);
+DurationFromToJson handleDurationFromToJsonFromJson(object) =>
+    DurationFromToJson.fromJson(object);
 
 double handleDurationFromToJsonToJson(DurationFromToJson data) => data.toJson();
 

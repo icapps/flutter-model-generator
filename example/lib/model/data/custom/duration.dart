@@ -12,8 +12,8 @@ class Duration {
     @required this.test,
   });
 
-  factory Duration.fromJson(Map<String, dynamic> json) => _$DurationFromJson(json);
+  factory Duration.fromJson(Map<String, dynamic> json) =>
+      _$DurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$DurationToJson(this);
-
 }
