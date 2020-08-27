@@ -4,5 +4,6 @@ class CustomFromToJsonModel extends CustomModel {
   CustomFromToJsonModel(
     String name,
     String path,
-  ) : super(name, path);
+    {String modelDirectory}
+  ) : super(name, path, modelDirectory: modelDirectory);
 }

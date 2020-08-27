@@ -7,7 +7,8 @@ class EnumModel extends Model {
     String name,
     String path,
     this.fields,
-  ) : super(name, path);
+    {String modelDirectory}
+  ) : super(name, path, modelDirectory: modelDirectory);
 }
 
 class EnumField {

@@ -1,8 +1,5 @@
 import 'package:yaml/yaml.dart';
 
-import '../model/model/custom_from_to_json_model.dart';
-import '../model/model/custom_model.dart';
-import '../model/model/enum_model.dart';
 import '../model/field.dart';
 import '../model/item_type/array_type.dart';
 import '../model/item_type/boolean_type.dart';
@@ -13,6 +10,9 @@ import '../model/item_type/integer_type.dart';
 import '../model/item_type/item_type.dart';
 import '../model/item_type/object_type.dart';
 import '../model/item_type/string_type.dart';
+import '../model/model/custom_from_to_json_model.dart';
+import '../model/model/custom_model.dart';
+import '../model/model/enum_model.dart';
 import '../model/model/model.dart';
 import '../model/object_model.dart';
 import '../util/type_checker.dart';
@@ -25,14 +25,16 @@ class YmlGeneratorConfig {
   YmlGeneratorConfig(String configContent) {
     loadYaml(configContent).forEach((key, value) {
       final String path = value['path'];
+      final String modelDirectory = value['modelDirectory'];
       final YamlMap properties = value['properties'];
       final String type = value['type'];
       if (type == 'custom') {
-        models.add(CustomModel(key, path));
+        models.add(CustomModel(key, path, modelDirectory: modelDirectory));
         return;
       }
       if (type == 'custom_from_to_json') {
-        models.add(CustomFromToJsonModel(key, path));
+        models.add(
+            CustomFromToJsonModel(key, path, modelDirectory: modelDirectory));
         return;
       }
       if (properties == null) {
@@ -47,7 +49,8 @@ class YmlGeneratorConfig {
           fields.add(EnumField(propertyKey,
               propertyValue == null ? '' : propertyValue['value']));
         });
-        models.add(EnumModel(key, path, fields));
+        models
+            .add(EnumModel(key, path, fields, modelDirectory: modelDirectory));
       } else {
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
@@ -56,7 +59,8 @@ class YmlGeneratorConfig {
           }
           fields.add(getField(propertyKey, propertyValue));
         });
-        models.add(ObjectModel(key, path, fields));
+        models.add(
+            ObjectModel(key, path, fields, modelDirectory: modelDirectory));
       }
     });
 
@@ -130,7 +134,8 @@ class YmlGeneratorConfig {
           final foundModels =
               models.where((model) => model.name == field.type.name).toList();
           if (foundModels.isNotEmpty) {
-            field.path = foundModels[0].path;
+            field.path =
+                '${foundModels[0].modelDirectory}/${foundModels[0].path}';
           }
         });
       } else if (model is EnumModel) {}

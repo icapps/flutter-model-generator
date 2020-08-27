@@ -6,11 +6,14 @@ abstract class Model {
   //nullable
   final String path;
   final String name;
+  final String modelDirectory;
 
   Model(
     this.name,
     String path,
+    {String modelDirectory = 'model'}
   )   : path = getPath(path),
+        modelDirectory = getPath(modelDirectory),
         fileName = getFileName(name);
 
   static String getPath(String path) {

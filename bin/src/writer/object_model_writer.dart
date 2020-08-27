@@ -28,10 +28,10 @@ class ObjectModelWriter {
         String import;
         if (field.path == null) {
           import =
-              "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
+              "import 'package:$projectName/${jsonModel.modelDirectory}/${reCaseFieldName.snakeCase}.dart';";
         } else {
           import =
-              "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
+              "import 'package:$projectName/${field.path}/${reCaseFieldName.snakeCase}.dart';";
         }
         if (!sb.toString().contains(import)) {
           sb.writeln(import);

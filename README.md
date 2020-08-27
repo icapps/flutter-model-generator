@@ -41,6 +41,13 @@ Address:
   properties:
     street:
       type: string
+
+ArticleModel:
+  modelDirectory: src/models
+  path: article
+  properties:
+    name:
+      type: string
 ```
 
 ## Enum support
