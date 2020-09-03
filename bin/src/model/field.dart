@@ -8,6 +8,7 @@ class Field {
   final ItemType type;
   final bool required;
   final bool ignore;
+  final bool includeIfNull
 
   String _path;
 
