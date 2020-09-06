@@ -70,7 +70,7 @@ class YmlGeneratorConfig {
           property.containsKey('required') && property['required'] == true;
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
-      final includeIfNull = property.containsKey('includeIfNull') && property['includeIfNull'] == false
+      final includeIfNull = property.containsKey('includeIfNull') && property['includeIfNull'] == false;
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
       ItemType itemType;
