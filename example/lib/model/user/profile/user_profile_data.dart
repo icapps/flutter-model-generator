@@ -22,7 +22,7 @@ class UserProfileData {
   final Testing phones;
   @JsonKey(name: 'legalAddress', required: true)
   final OGM legalAddress;
-  @JsonKey(name: 'offTrack', nullable: true)
+  @JsonKey(name: 'offTrack', nullable: true, includeIfNull: false)
   final List<String> offTrack;
   @JsonKey(name: 'onTrack', nullable: true)
   final List<OGM> onTrack;
@@ -42,8 +42,8 @@ class UserProfileData {
     this.persons,
   });
 
-  factory UserProfileData.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataFromJson(json);
+  factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
+
 }
