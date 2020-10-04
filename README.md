@@ -21,6 +21,14 @@ model_generator:
 this will write all your models to /lib/custom_models
 `path` will be added after the `base_directory`
 
+##FVM support
+If you are using fvm for managing  your flutter version. You can add an option to the model generator as well to run with fvm.
+add an option `use_fvm` and set it to true. (by default it is set to false)
+```
+model_generator:
+  use_fvm: true
+```
+
 ## Default setup
 Example of the `model_generator/config.yaml` file
 ```
