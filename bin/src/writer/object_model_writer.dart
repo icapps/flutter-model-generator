@@ -77,7 +77,7 @@ class ObjectModelWriter {
         sb.write(', toJson: handle${fieldModel.name}ToJson');
       }
       sb.writeln(')');
-      if (key.ignore) {
+      if (key.nonFinal) {
         sb.write('  ');
       } else {
         sb.write('  final ');

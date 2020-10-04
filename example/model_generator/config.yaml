@@ -22,6 +22,9 @@ OGM:
     securityRole:
       type: string
       jsonKey: securityIndicator
+    mutableProperty:
+      type: string
+      non_final: true
 Testing:
   path: user
   type: object
