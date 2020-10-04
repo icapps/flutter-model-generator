@@ -13,6 +13,12 @@ class PubspecConfig {
           'Could not parse the pubspec.yaml, project name not found');
     }
 
-    baseDirectory = doc['base_directory'] ?? 'model';
+    final config = doc['model_generator'];
+    if (config == null) {
+      baseDirectory = 'model';
+      return;
+    }
+
+    baseDirectory = config['base_directory'] ?? 'model';
   }
 }
