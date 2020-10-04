@@ -13,24 +13,29 @@ import 'src/writer/object_model_writer.dart';
 Future<void> main(List<String> args) async {
   final pubspecYaml = File(join(Directory.current.path, 'pubspec.yaml'));
   if (!pubspecYaml.existsSync()) {
-    throw Exception('This program should be run from the root of a flutter/dart project');
+    throw Exception(
+        'This program should be run from the root of a flutter/dart project');
   }
   final pubspecContent = pubspecYaml.readAsStringSync();
   final pubspecConfig = PubspecConfig(pubspecContent);
 
-  final configFile = File(join(Directory.current.path, 'model_generator', 'config.yaml'));
+  final configFile =
+      File(join(Directory.current.path, 'model_generator', 'config.yaml'));
   if (!configFile.existsSync()) {
-    throw Exception('This program requires a config file. `model_generator/config.yaml`');
+    throw Exception(
+        'This program requires a config file. `model_generator/config.yaml`');
   }
   final modelGeneratorContent = configFile.readAsStringSync();
-  final modelGeneratorConfig = YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
+  final modelGeneratorConfig =
+      YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
   await generateJsonGeneratedModels(pubspecConfig.useFvm);
   print('Done!!!');
 }
 
-void writeToFiles(PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
+void writeToFiles(
+    PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
   modelGeneratorConfig.models.forEach((model) {
     final modelDirectory = Directory(join('lib', model.baseDirectory));
     if (!modelDirectory.existsSync()) {
@@ -43,13 +48,15 @@ void writeToFiles(PubspecConfig pubspecConfig, YmlGeneratorConfig modelGenerator
       content = EnumModelWriter(model).write();
     }
     if (model is! CustomModel && content == null) {
-      throw Exception('content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
+      throw Exception(
+          'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
     }
     File file;
     if (model.path == null) {
       file = File(join('lib', model.baseDirectory, '${model.fileName}.dart'));
     } else {
-      file = File(join('lib', model.baseDirectory, model.path, '${model.fileName}.dart'));
+      file = File(join(
+          'lib', model.baseDirectory, model.path, '${model.fileName}.dart'));
     }
     if (!file.existsSync()) {
       file.createSync(recursive: true);
@@ -87,6 +94,7 @@ Future<void> generateJsonGeneratedModels(bool useFvm) async {
     print('Succesfully generated the jsonSerializable generated files');
     print('');
   } else {
-    print('Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
+    print(
+        'Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
   }
 }
