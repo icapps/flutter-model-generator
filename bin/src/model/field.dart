@@ -11,18 +11,6 @@ class Field {
   final bool includeIfNull;
   final bool nonFinal;
 
-  String _path;
-
-  set path(String path) {
-    if (path != null && path.endsWith('/')) {
-      _path = path.substring(0, path.length - 1);
-    } else {
-      _path = path;
-    }
-  }
-
-  String get path => _path;
-
   Field(
       {String name,
       this.type,

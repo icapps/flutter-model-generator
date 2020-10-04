@@ -3,6 +3,7 @@
 ## [2.4.0 - WIP] - 2020-10-04
 ### Added
 - Added non_final support
+- Added support for json_converter
 
 ## [2.3.0] - 2020-10-04
 ### Added

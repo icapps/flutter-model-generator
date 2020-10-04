@@ -1,5 +1,7 @@
 OGM:
   type: object
+  converters:
+    - DateTimeConverter
   properties:
     structuredMessage:
       required: true
@@ -25,6 +27,8 @@ OGM:
     mutableProperty:
       type: string
       non_final: true
+    dateChange:
+      type: datetime
 Testing:
   path: user
   type: object
@@ -131,7 +135,9 @@ NoCustomBaseDirectoryObj:
     customBaseDirectoryObj:
       type: CustomBaseDirectoryObj
 
-
+DateTimeConverter:
+  type: json_converter
+  path: converter/
 
 
 
