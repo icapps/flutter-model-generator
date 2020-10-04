@@ -3,6 +3,7 @@ import 'package:yaml/yaml.dart';
 class PubspecConfig {
   String projectName;
   String baseDirectory;
+  bool useFvm;
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
@@ -16,9 +17,11 @@ class PubspecConfig {
     final config = doc['model_generator'];
     if (config == null) {
       baseDirectory = 'model';
+      useFvm = false;
       return;
     }
 
     baseDirectory = config['base_directory'] ?? 'model';
+    useFvm = config['use_fvm'] == 'true';
   }
 }

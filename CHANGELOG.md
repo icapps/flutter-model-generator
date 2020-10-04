@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.2.0] - 2020-07-24
+## [2.3.0] - 2020-10-04
+### Added
+- FVM support
+
+## [2.2.0] - 2020-10-04
 ### Added
 - Travis CI support (badge)
 - Coveralls test coverage support (badge) (no test yet [issue #38](https://github.com/icapps/flutter-model-generator/issues/38))

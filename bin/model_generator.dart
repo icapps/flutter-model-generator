@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:meta/meta.dart';
 
 import 'src/config/pubspec_config.dart';
 import 'src/config/yml_generator_config.dart';
@@ -30,7 +31,7 @@ Future<void> main(List<String> args) async {
       YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
-  await generateJsonGeneratedModels();
+  await generateJsonGeneratedModels(useFvm: pubspecConfig.useFvm);
   print('Done!!!');
 }
 
@@ -64,29 +65,32 @@ void writeToFiles(
 
     if (model is! CustomModel) {
       file.writeAsStringSync(content);
-
-      // File generatedFile;
-      // if (model.path == null) {
-      //   generatedFile = File(join('lib', baseDirectory, '${model.fileName}.g.dart'));
-      // } else {
-      //   generatedFile =
-      //       File(join('lib', baseDirectory, model.path, '${model.fileName}.g.dart'));
-      // }
-      // generatedFile.writeAsStringSync("part of '${model.fileName}.dart';");
     }
   });
 }
 
-/// run `flutter packages pub run build_runner build --delete-conflicting-outputs`
-Future<void> generateJsonGeneratedModels() async {
-  final result = Process.runSync('flutter', [
-    'packages',
-    'pub',
-    'run',
-    'build_runner',
-    'build',
-    '--delete-conflicting-outputs',
-  ]);
+Future<void> generateJsonGeneratedModels({@required bool useFvm}) async {
+  ProcessResult result;
+  if (useFvm) {
+    result = Process.runSync('fvm', [
+      'flutter',
+      'packages',
+      'pub',
+      'run',
+      'build_runner',
+      'build',
+      '--delete-conflicting-outputs',
+    ]);
+  } else {
+    result = Process.runSync('flutter', [
+      'packages',
+      'pub',
+      'run',
+      'build_runner',
+      'build',
+      '--delete-conflicting-outputs',
+    ]);
+  }
   if (result.exitCode == 0) {
     print('Succesfully generated the jsonSerializable generated files');
     print('');
