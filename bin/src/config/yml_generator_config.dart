@@ -75,6 +75,8 @@ class YmlGeneratorConfig {
           property.containsKey('ignore') && property['ignore'] == true;
       final includeIfNull = property.containsKey('includeIfNull') &&
           property['includeIfNull'] == false;
+      final nonFinal = ignored ||
+          property.containsKey('non_final') && property['non_final'] == true;
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
       ItemType itemType;
@@ -117,12 +119,14 @@ class YmlGeneratorConfig {
         itemType = ObjectType(ref);
       }
       return Field(
-          name: name,
-          type: itemType,
-          required: required,
-          ignore: ignored,
-          jsonKey: jsonKey,
-          includeIfNull: includeIfNull);
+        name: name,
+        type: itemType,
+        required: required,
+        ignore: ignored,
+        jsonKey: jsonKey,
+        nonFinal: nonFinal,
+        includeIfNull: includeIfNull,
+      );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
       rethrow;

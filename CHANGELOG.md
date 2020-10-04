@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.4.0 - WIP] - 2020-10-04
+### Added
+- Added non_final support
+
 ## [2.3.0] - 2020-10-04
 ### Added
 - FVM support

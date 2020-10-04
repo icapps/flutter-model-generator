@@ -66,6 +66,9 @@ UserModel:
     ignoreField:
       ignore: false #this field will not be final, and not be used in the json parsing
       type: string
+    mutableField:
+      non_final: true #Field will not be marked final
+      type: string
 
 Address:
   path: webservice/user
