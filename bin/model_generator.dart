@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:meta/meta.dart';
 
 import 'src/config/pubspec_config.dart';
 import 'src/config/yml_generator_config.dart';
@@ -30,7 +31,7 @@ Future<void> main(List<String> args) async {
       YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
-  await generateJsonGeneratedModels(pubspecConfig.useFvm);
+  await generateJsonGeneratedModels(useFvm: pubspecConfig.useFvm);
   print('Done!!!');
 }
 
@@ -68,7 +69,7 @@ void writeToFiles(
   });
 }
 
-Future<void> generateJsonGeneratedModels(bool useFvm) async {
+Future<void> generateJsonGeneratedModels({@required bool useFvm}) async {
   ProcessResult result;
   if (useFvm) {
     result = Process.runSync('fvm', [
