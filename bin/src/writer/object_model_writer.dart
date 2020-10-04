@@ -1,3 +1,4 @@
+import '../config/pubspec_config.dart';
 import '../config/yml_generator_config.dart';
 import '../model/item_type/array_type.dart';
 import '../model/model/custom_from_to_json_model.dart';
@@ -6,10 +7,10 @@ import '../util/case_util.dart';
 import '../util/type_checker.dart';
 
 class ObjectModelWriter {
-  final String projectName;
+  final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
 
-  const ObjectModelWriter(this.projectName, this.jsonModel);
+  const ObjectModelWriter(this.pubspecConfig, this.jsonModel);
 
   String write() {
     final sb = StringBuffer();
@@ -22,16 +23,17 @@ class ObjectModelWriter {
 
     sb.writeln("import 'package:json_annotation/json_annotation.dart';");
 
+    final projectName = pubspecConfig.projectName;
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
         final reCaseFieldName = CaseUtil(field.type.name);
         String import;
         if (field.path == null) {
           import =
-              "import 'package:$projectName/model/${reCaseFieldName.snakeCase}.dart';";
+              "import 'package:$projectName/${jsonModel.baseDirectory}/${reCaseFieldName.snakeCase}.dart';";
         } else {
           import =
-              "import 'package:$projectName/model/${field.path}/${reCaseFieldName.snakeCase}.dart';";
+              "import 'package:$projectName/${field.path}/${reCaseFieldName.snakeCase}.dart';";
         }
         if (!sb.toString().contains(import)) {
           sb.writeln(import);

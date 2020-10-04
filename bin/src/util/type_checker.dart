@@ -5,6 +5,7 @@ class TypeChecker {
         type == 'int' ||
         type == 'number' ||
         type == 'double' ||
+        type == 'dynamic' ||
         type == 'bool';
   }
 

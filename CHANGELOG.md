@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.2.0] - 2020-07-24
+### Added
+- Travis CI support (badge)
+- Coveralls test coverage support (badge) (no test yet [issue #38](https://github.com/icapps/flutter-model-generator/issues/38))
+- MIT license (badge)
+- Support for custom base_directory (Thanks to [JeremiFerre](https://github.com/JeremiFerre))
+- Support for dynamic dart type (Thanks to [JeremiFerre](https://github.com/JeremiFerre))
+- Support for includeIfNull annotation property (Thanks to [DimmyMaenhout](https://github.com/DimmyMaenhout))
+### Fixed
+- The removed .g.dart files (Thanks to [JeremiFerre](https://github.com/JeremiFerre))
+### Updated
+- Documentation updated
+- Dependencies updated
+- License
+
 ## [2.1.2] - 2020-07-24
 ### Fixed
 - Formatting

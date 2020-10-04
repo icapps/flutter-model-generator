@@ -12,6 +12,16 @@ This model generator can be used to generate JsonSerializable models
 `flutter packages run model_generator`
 
 ## Default setup
+Example of the `pubspec.yaml` file if you want to use a custom base_directory for all your models
+Default is `/lib/model` you can override it for all your models like this:
+```
+model_generator:
+  base_directory: custom_models
+```
+this will write all your models to /lib/custom_models
+`path` will be added after the `base_directory`
+
+## Default setup
 Example of the `model_generator/config.yaml` file
 ```
 UserModel:
@@ -40,11 +50,27 @@ UserModel:
     securityRole:
       type: string
       jsonKey: securityIndicator
+    dynamicField:
+      type: dynamic
+    includeIfNullField:
+      includeIfNull: false #If this field is null, this field will not be added to your json object (used for PATCH models)
+      type: string
+    ignoreField:
+      ignore: false #this field will not be final, and not be used in the json parsing
+      type: string
 
 Address:
   path: webservice/user
   properties:
     street:
+      type: string
+
+#Custom base_directory
+CustomBaseDirectoryObject:
+  base_directory: custom_models
+  path: webservice
+  properties:
+    path:
       type: string
 ```
 
@@ -62,6 +88,7 @@ Gender:
       value: femAle
     X:
       value: X
+    Y:
 ```
 
 ## Custom object

@@ -26,7 +26,8 @@ Future<void> main(List<String> args) async {
         'This program requires a config file. `model_generator/config.yaml`');
   }
   final modelGeneratorContent = configFile.readAsStringSync();
-  final modelGeneratorConfig = YmlGeneratorConfig(modelGeneratorContent);
+  final modelGeneratorConfig =
+      YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
   await generateJsonGeneratedModels();
@@ -35,16 +36,16 @@ Future<void> main(List<String> args) async {
 
 void writeToFiles(
     PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
-  final modelDirectory = Directory(join('lib', 'model'));
-  if (!modelDirectory.existsSync()) {
-    modelDirectory.createSync(recursive: true);
-  }
   modelGeneratorConfig.models.forEach((model) {
+    final modelDirectory = Directory(join('lib', model.baseDirectory));
+    if (!modelDirectory.existsSync()) {
+      modelDirectory.createSync(recursive: true);
+    }
     String content;
     if (model is ObjectModel) {
-      content = ObjectModelWriter(pubspecConfig.projectName, model).write();
+      content = ObjectModelWriter(pubspecConfig, model).write();
     } else if (model is EnumModel) {
-      content = EnumModelWriter(pubspecConfig.projectName, model).write();
+      content = EnumModelWriter(model).write();
     }
     if (model is! CustomModel && content == null) {
       throw Exception(
@@ -52,9 +53,10 @@ void writeToFiles(
     }
     File file;
     if (model.path == null) {
-      file = File(join('lib', 'model', '${model.fileName}.dart'));
+      file = File(join('lib', model.baseDirectory, '${model.fileName}.dart'));
     } else {
-      file = File(join('lib', 'model', model.path, '${model.fileName}.dart'));
+      file = File(join(
+          'lib', model.baseDirectory, model.path, '${model.fileName}.dart'));
     }
     if (!file.existsSync()) {
       file.createSync(recursive: true);
@@ -63,14 +65,14 @@ void writeToFiles(
     if (model is! CustomModel) {
       file.writeAsStringSync(content);
 
-      File generatedFile;
-      if (model.path == null) {
-        generatedFile = File(join('lib', 'model', '${model.fileName}.g.dart'));
-      } else {
-        generatedFile =
-            File(join('lib', 'model', model.path, '${model.fileName}.g.dart'));
-      }
-      generatedFile.writeAsStringSync("part of '${model.fileName}.dart';");
+      // File generatedFile;
+      // if (model.path == null) {
+      //   generatedFile = File(join('lib', baseDirectory, '${model.fileName}.g.dart'));
+      // } else {
+      //   generatedFile =
+      //       File(join('lib', baseDirectory, model.path, '${model.fileName}.g.dart'));
+      // }
+      // generatedFile.writeAsStringSync("part of '${model.fileName}.dart';");
     }
   });
 }
