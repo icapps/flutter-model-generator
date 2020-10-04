@@ -64,7 +64,7 @@ class YmlGeneratorConfig {
           fields.add(getField(propertyKey, propertyValue));
         });
         final mappedConverters =
-            converters?.map((element) => element as String)?.toList() ??
+            converters?.map((element) => element.toString())?.toList() ??
                 <String>[];
         models.add(
             ObjectModel(key, path, baseDirectory, fields, mappedConverters));

@@ -15,7 +15,7 @@ class ObjectModelWriter {
 
   String write() {
     final sb = StringBuffer();
-    final imports = Set<String>();
+    final imports = Set<String>(); // ignore: prefer_collection_literals
 
     final containsRequiredFields =
         jsonModel.fields.where((item) => item.required).toList().isNotEmpty;

@@ -5,11 +5,11 @@ class DateTimeConverter implements JsonConverter<DateTime, String> {
 
   @override
   DateTime fromJson(String json) {
-    if (json.contains(".")) {
-      json = json.substring(0, json.length - 1);
+    var actualJson = json;
+    if (json.contains('.')) {
+      actualJson = json.substring(0, json.length - 1);
     }
-
-    return DateTime.parse(json);
+    return DateTime.parse(actualJson);
   }
 
   @override
