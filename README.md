@@ -3,6 +3,9 @@
 This model generator can be used to generate JsonSerializable models
 
 [![pub package](https://img.shields.io/pub/v/model_generator.svg)](https://pub.dartlang.org/packages/model_generator)
+[![Build Status](https://travis-ci.com/icapps/flutter-model-generator.svg?branch=master)](https://travis-ci.com/icapps/flutter-model-generator)
+[![Coverage Status](https://coveralls.io/repos/github/icapps/flutter-model-generator/badge.svg)](https://coveralls.io/github/icapps/flutter-model-generator)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
 ## Run 
 
@@ -28,6 +31,8 @@ UserModel:
       type: array
       items:
         type: string
+    birthday:
+      type: date
     addresses:
       type: array
       items:
