@@ -66,6 +66,7 @@ UserProfileData:
       required: true
       type: OGM
     offTrack:
+      includeIfNull: false
       type: array
       items:
         type: string

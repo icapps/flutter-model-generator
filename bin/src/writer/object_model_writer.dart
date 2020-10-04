@@ -60,6 +60,10 @@ class ObjectModelWriter {
         sb.write(', nullable: true');
       }
 
+      if(key.includeIfNull) {
+        sb.write(', includeIfNull: false');
+      }
+
       if (key.ignore) {
         sb.write(', ignore: true');
       }
