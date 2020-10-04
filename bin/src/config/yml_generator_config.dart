@@ -1,8 +1,5 @@
 import 'package:yaml/yaml.dart';
 
-import '../model/model/custom_from_to_json_model.dart';
-import '../model/model/custom_model.dart';
-import '../model/model/enum_model.dart';
 import '../model/field.dart';
 import '../model/item_type/array_type.dart';
 import '../model/item_type/boolean_type.dart';
@@ -13,6 +10,9 @@ import '../model/item_type/integer_type.dart';
 import '../model/item_type/item_type.dart';
 import '../model/item_type/object_type.dart';
 import '../model/item_type/string_type.dart';
+import '../model/model/custom_from_to_json_model.dart';
+import '../model/model/custom_model.dart';
+import '../model/model/enum_model.dart';
 import '../model/model/model.dart';
 import '../model/object_model.dart';
 import '../util/type_checker.dart';
@@ -70,7 +70,8 @@ class YmlGeneratorConfig {
           property.containsKey('required') && property['required'] == true;
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
-      final includeIfNull = property.containsKey('includeIfNull') && property['includeIfNull'] == false;
+      final includeIfNull = property.containsKey('includeIfNull') &&
+          property['includeIfNull'] == false;
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
       ItemType itemType;

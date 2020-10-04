@@ -42,8 +42,8 @@ class UserProfileData {
     this.persons,
   });
 
-  factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
+  factory UserProfileData.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
-
 }
