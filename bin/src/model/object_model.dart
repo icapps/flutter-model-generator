@@ -7,6 +7,7 @@ class ObjectModel extends Model {
   ObjectModel(
     String name,
     String path,
+    String baseDirectory,
     this.fields,
-  ) : super(name, path);
+  ) : super(name, path, baseDirectory);
 }

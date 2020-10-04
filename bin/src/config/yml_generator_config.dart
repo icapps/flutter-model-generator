@@ -16,23 +16,26 @@ import '../model/model/enum_model.dart';
 import '../model/model/model.dart';
 import '../model/object_model.dart';
 import '../util/type_checker.dart';
+import 'pubspec_config.dart';
 
 class YmlGeneratorConfig {
   static final _models = <Model>[];
 
   List<Model> get models => _models;
 
-  YmlGeneratorConfig(String configContent) {
+  YmlGeneratorConfig(PubspecConfig pubspecConfig, String configContent) {
     loadYaml(configContent).forEach((key, value) {
+      final String baseDirectory =
+          value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String path = value['path'];
       final YamlMap properties = value['properties'];
       final String type = value['type'];
       if (type == 'custom') {
-        models.add(CustomModel(key, path));
+        models.add(CustomModel(key, path, baseDirectory));
         return;
       }
       if (type == 'custom_from_to_json') {
-        models.add(CustomFromToJsonModel(key, path));
+        models.add(CustomFromToJsonModel(key, path, baseDirectory));
         return;
       }
       if (properties == null) {
@@ -47,7 +50,7 @@ class YmlGeneratorConfig {
           fields.add(EnumField(propertyKey,
               propertyValue == null ? '' : propertyValue['value']));
         });
-        models.add(EnumModel(key, path, fields));
+        models.add(EnumModel(key, path, baseDirectory, fields));
       } else {
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
@@ -56,12 +59,12 @@ class YmlGeneratorConfig {
           }
           fields.add(getField(propertyKey, propertyValue));
         });
-        models.add(ObjectModel(key, path, fields));
+        models.add(ObjectModel(key, path, baseDirectory, fields));
       }
     });
 
     checkIfTypesAvailable();
-    addPathsToFields();
+    addPathsToFields(pubspecConfig);
   }
 
   Field getField(String name, YamlMap property) {
@@ -126,14 +129,21 @@ class YmlGeneratorConfig {
     }
   }
 
-  void addPathsToFields() {
+  void addPathsToFields(PubspecConfig pubspecConfig) {
     models.forEach((model) {
       if (model is ObjectModel) {
         model.fields.forEach((field) {
           final foundModels =
               models.where((model) => model.name == field.type.name).toList();
           if (foundModels.isNotEmpty) {
-            field.path = foundModels[0].path;
+            final foundModel = foundModels[0];
+            final baseDirectory =
+                foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
+            if (foundModel.path == null) {
+              field.path = '$baseDirectory';
+            } else {
+              field.path = '$baseDirectory/${foundModel.path}';
+            }
           }
         });
       } else if (model is EnumModel) {}
