@@ -22,7 +22,13 @@ class Field {
 
   String get path => _path;
 
-  Field({String name, this.type, this.required, this.ignore, this.includeIfNull, String jsonKey})
+  Field(
+      {String name,
+      this.type,
+      this.required,
+      this.ignore,
+      this.includeIfNull,
+      String jsonKey})
       // ignore: prefer_initializing_formals
       : serializedName = jsonKey ?? name,
         name = CaseUtil(KeywordHelper.getCorrectKeyword(name)).camelCase;
