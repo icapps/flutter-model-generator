@@ -61,7 +61,7 @@ UserModel:
     dynamicField:
       type: dynamic
     includeIfNullField:
-      includeIfNull: false #If this field is null, this field will not be added to your json object (used for PATCH models)
+      include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
       type: string
     ignoreField:
       ignore: false #this field will not be final, and not be used in the json parsing
@@ -100,6 +100,16 @@ Gender:
     X:
       value: X
     Y:
+```
+
+### Use unknownEnumValue 
+```
+UnknownEnumTestObject:
+  path: webservice
+  properties:
+    path:
+      unknown_enum_value: X
+      type: Gender
 ```
 
 ## Custom object
