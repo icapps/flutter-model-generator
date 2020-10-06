@@ -92,6 +92,7 @@ Person:
       type: string
     gender:
       required: true
+      unknownEnumValue: X
       type: Gender
 Gender:
   path: user/person/
