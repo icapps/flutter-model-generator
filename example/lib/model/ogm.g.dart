@@ -23,6 +23,7 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     someThing: json['some_Thing'] as String,
     someThinGHuGE: json['some_ThinG_huGE'] as String,
     securityRole: json['securityIndicator'] as String,
+    mutableProperty: json['mutableProperty'] as String,
   );
 }
 
@@ -34,4 +35,5 @@ Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
       'some_Thing': instance.someThing,
       'some_ThinG_huGE': instance.someThinGHuGE,
       'securityIndicator': instance.securityRole,
+      'mutableProperty': instance.mutableProperty,
     };

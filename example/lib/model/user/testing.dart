@@ -15,6 +15,8 @@ class Testing {
   final String structuredMessage;
   @JsonKey(name: 'beneficiaryIBAN', nullable: true)
   final String beneficiaryIBAN;
+  @JsonKey(name: 'dynamicField', nullable: true)
+  final dynamic dynamicField;
   @JsonKey(name: 'duration', nullable: true)
   final Duration duration;
   @JsonKey(
@@ -29,6 +31,7 @@ class Testing {
     this.isFavourite,
     this.structuredMessage,
     this.beneficiaryIBAN,
+    this.dynamicField,
     this.duration,
     this.durationFromJsonTest,
   });

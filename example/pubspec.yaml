@@ -20,3 +20,9 @@ dev_dependencies:
 
 dependency_overrides:
   path: 1.7.0 #Because model_generator >=1.2.0 depends on path ^1.7.0 and every version of flutter_test from sdk depends on path 1.6.4, model_generator >=1.2.0 is incompatible with flutter_test from sdk.
+
+#This is the default config
+#In the model_generator/config.yaml you will see a object with a custom base_directory
+#
+#model_generator:
+#  base_directory: model

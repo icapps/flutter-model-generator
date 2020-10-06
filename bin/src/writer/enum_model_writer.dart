@@ -1,10 +1,9 @@
 import '../model/model/enum_model.dart';
 
 class EnumModelWriter {
-  final String projectName;
   final EnumModel jsonModel;
 
-  const EnumModelWriter(this.projectName, this.jsonModel);
+  const EnumModelWriter(this.jsonModel);
 
   String write() {
     final sb = StringBuffer()

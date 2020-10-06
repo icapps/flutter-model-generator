@@ -4,5 +4,6 @@ class CustomModel extends Model {
   CustomModel(
     String name,
     String path,
-  ) : super(name, path);
+    String baseDirectory,
+  ) : super(name, path, baseDirectory);
 }

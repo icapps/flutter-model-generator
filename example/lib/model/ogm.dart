@@ -19,6 +19,8 @@ class OGM {
   final String someThinGHuGE;
   @JsonKey(name: 'securityIndicator', nullable: true)
   final String securityRole;
+  @JsonKey(name: 'mutableProperty', nullable: true)
+  String mutableProperty;
 
   OGM({
     @required this.structuredMessage,
@@ -28,6 +30,7 @@ class OGM {
     @required this.someThing,
     @required this.someThinGHuGE,
     this.securityRole,
+    this.mutableProperty,
   });
 
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);

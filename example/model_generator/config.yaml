@@ -22,6 +22,9 @@ OGM:
     securityRole:
       type: string
       jsonKey: securityIndicator
+    mutableProperty:
+      type: string
+      non_final: true
 Testing:
   path: user
   type: object
@@ -36,6 +39,8 @@ Testing:
       type: string
     beneficiaryIBAN:
       type: string
+    dynamicField:
+      type: dynamic
     duration:
       type: Duration
     duration_from_json_test:
@@ -66,6 +71,7 @@ UserProfileData:
       required: true
       type: OGM
     offTrack:
+      includeIfNull: false
       type: array
       items:
         type: string
@@ -113,7 +119,17 @@ Duration:
 DurationFromToJson:
   path: data/custom/
   type: custom_from_to_json
-
+CustomBaseDirectoryObj:
+  base_directory: custom_model_directory
+  path: article
+  properties:
+    name:
+      type: string
+NoCustomBaseDirectoryObj:
+  path: article
+  properties:
+    customBaseDirectoryObj:
+      type: CustomBaseDirectoryObj
 
 
 

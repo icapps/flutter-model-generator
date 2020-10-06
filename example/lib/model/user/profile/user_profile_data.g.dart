@@ -39,16 +39,25 @@ UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) =>
-    <String, dynamic>{
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
-      'standardLanguage': instance.standardLanguage,
-      'mainAccountNumber': instance.mainAccountNumber,
-      'legalEmail': instance.legalEmail,
-      'phones': instance.phones,
-      'legalAddress': instance.legalAddress,
-      'offTrack': instance.offTrack,
-      'onTrack': instance.onTrack,
-      'persons': instance.persons,
-    };
+Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) {
+  final val = <String, dynamic>{
+    'firstName': instance.firstName,
+    'lastName': instance.lastName,
+    'standardLanguage': instance.standardLanguage,
+    'mainAccountNumber': instance.mainAccountNumber,
+    'legalEmail': instance.legalEmail,
+    'phones': instance.phones,
+    'legalAddress': instance.legalAddress,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('offTrack', instance.offTrack);
+  val['onTrack'] = instance.onTrack;
+  val['persons'] = instance.persons;
+  return val;
+}

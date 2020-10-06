@@ -8,6 +8,8 @@ class Field {
   final ItemType type;
   final bool required;
   final bool ignore;
+  final bool includeIfNull;
+  final bool nonFinal;
 
   String _path;
 
@@ -21,7 +23,14 @@ class Field {
 
   String get path => _path;
 
-  Field({String name, this.type, this.required, this.ignore, String jsonKey})
+  Field(
+      {String name,
+      this.type,
+      this.required,
+      this.ignore,
+      this.includeIfNull,
+      this.nonFinal,
+      String jsonKey})
       // ignore: prefer_initializing_formals
       : serializedName = jsonKey ?? name,
         name = CaseUtil(KeywordHelper.getCorrectKeyword(name)).camelCase;
