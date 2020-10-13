@@ -1,7 +1,10 @@
 # Changelog
 
-## [2.4.0 - WIP] - 2020-10-04
+## [3.0.0] - 2020-10-06
+### Breaking Change 
+- renamed includeIfNull to include_if_nul to keep a consistent api
 ### Added
+- Added unknown_enum_value support
 - Added non_final support
 - Added support for json_converter
 

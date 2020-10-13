@@ -10,6 +10,7 @@ class Field {
   final bool ignore;
   final bool includeIfNull;
   final bool nonFinal;
+  final String unknownEnumValue;
 
   Field(
       {String name,
@@ -18,6 +19,7 @@ class Field {
       this.ignore,
       this.includeIfNull,
       this.nonFinal,
+      this.unknownEnumValue,
       String jsonKey})
       // ignore: prefer_initializing_formals
       : serializedName = jsonKey ?? name,

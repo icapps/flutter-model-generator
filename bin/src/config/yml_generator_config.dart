@@ -80,10 +80,11 @@ class YmlGeneratorConfig {
           property.containsKey('required') && property['required'] == true;
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
-      final includeIfNull = property.containsKey('includeIfNull') &&
-          property['includeIfNull'] == false;
       final nonFinal = ignored ||
           property.containsKey('non_final') && property['non_final'] == true;
+      final includeIfNull = property.containsKey('include_if_null') &&
+          property['include_if_null'] == false;
+      final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
       ItemType itemType;
@@ -133,6 +134,7 @@ class YmlGeneratorConfig {
         jsonKey: jsonKey,
         nonFinal: nonFinal,
         includeIfNull: includeIfNull,
+        unknownEnumValue: unknownEnumValue,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');

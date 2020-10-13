@@ -68,6 +68,12 @@ class ObjectModelWriter {
       if (key.ignore) {
         sb.write(', ignore: true');
       }
+
+      if (key.unknownEnumValue != null) {
+        sb.write(
+            ', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
+      }
+
       final fieldModel = YmlGeneratorConfig.getModelByName(key.type);
       if (fieldModel is CustomFromToJsonModel) {
         sb.write(', fromJson: handle${fieldModel.name}FromJson');
