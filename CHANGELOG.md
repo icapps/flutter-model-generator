@@ -1,12 +1,16 @@
 # Changelog
 
+## [3.1.0] - 2020-10-13
+### Added
+- Added support for importing other dart packages when using path (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
+- Added support for json_converter (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
+
 ## [3.0.0] - 2020-10-06
-### Breaking Change 
+### Breaking Change
 - renamed includeIfNull to include_if_nul to keep a consistent api
 ### Added
-- Added unknown_enum_value support
+- Added unknown_enum_value support (Thanks to [DimmyMaenhout](https://github.com/DimmyMaenhout))
 - Added non_final support
-- Added support for json_converter
 
 ## [2.3.0] - 2020-10-04
 ### Added
@@ -43,11 +47,11 @@
 ## [2.0.0] - 2020-06-11
 ### BREAKING 
 ### Added
-- Change snake case to camelCase (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
+- Change snake case to camelCase (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
 ## [1.6.0] - 2020-06-11
 ### Added 
-- Custom jsonKey support (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
+- Custom jsonKey support (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
 ## [1.5.0] - 2020-05-19
 ### Fixed 
