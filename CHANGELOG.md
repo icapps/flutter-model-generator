@@ -6,6 +6,7 @@
 ### Added
 - Added unknown_enum_value support
 - Added non_final support
+- Added support for json_converter
 
 ## [2.3.0] - 2020-10-04
 ### Added

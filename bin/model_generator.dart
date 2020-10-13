@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:path/path.dart';
 import 'package:meta/meta.dart';
+import 'package:path/path.dart';
 
 import 'src/config/pubspec_config.dart';
 import 'src/config/yml_generator_config.dart';
 import 'src/model/model/custom_model.dart';
 import 'src/model/model/enum_model.dart';
+import 'src/model/model/json_converter_model.dart';
 import 'src/model/object_model.dart';
 import 'src/writer/enum_model_writer.dart';
 import 'src/writer/object_model_writer.dart';
@@ -44,9 +45,12 @@ void writeToFiles(
     }
     String content;
     if (model is ObjectModel) {
-      content = ObjectModelWriter(pubspecConfig, model).write();
+      content =
+          ObjectModelWriter(pubspecConfig, model, modelGeneratorConfig).write();
     } else if (model is EnumModel) {
       content = EnumModelWriter(model).write();
+    } else if (model is JsonConverterModel) {
+      return;
     }
     if (model is! CustomModel && content == null) {
       throw Exception(

@@ -13,6 +13,7 @@ import '../model/item_type/string_type.dart';
 import '../model/model/custom_from_to_json_model.dart';
 import '../model/model/custom_model.dart';
 import '../model/model/enum_model.dart';
+import '../model/model/json_converter_model.dart';
 import '../model/model/model.dart';
 import '../model/object_model.dart';
 import '../util/type_checker.dart';
@@ -29,13 +30,16 @@ class YmlGeneratorConfig {
           value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String path = value['path'];
       final YamlMap properties = value['properties'];
+      final YamlList converters = value['converters'];
       final String type = value['type'];
       if (type == 'custom') {
         models.add(CustomModel(key, path, baseDirectory));
         return;
-      }
-      if (type == 'custom_from_to_json') {
+      } else if (type == 'custom_from_to_json') {
         models.add(CustomFromToJsonModel(key, path, baseDirectory));
+        return;
+      } else if (type == 'json_converter') {
+        models.add(JsonConverterModel(key, path, baseDirectory));
         return;
       }
       if (properties == null) {
@@ -59,12 +63,15 @@ class YmlGeneratorConfig {
           }
           fields.add(getField(propertyKey, propertyValue));
         });
-        models.add(ObjectModel(key, path, baseDirectory, fields));
+        final mappedConverters =
+            converters?.map((element) => element.toString())?.toList() ??
+                <String>[];
+        models.add(
+            ObjectModel(key, path, baseDirectory, fields, mappedConverters));
       }
     });
 
     checkIfTypesAvailable();
-    addPathsToFields(pubspecConfig);
   }
 
   Field getField(String name, YamlMap property) {
@@ -135,25 +142,21 @@ class YmlGeneratorConfig {
     }
   }
 
-  void addPathsToFields(PubspecConfig pubspecConfig) {
-    models.forEach((model) {
-      if (model is ObjectModel) {
-        model.fields.forEach((field) {
-          final foundModels =
-              models.where((model) => model.name == field.type.name).toList();
-          if (foundModels.isNotEmpty) {
-            final foundModel = foundModels[0];
-            final baseDirectory =
-                foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
-            if (foundModel.path == null) {
-              field.path = '$baseDirectory';
-            } else {
-              field.path = '$baseDirectory/${foundModel.path}';
-            }
-          }
-        });
-      } else if (model is EnumModel) {}
-    });
+  String getPathForField(PubspecConfig pubspecConfig, Field field) {
+    return getPathForName(pubspecConfig, field.type.name);
+  }
+
+  String getPathForName(PubspecConfig pubspecConfig, String name) {
+    final foundModel =
+        models.firstWhere((model) => model.name == name, orElse: () => null);
+    if (foundModel == null) return null;
+    final baseDirectory =
+        foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
+    if (foundModel.path == null) {
+      return '$baseDirectory';
+    } else {
+      return '$baseDirectory/${foundModel.path}';
+    }
   }
 
   void checkIfTypesAvailable() {
