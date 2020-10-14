@@ -2,19 +2,19 @@
 
 ## [3.x.x - WIP] - XXXX-XX-XX
 ### Added
-- Parameter and command line to specify your own config.yaml (#16)
+- Parameter and command line to specify your own config.yaml (#16 Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
 ## [3.1.0] - 2020-10-13
 ### Added
-- Added support for importing other dart packages when using path
-- Added support for json_converter (#43)
+- Added support for importing other dart packages when using path (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
+- Added support for json_converter (#43 Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
-## [3.0.0] - 2020-10-13
-### Breaking
+## [3.0.0] - 2020-10-06
+### Breaking Change
 - renamed includeIfNull to include_if_nul to keep a consistent api
 ### Added
-- Added unknown_enum_value support (#44)
-- Added non_final support (#34)
+- Added unknown_enum_value support (#44 Thanks to [DimmyMaenhout](https://github.com/DimmyMaenhout))
+- Added non_final support (#34 Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
 ## [2.3.0] - 2020-10-04
 ### Added
@@ -51,11 +51,11 @@
 ## [2.0.0] - 2020-06-11
 ### BREAKING 
 ### Added
-- Change snake case to camelCase (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
+- Change snake case to camelCase (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
 ## [1.6.0] - 2020-06-11
 ### Added 
-- Custom jsonKey support (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps "Github NicolaChimerapps"))
+- Custom jsonKey support (Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
 ## [1.5.0] - 2020-05-19
 ### Fixed 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/converter/date_time_converter.dart';
 
 part 'ogm.g.dart';
 
 @JsonSerializable()
+@DateTimeConverter()
 class OGM {
   @JsonKey(name: 'structuredMessage', required: true)
   final String structuredMessage;
@@ -21,6 +23,8 @@ class OGM {
   final String securityRole;
   @JsonKey(name: 'mutableProperty', nullable: true)
   String mutableProperty;
+  @JsonKey(name: 'dateChange', nullable: true)
+  final DateTime dateChange;
 
   OGM({
     @required this.structuredMessage,
@@ -31,6 +35,7 @@ class OGM {
     @required this.someThinGHuGE,
     this.securityRole,
     this.mutableProperty,
+    this.dateChange,
   });
 
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);

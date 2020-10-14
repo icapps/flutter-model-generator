@@ -10,18 +10,7 @@ class Field {
   final bool ignore;
   final bool includeIfNull;
   final bool nonFinal;
-
-  String _path;
-
-  set path(String path) {
-    if (path != null && path.endsWith('/')) {
-      _path = path.substring(0, path.length - 1);
-    } else {
-      _path = path;
-    }
-  }
-
-  String get path => _path;
+  final String unknownEnumValue;
 
   Field(
       {String name,
@@ -30,6 +19,7 @@ class Field {
       this.ignore,
       this.includeIfNull,
       this.nonFinal,
+      this.unknownEnumValue,
       String jsonKey})
       // ignore: prefer_initializing_formals
       : serializedName = jsonKey ?? name,

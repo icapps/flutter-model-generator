@@ -9,44 +9,43 @@ import '../util/type_checker.dart';
 class ObjectModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
+  final YmlGeneratorConfig yamlConfig;
 
-  const ObjectModelWriter(this.pubspecConfig, this.jsonModel);
+  const ObjectModelWriter(this.pubspecConfig, this.jsonModel, this.yamlConfig);
 
   String write() {
     final sb = StringBuffer();
+    final imports = Set<String>(); // ignore: prefer_collection_literals
 
     final containsRequiredFields =
         jsonModel.fields.where((item) => item.required).toList().isNotEmpty;
     if (containsRequiredFields) {
-      sb.writeln("import 'package:flutter/material.dart';");
+      imports.add("import 'package:flutter/material.dart';");
     }
 
-    sb.writeln("import 'package:json_annotation/json_annotation.dart';");
+    imports.add("import 'package:json_annotation/json_annotation.dart';");
 
-    final projectName = pubspecConfig.projectName;
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
-        final reCaseFieldName = CaseUtil(field.type.name);
-        String import;
-        if (field.path == null) {
-          import =
-              "import 'package:$projectName/${jsonModel.baseDirectory}/${reCaseFieldName.snakeCase}.dart';";
-        } else {
-          import =
-              "import 'package:$projectName/${field.path}/${reCaseFieldName.snakeCase}.dart';";
-        }
-        if (!sb.toString().contains(import)) {
-          sb.writeln(import);
-        }
+        imports.add(_getImportFromPath(field.type.name));
       }
     });
+    jsonModel.converters.forEach((converter) {
+      imports.add(_getImportFromPath(converter));
+    });
+    imports.forEach(sb.writeln);
 
     sb
       ..writeln()
       ..writeln("part '${jsonModel.fileName}.g.dart';")
       ..writeln()
-      ..writeln('@JsonSerializable()')
-      ..writeln('class ${jsonModel.name} {');
+      ..writeln('@JsonSerializable()');
+
+    jsonModel.converters.forEach((converter) {
+      sb.writeln('@$converter()');
+    });
+
+    sb.writeln('class ${jsonModel.name} {');
 
     jsonModel.fields.sort((a, b) {
       final b1 = a.required ? 1 : 0;
@@ -69,6 +68,12 @@ class ObjectModelWriter {
       if (key.ignore) {
         sb.write(', ignore: true');
       }
+
+      if (key.unknownEnumValue != null) {
+        sb.write(
+            ', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
+      }
+
       final fieldModel = YmlGeneratorConfig.getModelByName(key.type);
       if (fieldModel is CustomFromToJsonModel) {
         sb.write(', fromJson: handle${fieldModel.name}FromJson');
@@ -109,5 +114,27 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln('}');
     return sb.toString();
+  }
+
+  String _getImportFromPath(String name) {
+    final projectName = pubspecConfig.projectName;
+    final reCaseFieldName = CaseUtil(name);
+    final path = yamlConfig.getPathForName(pubspecConfig, name);
+    if (path == null) {
+      return "import 'package:$projectName/${jsonModel.baseDirectory}/${reCaseFieldName.snakeCase}.dart';";
+    }
+
+    String pathWithPackage;
+    if (path.startsWith('package:')) {
+      pathWithPackage = path;
+    } else {
+      pathWithPackage = 'package:$projectName/$path';
+    }
+
+    if (path.endsWith('.dart')) {
+      return "import '$pathWithPackage';";
+    } else {
+      return "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';";
+    }
   }
 }

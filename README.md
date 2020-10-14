@@ -48,6 +48,8 @@ Example of the `model_generator/config.yaml` file
 ```
 UserModel:
   path: webservice/user
+  converters:
+    - DateTimeConverter
   properties:
     id:
       type: int
@@ -75,7 +77,7 @@ UserModel:
     dynamicField:
       type: dynamic
     includeIfNullField:
-      includeIfNull: false #If this field is null, this field will not be added to your json object (used for PATCH models)
+      include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
       type: string
     ignoreField:
       ignore: false #this field will not be final, and not be used in the json parsing
@@ -83,9 +85,11 @@ UserModel:
     mutableField:
       non_final: true #Field will not be marked final
       type: string
+    changedAt:
+      type: datetime
 
 Address:
-  path: webservice/user
+  path: webservice/user #Can also be package:... and/or end with the actual file (.dart)
   properties:
     street:
       type: string
@@ -97,6 +101,12 @@ CustomBaseDirectoryObject:
   properties:
     path:
       type: string
+
+#Custom json converter. Use with converters property on models
+DateTimeConverter:
+  type: json_converter
+  path: converter/
+
 ```
 
 ## Enum support
@@ -114,6 +124,16 @@ Gender:
     X:
       value: X
     Y:
+```
+
+### Use unknownEnumValue 
+```
+UnknownEnumTestObject:
+  path: webservice
+  properties:
+    path:
+      unknown_enum_value: X
+      type: Gender
 ```
 
 ## Custom object
@@ -145,4 +165,22 @@ CustomObjectFromToJson:
 {Model_Name} handle{Model_Name}FromJson(object) => {Model_Name}.fromJson(object);
 
 {Original_Type} handle{Model_Name}ToJson({Model_Name} data) => data.toJson();
+```
+
+## JsonConverter support
+You can specify custom json converters to be used for types that match
+```
+UserModel:
+  path: webservice/user
+  converters:
+    - DateTimeConverter
+  properties:
+    changedAt:
+      type: datetime
+```
+Specify the custom JsonConverter object as a known type to resolve it
+```
+DateTimeConverter:
+  type: json_converter
+  path: converter/
 ```
