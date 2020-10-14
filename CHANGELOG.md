@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.x.x - WIP] - XXXX-XX-XX
+## [3.2.0] - 2020-10-14
 ### Added
 - Parameter and command line to specify your own config.yaml (#16 Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
 
