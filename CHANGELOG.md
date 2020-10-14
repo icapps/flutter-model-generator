@@ -1,8 +1,20 @@
 # Changelog
 
-## [2.4.0 - WIP] - 2020-10-04
+## [3.x.x - WIP] - XXXX-XX-XX
 ### Added
-- Added non_final support
+- Parameter and command line to specify your own config.yaml (#16)
+
+## [3.1.0] - 2020-10-13
+### Added
+- Added support for importing other dart packages when using path
+- Added support for json_converter (#43)
+
+## [3.0.0] - 2020-10-13
+### Breaking
+- renamed includeIfNull to include_if_nul to keep a consistent api
+### Added
+- Added unknown_enum_value support (#44)
+- Added non_final support (#34)
 
 ## [2.3.0] - 2020-10-04
 ### Added
