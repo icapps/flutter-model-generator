@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 class PubspecConfig {
-  static final _DEFAULT_CONFIG_PATH =
-      'model_generator${Platform.pathSeparator}config.yaml'; // ignore: non_constant_identifier_names
+  static final _DEFAULT_CONFIG_PATH = // ignore: non_constant_identifier_names
+      'model_generator${Platform.pathSeparator}config.yaml';
   static const _DEFAULT_BASE_DIRECTORY = 'model';
 
   String projectName;
