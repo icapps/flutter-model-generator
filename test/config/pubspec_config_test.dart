@@ -140,7 +140,7 @@ name:
       }
       expect(hasError, true);
       expect(errorMessage,
-          'Could not parse the pubspec.yaml, project name not found');
+          'Exception: Could not parse the pubspec.yaml, project name not found');
     });
   });
 }
