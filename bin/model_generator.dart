@@ -2,16 +2,15 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:meta/meta.dart';
+import 'package:model_generator/config/pubspec_config.dart';
+import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/model/custom_model.dart';
+import 'package:model_generator/model/model/enum_model.dart';
+import 'package:model_generator/model/model/json_converter_model.dart';
+import 'package:model_generator/model/object_model.dart';
+import 'package:model_generator/writer/enum_model_writer.dart';
+import 'package:model_generator/writer/object_model_writer.dart';
 import 'package:path/path.dart';
-
-import 'src/config/pubspec_config.dart';
-import 'src/config/yml_generator_config.dart';
-import 'src/model/model/custom_model.dart';
-import 'src/model/model/enum_model.dart';
-import 'src/model/model/json_converter_model.dart';
-import 'src/model/object_model.dart';
-import 'src/writer/enum_model_writer.dart';
-import 'src/writer/object_model_writer.dart';
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()

@@ -14,11 +14,13 @@ class PubspecConfig {
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
+    if (!(doc is YamlMap)) {
+      throw Exception('Could not parse the pubspec.yaml');
+    }
     projectName = doc['name'];
 
     if (projectName == null || projectName.isEmpty) {
-      throw Exception(
-          'Could not parse the pubspec.yaml, project name not found');
+      throw Exception('Could not parse the pubspec.yaml, project name not found');
     }
 
     final config = doc['model_generator'];
@@ -30,7 +32,7 @@ class PubspecConfig {
     }
 
     baseDirectory = config['base_directory'] ?? _DEFAULT_BASE_DIRECTORY;
-    useFvm = config['use_fvm'] == 'true';
+    useFvm = config['use_fvm'] == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
   }
 }
