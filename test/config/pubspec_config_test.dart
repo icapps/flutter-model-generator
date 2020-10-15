@@ -30,7 +30,8 @@ dev_dependencies:
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);
-      expect(pubspecConfig.configPath, 'model_generator${Platform.pathSeparator}config.yaml');
+      expect(pubspecConfig.configPath,
+          'model_generator${Platform.pathSeparator}config.yaml');
     });
 
     test('Yaml with only required fields', () {
@@ -52,7 +53,8 @@ model_generator:
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);
-      expect(pubspecConfig.configPath, 'model_generator${Platform.pathSeparator}config.yaml');
+      expect(pubspecConfig.configPath,
+          'model_generator${Platform.pathSeparator}config.yaml');
     });
 
     test('Default values pubspec.yaml', () {
@@ -63,7 +65,8 @@ name: model_generator
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);
-      expect(pubspecConfig.configPath, 'model_generator${Platform.pathSeparator}config.yaml');
+      expect(pubspecConfig.configPath,
+          'model_generator${Platform.pathSeparator}config.yaml');
     });
 
     test('Custom base_directory', () {
@@ -76,7 +79,8 @@ model_generator:
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'custom_models');
       expect(pubspecConfig.useFvm, false);
-      expect(pubspecConfig.configPath, 'model_generator${Platform.pathSeparator}config.yaml');
+      expect(pubspecConfig.configPath,
+          'model_generator${Platform.pathSeparator}config.yaml');
     });
 
     test('Custom useFvm', () {
@@ -89,7 +93,8 @@ model_generator:
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, true);
-      expect(pubspecConfig.configPath, 'model_generator${Platform.pathSeparator}config.yaml');
+      expect(pubspecConfig.configPath,
+          'model_generator${Platform.pathSeparator}config.yaml');
     });
 
     test('Custom configPath', () {
@@ -120,6 +125,22 @@ model_generator:
       }
       expect(hasError, true);
       expect(errorMessage, 'Exception: Could not parse the pubspec.yaml');
+    });
+    test('No name but arg added pubspec.yaml', () {
+      const yaml = r'''
+name: 
+      ''';
+      var hasError = false;
+      var errorMessage = '';
+      try {
+        PubspecConfig(yaml);
+      } catch (e) {
+        hasError = e is Exception;
+        errorMessage = e.toString();
+      }
+      expect(hasError, true);
+      expect(errorMessage,
+          'Could not parse the pubspec.yaml, project name not found');
     });
   });
 }

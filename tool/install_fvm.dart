@@ -9,7 +9,10 @@ main() {
   executeCommand('rm', ['.fvm/flutter_sdk']);
   executeCommand('fvm', ['version']);
   executeCommand('fvm', ['install', version]);
-  if (version == 'stable' || version == 'beta' || version == 'dev' || version == 'master') {
+  if (version == 'stable' ||
+      version == 'beta' ||
+      version == 'dev' ||
+      version == 'master') {
     executeCommand('fvm', ['flutter', 'upgrade', version]);
   }
   executeCommand('fvm', ['use', version]);
