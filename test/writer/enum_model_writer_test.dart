@@ -1,6 +1,7 @@
 import 'package:model_generator/model/model/enum_model.dart';
-import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:test/test.dart';
+
+import 'writer_test_helper.dart';
 
 void main() {
   group('EnumModel', () {
@@ -20,17 +21,7 @@ void main() {
           ),
         ],
       );
-      final writer = EnumModelWriter(model);
-      expect(writer.write(), r'''
-import 'package:json_annotation/json_annotation.dart';
-
-enum MyEnumModel {
-  @JsonValue('MY_VALUE_1')
-  MY_VALUE_1,
-  @JsonValue('MY_VALUE_2')
-  MY_VALUE_2,
-}
-''');
+      WriterTestHelper.testEnumModelWriter(model, 'normal');
     });
 
     test('Normal EnumModel custom value', () {
@@ -49,17 +40,7 @@ enum MyEnumModel {
           ),
         ],
       );
-      final writer = EnumModelWriter(model);
-      expect(writer.write(), r'''
-import 'package:json_annotation/json_annotation.dart';
-
-enum MyEnumModel {
-  @JsonValue('MY_VALUE_1')
-  MY_VALUE_1,
-  @JsonValue('custom_value_2')
-  MY_VALUE_2,
-}
-''');
+      WriterTestHelper.testEnumModelWriter(model, 'custom-value');
     });
 
     test('Enum model with null enumfield.value ', () {
@@ -77,17 +58,7 @@ enum MyEnumModel {
           ),
         ],
       );
-      final writer = EnumModelWriter(model);
-      expect(writer.write(), r'''
-import 'package:json_annotation/json_annotation.dart';
-
-enum MyEnumModel {
-  @JsonValue('MY_VALUE_1')
-  MY_VALUE_1,
-  @JsonValue('MY_VALUE_2')
-  MY_VALUE_2,
-}
-''');
+      WriterTestHelper.testEnumModelWriter(model, 'null-value');
     });
 
     test('EnumModel with no fields ', () {
@@ -97,13 +68,7 @@ enum MyEnumModel {
         baseDirectory: 'base_dir',
         fields: [],
       );
-      final writer = EnumModelWriter(model);
-      expect(writer.write(), r'''
-import 'package:json_annotation/json_annotation.dart';
-
-enum MyEnumModel {
-}
-''');
+      WriterTestHelper.testEnumModelWriter(model, 'no-fields');
     });
   });
 }
