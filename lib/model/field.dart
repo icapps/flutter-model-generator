@@ -20,7 +20,7 @@ class Field {
     @required this.ignore,
     @required this.includeIfNull,
     @required this.nonFinal,
-    @required this.unknownEnumValue,
+    this.unknownEnumValue,
     String jsonKey,
   })  
   // ignore: prefer_initializing_formals
