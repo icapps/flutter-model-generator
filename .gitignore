@@ -109,6 +109,9 @@ unlinked_spec.ds
 coverage/html/
 coverage/lcov.info
 
+# Test
+test/coverage_helper_test.dart
+
 # Symbols
 app.*.symbols
 
