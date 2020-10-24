@@ -106,7 +106,8 @@ unlinked_spec.ds
 **/macos/Flutter/Flutter-Profile.xcconfig
 
 # Coverage
-coverage/
+coverage/html/
+coverage/lcov.info
 
 # Symbols
 app.*.symbols
