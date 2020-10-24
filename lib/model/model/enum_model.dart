@@ -25,11 +25,11 @@ class EnumField {
 
   factory EnumField({
     @required String name,
-    @required String value,
+    String value,
   }) =>
       EnumField._(
-        name: name,
-        serializedName: name.toUpperCase(),
+        name: name.toUpperCase(),
+        serializedName: name,
         value: value,
       );
 }

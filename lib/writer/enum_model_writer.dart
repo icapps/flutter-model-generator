@@ -1,4 +1,4 @@
-import '../model/model/enum_model.dart';
+import 'package:model_generator/model/model/enum_model.dart';
 
 class EnumModelWriter {
   final EnumModel jsonModel;
@@ -11,15 +11,10 @@ class EnumModelWriter {
       ..writeln()
       ..writeln('enum ${jsonModel.name} {');
     jsonModel.fields.forEach((key) {
-      if (key.value == null || key.value.isEmpty) {
-        sb
-          ..writeln("  @JsonValue('${key.name}')")
-          ..writeln('  ${key.serializedName},');
-      } else {
-        sb
-          ..writeln("  @JsonValue('${key.value}')")
-          ..writeln('  ${key.serializedName},');
-      }
+      final jsonValue = key.value == null || key.value.isEmpty
+          ? key.serializedName
+          : key.value;
+      sb..writeln("  @JsonValue('$jsonValue')")..writeln('  ${key.name},');
     });
     sb.writeln('}');
     return sb.toString();

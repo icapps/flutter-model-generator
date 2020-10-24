@@ -4,37 +4,37 @@ import 'package:test/test.dart';
 void main() {
   group('Default', () {
     test('Normal CustomFromToJsonModel', () {
-      final field = CustomFromToJsonModel(
+      final model = CustomFromToJsonModel(
         name: 'MyCustomFromToJsonModel',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
       );
-      expect(field.name, 'MyCustomFromToJsonModel');
-      expect(field.path, 'path_to_my_model');
-      expect(field.baseDirectory, 'base_dir');
+      expect(model.name, 'MyCustomFromToJsonModel');
+      expect(model.path, 'path_to_my_model');
+      expect(model.baseDirectory, 'base_dir');
     });
   });
   group('Custom Path', () {
     test('Normal Custom Path', () {
-      final field = CustomFromToJsonModel(
+      final model = CustomFromToJsonModel(
         name: 'MyCustomFromToJsonModel',
         path: 'path_to_my_model/',
         baseDirectory: 'base_dir',
       );
-      expect(field.name, 'MyCustomFromToJsonModel');
-      expect(field.path, 'path_to_my_model');
-      expect(field.baseDirectory, 'base_dir');
+      expect(model.name, 'MyCustomFromToJsonModel');
+      expect(model.path, 'path_to_my_model');
+      expect(model.baseDirectory, 'base_dir');
     });
 
     test('Normal Custom Base Dir', () {
-      final field = CustomFromToJsonModel(
+      final model = CustomFromToJsonModel(
         name: 'MyCustomFromToJsonModel',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir/',
       );
-      expect(field.name, 'MyCustomFromToJsonModel');
-      expect(field.path, 'path_to_my_model');
-      expect(field.baseDirectory, 'base_dir');
+      expect(model.name, 'MyCustomFromToJsonModel');
+      expect(model.path, 'path_to_my_model');
+      expect(model.baseDirectory, 'base_dir');
     });
   });
 }
