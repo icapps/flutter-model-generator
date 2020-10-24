@@ -1,4 +1,5 @@
-import '../../util/case_util.dart';
+import 'package:meta/meta.dart';
+import 'package:model_generator/util/case_util.dart';
 
 abstract class Model {
   final String fileName;
@@ -10,11 +11,11 @@ abstract class Model {
   final String path;
   final String name;
 
-  Model(
-    this.name,
-    String path,
-    String baseDirectory,
-  )   : path = getPath(path),
+  Model({
+    @required this.name,
+    @required String path,
+    @required String baseDirectory,
+  })  : path = getPath(path),
         baseDirectory = getBaseDirectory(baseDirectory),
         fileName = getFileName(name);
 

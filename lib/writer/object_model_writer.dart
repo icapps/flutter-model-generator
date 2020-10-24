@@ -2,7 +2,7 @@ import '../config/pubspec_config.dart';
 import '../config/yml_generator_config.dart';
 import '../model/item_type/array_type.dart';
 import '../model/model/custom_from_to_json_model.dart';
-import '../model/object_model.dart';
+import '../model/model/object_model.dart';
 import '../util/case_util.dart';
 import '../util/type_checker.dart';
 
@@ -18,7 +18,7 @@ class ObjectModelWriter {
     final imports = Set<String>(); // ignore: prefer_collection_literals
 
     final containsRequiredFields =
-        jsonModel.fields.where((item) => item.required).toList().isNotEmpty;
+        jsonModel.fields.where((item) => item.isRequired).toList().isNotEmpty;
     if (containsRequiredFields) {
       imports.add("import 'package:flutter/material.dart';");
     }
@@ -48,14 +48,14 @@ class ObjectModelWriter {
     sb.writeln('class ${jsonModel.name} {');
 
     jsonModel.fields.sort((a, b) {
-      final b1 = a.required ? 1 : 0;
-      final b2 = b.required ? 1 : 0;
+      final b1 = a.isRequired ? 1 : 0;
+      final b2 = b.isRequired ? 1 : 0;
       return b2 - b1;
     });
 
     jsonModel.fields.forEach((key) {
       sb.write("  @JsonKey(name: '${key.serializedName}'");
-      if (key.required) {
+      if (key.isRequired) {
         sb.write(', required: true');
       } else {
         sb.write(', nullable: true');
@@ -97,7 +97,7 @@ class ObjectModelWriter {
     sb..writeln()..writeln('  ${jsonModel.name}({');
 
     jsonModel.fields.forEach((key) {
-      if (key.required) {
+      if (key.isRequired) {
         sb.writeln('    @required this.${key.name},');
       } else {
         sb.writeln('    this.${key.name},');

@@ -1,5 +1,5 @@
 class TypeChecker {
-  static bool isKnownDartType(type) {
+  static bool isKnownDartType(String type) {
     return type == 'DateTime' ||
         type == 'String' ||
         type == 'int' ||
@@ -7,9 +7,5 @@ class TypeChecker {
         type == 'double' ||
         type == 'dynamic' ||
         type == 'bool';
-  }
-
-  static bool isString(value) {
-    return value is String;
   }
 }

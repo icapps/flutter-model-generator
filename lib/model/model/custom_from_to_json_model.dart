@@ -1,9 +1,10 @@
-import 'custom_model.dart';
+import 'package:meta/meta.dart';
+import 'package:model_generator/model/model/custom_model.dart';
 
 class CustomFromToJsonModel extends CustomModel {
-  CustomFromToJsonModel(
-    String name,
-    String path,
-    String baseDirectory,
-  ) : super(name, path, baseDirectory);
+  CustomFromToJsonModel({
+    @required String name,
+    @required String path,
+    @required String baseDirectory,
+  }) : super(name: name, path: path, baseDirectory: baseDirectory);
 }

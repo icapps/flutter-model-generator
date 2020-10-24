@@ -1,9 +1,10 @@
-import 'model.dart';
+import 'package:meta/meta.dart';
+import 'package:model_generator/model/model/model.dart';
 
 class JsonConverterModel extends Model {
-  JsonConverterModel(
-    String name,
-    String path,
-    String baseDirectory,
-  ) : super(name, path, baseDirectory);
+  JsonConverterModel({
+    @required String name,
+    @required String path,
+    @required String baseDirectory,
+  }) : super(name: name, path: path, baseDirectory: baseDirectory);
 }
