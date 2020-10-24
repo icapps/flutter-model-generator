@@ -40,13 +40,10 @@ void main() {
     });
   });
 
-  group('EnumField', (){
+  group('EnumField', () {
     group('Default', () {
       test('Normal EnumField', () {
-        final field = EnumField(
-          name: 'MY_ENUM_VALUE',
-          value: 'MY_ENUM_VALUE'
-        );
+        final field = EnumField(name: 'MY_ENUM_VALUE', value: 'MY_ENUM_VALUE');
         expect(field.name, 'MY_ENUM_VALUE');
         expect(field.serializedName, 'MY_ENUM_VALUE');
         expect(field.value, 'MY_ENUM_VALUE');
@@ -54,10 +51,7 @@ void main() {
     });
     group('Custom serializedName', () {
       test('Normal Custom Base Dir', () {
-        final field = EnumField(
-            name: 'my_enum_value',
-            value: 'my_enum_value'
-        );
+        final field = EnumField(name: 'my_enum_value', value: 'my_enum_value');
         expect(field.name, 'my_enum_value');
         expect(field.serializedName, 'MY_ENUM_VALUE');
         expect(field.value, 'my_enum_value');

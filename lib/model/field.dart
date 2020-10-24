@@ -22,8 +22,9 @@ class Field {
     @required this.nonFinal,
     @required this.unknownEnumValue,
     String jsonKey,
-  })
+  })  
   // ignore: prefer_initializing_formals
   : serializedName = jsonKey ?? name,
-        name = CaseUtil(KeywordHelper.instance.getCorrectKeyword(name)).camelCase;
+        name =
+            CaseUtil(KeywordHelper.instance.getCorrectKeyword(name)).camelCase;
 }
