@@ -1,0 +1,86 @@
+Person:
+  type: object
+  properties:
+    firstName:
+        type: string
+    firstName2:
+        type: String
+    age:
+        type: int
+    age2:
+        type: double
+    age3:
+        type: integer
+    male:
+        type: bool
+    dateOfBirth:
+        type: datetime
+    dateOfBirth2:
+        type: date
+    dynamicField:
+        type: dynamic
+    dynamicField2:
+        type: any
+    dynamicField3:
+        type: object
+    address:
+        type: Address
+    listString:
+        type: array
+        items:
+            type: string
+    listString2:
+        type: array
+        items:
+            type: String
+    listInt:
+        type: array
+        items:
+            type: int
+    listInt2:
+        type: array
+        items:
+            type: integer
+    listDouble:
+        type: array
+        items:
+            type: double
+    listBoolean:
+        type: array
+        items:
+            type: bool
+    listBoolean2:
+        type: array
+        items:
+            type: boolean
+    listDynamic:
+        type: array
+        items:
+            type: dynamic
+    listDynamic2:
+        type: array
+        items:
+            type: any
+    listDynamic3:
+        type: array
+        items:
+            type: object
+    listDateTime1:
+        type: array
+        items:
+            type: date
+    listDateTime2:
+        type: array
+        items:
+            type: datetime
+    listObject:
+        type: array
+        items:
+            type: Address
+
+
+Address:
+  type: object
+  properties:
+    street:
+      type: string

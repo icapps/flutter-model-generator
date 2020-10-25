@@ -1,0 +1,12 @@
+Person:
+  path: user/person/
+  type: object
+  converters:
+    - DateTimeConverter
+  properties:
+    birthDay:
+      required: true
+      type: datetime
+DateTimeConverter:
+  path: user/person/
+  type: json_converter

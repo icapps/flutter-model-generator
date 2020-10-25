@@ -1,0 +1,19 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/person/time.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable()
+class Person {
+  @JsonKey(name: 'time', nullable: true, fromJson: handleTimeFromJson, toJson: handleTimeToJson)
+  Time time;
+
+  Person({
+    this.time,
+  });
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+}

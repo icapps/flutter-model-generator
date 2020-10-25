@@ -4,7 +4,7 @@ version: 3.2.0
 homepage: https://github.com/icapps/flutter-model-generator
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   path: ^1.7.0

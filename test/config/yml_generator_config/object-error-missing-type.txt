@@ -1,0 +1,5 @@
+Person:
+  type: object
+  properties:
+    firstName:
+      invalid_key: invalid_value

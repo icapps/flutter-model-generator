@@ -2,7 +2,9 @@ os: osx
 osx_image: xcode12.2
 
 before_install:
-  - chmod +x ./tool/test.sh
+  - chmod +x ./tool/travis/analyze.sh
+  - chmod +x ./tool/travis/test.sh
+  - chmod +x ./tool/travis/format.sh
 
 sudo: required
 
@@ -21,13 +23,13 @@ jobs:
   include:
     - stage: quality
       name: "Tests"
-      script: ./tool/test.sh
+      script: ./tool/travis/test.sh || exit -1
     - stage: quality
       name: "Analyze"
-      script: flutter analyze || exit -1;
+      script: ./tool/travis/analyze.sh || exit -1
     - stage: quality
       name: "Format"
-      script: flutter pub global run dart_style:format -n --set-exit-if-changed . || exit -1;
+      script: ./tool/travis/format.sh || exit -1
 
 stages:
   - quality

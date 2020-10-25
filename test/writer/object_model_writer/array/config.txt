@@ -1,0 +1,9 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    info:
+      required: true
+      type: array
+      items:
+        type: string

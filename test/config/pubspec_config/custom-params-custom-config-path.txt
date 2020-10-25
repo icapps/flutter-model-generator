@@ -1,0 +1,3 @@
+name: model_generator
+model_generator:
+  config_path: custom_config.yaml

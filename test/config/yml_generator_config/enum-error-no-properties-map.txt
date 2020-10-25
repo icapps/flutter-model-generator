@@ -1,0 +1,11 @@
+Person:
+  type: object
+  properties:
+    gender:
+        type: Gender
+
+Gender:
+  type: enum
+  properties:
+    MALE
+    FEMALE

@@ -1,0 +1,13 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    b:
+      required: false
+      type: string
+    x:
+      required: true
+      type: string
+    a:
+      required: true
+      type: string
