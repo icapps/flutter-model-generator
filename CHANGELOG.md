@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.2.0] - 2020-10-24
+## [3.3.0] - 2020-10-24
 ### Added
 - 100% test coverage
 - Better error logging
