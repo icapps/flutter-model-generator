@@ -18,7 +18,6 @@ import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/util/type_checker.dart';
 import 'package:yaml/yaml.dart';
 
-
 class YmlGeneratorConfig {
   final _models = <Model>[];
 
@@ -69,7 +68,7 @@ class YmlGeneratorConfig {
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
           if (!(propertyValue is YamlMap)) {
-            throw Exception('$propertyValue should be an object');
+            throw Exception('$propertyKey should be an object');
           }
           fields.add(getField(propertyKey, propertyValue));
         });
@@ -104,38 +103,43 @@ class YmlGeneratorConfig {
       final type = property['type'];
       ItemType itemType;
 
-      if (type != null) {
-        if (type == 'object' || type == 'dynamic' || type == 'any') {
-          itemType = DynamicType();
-        } else if (type == 'bool' || type == 'boolean') {
-          itemType = BooleanType();
-        } else if (type == 'string') {
-          itemType = StringType();
-        } else if (type == 'date' || type == 'datetime') {
-          itemType = DateTimeType();
-        } else if (type == 'double') {
-          itemType = DoubleType();
-        } else if (type == 'int' || type == 'integer') {
-          itemType = IntegerType();
-        } else if (type == 'array') {
-          final items = property['items'];
-          final arrayType = items['type'];
-          if (arrayType == 'string') {
-            itemType = ArrayType('String');
-          } else if (arrayType == 'boolean') {
-            itemType = ArrayType('bool');
-          } else if (arrayType == 'date' || arrayType == 'datetime') {
-            itemType = ArrayType('DateTime');
-          } else if (arrayType == 'integer' || arrayType == 'int') {
-            itemType = ArrayType('int');
-          } else if (arrayType == 'object' || arrayType == 'any') {
-            itemType = ArrayType('dynamic');
-          } else {
-            itemType = ArrayType(arrayType);
-          }
+      if (type == null) {
+        throw Exception('$name has no defined type');
+      }
+      if (type == 'object' || type == 'dynamic' || type == 'any') {
+        itemType = DynamicType();
+      } else if (type == 'bool' || type == 'boolean') {
+        itemType = BooleanType();
+      } else if (type == 'string' || type == 'String') {
+        itemType = StringType();
+      } else if (type == 'date' || type == 'datetime') {
+        itemType = DateTimeType();
+      } else if (type == 'double') {
+        itemType = DoubleType();
+      } else if (type == 'int' || type == 'integer') {
+        itemType = IntegerType();
+      } else if (type == 'array') {
+        final items = property['items'];
+        final arrayType = items['type'];
+        if (arrayType == 'string' || arrayType == 'String') {
+          itemType = ArrayType('String');
+        } else if (arrayType == 'bool' || arrayType == 'boolean') {
+          itemType = ArrayType('bool');
+        } else if (arrayType == 'double') {
+          itemType = ArrayType('double');
+        } else if (arrayType == 'date' || arrayType == 'datetime') {
+          itemType = ArrayType('DateTime');
+        } else if (arrayType == 'int' || arrayType == 'integer') {
+          itemType = ArrayType('int');
+        } else if (arrayType == 'object' ||
+            arrayType == 'dynamic' ||
+            arrayType == 'any') {
+          itemType = ArrayType('dynamic');
         } else {
-          itemType = ObjectType(type);
+          itemType = ArrayType(arrayType);
         }
+      } else {
+        itemType = ObjectType(type);
       }
       return Field(
         name: name,
@@ -153,14 +157,10 @@ class YmlGeneratorConfig {
     }
   }
 
-  String getPathForField(PubspecConfig pubspecConfig, Field field) {
-    return getPathForName(pubspecConfig, field.type.name);
-  }
-
   String getPathForName(PubspecConfig pubspecConfig, String name) {
     final foundModel =
         models.firstWhere((model) => model.name == name, orElse: () => null);
-    if (foundModel == null){
+    if (foundModel == null) {
       throw ArgumentError('getPathForName is null: given name: `$name`');
     }
     final baseDirectory =
@@ -175,17 +175,13 @@ class YmlGeneratorConfig {
   }
 
   void checkIfTypesAvailable() {
-    final names = <String>[];
-    final types = <String>[];
+    final names = <String>{};
+    final types = <String>{};
     models.forEach((model) {
-      if (!names.contains(model.name)) {
-        names.add(model.name);
-      }
+      names.add(model.name);
       if (model is ObjectModel) {
         model.fields.forEach((field) {
-          if (!types.contains(field.type.name)) {
-            types.add(field.type.name);
-          }
+          types.add(field.type.name);
         });
       }
     });

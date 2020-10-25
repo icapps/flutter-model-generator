@@ -8,7 +8,8 @@ import 'config_test_helper.dart';
 void main() {
   group('Default', () {
     test('Normal pubspec.yaml', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+      final pubspecConfig =
+          PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);
@@ -17,14 +18,16 @@ void main() {
     });
 
     test('Yaml with only required fields', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('only-required-fields'));
+      final pubspecConfig = PubspecConfig(
+          ConfigTestHelper.getPubspecConfig('only-required-fields'));
       expect(pubspecConfig.projectName, 'model_generator_example');
     });
   });
 
   group('Custom params', () {
     test('Default values pubspec.yaml', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('custom-params-default'));
+      final pubspecConfig = PubspecConfig(
+          ConfigTestHelper.getPubspecConfig('custom-params-default'));
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);
@@ -33,7 +36,8 @@ void main() {
     });
 
     test('Normal pubspec.yaml', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('custom-params-nothing'));
+      final pubspecConfig = PubspecConfig(
+          ConfigTestHelper.getPubspecConfig('custom-params-nothing'));
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);
@@ -42,7 +46,8 @@ void main() {
     });
 
     test('Custom base_directory', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('custom-params-base-dir'));
+      final pubspecConfig = PubspecConfig(
+          ConfigTestHelper.getPubspecConfig('custom-params-base-dir'));
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'custom_models');
       expect(pubspecConfig.useFvm, false);
@@ -51,7 +56,8 @@ void main() {
     });
 
     test('Custom useFvm', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('custom-params-fvm'));
+      final pubspecConfig =
+          PubspecConfig(ConfigTestHelper.getPubspecConfig('custom-params-fvm'));
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, true);
@@ -60,7 +66,8 @@ void main() {
     });
 
     test('Custom configPath', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('custom-params-custom-config-path'));
+      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig(
+          'custom-params-custom-config-path'));
       expect(pubspecConfig.projectName, 'model_generator');
       expect(pubspecConfig.baseDirectory, 'model');
       expect(pubspecConfig.useFvm, false);

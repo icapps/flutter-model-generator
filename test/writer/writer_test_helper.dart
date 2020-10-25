@@ -21,8 +21,10 @@ class WriterTestHelper {
   static testObjectModelWriter(ObjectModel model, String resultFileName) {
     print(Directory.current);
     final file = File('writer/object_model_writer/$resultFileName/output.txt');
-    final pubspecFile = File('writer/object_model_writer/$resultFileName/pubspec.txt');
-    final configFile = File('writer/object_model_writer/$resultFileName/config.txt');
+    final pubspecFile =
+        File('writer/object_model_writer/$resultFileName/pubspec.txt');
+    final configFile =
+        File('writer/object_model_writer/$resultFileName/config.txt');
     final output = file.readAsStringSync();
     final pubspecContent = pubspecFile.readAsStringSync();
     final configContent = configFile.readAsStringSync();

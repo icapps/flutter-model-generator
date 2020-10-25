@@ -288,7 +288,6 @@ void main() {
       WriterTestHelper.testObjectModelWriter(model, 'dart-package-import');
     });
 
-
     test('Normal ObjectModelWriter without path', () {
       final model = ObjectModel(
         name: 'Person',
