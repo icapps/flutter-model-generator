@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.2.0] - 2020-10-24
+### Added
+- 100% test coverage
+- Better error logging
+- boolean list support
+### Updated
+- Travis scripts 
+- Flutter Android Example project to use v2 embedding
+- SDK constraints ">=2.2.0 <3.0.0" 
+### Fixed
+- Fvm was not always detected correctly
+- Some bugs
+- dynamic list support
+
 ## [3.2.0] - 2020-10-14
 ### Added
 - Parameter and command line to specify your own config.yaml (#16 Thanks to [NicolaChimerapps](https://github.com/NicolaChimerapps))
