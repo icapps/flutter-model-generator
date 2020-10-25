@@ -1,0 +1,20 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/person/date_time_converter.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable()
+@DateTimeConverter()
+class Person {
+  @JsonKey(name: 'birthday', nullable: true)
+  final DateTime birthday;
+
+  Person({
+    this.birthday,
+  });
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+}

@@ -1,3 +1,4 @@
+import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
 import '../model/field.dart';
@@ -20,7 +21,7 @@ import '../util/type_checker.dart';
 import 'pubspec_config.dart';
 
 class YmlGeneratorConfig {
-  static final _models = <Model>[];
+  final _models = <Model>[];
 
   List<Model> get models => _models;
 
@@ -137,10 +138,6 @@ class YmlGeneratorConfig {
           itemType = ObjectType(type);
         }
       }
-      final ref = property['\$ref'];
-      if (ref != null) {
-        itemType = ObjectType(ref);
-      }
       return Field(
         name: name,
         type: itemType,
@@ -164,11 +161,15 @@ class YmlGeneratorConfig {
   String getPathForName(PubspecConfig pubspecConfig, String name) {
     final foundModel =
         models.firstWhere((model) => model.name == name, orElse: () => null);
-    if (foundModel == null) return null;
+    if (foundModel == null){
+      throw ArgumentError('getPathForName is null: given name: `$name`');
+    }
     final baseDirectory =
         foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
     if (foundModel.path == null) {
       return '$baseDirectory';
+    } else if (foundModel.path.startsWith('package:')) {
+      return foundModel.path;
     } else {
       return '$baseDirectory/${foundModel.path}';
     }
@@ -203,7 +204,7 @@ class YmlGeneratorConfig {
     });
   }
 
-  static Model getModelByName(ItemType itemType) {
+  Model getModelByName(ItemType itemType) {
     if (itemType is! ObjectType) return null;
     final model = _models.firstWhere((element) => element.name == itemType.name,
         orElse: () => null);

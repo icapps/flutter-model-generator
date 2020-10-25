@@ -74,7 +74,7 @@ class ObjectModelWriter {
             ', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
       }
 
-      final fieldModel = YmlGeneratorConfig.getModelByName(key.type);
+      final fieldModel = yamlConfig.getModelByName(key.type);
       if (fieldModel is CustomFromToJsonModel) {
         sb.write(', fromJson: handle${fieldModel.name}FromJson');
       }
@@ -120,10 +120,6 @@ class ObjectModelWriter {
     final projectName = pubspecConfig.projectName;
     final reCaseFieldName = CaseUtil(name);
     final path = yamlConfig.getPathForName(pubspecConfig, name);
-    if (path == null) {
-      return "import 'package:$projectName/${jsonModel.baseDirectory}/${reCaseFieldName.snakeCase}.dart';";
-    }
-
     String pathWithPackage;
     if (path.startsWith('package:')) {
       pathWithPackage = path;

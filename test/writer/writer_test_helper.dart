@@ -7,11 +7,12 @@ import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
+import 'package:yaml/yaml.dart';
 
 class WriterTestHelper {
   static testEnumModelWriter(EnumModel model, String resultFileName) {
     print(Directory.current);
-    final file = File('writer/enum_model_writer/output/$resultFileName.txt');
+    final file = File('writer/enum_model_writer/$resultFileName.txt');
     final output = file.readAsStringSync();
     final actual = EnumModelWriter(model).write();
     // print(actual);
@@ -20,11 +21,9 @@ class WriterTestHelper {
 
   static testObjectModelWriter(ObjectModel model, String resultFileName) {
     print(Directory.current);
-    final file = File('writer/object_model_writer/output/$resultFileName.txt');
-    final pubspecFile =
-        File('writer/object_model_writer/input/${resultFileName}_pubspec.txt');
-    final configFile =
-        File('writer/object_model_writer/input/${resultFileName}_config.txt');
+    final file = File('writer/object_model_writer/$resultFileName/output.txt');
+    final pubspecFile = File('writer/object_model_writer/$resultFileName/pubspec.txt');
+    final configFile = File('writer/object_model_writer/$resultFileName/config.txt');
     final output = file.readAsStringSync();
     final pubspecContent = pubspecFile.readAsStringSync();
     final configContent = configFile.readAsStringSync();
