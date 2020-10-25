@@ -1,5 +1,7 @@
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/model/custom_model.dart';
+import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:test/test.dart';
 
@@ -123,6 +125,78 @@ void main() {
         expect(hasError, true);
         expect(errorMessage,
             'Exception: Properties can not be null. model: Person');
+      });
+    });
+    group('Custom', () {
+      test('Custom object', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('custom-normal'));
+        expect(ymlConfig.models.length, 2);
+        expect(ymlConfig.models.first is ObjectModel, true);
+        expect(ymlConfig.models.last is CustomModel, true);
+      });
+    });
+    group('Enum', () {
+      test('Normal Enum', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('enum-normal'));
+        expect(ymlConfig.models.length, 2);
+        expect(ymlConfig.models.first is ObjectModel, true);
+        expect(ymlConfig.models.last is EnumModel, true);
+        final enumModel =
+            ymlConfig.models.last as EnumModel; // ignore: avoid_as
+        expect(enumModel.fields.length, 4);
+        expect(enumModel.fields[0].name, 'MALE');
+        expect(enumModel.fields[0].serializedName, 'MALE');
+        expect(enumModel.fields[0].value, '');
+        expect(enumModel.fields[1].name, 'FEMALE');
+        expect(enumModel.fields[1].serializedName, 'FEMALE');
+        expect(enumModel.fields[1].value, 'femAle');
+        expect(enumModel.fields[2].name, 'OTHER');
+        expect(enumModel.fields[2].serializedName, 'other');
+        expect(enumModel.fields[2].value, '');
+        expect(enumModel.fields[3].name, 'X');
+        expect(enumModel.fields[3].serializedName, 'X');
+        expect(enumModel.fields[3].value, '');
+      });
+
+      test('Error Enum no properties map', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        var hasError = false;
+        var errorMessage = '';
+        try {
+          YmlGeneratorConfig(pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig('enum-error-no-object'));
+        } catch (e) {
+          hasError = true;
+          errorMessage = e.toString();
+        }
+        expect(hasError, true);
+        expect(errorMessage, 'Exception: MALE should be an object');
+      });
+
+      test('Error Enum', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        var hasError = false;
+        var errorMessage = '';
+        try {
+          YmlGeneratorConfig(
+              pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig(
+                  'enum-error-no-properties-map'));
+        } catch (e) {
+          hasError = true;
+          errorMessage = e.toString();
+        }
+        expect(hasError, true);
+        expect(errorMessage,
+            'Exception: Properties should be a map, right now you are using a String. model: Gender');
       });
     });
   });

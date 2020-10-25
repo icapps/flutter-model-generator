@@ -28,7 +28,7 @@ class YmlGeneratorConfig {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String path = value['path'];
-      final YamlMap properties = value['properties'];
+      final dynamic properties = value['properties'];
       final YamlList converters = value['converters'];
       final String type = value['type'];
       if (type == 'custom') {
@@ -47,11 +47,15 @@ class YmlGeneratorConfig {
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
+      if (!(properties is YamlMap)) {
+        throw Exception(
+            'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
+      }
       if (type == 'enum') {
         final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue != null && !(propertyValue is YamlMap)) {
-            throw Exception('$propertyValue should be an object');
+            throw Exception('$propertyKey should be an object');
           }
           fields.add(EnumField(
             name: propertyKey,
