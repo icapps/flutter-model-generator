@@ -1,5 +1,6 @@
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
@@ -197,6 +198,60 @@ void main() {
         expect(hasError, true);
         expect(errorMessage,
             'Exception: Properties should be a map, right now you are using a String. model: Gender');
+      });
+    });
+
+    test('Error with not registered object', () {
+      final pubspecConfig =
+          PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+      var hasError = false;
+      var errorMessage = '';
+      try {
+        YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('error-not-registered'));
+      } catch (e) {
+        hasError = true;
+        errorMessage = e.toString();
+      }
+      expect(hasError, true);
+      expect(errorMessage,
+          'Exception: Could not generate all models. `Address` is not added to the config file');
+    });
+
+    group('Getters', () {
+      test('Get path with invalid model', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        var hasError = false;
+        var errorMessage = '';
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
+        try {
+          config.getPathForName(pubspecConfig, 'TESTING');
+        } catch (e) {
+          hasError = true;
+          errorMessage = e.toString();
+        }
+        expect(hasError, true);
+        expect(errorMessage,
+            'Exception: getPathForName is null: because `TESTING` was not added to the config file');
+      });
+      test('Get path with invalid model', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        var hasError = false;
+        var errorMessage = '';
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
+        try {
+          config.getModelByName(ObjectType('TESTING'));
+        } catch (e) {
+          hasError = true;
+          errorMessage = e.toString();
+        }
+        expect(hasError, true);
+        expect(errorMessage,
+            'Exception: getModelByname is null: because `TESTING` was not added to the config file');
       });
     });
   });

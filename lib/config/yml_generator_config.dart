@@ -165,7 +165,8 @@ class YmlGeneratorConfig {
     final foundModel =
         models.firstWhere((model) => model.name == name, orElse: () => null);
     if (foundModel == null) {
-      throw ArgumentError('getPathForName is null: given name: `$name`');
+      throw Exception(
+          'getPathForName is null: because `$name` was not added to the config file');
     }
     final baseDirectory =
         foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
@@ -208,7 +209,8 @@ class YmlGeneratorConfig {
     final model = _models.firstWhere((element) => element.name == itemType.name,
         orElse: () => null);
     if (model == null) {
-      throw ArgumentError('getModelByname is null: given name: `$itemType`');
+      throw Exception(
+          'getModelByname is null: because `${itemType.name}` was not added to the config file');
     }
     return model;
   }
