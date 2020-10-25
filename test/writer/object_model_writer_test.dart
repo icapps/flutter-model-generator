@@ -3,7 +3,6 @@ import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/date_time_type.dart';
 import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
-import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:test/test.dart';
 

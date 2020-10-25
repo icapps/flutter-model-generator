@@ -1,24 +1,23 @@
-import 'package:path/path.dart';
+import 'package:model_generator/config/pubspec_config.dart';
+import 'package:model_generator/model/field.dart';
+import 'package:model_generator/model/item_type/array_type.dart';
+import 'package:model_generator/model/item_type/boolean_type.dart';
+import 'package:model_generator/model/item_type/date_time_type.dart';
+import 'package:model_generator/model/item_type/double_type.dart';
+import 'package:model_generator/model/item_type/dynamic_type.dart';
+import 'package:model_generator/model/item_type/integer_type.dart';
+import 'package:model_generator/model/item_type/item_type.dart';
+import 'package:model_generator/model/item_type/object_type.dart';
+import 'package:model_generator/model/item_type/string_type.dart';
+import 'package:model_generator/model/model/custom_from_to_json_model.dart';
+import 'package:model_generator/model/model/custom_model.dart';
+import 'package:model_generator/model/model/enum_model.dart';
+import 'package:model_generator/model/model/json_converter_model.dart';
+import 'package:model_generator/model/model/model.dart';
+import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/type_checker.dart';
 import 'package:yaml/yaml.dart';
 
-import '../model/field.dart';
-import '../model/item_type/array_type.dart';
-import '../model/item_type/boolean_type.dart';
-import '../model/item_type/date_time_type.dart';
-import '../model/item_type/double_type.dart';
-import '../model/item_type/dynamic_type.dart';
-import '../model/item_type/integer_type.dart';
-import '../model/item_type/item_type.dart';
-import '../model/item_type/object_type.dart';
-import '../model/item_type/string_type.dart';
-import '../model/model/custom_from_to_json_model.dart';
-import '../model/model/custom_model.dart';
-import '../model/model/enum_model.dart';
-import '../model/model/json_converter_model.dart';
-import '../model/model/model.dart';
-import '../model/model/object_model.dart';
-import '../util/type_checker.dart';
-import 'pubspec_config.dart';
 
 class YmlGeneratorConfig {
   final _models = <Model>[];
