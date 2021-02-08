@@ -7,7 +7,7 @@ part 'person.g.dart';
 class Person {
   @JsonKey(name: 'firstName', required: true)
   final String firstName;
-  @JsonKey(name: 'firstName', required: false, nullable: true)
+  @JsonKey(name: 'lastName', nullable: true)
   final String? lastName;
 
   Person({
