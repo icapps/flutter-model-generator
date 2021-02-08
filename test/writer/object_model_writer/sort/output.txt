@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable()
+class Person {
+  @JsonKey(name: 'x', required: true)
+  final String x;
+  @JsonKey(name: 'a', required: true)
+  final String a;
+  @JsonKey(name: 'b', nullable: true)
+  final String b;
+
+  Person({
+    @required this.x,
+    @required this.a,
+    this.b,
+  });
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+}

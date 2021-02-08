@@ -1,0 +1,15 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      required: false
+      include_if_null: false
+      type: string
+Gender:
+  path: user/person/
+  type: enum
+  properties:
+    MALE:
+    FEMALE:
+    X:

@@ -1,0 +1,6 @@
+Person:
+  type: object
+  properties:
+    address:
+        type: Address
+

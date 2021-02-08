@@ -1,18 +1,31 @@
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:meta/meta.dart';
+import 'package:model_generator/config/pubspec_config.dart';
+import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/model/custom_model.dart';
+import 'package:model_generator/model/model/enum_model.dart';
+import 'package:model_generator/model/model/json_converter_model.dart';
+import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/writer/enum_model_writer.dart';
+import 'package:model_generator/writer/object_model_writer.dart';
 import 'package:path/path.dart';
 
-import 'src/config/pubspec_config.dart';
-import 'src/config/yml_generator_config.dart';
-import 'src/model/model/custom_model.dart';
-import 'src/model/model/enum_model.dart';
-import 'src/model/model/json_converter_model.dart';
-import 'src/model/object_model.dart';
-import 'src/writer/enum_model_writer.dart';
-import 'src/writer/object_model_writer.dart';
-
 Future<void> main(List<String> args) async {
+  final argParser = ArgParser()
+    ..addOption('path',
+        help:
+            'Override the default model configuration path. This value will be used instead of the default OR what you have configured in pubspec.yaml')
+    ..addFlag('help',
+        help: 'Displays this help screen', defaultsTo: false, negatable: false);
+
+  final results = argParser.parse(args);
+  if (results['help']) {
+    print(argParser.usage);
+    return;
+  }
+
   final pubspecYaml = File(join(Directory.current.path, 'pubspec.yaml'));
   if (!pubspecYaml.existsSync()) {
     throw Exception(
@@ -21,11 +34,16 @@ Future<void> main(List<String> args) async {
   final pubspecContent = pubspecYaml.readAsStringSync();
   final pubspecConfig = PubspecConfig(pubspecContent);
 
-  final configFile =
-      File(join(Directory.current.path, 'model_generator', 'config.yaml'));
+  final configPath = results['path'] ?? pubspecConfig.configPath;
+  File configFile;
+  if (isAbsolute(configPath)) {
+    configFile = File(configPath);
+  } else {
+    configFile = File(join(Directory.current.path, configPath));
+  }
+
   if (!configFile.existsSync()) {
-    throw Exception(
-        'This program requires a config file. `model_generator/config.yaml`');
+    throw Exception('This program requires a config file. `$configPath`');
   }
   final modelGeneratorContent = configFile.readAsStringSync();
   final modelGeneratorConfig =

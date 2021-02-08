@@ -1,0 +1,15 @@
+Person:
+  path: user/custom_person.dart
+  type: object
+  properties:
+    address:
+      required: true
+      type: Address
+
+Address:
+  path: package:shared/user/custom_address
+  type: object
+  properties:
+    streetName:
+      required: true
+      type: string

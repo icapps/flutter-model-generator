@@ -1,16 +1,10 @@
-os:
-  - linux
-addons:
-  apt:
-    # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
-    sources:
-      - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
-    packages:
-      - libstdc++6
-      - fonts-droid-fallback
+os: osx
+osx_image: xcode12.2
 
 before_install:
-  - chmod +x ./tool/test.sh
+  - chmod +x ./tool/travis/analyze.sh
+  - chmod +x ./tool/travis/test.sh
+  - chmod +x ./tool/travis/format.sh
 
 sudo: required
 
@@ -29,13 +23,13 @@ jobs:
   include:
     - stage: quality
       name: "Tests"
-      script: ./tool/test.sh
+      script: ./tool/travis/test.sh || exit -1
     - stage: quality
       name: "Analyze"
-      script: flutter analyze || exit -1;
+      script: ./tool/travis/analyze.sh || exit -1
     - stage: quality
       name: "Format"
-      script: flutter pub global run dart_style:format -n --set-exit-if-changed . || exit -1;
+      script: ./tool/travis/format.sh || exit -1
 
 stages:
   - quality
