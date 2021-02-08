@@ -1,0 +1,5 @@
+name: model_generator_example
+
+model_generator:
+  config_path: model_generator/config.yaml
+  nullsafety: true

@@ -26,4 +26,5 @@ dependency_overrides:
 #
 model_generator:
   config_path: model_generator/config.yaml
+#  nullsafety: true
 #  base_directory: model

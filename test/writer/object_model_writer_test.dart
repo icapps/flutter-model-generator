@@ -48,6 +48,33 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, 'required');
     });
+    test('Nullsafe ObjectModelWriter with required field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'lastName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'nullsafety');
+    });
 
     test('Normal ObjectModelWriter with ignroe field', () {
       final model = ObjectModel(

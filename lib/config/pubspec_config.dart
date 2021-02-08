@@ -11,6 +11,7 @@ class PubspecConfig {
   String baseDirectory;
   bool useFvm;
   String configPath;
+  bool nullSafe;
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
@@ -29,11 +30,13 @@ class PubspecConfig {
       baseDirectory = _DEFAULT_BASE_DIRECTORY;
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
+      nullSafe = false;
       return;
     }
 
     baseDirectory = config['base_directory'] ?? _DEFAULT_BASE_DIRECTORY;
     useFvm = config['use_fvm'] == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
+    nullSafe = config['nullsafety'] == true;
   }
 }
