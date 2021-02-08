@@ -29,6 +29,14 @@ model_generator:
   use_fvm: true
 ```
 
+##Nullsafety support
+If you are using nullsafety in your project, you can have the models generated with the correct annotations.
+add an option `nullsafety` and set it to true. (defaults to false until nullsafety has been widely adopted)
+```
+model_generator:
+  nullsafety: true
+```
+
 ## Default setup
 Example of the `model_generator/config.yaml` file
 ```

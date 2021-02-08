@@ -4,6 +4,7 @@ class PubspecConfig {
   String projectName;
   String baseDirectory;
   bool useFvm;
+  bool nullSafe;
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
@@ -18,10 +19,12 @@ class PubspecConfig {
     if (config == null) {
       baseDirectory = 'model';
       useFvm = false;
+      nullSafe = false;
       return;
     }
 
     baseDirectory = config['base_directory'] ?? 'model';
     useFvm = config['use_fvm'] == 'true';
+    nullSafe = config['nullsafety'] == true;
   }
 }

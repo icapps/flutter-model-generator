@@ -24,5 +24,6 @@ dependency_overrides:
 #This is the default config
 #In the model_generator/config.yaml you will see a object with a custom base_directory
 #
-#model_generator:
+model_generator:
+#  nullsafety: true
 #  base_directory: model

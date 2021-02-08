@@ -96,7 +96,7 @@ Future<void> generateJsonGeneratedModels({@required bool useFvm}) async {
     ]);
   }
   if (result.exitCode == 0) {
-    print('Succesfully generated the jsonSerializable generated files');
+    print('Successfully generated the jsonSerializable generated files');
     print('');
   } else {
     print(
