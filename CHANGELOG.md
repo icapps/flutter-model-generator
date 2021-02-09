@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.4.0] - 2021-02-09
+### Added
+- Support for generating models with nullsafety support
+
 ## [3.3.0] - 2020-10-24
 ### Added
 - 100% test coverage
