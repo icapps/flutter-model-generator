@@ -75,7 +75,7 @@ UserProfileData:
       required: true
       type: OGM
     offTrack:
-      includeIfNull: false
+      include_if_null: false
       type: array
       items:
         type: string

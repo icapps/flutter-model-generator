@@ -21,7 +21,7 @@ class UserProfileData {
   final Testing phones;
   @JsonKey(name: 'legalAddress', required: true)
   final OGM legalAddress;
-  @JsonKey(name: 'offTrack')
+  @JsonKey(name: 'offTrack', includeIfNull: false)
   final List<String>? offTrack;
   @JsonKey(name: 'onTrack')
   final List<OGM>? onTrack;

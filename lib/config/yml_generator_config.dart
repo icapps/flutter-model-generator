@@ -100,9 +100,7 @@ class YmlGeneratorConfig {
           property.containsKey('ignore') && property['ignore'] == true;
       final nonFinal = ignored ||
           property.containsKey('non_final') && property['non_final'] == true;
-      final includeIfNull = !property.containsKey('include_if_null') ||
-          (property.containsKey('include_if_null') &&
-              property['include_if_null'] == true);
+      final includeIfNull = property['include_if_null'] != false;
       final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
