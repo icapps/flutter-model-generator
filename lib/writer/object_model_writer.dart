@@ -78,8 +78,7 @@ class ObjectModelWriter {
       } else {
         sb.write('  final ');
       }
-      final nullableFlag =
-          pubspecConfig.nullSafe ? (key.isRequired ? '' : '?') : '';
+      final nullableFlag = key.isRequired ? '' : '?';
       if (key.type is ArrayType) {
         sb.writeln('List<${key.type.name}>$nullableFlag ${key.name};');
       } else {
@@ -91,11 +90,7 @@ class ObjectModelWriter {
 
     jsonModel.fields.forEach((key) {
       if (key.isRequired) {
-        if (pubspecConfig.nullSafe) {
-          sb.writeln('    required this.${key.name},');
-        } else {
-          sb.writeln('    @required this.${key.name},');
-        }
+        sb.writeln('    required this.${key.name},');
       } else {
         sb.writeln('    this.${key.name},');
       }
