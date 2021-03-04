@@ -15,7 +15,8 @@ class ObjectModelWriter {
 
   String write() {
     final sb = StringBuffer();
-    final imports = <String>{}..add("import 'package:json_annotation/json_annotation.dart';");
+    final imports = <String>{}
+      ..add("import 'package:json_annotation/json_annotation.dart';");
 
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {

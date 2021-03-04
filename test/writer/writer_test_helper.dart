@@ -20,7 +20,8 @@ class WriterTestHelper {
 
   static testObjectModelWriter(ObjectModel model, String resultFileName) {
     print(Directory.current);
-    final file = File('test/writer/object_model_writer/$resultFileName/output.txt');
+    final file =
+        File('test/writer/object_model_writer/$resultFileName/output.txt');
     final pubspecFile =
         File('test/writer/object_model_writer/$resultFileName/pubspec.txt');
     final configFile =

@@ -21,7 +21,8 @@ class PubspecConfig {
     final projectName = doc['name'];
 
     if (projectName == null || projectName.isEmpty) {
-      throw Exception('Could not parse the pubspec.yaml, project name not found');
+      throw Exception(
+          'Could not parse the pubspec.yaml, project name not found');
     }
 
     this.projectName = projectName;
