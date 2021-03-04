@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'person.g.dart';
@@ -9,7 +8,7 @@ class Person {
   final List<String> info;
 
   Person({
-    @required this.info,
+    required this.info,
   });
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);

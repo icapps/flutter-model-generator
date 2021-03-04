@@ -9,7 +9,7 @@ part of 'custom_base_directory_obj.dart';
 CustomBaseDirectoryObj _$CustomBaseDirectoryObjFromJson(
     Map<String, dynamic> json) {
   return CustomBaseDirectoryObj(
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 

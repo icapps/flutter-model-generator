@@ -56,7 +56,7 @@ class KeywordHelper {
     'yield ',
     '',
   ];
-  static KeywordHelper _instance;
+  static KeywordHelper? _instance;
 
   static get instance => _instance ??= KeywordHelper._();
 

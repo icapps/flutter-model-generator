@@ -15,15 +15,7 @@ class ObjectModelWriter {
 
   String write() {
     final sb = StringBuffer();
-    final imports = <String>{};
-
-    final containsRequiredFields =
-        jsonModel.fields.where((item) => item.isRequired).toList().isNotEmpty;
-    if (containsRequiredFields) {
-      imports.add("import 'package:flutter/material.dart';");
-    }
-
-    imports.add("import 'package:json_annotation/json_annotation.dart';");
+    final imports = <String>{}..add("import 'package:json_annotation/json_annotation.dart';");
 
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
@@ -57,8 +49,6 @@ class ObjectModelWriter {
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.isRequired) {
         sb.write(', required: true');
-      } else {
-        sb.write(', nullable: true');
       }
 
       if (!key.includeIfNull) {

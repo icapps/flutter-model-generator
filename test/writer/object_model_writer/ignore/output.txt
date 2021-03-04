@@ -4,8 +4,8 @@ part 'person.g.dart';
 
 @JsonSerializable()
 class Person {
-  @JsonKey(name: 'firstName', nullable: true, ignore: true)
-  final String firstName;
+  @JsonKey(name: 'firstName', ignore: true)
+  final String? firstName;
 
   Person({
     this.firstName,

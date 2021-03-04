@@ -5,8 +5,8 @@ part 'person.g.dart';
 
 @JsonSerializable()
 class Person {
-  @JsonKey(name: 'time', nullable: true, fromJson: handleTimeFromJson, toJson: handleTimeToJson)
-  Time time;
+  @JsonKey(name: 'time', fromJson: handleTimeFromJson, toJson: handleTimeToJson)
+  Time? time;
 
   Person({
     this.time,

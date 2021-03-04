@@ -22,42 +22,29 @@ UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
     standardLanguage: json['standardLanguage'] as String,
     mainAccountNumber: json['mainAccountNumber'] as String,
     legalEmail: json['legalEmail'] as String,
-    phones: json['phones'] == null
-        ? null
-        : Testing.fromJson(json['phones'] as Map<String, dynamic>),
-    legalAddress: json['legalAddress'] == null
-        ? null
-        : OGM.fromJson(json['legalAddress'] as Map<String, dynamic>),
-    offTrack: (json['offTrack'] as List)?.map((e) => e as String)?.toList(),
-    onTrack: (json['onTrack'] as List)
-        ?.map((e) => e == null ? null : OGM.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    persons: (json['persons'] as List)
-        ?.map((e) =>
-            e == null ? null : Person.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phones: Testing.fromJson(json['phones'] as Map<String, dynamic>),
+    legalAddress: OGM.fromJson(json['legalAddress'] as Map<String, dynamic>),
+    offTrack:
+        (json['offTrack'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    onTrack: (json['onTrack'] as List<dynamic>?)
+        ?.map((e) => OGM.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    persons: (json['persons'] as List<dynamic>?)
+        ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) {
-  final val = <String, dynamic>{
-    'firstName': instance.firstName,
-    'lastName': instance.lastName,
-    'standardLanguage': instance.standardLanguage,
-    'mainAccountNumber': instance.mainAccountNumber,
-    'legalEmail': instance.legalEmail,
-    'phones': instance.phones,
-    'legalAddress': instance.legalAddress,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('offTrack', instance.offTrack);
-  val['onTrack'] = instance.onTrack;
-  val['persons'] = instance.persons;
-  return val;
-}
+Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) =>
+    <String, dynamic>{
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'standardLanguage': instance.standardLanguage,
+      'mainAccountNumber': instance.mainAccountNumber,
+      'legalEmail': instance.legalEmail,
+      'phones': instance.phones,
+      'legalAddress': instance.legalAddress,
+      'offTrack': instance.offTrack,
+      'onTrack': instance.onTrack,
+      'persons': instance.persons,
+    };

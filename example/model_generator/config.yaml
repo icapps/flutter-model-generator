@@ -96,7 +96,7 @@ Person:
       type: string
     gender:
       required: true
-      unknownEnumValue: X
+      unknown_enum_value: X
       type: Gender
 Gender:
   path: user/person/

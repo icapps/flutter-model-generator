@@ -6,8 +6,8 @@ part 'person.g.dart';
 @JsonSerializable()
 @DateTimeConverter()
 class Person {
-  @JsonKey(name: 'birthday', nullable: true)
-  final DateTime birthday;
+  @JsonKey(name: 'birthday')
+  final DateTime? birthday;
 
   Person({
     this.birthday,

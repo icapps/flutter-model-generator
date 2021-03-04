@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'person.g.dart';
@@ -7,7 +6,7 @@ part 'person.g.dart';
 class Person {
   @JsonKey(name: 'firstName', required: true)
   final String firstName;
-  @JsonKey(name: 'lastName', nullable: true)
+  @JsonKey(name: 'lastName')
   final String? lastName;
 
   Person({
