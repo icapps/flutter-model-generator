@@ -1,8 +1,9 @@
 # Changelog
 
-## [3.4.0] - 2021-02-09
+## [4.0.0] - 2021-02-09
 ### Added
 - Support for generating models with nullsafety support to support Flutter 2.0 & dart 2.12
+###Removed
 - nullsafe flag is removed because from this version we are targeting 2.12 which will use nullsafety by default
 
 ## [3.3.0] - 2020-10-24
