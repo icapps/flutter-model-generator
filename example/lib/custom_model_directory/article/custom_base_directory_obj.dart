@@ -4,8 +4,8 @@ part 'custom_base_directory_obj.g.dart';
 
 @JsonSerializable()
 class CustomBaseDirectoryObj {
-  @JsonKey(name: 'name', nullable: true)
-  final String name;
+  @JsonKey(name: 'name')
+  final String? name;
 
   CustomBaseDirectoryObj({
     this.name,

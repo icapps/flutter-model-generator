@@ -7,7 +7,7 @@ class DurationFromToJson {
   final double duration;
 
   DurationFromToJson({
-    this.duration,
+    required this.duration,
   });
 
   factory DurationFromToJson.fromJson(json) {

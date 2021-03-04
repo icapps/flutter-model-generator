@@ -150,19 +150,20 @@ void main() {
         expect(ymlConfig.models.last is EnumModel, true);
         final enumModel =
             ymlConfig.models.last as EnumModel; // ignore: avoid_as
-        expect(enumModel.fields.length, 4);
-        expect(enumModel.fields[0].name, 'MALE');
-        expect(enumModel.fields[0].serializedName, 'MALE');
-        expect(enumModel.fields[0].value, '');
-        expect(enumModel.fields[1].name, 'FEMALE');
-        expect(enumModel.fields[1].serializedName, 'FEMALE');
-        expect(enumModel.fields[1].value, 'femAle');
-        expect(enumModel.fields[2].name, 'OTHER');
-        expect(enumModel.fields[2].serializedName, 'other');
-        expect(enumModel.fields[2].value, '');
-        expect(enumModel.fields[3].name, 'X');
-        expect(enumModel.fields[3].serializedName, 'X');
-        expect(enumModel.fields[3].value, '');
+        expect(enumModel.fields, isNotNull);
+        expect(enumModel.fields!.length, 4);
+        expect(enumModel.fields![0].name, 'MALE');
+        expect(enumModel.fields![0].serializedName, 'MALE');
+        expect(enumModel.fields![0].value, null);
+        expect(enumModel.fields![1].name, 'FEMALE');
+        expect(enumModel.fields![1].serializedName, 'FEMALE');
+        expect(enumModel.fields![1].value, 'femAle');
+        expect(enumModel.fields![2].name, 'OTHER');
+        expect(enumModel.fields![2].serializedName, 'other');
+        expect(enumModel.fields![2].value, null);
+        expect(enumModel.fields![3].name, 'X');
+        expect(enumModel.fields![3].serializedName, 'X');
+        expect(enumModel.fields![3].value, null);
       });
 
       test('Error Enum no properties map', () {

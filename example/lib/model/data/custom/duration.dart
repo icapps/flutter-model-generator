@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'duration.g.dart';
@@ -9,7 +8,7 @@ class Duration {
   final String test;
 
   Duration({
-    @required this.test,
+    required this.test,
   });
 
   factory Duration.fromJson(Map<String, dynamic> json) =>

@@ -10,8 +10,8 @@ class EnumModelWriter {
       ..writeln("import 'package:json_annotation/json_annotation.dart';")
       ..writeln()
       ..writeln('enum ${jsonModel.name} {');
-    jsonModel.fields.forEach((key) {
-      final jsonValue = key.value == null || key.value.isEmpty
+    jsonModel.fields?.forEach((key) {
+      final jsonValue = key.value == null || key.value?.isEmpty == null
           ? key.serializedName
           : key.value;
       sb..writeln("  @JsonValue('$jsonValue')")..writeln('  ${key.name},');

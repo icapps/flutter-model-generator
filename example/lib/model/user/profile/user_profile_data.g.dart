@@ -22,20 +22,16 @@ UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
     standardLanguage: json['standardLanguage'] as String,
     mainAccountNumber: json['mainAccountNumber'] as String,
     legalEmail: json['legalEmail'] as String,
-    phones: json['phones'] == null
-        ? null
-        : Testing.fromJson(json['phones'] as Map<String, dynamic>),
-    legalAddress: json['legalAddress'] == null
-        ? null
-        : OGM.fromJson(json['legalAddress'] as Map<String, dynamic>),
-    offTrack: (json['offTrack'] as List)?.map((e) => e as String)?.toList(),
-    onTrack: (json['onTrack'] as List)
-        ?.map((e) => e == null ? null : OGM.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    persons: (json['persons'] as List)
-        ?.map((e) =>
-            e == null ? null : Person.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phones: Testing.fromJson(json['phones'] as Map<String, dynamic>),
+    legalAddress: OGM.fromJson(json['legalAddress'] as Map<String, dynamic>),
+    offTrack:
+        (json['offTrack'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    onTrack: (json['onTrack'] as List<dynamic>?)
+        ?.map((e) => OGM.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    persons: (json['persons'] as List<dynamic>?)
+        ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

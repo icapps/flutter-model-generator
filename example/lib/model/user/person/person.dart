@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/user/person/gender.dart';
 
@@ -12,8 +11,8 @@ class Person {
   final Gender gender;
 
   Person({
-    @required this.firstName,
-    @required this.gender,
+    required this.firstName,
+    required this.gender,
   });
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);

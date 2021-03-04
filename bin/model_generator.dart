@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:meta/meta.dart';
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/model/custom_model.dart';
@@ -61,7 +60,7 @@ void writeToFiles(
     if (!modelDirectory.existsSync()) {
       modelDirectory.createSync(recursive: true);
     }
-    String content;
+    String? content;
     if (model is ObjectModel) {
       content =
           ObjectModelWriter(pubspecConfig, model, modelGeneratorConfig).write();
@@ -85,13 +84,13 @@ void writeToFiles(
       file.createSync(recursive: true);
     }
 
-    if (model is! CustomModel) {
+    if (model is! CustomModel && content != null) {
       file.writeAsStringSync(content);
     }
   });
 }
 
-Future<void> generateJsonGeneratedModels({@required bool useFvm}) async {
+Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
   ProcessResult result;
   if (useFvm) {
     result = Process.runSync('fvm', [

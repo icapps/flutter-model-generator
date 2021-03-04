@@ -75,7 +75,7 @@ UserProfileData:
       required: true
       type: OGM
     offTrack:
-      includeIfNull: false
+      include_if_null: false
       type: array
       items:
         type: string
@@ -96,7 +96,7 @@ Person:
       type: string
     gender:
       required: true
-      unknownEnumValue: X
+      unknown_enum_value: X
       type: Gender
 Gender:
   path: user/person/

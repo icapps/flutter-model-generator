@@ -15,15 +15,8 @@ class ObjectModelWriter {
 
   String write() {
     final sb = StringBuffer();
-    final imports = <String>{};
-
-    final containsRequiredFields =
-        jsonModel.fields.where((item) => item.isRequired).toList().isNotEmpty;
-    if (containsRequiredFields) {
-      imports.add("import 'package:flutter/material.dart';");
-    }
-
-    imports.add("import 'package:json_annotation/json_annotation.dart';");
+    final imports = <String>{}
+      ..add("import 'package:json_annotation/json_annotation.dart';");
 
     jsonModel.fields.forEach((field) {
       if (!TypeChecker.isKnownDartType(field.type.name)) {
@@ -57,8 +50,6 @@ class ObjectModelWriter {
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.isRequired) {
         sb.write(', required: true');
-      } else {
-        sb.write(', nullable: true');
       }
 
       if (!key.includeIfNull) {
@@ -87,8 +78,7 @@ class ObjectModelWriter {
       } else {
         sb.write('  final ');
       }
-      final nullableFlag =
-          pubspecConfig.nullSafe ? (key.isRequired ? '' : '?') : '';
+      final nullableFlag = key.isRequired ? '' : '?';
       if (key.type is ArrayType) {
         sb.writeln('List<${key.type.name}>$nullableFlag ${key.name};');
       } else {
@@ -100,11 +90,7 @@ class ObjectModelWriter {
 
     jsonModel.fields.forEach((key) {
       if (key.isRequired) {
-        if (pubspecConfig.nullSafe) {
-          sb.writeln('    required this.${key.name},');
-        } else {
-          sb.writeln('    @required this.${key.name},');
-        }
+        sb.writeln('    required this.${key.name},');
       } else {
         sb.writeln('    this.${key.name},');
       }

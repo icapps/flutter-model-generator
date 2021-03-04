@@ -15,6 +15,7 @@ import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/util/type_checker.dart';
 import 'package:yaml/yaml.dart';
 
@@ -27,10 +28,10 @@ class YmlGeneratorConfig {
     loadYaml(configContent).forEach((key, value) {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
-      final String path = value['path'];
+      final String? path = value['path'];
       final dynamic properties = value['properties'];
-      final YamlList converters = value['converters'];
-      final String type = value['type'];
+      final YamlList? converters = value['converters'];
+      final String? type = value['type'];
       if (type == 'custom') {
         models.add(
             CustomModel(name: key, path: path, baseDirectory: baseDirectory));
@@ -59,7 +60,7 @@ class YmlGeneratorConfig {
           }
           fields.add(EnumField(
             name: propertyKey,
-            value: propertyValue == null ? '' : propertyValue['value'],
+            value: propertyValue == null ? null : propertyValue['value'],
           ));
         });
         models.add(EnumModel(
@@ -77,14 +78,13 @@ class YmlGeneratorConfig {
           fields.add(getField(propertyKey, propertyValue));
         });
         final mappedConverters =
-            converters?.map((element) => element.toString())?.toList() ??
-                <String>[];
+            converters?.map((element) => element.toString()).toList();
         models.add(ObjectModel(
           name: key,
           path: path,
           baseDirectory: baseDirectory,
           fields: fields,
-          converters: mappedConverters,
+          converters: mappedConverters ?? [],
         ));
       }
     });
@@ -100,8 +100,7 @@ class YmlGeneratorConfig {
           property.containsKey('ignore') && property['ignore'] == true;
       final nonFinal = ignored ||
           property.containsKey('non_final') && property['non_final'] == true;
-      final includeIfNull = property.containsKey('include_if_null') &&
-          property['include_if_null'] == true;
+      final includeIfNull = property['include_if_null'] != false;
       final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
       final type = property['type'];
@@ -162,20 +161,20 @@ class YmlGeneratorConfig {
   }
 
   String getPathForName(PubspecConfig pubspecConfig, String name) {
-    final foundModel =
-        models.firstWhere((model) => model.name == name, orElse: () => null);
+    final foundModel = models.firstWhereOrNull((model) => model.name == name);
     if (foundModel == null) {
       throw Exception(
           'getPathForName is null: because `$name` was not added to the config file');
     }
     final baseDirectory =
         foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
-    if (foundModel.path == null) {
+    final path = foundModel.path;
+    if (path == null) {
       return '$baseDirectory';
-    } else if (foundModel.path.startsWith('package:')) {
-      return foundModel.path;
+    } else if (path.startsWith('package:')) {
+      return path;
     } else {
-      return '$baseDirectory/${foundModel.path}';
+      return '$baseDirectory/$path';
     }
   }
 
@@ -204,10 +203,10 @@ class YmlGeneratorConfig {
     });
   }
 
-  Model getModelByName(ItemType itemType) {
+  Model? getModelByName(ItemType itemType) {
     if (itemType is! ObjectType) return null;
-    final model = _models.firstWhere((element) => element.name == itemType.name,
-        orElse: () => null);
+    final model =
+        models.firstWhereOrNull((model) => model.name == itemType.name);
     if (model == null) {
       throw Exception(
           'getModelByname is null: because `${itemType.name}` was not added to the config file');

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/user/testing.dart';
 import 'package:model_generator_example/model/ogm.dart';
@@ -22,21 +21,21 @@ class UserProfileData {
   final Testing phones;
   @JsonKey(name: 'legalAddress', required: true)
   final OGM legalAddress;
-  @JsonKey(name: 'offTrack', nullable: true, includeIfNull: false)
-  final List<String> offTrack;
-  @JsonKey(name: 'onTrack', nullable: true)
-  final List<OGM> onTrack;
-  @JsonKey(name: 'persons', nullable: true)
-  final List<Person> persons;
+  @JsonKey(name: 'offTrack', includeIfNull: false)
+  final List<String>? offTrack;
+  @JsonKey(name: 'onTrack')
+  final List<OGM>? onTrack;
+  @JsonKey(name: 'persons')
+  final List<Person>? persons;
 
   UserProfileData({
-    @required this.firstName,
-    @required this.lastName,
-    @required this.standardLanguage,
-    @required this.mainAccountNumber,
-    @required this.legalEmail,
-    @required this.phones,
-    @required this.legalAddress,
+    required this.firstName,
+    required this.lastName,
+    required this.standardLanguage,
+    required this.mainAccountNumber,
+    required this.legalEmail,
+    required this.phones,
+    required this.legalAddress,
     this.offTrack,
     this.onTrack,
     this.persons,

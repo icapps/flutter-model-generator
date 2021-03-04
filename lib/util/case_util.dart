@@ -2,8 +2,8 @@ class CaseUtil {
   final RegExp _upperAlphaRegex = RegExp(r'[A-Z]');
   final RegExp _symbolRegex = RegExp(r'[ ./_\-]');
 
-  String originalText;
-  List<String> _words;
+  late String originalText;
+  late List<String> _words;
 
   CaseUtil(String text) {
     // ignore: prefer_initializing_formals

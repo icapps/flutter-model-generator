@@ -22,8 +22,8 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     testTest: json['test_Test'] as String,
     someThing: json['some_Thing'] as String,
     someThinGHuGE: json['some_ThinG_huGE'] as String,
-    securityRole: json['securityIndicator'] as String,
-    mutableProperty: json['mutableProperty'] as String,
+    securityRole: json['securityIndicator'] as String?,
+    mutableProperty: json['mutableProperty'] as String?,
     dateChange:
         const DateTimeConverter().fromJson(json['dateChange'] as String),
   );

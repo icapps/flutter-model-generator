@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/converter/date_time_converter.dart';
 
@@ -19,20 +18,20 @@ class OGM {
   final String someThing;
   @JsonKey(name: 'some_ThinG_huGE', required: true)
   final String someThinGHuGE;
-  @JsonKey(name: 'securityIndicator', nullable: true)
-  final String securityRole;
-  @JsonKey(name: 'mutableProperty', nullable: true)
-  String mutableProperty;
-  @JsonKey(name: 'dateChange', nullable: true)
-  final DateTime dateChange;
+  @JsonKey(name: 'securityIndicator')
+  final String? securityRole;
+  @JsonKey(name: 'mutableProperty')
+  String? mutableProperty;
+  @JsonKey(name: 'dateChange')
+  final DateTime? dateChange;
 
   OGM({
-    @required this.structuredMessage,
-    @required this.beneficiary,
-    @required this.beneficiaryIBAN,
-    @required this.testTest,
-    @required this.someThing,
-    @required this.someThinGHuGE,
+    required this.structuredMessage,
+    required this.beneficiary,
+    required this.beneficiaryIBAN,
+    required this.testTest,
+    required this.someThing,
+    required this.someThinGHuGE,
     this.securityRole,
     this.mutableProperty,
     this.dateChange,
