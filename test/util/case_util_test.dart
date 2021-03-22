@@ -1,5 +1,5 @@
 import 'package:model_generator/util/case_util.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Default', () {
