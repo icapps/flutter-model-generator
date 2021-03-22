@@ -43,6 +43,23 @@ model_generator:
   use_fvm: true
 ```
 
+##Generics support support
+If you want your models to generate code that can be used in combination with generics. use this:
+```
+model_generator:
+  generate_for_generics: true
+```
+or to override the default generate_for_generics value in the pubspec.yaml
+```
+UserModel:
+  path: webservice/user
+  generate_for_generics: true
+  converters:
+    - DateTimeConverter
+  properties:
+    id:
+      type: int
+```
 ## Default setup
 Example of the `model_generator/config.yaml` file
 ```

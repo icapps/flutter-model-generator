@@ -8,12 +8,14 @@ void main() {
         name: 'MyModel',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: true,
         fields: [],
         converters: [],
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
       expect(model.baseDirectory, 'base_dir');
+      expect(model.generateForGenerics, true);
       expect(model.fields.isEmpty, true);
       expect(model.converters.isEmpty, true);
     });
@@ -24,12 +26,14 @@ void main() {
         name: 'MyModel',
         path: 'path_to_my_model/',
         baseDirectory: 'base_dir',
+        generateForGenerics: true,
         fields: [],
         converters: [],
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
       expect(model.baseDirectory, 'base_dir');
+      expect(model.generateForGenerics, true);
       expect(model.fields.isEmpty, true);
       expect(model.converters.isEmpty, true);
     });
@@ -39,12 +43,14 @@ void main() {
         name: 'MyModel',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir/',
+        generateForGenerics: true,
         fields: [],
         converters: [],
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
       expect(model.baseDirectory, 'base_dir');
+      expect(model.generateForGenerics, true);
       expect(model.fields.isEmpty, true);
       expect(model.converters.isEmpty, true);
     });

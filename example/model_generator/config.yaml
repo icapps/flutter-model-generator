@@ -140,6 +140,16 @@ DateTimeConverter:
   type: json_converter
   path: converter/
 
+Project:
+  path: user/project/
+  type: object
+  generate_for_generics: true
+  properties:
+    name:
+      required: true
+      type: string
+    cost:
+      type: double
 
 
 

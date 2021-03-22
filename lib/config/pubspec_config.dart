@@ -10,6 +10,7 @@ class PubspecConfig {
   late String projectName;
   late String baseDirectory;
   late bool useFvm;
+  late bool generateForGenerics;
   late String configPath;
 
   PubspecConfig(String pubspecContent) {
@@ -28,6 +29,7 @@ class PubspecConfig {
     final config = doc['model_generator'];
     if (config == null) {
       baseDirectory = _DEFAULT_BASE_DIRECTORY;
+      generateForGenerics = false;
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
       return;
@@ -35,6 +37,7 @@ class PubspecConfig {
 
     baseDirectory = config['base_directory'] ?? _DEFAULT_BASE_DIRECTORY;
     useFvm = config['use_fvm'] == true;
+    generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
   }
 }

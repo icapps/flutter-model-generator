@@ -1,0 +1,18 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable()
+class Person {
+  @JsonKey(name: 'firstName', required: true)
+  final String firstName;
+
+  Person({
+    required this.firstName,
+  });
+
+  factory Person.fromJson(Object? json) => _$PersonFromJson(json as Map<String, dynamic>); // ignore: avoid_as
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+}

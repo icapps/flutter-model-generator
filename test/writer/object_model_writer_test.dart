@@ -15,6 +15,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'firstName',
@@ -34,6 +35,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'firstName',
@@ -53,6 +55,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'firstName',
@@ -76,11 +79,77 @@ void main() {
       WriterTestHelper.testObjectModelWriter(model, 'nullsafety');
     });
 
+    test('ObjectModelWriter with generate for generics default option', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: true,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'generate-for-generics');
+    });
+
+    test('ObjectModelWriter with generate for generics override option', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: true,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(
+          model, 'generate-for-generics-override');
+    });
+
+    test('ObjectModelWriter with generate for generics override option 2', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(
+          model, 'generate-for-generics-override-2');
+    });
+
     test('Normal ObjectModelWriter with ignroe field', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'firstName',
@@ -101,6 +170,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'info',
@@ -121,6 +191,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'gender',
@@ -141,6 +212,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'firstName',
@@ -161,6 +233,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'gender',
@@ -182,6 +255,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'time',
@@ -202,6 +276,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'b',
@@ -238,6 +313,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'birthday',
@@ -260,6 +336,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'address',
@@ -280,6 +357,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'address',
@@ -300,6 +378,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'address',
@@ -320,6 +399,7 @@ void main() {
         name: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: false,
         fields: [
           Field(
             name: 'address',
