@@ -95,11 +95,15 @@ class ObjectModelWriter {
         sb.writeln('    this.${key.name},');
       }
     });
+    sb..writeln('  });')..writeln();
+    if (jsonModel.generateForGenerics) {
+      sb.writeln(
+          '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
+    } else {
+      sb.writeln(
+          '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
+    }
     sb
-      ..writeln('  });')
-      ..writeln()
-      ..writeln(
-          '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);')
       ..writeln()
       ..writeln(
           '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')

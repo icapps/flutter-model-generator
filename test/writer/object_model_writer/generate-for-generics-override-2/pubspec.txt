@@ -1,0 +1,4 @@
+name: model_generator_example
+
+model_generator:
+  generate_for_generics: true

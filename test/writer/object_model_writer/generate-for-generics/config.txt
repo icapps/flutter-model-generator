@@ -3,4 +3,5 @@ Person:
   type: object
   properties:
     firstName:
+      required: true
       type: string

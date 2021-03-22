@@ -29,6 +29,8 @@ class YmlGeneratorConfig {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String? path = value['path'];
+      final bool generateForGenerics =
+          value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
       final dynamic properties = value['properties'];
       final YamlList? converters = value['converters'];
       final String? type = value['type'];
@@ -83,6 +85,7 @@ class YmlGeneratorConfig {
           name: key,
           path: path,
           baseDirectory: baseDirectory,
+          generateForGenerics: generateForGenerics,
           fields: fields,
           converters: mappedConverters ?? [],
         ));

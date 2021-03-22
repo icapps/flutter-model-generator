@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_test/flutter_test.dart';
 import 'package:model_generator/config/pubspec_config.dart';
-import 'package:test/test.dart';
 
 import 'config_test_helper.dart';
 

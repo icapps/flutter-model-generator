@@ -1,5 +1,5 @@
 import 'package:model_generator/model/model/json_converter_model.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Default', () {

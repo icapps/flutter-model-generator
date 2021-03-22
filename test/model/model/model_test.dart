@@ -1,5 +1,5 @@
 import 'package:model_generator/model/model/object_model.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Default', () {
@@ -8,12 +8,14 @@ void main() {
         name: 'MyModel',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
+        generateForGenerics: true,
         fields: [],
         converters: [],
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
       expect(model.baseDirectory, 'base_dir');
+      expect(model.generateForGenerics, true);
       expect(model.fields.isEmpty, true);
       expect(model.converters.isEmpty, true);
     });
@@ -24,12 +26,14 @@ void main() {
         name: 'MyModel',
         path: 'path_to_my_model/',
         baseDirectory: 'base_dir',
+        generateForGenerics: true,
         fields: [],
         converters: [],
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
       expect(model.baseDirectory, 'base_dir');
+      expect(model.generateForGenerics, true);
       expect(model.fields.isEmpty, true);
       expect(model.converters.isEmpty, true);
     });
@@ -39,12 +43,14 @@ void main() {
         name: 'MyModel',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir/',
+        generateForGenerics: true,
         fields: [],
         converters: [],
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
       expect(model.baseDirectory, 'base_dir');
+      expect(model.generateForGenerics, true);
       expect(model.fields.isEmpty, true);
       expect(model.converters.isEmpty, true);
     });

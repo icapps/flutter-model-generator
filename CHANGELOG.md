@@ -1,4 +1,7 @@
 # Changelog
+## [4.1.0] - 2021-02-22
+### Added
+- Support for generatic generics fromJsonT()
 
 ## [4.0.0] - 2021-02-09
 ### Added
