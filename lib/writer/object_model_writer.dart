@@ -125,7 +125,7 @@ class ObjectModelWriter {
       ..writeln(
           '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
-    if (pubspecConfig.equalsHashCode) {
+    if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
       sb
         ..writeln()
         ..writeln('  @override')

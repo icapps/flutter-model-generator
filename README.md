@@ -50,6 +50,15 @@ All fields are taken into consideration for the generated code.
 model_generator:
   equals_and_hash_code: true
 ```
+or to override the values per object:
+```yaml
+UserModel:
+  path: webservice/user
+  equals_and_hash_code: false
+  properties:
+    id:
+      type: int
+```
 
 ##toString
 If you want the generated models to include generated toString code, you can turn it on in `pubspec.yaml`. Defaults to false.

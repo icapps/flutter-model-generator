@@ -38,6 +38,7 @@ Testing:
   type: object
   extra_imports:
   extra_annotations:
+  equals_and_hash_code: false
   properties:
     isFavourite:
       ignore: true
