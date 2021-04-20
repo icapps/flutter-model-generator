@@ -89,8 +89,9 @@ class ObjectModelWriter {
       if (keyType is ArrayType) {
         sb.writeln('List<${keyType.name}>$nullableFlag ${key.name};');
       } else if (keyType is MapType) {
-        sb.writeln('Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
-      }else {
+        sb.writeln(
+            'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
+      } else {
         sb.writeln('${key.type.name}$nullableFlag ${key.name};');
       }
     });

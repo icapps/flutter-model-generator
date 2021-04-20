@@ -129,12 +129,14 @@ class YmlGeneratorConfig {
         final items = property['items'];
         final arrayType = items['type'];
         itemType = ArrayType(_makeGenericName(arrayType));
-      } else if (type == 'map'){
+      } else if (type == 'map') {
         final items = property['items'];
         final keyType = items['key'];
         final valueType = items['value'];
-        itemType = MapType(key: _makeGenericName(keyType), valueName: _makeGenericName(valueType));
-      }else {
+        itemType = MapType(
+            key: _makeGenericName(keyType),
+            valueName: _makeGenericName(valueType));
+      } else {
         itemType = ObjectType(type);
       }
       return Field(
