@@ -134,8 +134,9 @@ class YmlGeneratorConfig {
         final keyType = items['key'];
         final valueType = items['value'];
         itemType = MapType(
-            key: _makeGenericName(keyType),
-            valueName: _makeGenericName(valueType));
+          key: _makeGenericName(keyType),
+          valueName: _makeGenericName(valueType),
+        );
       } else {
         itemType = ObjectType(type);
       }
