@@ -39,6 +39,7 @@ Testing:
   extra_imports:
   extra_annotations:
   equals_and_hash_code: false
+  to_string: false
   properties:
     isFavourite:
       ignore: true

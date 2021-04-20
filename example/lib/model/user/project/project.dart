@@ -31,4 +31,10 @@ class Project {
 
   @override
   int get hashCode => name.hashCode ^ cost.hashCode;
+
+  @override
+  String toString() => 'Project{'
+      'name: $name, '
+      'cost: $cost'
+      '}';
 }

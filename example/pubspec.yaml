@@ -28,4 +28,5 @@ model_generator:
   extra_annotations:
     - '@immutable'
   equals_and_hash_code: true
+  to_string: true
 #  base_directory: model

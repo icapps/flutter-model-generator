@@ -28,4 +28,9 @@ class NoCustomBaseDirectoryObj {
 
   @override
   int get hashCode => customBaseDirectoryObj.hashCode;
+
+  @override
+  String toString() => 'NoCustomBaseDirectoryObj{'
+      'customBaseDirectoryObj: $customBaseDirectoryObj'
+      '}';
 }

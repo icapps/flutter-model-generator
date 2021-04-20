@@ -81,4 +81,19 @@ class UserProfileData {
       onTrack.hashCode ^
       persons.hashCode ^
       personsById.hashCode;
+
+  @override
+  String toString() => 'UserProfileData{'
+      'firstName: $firstName, '
+      'lastName: $lastName, '
+      'standardLanguage: $standardLanguage, '
+      'mainAccountNumber: $mainAccountNumber, '
+      'legalEmail: $legalEmail, '
+      'phones: $phones, '
+      'legalAddress: $legalAddress, '
+      'offTrack: $offTrack, '
+      'onTrack: $onTrack, '
+      'persons: $persons, '
+      'personsById: $personsById'
+      '}';
 }

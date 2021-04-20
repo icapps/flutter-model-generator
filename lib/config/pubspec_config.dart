@@ -13,6 +13,7 @@ class PubspecConfig {
   late bool generateForGenerics;
   late String configPath;
   late bool equalsHashCode;
+  late bool generateToString;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
 
@@ -36,6 +37,7 @@ class PubspecConfig {
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
       equalsHashCode = false;
+      generateToString = false;
       return;
     }
 
@@ -44,6 +46,7 @@ class PubspecConfig {
     generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
     equalsHashCode = (config['equals_and_hash_code'] ?? false) == true;
+    generateToString = (config['to_string'] ?? false) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {

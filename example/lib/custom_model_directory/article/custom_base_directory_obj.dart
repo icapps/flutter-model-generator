@@ -27,4 +27,9 @@ class CustomBaseDirectoryObj {
 
   @override
   int get hashCode => name.hashCode;
+
+  @override
+  String toString() => 'CustomBaseDirectoryObj{'
+      'name: $name'
+      '}';
 }
