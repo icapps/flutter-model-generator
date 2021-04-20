@@ -2,6 +2,10 @@ OGM:
   type: object
   converters:
     - DateTimeConverter
+  extra_annotations:
+    -
+  extra_imports:
+    -
   properties:
     structuredMessage:
       required: true
@@ -32,6 +36,8 @@ OGM:
 Testing:
   path: user
   type: object
+  extra_imports:
+  extra_annotations:
   properties:
     isFavourite:
       ignore: true

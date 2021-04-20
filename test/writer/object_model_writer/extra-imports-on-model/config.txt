@@ -1,0 +1,10 @@
+Person:
+  path: user/person/
+  type: object
+  extra_imports:
+    - testing:package.dart
+  extra_annotations:
+    - '@veryGood'
+  properties:
+    firstName:
+      type: string

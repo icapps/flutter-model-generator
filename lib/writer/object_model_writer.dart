@@ -19,6 +19,8 @@ class ObjectModelWriter {
     final sb = StringBuffer();
     final imports = <String>{}
       ..add("import 'package:json_annotation/json_annotation.dart';");
+    (jsonModel.extraImports ?? pubspecConfig.extraImports)
+        .forEach((element) => imports.add('import \'$element\';'));
 
     jsonModel.fields.forEach((field) {
       final type = field.type;
@@ -39,6 +41,8 @@ class ObjectModelWriter {
       ..writeln("part '${jsonModel.fileName}.g.dart';")
       ..writeln()
       ..writeln('@JsonSerializable()');
+    (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
+        .forEach(sb.writeln);
 
     jsonModel.converters.forEach((converter) {
       sb.writeln('@$converter()');
@@ -96,7 +100,10 @@ class ObjectModelWriter {
       }
     });
 
-    sb..writeln()..writeln('  ${jsonModel.name}({');
+    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal);
+    sb
+      ..writeln()
+      ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
     jsonModel.fields.forEach((key) {
       if (key.isRequired) {

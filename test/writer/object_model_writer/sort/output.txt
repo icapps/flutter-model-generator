@@ -11,7 +11,7 @@ class Person {
   @JsonKey(name: 'b')
   final String? b;
 
-  Person({
+  const Person({
     required this.x,
     required this.a,
     this.b,

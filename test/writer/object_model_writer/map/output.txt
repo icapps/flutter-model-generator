@@ -7,7 +7,7 @@ class Person {
   @JsonKey(name: 'info', required: true)
   final Map<String, int> info;
 
-  Person({
+  const Person({
     required this.info,
   });
 

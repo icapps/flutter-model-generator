@@ -12,6 +12,8 @@ class PubspecConfig {
   late bool useFvm;
   late bool generateForGenerics;
   late String configPath;
+  final extraImports = <String>[];
+  final extraAnnotations = <String>[];
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
@@ -39,5 +41,16 @@ class PubspecConfig {
     useFvm = config['use_fvm'] == true;
     generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
+
+    final extraImports = config['extra_imports'];
+    if (extraImports != null) {
+      extraImports
+          .forEach((element) => this.extraImports.add(element.toString()));
+    }
+    final extraAnnotations = config['extra_annotations'];
+    if (extraAnnotations != null) {
+      extraAnnotations
+          .forEach((element) => this.extraAnnotations.add(element.toString()));
+    }
   }
 }

@@ -5,5 +5,13 @@ class JsonConverterModel extends Model {
     required String name,
     String? path,
     String? baseDirectory,
-  }) : super(name: name, path: path, baseDirectory: baseDirectory);
+    List<String>? extraImports,
+    List<String>? extraAnnotations,
+  }) : super(
+          name: name,
+          path: path,
+          baseDirectory: baseDirectory,
+          extraAnnotations: extraAnnotations,
+          extraImports: extraImports,
+        );
 }
