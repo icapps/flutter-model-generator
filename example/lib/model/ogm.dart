@@ -67,4 +67,19 @@ class OGM {
       securityRole.hashCode ^
       mutableProperty.hashCode ^
       dateChange.hashCode;
+
+  @override
+  String toString() => 
+      'OGM{'
+      'structuredMessage: $structuredMessage, '
+      'beneficiary: $beneficiary, '
+      'beneficiaryIBAN: $beneficiaryIBAN, '
+      'testTest: $testTest, '
+      'someThing: $someThing, '
+      'someThinGHuGE: $someThinGHuGE, '
+      'securityRole: $securityRole, '
+      'mutableProperty: $mutableProperty, '
+      'dateChange: $dateChange'
+      '}';
+
 }

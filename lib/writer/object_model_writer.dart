@@ -123,11 +123,11 @@ class ObjectModelWriter {
     sb
       ..writeln()
       ..writeln(
-          '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')
-      ..writeln();
+          '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
     if (pubspecConfig.equalsHashCode) {
       sb
+        ..writeln()
         ..writeln('  @override')
         ..writeln('  bool operator ==(Object other) =>')
         ..writeln('      identical(this, other) ||')
@@ -148,8 +148,22 @@ class ObjectModelWriter {
       });
       sb.writeln(';');
     }
+    if (pubspecConfig.generateToString) {
+      sb
+      ..writeln()
+      ..writeln('  @override')
+      ..writeln('  String toString() => ')
+      ..writeln('      \'${jsonModel.name}{\'');
 
-    sb.writeln('}');
+      var c = 0;
+      jsonModel.fields.forEach((field) {
+        if (c++ > 0) sb.writeln(', \'');
+        sb.write('      \'${field.name}: \$${field.name}');
+      });
+      sb.writeln('\'\n      \'}\';');
+    }
+
+    sb..writeln()..writeln('}');
     return sb.toString();
   }
 

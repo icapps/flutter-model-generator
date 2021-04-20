@@ -30,5 +30,15 @@ class Person {
           gender == other.gender;
 
   @override
-  int get hashCode => firstName.hashCode ^ gender.hashCode;
+  int get hashCode =>
+      firstName.hashCode ^
+      gender.hashCode;
+
+  @override
+  String toString() => 
+      'Person{'
+      'firstName: $firstName, '
+      'gender: $gender'
+      '}';
+
 }
