@@ -40,4 +40,5 @@ class OGM {
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);
 
   Map<String, dynamic> toJson() => _$OGMToJson(this);
+
 }

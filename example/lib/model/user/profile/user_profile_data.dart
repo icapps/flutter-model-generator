@@ -27,6 +27,8 @@ class UserProfileData {
   final List<OGM>? onTrack;
   @JsonKey(name: 'persons')
   final List<Person>? persons;
+  @JsonKey(name: 'personsById')
+  final Map<String, Person>? personsById;
 
   UserProfileData({
     required this.firstName,
@@ -39,10 +41,11 @@ class UserProfileData {
     this.offTrack,
     this.onTrack,
     this.persons,
+    this.personsById,
   });
 
-  factory UserProfileData.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataFromJson(json);
+  factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
+
 }

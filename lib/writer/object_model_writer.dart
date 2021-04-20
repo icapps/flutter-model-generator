@@ -1,3 +1,5 @@
+import 'package:model_generator/model/item_type/map_type.dart';
+
 import '../config/pubspec_config.dart';
 import '../config/yml_generator_config.dart';
 import '../model/item_type/array_type.dart';
@@ -79,9 +81,12 @@ class ObjectModelWriter {
         sb.write('  final ');
       }
       final nullableFlag = key.isRequired ? '' : '?';
-      if (key.type is ArrayType) {
-        sb.writeln('List<${key.type.name}>$nullableFlag ${key.name};');
-      } else {
+      final keyType = key.type;
+      if (keyType is ArrayType) {
+        sb.writeln('List<${keyType.name}>$nullableFlag ${key.name};');
+      } else if (keyType is MapType) {
+        sb.writeln('Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
+      }else {
         sb.writeln('${key.type.name}$nullableFlag ${key.name};');
       }
     });

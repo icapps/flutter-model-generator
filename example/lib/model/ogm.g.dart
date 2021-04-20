@@ -24,8 +24,9 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     someThinGHuGE: json['some_ThinG_huGE'] as String,
     securityRole: json['securityIndicator'] as String?,
     mutableProperty: json['mutableProperty'] as String?,
-    dateChange:
-        const DateTimeConverter().fromJson(json['dateChange'] as String),
+    dateChange: json['dateChange'] == null
+        ? null
+        : DateTime.parse(json['dateChange'] as String),
   );
 }
 
@@ -38,5 +39,5 @@ Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
       'some_ThinG_huGE': instance.someThinGHuGE,
       'securityIndicator': instance.securityRole,
       'mutableProperty': instance.mutableProperty,
-      'dateChange': const DateTimeConverter().toJson(instance.dateChange),
+      'dateChange': instance.dateChange?.toIso8601String(),
     };

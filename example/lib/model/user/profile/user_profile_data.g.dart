@@ -32,6 +32,9 @@ UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
     persons: (json['persons'] as List<dynamic>?)
         ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
         .toList(),
+    personsById: (json['personsById'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, Person.fromJson(e as Map<String, dynamic>)),
+    ),
   );
 }
 
@@ -55,5 +58,6 @@ Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) {
   writeNotNull('offTrack', instance.offTrack);
   val['onTrack'] = instance.onTrack;
   val['persons'] = instance.persons;
+  val['personsById'] = instance.personsById;
   return val;
 }

@@ -87,6 +87,11 @@ UserProfileData:
       type: array
       items:
         type: Person
+    personsById:
+      type: map
+      items:
+        key: String
+        value: Person
 Person:
   path: user/person/
   type: object

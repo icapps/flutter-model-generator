@@ -7,6 +7,7 @@ import 'package:model_generator/model/item_type/double_type.dart';
 import 'package:model_generator/model/item_type/dynamic_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/item_type.dart';
+import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/custom_from_to_json_model.dart';
@@ -127,24 +128,13 @@ class YmlGeneratorConfig {
       } else if (type == 'array') {
         final items = property['items'];
         final arrayType = items['type'];
-        if (arrayType == 'string' || arrayType == 'String') {
-          itemType = ArrayType('String');
-        } else if (arrayType == 'bool' || arrayType == 'boolean') {
-          itemType = ArrayType('bool');
-        } else if (arrayType == 'double') {
-          itemType = ArrayType('double');
-        } else if (arrayType == 'date' || arrayType == 'datetime') {
-          itemType = ArrayType('DateTime');
-        } else if (arrayType == 'int' || arrayType == 'integer') {
-          itemType = ArrayType('int');
-        } else if (arrayType == 'object' ||
-            arrayType == 'dynamic' ||
-            arrayType == 'any') {
-          itemType = ArrayType('dynamic');
-        } else {
-          itemType = ArrayType(arrayType);
-        }
-      } else {
+        itemType = ArrayType(_makeGenericName(arrayType));
+      } else if (type == 'map'){
+        final items = property['items'];
+        final keyType = items['key'];
+        final valueType = items['value'];
+        itemType = MapType(key: _makeGenericName(keyType), valueName: _makeGenericName(valueType));
+      }else {
         itemType = ObjectType(type);
       }
       return Field(
@@ -160,6 +150,26 @@ class YmlGeneratorConfig {
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
       rethrow;
+    }
+  }
+
+  String _makeGenericName(String typeName) {
+    if (typeName == 'string' || typeName == 'String') {
+      return 'String';
+    } else if (typeName == 'bool' || typeName == 'boolean') {
+      return 'bool';
+    } else if (typeName == 'double') {
+      return 'double';
+    } else if (typeName == 'date' || typeName == 'datetime') {
+      return 'DateTime';
+    } else if (typeName == 'int' || typeName == 'integer') {
+      return 'int';
+    } else if (typeName == 'object' ||
+        typeName == 'dynamic' ||
+        typeName == 'any') {
+      return 'dynamic';
+    } else {
+      return typeName;
     }
   }
 

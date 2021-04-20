@@ -1,6 +1,7 @@
 import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/date_time_type.dart';
+import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/object_model.dart';
@@ -184,6 +185,27 @@ void main() {
         converters: [],
       );
       WriterTestHelper.testObjectModelWriter(model, 'array');
+    });
+
+    test('Normal ObjectModelWriter with map field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'info',
+            type: MapType(key: 'String', valueName: 'int'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'map');
     });
 
     test('Normal ObjectModelWriter with non final', () {
