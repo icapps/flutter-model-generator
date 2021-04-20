@@ -37,9 +37,7 @@ Testing:
   path: user
   type: object
   extra_imports:
-    -
   extra_annotations:
-    -
   properties:
     isFavourite:
       ignore: true

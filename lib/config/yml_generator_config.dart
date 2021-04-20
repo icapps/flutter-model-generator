@@ -33,20 +33,20 @@ class YmlGeneratorConfig {
       final bool generateForGenerics =
           value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
 
-      List<String>? extraImports;
+      final extraImports =
+          value.containsKey('extra_imports') ? <String>[] : null;
       final extraImportsVal = value['extra_imports'];
       if (extraImportsVal != null) {
-        extraImports = <String>[];
         extraImportsVal.forEach((e) {
           if (e != null) {
             extraImports!.add(e.toString());
           }
         });
       }
-      List<String>? extraAnnotations;
+      final extraAnnotations =
+          value.containsKey('extra_annotations') ? <String>[] : null;
       final extraAnnotationsVal = value['extra_annotations'];
       if (extraAnnotationsVal != null) {
-        extraAnnotations = <String>[];
         extraAnnotationsVal.forEach((e) {
           if (e != null) {
             extraAnnotations!.add(e.toString());

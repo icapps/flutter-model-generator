@@ -58,9 +58,8 @@ or to override the values per object:
 UserModel:
   path: webservice/user
   extra_imports:
-    -
   extra_annotations:
-    -
+    - '@someAnnotation'
   properties:
     id:
       type: int
