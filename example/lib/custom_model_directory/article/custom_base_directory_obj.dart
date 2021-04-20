@@ -11,8 +11,8 @@ class CustomBaseDirectoryObj {
     this.name,
   });
 
-  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) => _$CustomBaseDirectoryObjFromJson(json);
+  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) =>
+      _$CustomBaseDirectoryObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomBaseDirectoryObjToJson(this);
-
 }

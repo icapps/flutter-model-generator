@@ -1,4 +1,3 @@
-import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 

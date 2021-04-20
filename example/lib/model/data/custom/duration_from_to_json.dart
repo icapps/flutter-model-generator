@@ -1,7 +1,8 @@
 DurationFromToJson handleDurationFromToJsonFromJson(object) =>
     DurationFromToJson.fromJson(object);
 
-double? handleDurationFromToJsonToJson(DurationFromToJson? data) => data?.toJson();
+double? handleDurationFromToJsonToJson(DurationFromToJson? data) =>
+    data?.toJson();
 
 class DurationFromToJson {
   final double duration;

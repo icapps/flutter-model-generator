@@ -12,8 +12,8 @@ class NoCustomBaseDirectoryObj {
     this.customBaseDirectoryObj,
   });
 
-  factory NoCustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) => _$NoCustomBaseDirectoryObjFromJson(json);
+  factory NoCustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) =>
+      _$NoCustomBaseDirectoryObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$NoCustomBaseDirectoryObjToJson(this);
-
 }
