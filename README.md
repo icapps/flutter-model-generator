@@ -88,6 +88,11 @@ UserModel:
       type: array
       items:
         type: Address
+    idToAddress:
+      type: map
+      items:
+        key: String
+        value: Address
     securityRole:
       type: string
       jsonKey: securityIndicator
