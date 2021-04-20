@@ -6,6 +6,7 @@ class ObjectModel extends Model {
   final List<Field> fields;
   final List<String> converters;
   final bool? equalsAndHashCode;
+  final bool? generateToString;
 
   ObjectModel({
     required String name,
@@ -17,6 +18,7 @@ class ObjectModel extends Model {
     List<String>? extraImports,
     List<String>? extraAnnotations,
     this.equalsAndHashCode,
+    this.generateToString,
   }) : super(
           name: name,
           path: path,

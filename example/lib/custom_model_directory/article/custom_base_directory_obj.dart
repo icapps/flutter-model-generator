@@ -13,7 +13,8 @@ class CustomBaseDirectoryObj {
     this.name,
   });
 
-  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) => _$CustomBaseDirectoryObjFromJson(json);
+  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) =>
+      _$CustomBaseDirectoryObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomBaseDirectoryObjToJson(this);
 
@@ -25,13 +26,10 @@ class CustomBaseDirectoryObj {
           name == other.name;
 
   @override
-  int get hashCode =>
-      name.hashCode;
+  int get hashCode => name.hashCode;
 
   @override
-  String toString() => 
-      'CustomBaseDirectoryObj{'
+  String toString() => 'CustomBaseDirectoryObj{'
       'name: $name'
       '}';
-
 }

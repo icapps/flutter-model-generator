@@ -128,6 +128,7 @@ class YmlGeneratorConfig {
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
           equalsAndHashCode: value['equals_and_hash_code'],
+          generateToString: value['to_string'],
         ));
       }
     });

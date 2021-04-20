@@ -148,12 +148,12 @@ class ObjectModelWriter {
       });
       sb.writeln(';');
     }
-    if (pubspecConfig.generateToString) {
+    if (jsonModel.generateToString ?? pubspecConfig.generateToString) {
       sb
-      ..writeln()
-      ..writeln('  @override')
-      ..writeln('  String toString() =>')
-      ..writeln('      \'${jsonModel.name}{\'');
+        ..writeln()
+        ..writeln('  @override')
+        ..writeln('  String toString() =>')
+        ..writeln('      \'${jsonModel.name}{\'');
 
       var c = 0;
       jsonModel.fields.forEach((field) {
