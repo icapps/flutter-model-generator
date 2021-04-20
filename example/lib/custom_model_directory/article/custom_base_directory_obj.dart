@@ -9,7 +9,7 @@ class CustomBaseDirectoryObj {
   @JsonKey(name: 'name')
   final String? name;
 
-  CustomBaseDirectoryObj({
+  const CustomBaseDirectoryObj({
     this.name,
   });
 

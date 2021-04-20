@@ -7,7 +7,7 @@ class Person {
   @JsonKey(name: 'firstName', required: true)
   final String firstName;
 
-  Person({
+  const Person({
     required this.firstName,
   });
 

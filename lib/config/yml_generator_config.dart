@@ -32,20 +32,57 @@ class YmlGeneratorConfig {
       final String? path = value['path'];
       final bool generateForGenerics =
           value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
+
+      List<String>? extraImports;
+      final extraImportsVal = value['extra_imports'];
+      if (extraImportsVal != null) {
+        extraImports = <String>[];
+        extraImportsVal.forEach((e) {
+          if (e != null) {
+            extraImports!.add(e.toString());
+          }
+        });
+      }
+      List<String>? extraAnnotations;
+      final extraAnnotationsVal = value['extra_annotations'];
+      if (extraAnnotationsVal != null) {
+        extraAnnotations = <String>[];
+        extraAnnotationsVal.forEach((e) {
+          if (e != null) {
+            extraAnnotations!.add(e.toString());
+          }
+        });
+      }
+
       final dynamic properties = value['properties'];
       final YamlList? converters = value['converters'];
       final String? type = value['type'];
       if (type == 'custom') {
-        models.add(
-            CustomModel(name: key, path: path, baseDirectory: baseDirectory));
+        models.add(CustomModel(
+          name: key,
+          path: path,
+          baseDirectory: baseDirectory,
+          extraImports: extraImports,
+          extraAnnotations: extraAnnotations,
+        ));
         return;
       } else if (type == 'custom_from_to_json') {
         models.add(CustomFromToJsonModel(
-            name: key, path: path, baseDirectory: baseDirectory));
+          name: key,
+          path: path,
+          baseDirectory: baseDirectory,
+          extraImports: extraImports,
+          extraAnnotations: extraAnnotations,
+        ));
         return;
       } else if (type == 'json_converter') {
         models.add(JsonConverterModel(
-            name: key, path: path, baseDirectory: baseDirectory));
+          name: key,
+          path: path,
+          baseDirectory: baseDirectory,
+          extraImports: extraImports,
+          extraAnnotations: extraAnnotations,
+        ));
         return;
       }
       if (properties == null) {
@@ -71,6 +108,8 @@ class YmlGeneratorConfig {
           path: path,
           baseDirectory: baseDirectory,
           fields: fields,
+          extraImports: extraImports,
+          extraAnnotations: extraAnnotations,
         ));
       } else {
         final fields = <Field>[];
@@ -89,6 +128,8 @@ class YmlGeneratorConfig {
           generateForGenerics: generateForGenerics,
           fields: fields,
           converters: mappedConverters ?? [],
+          extraImports: extraImports,
+          extraAnnotations: extraAnnotations,
         ));
       }
     });

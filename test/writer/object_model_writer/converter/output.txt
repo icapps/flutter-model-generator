@@ -9,7 +9,7 @@ class Person {
   @JsonKey(name: 'birthday')
   final DateTime? birthday;
 
-  Person({
+  const Person({
     this.birthday,
   });
 

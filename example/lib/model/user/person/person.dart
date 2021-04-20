@@ -12,7 +12,7 @@ class Person {
   @JsonKey(name: 'gender', required: true, unknownEnumValue: Gender.X)
   final Gender gender;
 
-  Person({
+  const Person({
     required this.firstName,
     required this.gender,
   });

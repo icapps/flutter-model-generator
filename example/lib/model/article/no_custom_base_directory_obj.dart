@@ -10,7 +10,7 @@ class NoCustomBaseDirectoryObj {
   @JsonKey(name: 'customBaseDirectoryObj')
   final CustomBaseDirectoryObj? customBaseDirectoryObj;
 
-  NoCustomBaseDirectoryObj({
+  const NoCustomBaseDirectoryObj({
     this.customBaseDirectoryObj,
   });
 

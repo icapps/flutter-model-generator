@@ -9,7 +9,7 @@ class Person {
   @JsonKey(name: 'lastName')
   final String? lastName;
 
-  Person({
+  const Person({
     required this.firstName,
     this.lastName,
   });

@@ -32,7 +32,7 @@ class UserProfileData {
   @JsonKey(name: 'personsById')
   final Map<String, Person>? personsById;
 
-  UserProfileData({
+  const UserProfileData({
     required this.firstName,
     required this.lastName,
     required this.standardLanguage,

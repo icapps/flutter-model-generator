@@ -13,5 +13,13 @@ class ObjectModel extends Model {
     required this.generateForGenerics,
     required this.fields,
     required this.converters,
-  }) : super(name: name, path: path, baseDirectory: baseDirectory);
+    List<String>? extraImports,
+    List<String>? extraAnnotations,
+  }) : super(
+          name: name,
+          path: path,
+          baseDirectory: baseDirectory,
+          extraAnnotations: extraAnnotations,
+          extraImports: extraImports,
+        );
 }

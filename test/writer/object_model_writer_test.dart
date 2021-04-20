@@ -51,6 +51,28 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, 'extra-imports');
     });
+    test('Normal ObjectModelWriter with extra annotations on model', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        extraAnnotations: ['@veryGood'],
+        extraImports: ['testing:package.dart'],
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'extra-imports-on-model');
+    });
     test('Normal ObjectModelWriter with required field', () {
       final model = ObjectModel(
         name: 'Person',

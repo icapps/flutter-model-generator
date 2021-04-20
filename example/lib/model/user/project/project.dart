@@ -11,7 +11,7 @@ class Project {
   @JsonKey(name: 'cost')
   final double? cost;
 
-  Project({
+  const Project({
     required this.name,
     this.cost,
   });
