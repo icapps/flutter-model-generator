@@ -67,6 +67,15 @@ All fields are taken into consideration for the generated code.
 model_generator:
   to_string: true
 ```
+or to override the values per object:
+```yaml
+UserModel:
+  path: webservice/user
+  to_string: false
+  properties:
+    id:
+      type: int
+```
 
 ##Extra imports and annotations
 If you wish for extra import statements in the generated files and/or extra annotations on the generated model classes, you
