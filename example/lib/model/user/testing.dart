@@ -1,10 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:model_generator_example/model/data/custom/duration.dart';
 import 'package:model_generator_example/model/data/custom/duration_from_to_json.dart';
 
 part 'testing.g.dart';
 
 @JsonSerializable()
+@immutable
 class Testing {
   @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;

@@ -23,4 +23,8 @@ dev_dependencies:
 #
 model_generator:
   config_path: model_generator/config.yaml
+  extra_imports:
+    - 'package:flutter/foundation.dart'
+  extra_annotations:
+    - '@immutable'
 #  base_directory: model

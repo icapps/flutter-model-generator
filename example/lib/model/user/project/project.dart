@@ -1,8 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
 
 part 'project.g.dart';
 
 @JsonSerializable()
+@immutable
 class Project {
   @JsonKey(name: 'name', required: true)
   final String name;

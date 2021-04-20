@@ -19,6 +19,8 @@ class ObjectModelWriter {
     final sb = StringBuffer();
     final imports = <String>{}
       ..add("import 'package:json_annotation/json_annotation.dart';");
+    pubspecConfig.extraImports
+        .forEach((element) => imports.add('import \'$element\';'));
 
     jsonModel.fields.forEach((field) {
       final type = field.type;
@@ -39,6 +41,7 @@ class ObjectModelWriter {
       ..writeln("part '${jsonModel.fileName}.g.dart';")
       ..writeln()
       ..writeln('@JsonSerializable()');
+    pubspecConfig.extraAnnotations.forEach(sb.writeln);
 
     jsonModel.converters.forEach((converter) {
       sb.writeln('@$converter()');

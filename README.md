@@ -43,6 +43,17 @@ model_generator:
   use_fvm: true
 ```
 
+##Extra imports and annotations
+If you wish for extra import statements in the generated files and/or extra annotations on the generated model classes, you
+can specify those in the pubspec.yaml:
+```
+model_generator:
+  extra_imports:
+    - 'package:flutter/foundation.dart'
+  extra_annotations:
+    - '@immutable'
+```
+
 ##Generics support support
 If you want your models to generate code that can be used in combination with generics. use this:
 ```

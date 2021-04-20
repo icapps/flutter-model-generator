@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:model_generator_example/model/converter/date_time_converter.dart';
 
 part 'ogm.g.dart';
 
 @JsonSerializable()
+@immutable
 @DateTimeConverter()
 class OGM {
   @JsonKey(name: 'structuredMessage', required: true)

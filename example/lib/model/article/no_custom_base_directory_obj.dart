@@ -1,9 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:model_generator_example/custom_model_directory/article/custom_base_directory_obj.dart';
 
 part 'no_custom_base_directory_obj.g.dart';
 
 @JsonSerializable()
+@immutable
 class NoCustomBaseDirectoryObj {
   @JsonKey(name: 'customBaseDirectoryObj')
   final CustomBaseDirectoryObj? customBaseDirectoryObj;
