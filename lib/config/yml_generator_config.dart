@@ -127,6 +127,7 @@ class YmlGeneratorConfig {
           converters: mappedConverters ?? [],
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
+          equalsAndHashCode: value['equals_and_hash_code'],
         ));
       }
     });
