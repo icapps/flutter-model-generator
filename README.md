@@ -43,9 +43,17 @@ model_generator:
   use_fvm: true
 ```
 
+##== and hashCode
+If you want the generated models to include code for == and hashCode, you can turn it on in `pubspec.yaml`. Defaults to false.
+All fields are taken into consideration for the generated code.
+```yaml
+model_generator:
+  equals_and_hash_code: true
+```
+
 ##Extra imports and annotations
 If you wish for extra import statements in the generated files and/or extra annotations on the generated model classes, you
-can specify those in the pubspec.yaml
+can specify those in `pubspec.yaml`
 ```yaml
 model_generator:
   extra_imports:

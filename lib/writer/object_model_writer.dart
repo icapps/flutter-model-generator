@@ -124,8 +124,32 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln(
           '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);')
-      ..writeln()
-      ..writeln('}');
+      ..writeln();
+
+    if (pubspecConfig.equalsHashCode) {
+      sb
+        ..writeln('  @override')
+        ..writeln('  bool operator ==(Object other) =>')
+        ..writeln('      identical(this, other) ||')
+        ..writeln('      other is ${jsonModel.name} &&')
+        ..write('          runtimeType == other.runtimeType');
+      jsonModel.fields.forEach((field) {
+        sb.write(' &&\n          ${field.name} == other.${field.name}');
+      });
+      sb
+        ..writeln(';')
+        ..writeln()
+        ..writeln('  @override')
+        ..writeln('  int get hashCode =>');
+      var c = 0;
+      jsonModel.fields.forEach((field) {
+        if (c++ > 0) sb.write(' ^\n');
+        sb.write('      ${field.name}.hashCode');
+      });
+      sb.writeln(';');
+    }
+
+    sb.writeln('}');
     return sb.toString();
   }
 

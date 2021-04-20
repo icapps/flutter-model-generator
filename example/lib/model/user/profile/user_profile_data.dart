@@ -50,4 +50,35 @@ class UserProfileData {
       _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserProfileData &&
+          runtimeType == other.runtimeType &&
+          firstName == other.firstName &&
+          lastName == other.lastName &&
+          standardLanguage == other.standardLanguage &&
+          mainAccountNumber == other.mainAccountNumber &&
+          legalEmail == other.legalEmail &&
+          phones == other.phones &&
+          legalAddress == other.legalAddress &&
+          offTrack == other.offTrack &&
+          onTrack == other.onTrack &&
+          persons == other.persons &&
+          personsById == other.personsById;
+
+  @override
+  int get hashCode =>
+      firstName.hashCode ^
+      lastName.hashCode ^
+      standardLanguage.hashCode ^
+      mainAccountNumber.hashCode ^
+      legalEmail.hashCode ^
+      phones.hashCode ^
+      legalAddress.hashCode ^
+      offTrack.hashCode ^
+      onTrack.hashCode ^
+      persons.hashCode ^
+      personsById.hashCode;
 }

@@ -20,4 +20,15 @@ class Person {
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Person &&
+          runtimeType == other.runtimeType &&
+          firstName == other.firstName &&
+          gender == other.gender;
+
+  @override
+  int get hashCode => firstName.hashCode ^ gender.hashCode;
 }

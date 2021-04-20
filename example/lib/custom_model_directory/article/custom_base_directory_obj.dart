@@ -17,4 +17,14 @@ class CustomBaseDirectoryObj {
       _$CustomBaseDirectoryObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomBaseDirectoryObjToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CustomBaseDirectoryObj &&
+          runtimeType == other.runtimeType &&
+          name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
 }

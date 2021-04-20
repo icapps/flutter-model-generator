@@ -27,4 +27,5 @@ model_generator:
     - 'package:flutter/foundation.dart'
   extra_annotations:
     - '@immutable'
+  equals_and_hash_code: true
 #  base_directory: model

@@ -12,6 +12,7 @@ class PubspecConfig {
   late bool useFvm;
   late bool generateForGenerics;
   late String configPath;
+  late bool equalsHashCode;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
 
@@ -34,13 +35,15 @@ class PubspecConfig {
       generateForGenerics = false;
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
+      equalsHashCode = false;
       return;
     }
 
     baseDirectory = config['base_directory'] ?? _DEFAULT_BASE_DIRECTORY;
-    useFvm = config['use_fvm'] == true;
+    useFvm = (config['use_fvm'] ?? false) == true;
     generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
+    equalsHashCode = (config['equals_and_hash_code'] ?? false) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {

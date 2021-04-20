@@ -40,4 +40,31 @@ class OGM {
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);
 
   Map<String, dynamic> toJson() => _$OGMToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OGM &&
+          runtimeType == other.runtimeType &&
+          structuredMessage == other.structuredMessage &&
+          beneficiary == other.beneficiary &&
+          beneficiaryIBAN == other.beneficiaryIBAN &&
+          testTest == other.testTest &&
+          someThing == other.someThing &&
+          someThinGHuGE == other.someThinGHuGE &&
+          securityRole == other.securityRole &&
+          mutableProperty == other.mutableProperty &&
+          dateChange == other.dateChange;
+
+  @override
+  int get hashCode =>
+      structuredMessage.hashCode ^
+      beneficiary.hashCode ^
+      beneficiaryIBAN.hashCode ^
+      testTest.hashCode ^
+      someThing.hashCode ^
+      someThinGHuGE.hashCode ^
+      securityRole.hashCode ^
+      mutableProperty.hashCode ^
+      dateChange.hashCode;
 }
