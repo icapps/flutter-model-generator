@@ -1,4 +1,8 @@
 # Changelog
+## [4.2.0] - 2021-04-20
+### Added
+- Support Map support
+
 ## [4.1.0] - 2021-02-22
 ### Added
 - Support for generatic generics fromJsonT()
