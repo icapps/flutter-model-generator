@@ -73,6 +73,26 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, 'extra-imports');
     });
+    test('Normal ObjectModelWriter with toString', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'normal-to-string');
+    });
     test('Normal ObjectModelWriter with extra annotations on model', () {
       final model = ObjectModel(
         name: 'Person',

@@ -51,6 +51,14 @@ model_generator:
   equals_and_hash_code: true
 ```
 
+##toString
+If you want the generated models to include generated toString code, you can turn it on in `pubspec.yaml`. Defaults to false.
+All fields are taken into consideration for the generated code.
+```yaml
+model_generator:
+  to_string: true
+```
+
 ##Extra imports and annotations
 If you wish for extra import statements in the generated files and/or extra annotations on the generated model classes, you
 can specify those in `pubspec.yaml`

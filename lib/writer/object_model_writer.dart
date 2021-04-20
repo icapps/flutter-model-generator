@@ -152,7 +152,7 @@ class ObjectModelWriter {
       sb
       ..writeln()
       ..writeln('  @override')
-      ..writeln('  String toString() => ')
+      ..writeln('  String toString() =>')
       ..writeln('      \'${jsonModel.name}{\'');
 
       var c = 0;

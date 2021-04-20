@@ -16,14 +16,9 @@ class Person {
   Map<String, dynamic> toJson() => _$PersonToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Person &&
-          runtimeType == other.runtimeType &&
-          firstName == other.firstName;
-
-  @override
-  int get hashCode =>
-      firstName.hashCode;
+  String toString() =>
+      'Person{'
+      'firstName: $firstName'
+      '}';
 
 }
