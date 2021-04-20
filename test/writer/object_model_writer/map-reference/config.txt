@@ -1,0 +1,10 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    info:
+      required: false
+      type: map
+      items:
+        key: string
+        value: Person
