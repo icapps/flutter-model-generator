@@ -1,4 +1,10 @@
 # Changelog
+## [4.3.0] - 2021-04-20
+### Added
+- Added support for adding extra annotations and imports
+- Added support for generating == and hashCode
+- Added support for generating toString
+
 ## [4.2.0] - 2021-04-20
 ### Added
 - Support Map support
