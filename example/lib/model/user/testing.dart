@@ -38,4 +38,27 @@ class Testing {
       _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Testing &&
+          runtimeType == other.runtimeType &&
+          beneficiary == other.beneficiary &&
+          isFavourite == other.isFavourite &&
+          structuredMessage == other.structuredMessage &&
+          beneficiaryIBAN == other.beneficiaryIBAN &&
+          dynamicField == other.dynamicField &&
+          duration == other.duration &&
+          durationFromJsonTest == other.durationFromJsonTest;
+
+  @override
+  int get hashCode =>
+      beneficiary.hashCode ^
+      isFavourite.hashCode ^
+      structuredMessage.hashCode ^
+      beneficiaryIBAN.hashCode ^
+      dynamicField.hashCode ^
+      duration.hashCode ^
+      durationFromJsonTest.hashCode;
 }

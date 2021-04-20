@@ -20,4 +20,15 @@ class Project {
       _$ProjectFromJson(json as Map<String, dynamic>); // ignore: avoid_as
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Project &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          cost == other.cost;
+
+  @override
+  int get hashCode => name.hashCode ^ cost.hashCode;
 }
