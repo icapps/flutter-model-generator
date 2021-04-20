@@ -21,8 +21,12 @@ class ObjectModelWriter {
       ..add("import 'package:json_annotation/json_annotation.dart';");
 
     jsonModel.fields.forEach((field) {
-      if (!TypeChecker.isKnownDartType(field.type.name)) {
-        imports.add(_getImportFromPath(field.type.name));
+      final type = field.type;
+      if (!TypeChecker.isKnownDartType(type.name)) {
+        imports.add(_getImportFromPath(type.name));
+      }
+      if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
+        imports.add(_getImportFromPath(type.valueName));
       }
     });
     jsonModel.converters.forEach((converter) {

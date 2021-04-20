@@ -198,7 +198,11 @@ class YmlGeneratorConfig {
       names.add(model.name);
       if (model is ObjectModel) {
         model.fields.forEach((field) {
-          types.add(field.type.name);
+          final type = field.type;
+          types.add(type.name);
+          if (type is MapType) {
+            types.add(type.valueName);
+          }
         });
       }
     });

@@ -208,6 +208,27 @@ void main() {
       WriterTestHelper.testObjectModelWriter(model, 'map');
     });
 
+    test('Normal ObjectModelWriter with map field with reference', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'info',
+            type: MapType(key: 'String', valueName: 'Person'),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'map-reference');
+    });
+
     test('Normal ObjectModelWriter with non final', () {
       final model = ObjectModel(
         name: 'Person',
