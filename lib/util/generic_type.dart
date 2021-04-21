@@ -56,6 +56,10 @@ class DartType {
   }
 }
 
+const _openGenericsChar = 0x3C;
+const _closeGenericsChar = 0x3E;
+const _commaChar = 0x2C;
+
 List<String> _splitByComma(String typeArgumentList) {
   final strings = <String>[];
   final stringBuffer = StringBuffer();
@@ -63,17 +67,17 @@ List<String> _splitByComma(String typeArgumentList) {
 
   for (var i = 0; i < typeArgumentList.length; ++i) {
     final c = typeArgumentList.codeUnitAt(i);
-    if (c == 0x2C && level == 0) {
+    if (c == _commaChar && level == 0) {
       strings.add(stringBuffer.toString().trim());
       stringBuffer.clear();
     } else {
       stringBuffer.write(String.fromCharCode(c));
     }
 
-    if (c == 0x3C) {
+    if (c == _openGenericsChar) {
       level++;
     }
-    if (c == 0x3E) {
+    if (c == _closeGenericsChar) {
       level--;
     }
   }
