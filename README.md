@@ -165,6 +165,11 @@ UserModel:
       type: string
     changedAt:
       type: datetime
+    idToAddressList:
+      type: map
+      items:
+        key: String
+        value: List<Address>
 
 Address:
   path: webservice/user #Can also be package:... and/or end with the actual file (.dart)

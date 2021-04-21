@@ -33,6 +33,10 @@ OGM:
       non_final: true
     dateChange:
       type: datetime
+    fields:
+      type: array
+      items:
+        type: List<Testing>
 Testing:
   path: user
   type: object

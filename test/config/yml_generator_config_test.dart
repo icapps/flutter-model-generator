@@ -228,7 +228,7 @@ void main() {
         final config = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
         try {
-          config.getPathForName(pubspecConfig, 'TESTING');
+          config.getPathsForName(pubspecConfig, 'TESTING');
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -236,6 +236,14 @@ void main() {
         expect(hasError, true);
         expect(errorMessage,
             'Exception: getPathForName is null: because `TESTING` was not added to the config file');
+      });
+      test('Get paths with generic model', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('generics-normal'));
+        expect(config.getPathsForName(pubspecConfig, 'List<Person>').toList(),
+            ['model']);
       });
       test('Get path with invalid model', () {
         final pubspecConfig =

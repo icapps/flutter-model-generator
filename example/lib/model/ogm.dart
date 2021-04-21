@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/testing.dart';
 import 'package:model_generator_example/model/converter/date_time_converter.dart';
 
 part 'ogm.g.dart';
@@ -24,6 +25,8 @@ class OGM {
   String? mutableProperty;
   @JsonKey(name: 'dateChange')
   final DateTime? dateChange;
+  @JsonKey(name: 'fields')
+  final List<List<Testing>>? fields;
 
   OGM({
     required this.structuredMessage,
@@ -35,6 +38,7 @@ class OGM {
     this.securityRole,
     this.mutableProperty,
     this.dateChange,
+    this.fields,
   });
 
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);
@@ -54,7 +58,8 @@ class OGM {
           someThinGHuGE == other.someThinGHuGE &&
           securityRole == other.securityRole &&
           mutableProperty == other.mutableProperty &&
-          dateChange == other.dateChange;
+          dateChange == other.dateChange &&
+          fields == other.fields;
 
   @override
   int get hashCode =>
@@ -66,7 +71,8 @@ class OGM {
       someThinGHuGE.hashCode ^
       securityRole.hashCode ^
       mutableProperty.hashCode ^
-      dateChange.hashCode;
+      dateChange.hashCode ^
+      fields.hashCode;
 
   @override
   String toString() => 'OGM{'
@@ -78,6 +84,7 @@ class OGM {
       'someThinGHuGE: $someThinGHuGE, '
       'securityRole: $securityRole, '
       'mutableProperty: $mutableProperty, '
-      'dateChange: $dateChange'
+      'dateChange: $dateChange, '
+      'fields: $fields'
       '}';
 }

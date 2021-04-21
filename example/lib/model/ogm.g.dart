@@ -27,6 +27,11 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     dateChange: json['dateChange'] == null
         ? null
         : DateTime.parse(json['dateChange'] as String),
+    fields: (json['fields'] as List<dynamic>?)
+        ?.map((e) => (e as List<dynamic>)
+            .map((e) => Testing.fromJson(e as Map<String, dynamic>))
+            .toList())
+        .toList(),
   );
 }
 
@@ -40,4 +45,5 @@ Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
       'securityIndicator': instance.securityRole,
       'mutableProperty': instance.mutableProperty,
       'dateChange': instance.dateChange?.toIso8601String(),
+      'fields': instance.fields,
     };

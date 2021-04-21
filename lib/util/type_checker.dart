@@ -8,4 +8,8 @@ class TypeChecker {
         type == 'dynamic' ||
         type == 'bool';
   }
+
+  static bool isKnownDartCollectionType(String type) {
+    return type == 'List' || type == 'Map' || type == 'Set';
+  }
 }

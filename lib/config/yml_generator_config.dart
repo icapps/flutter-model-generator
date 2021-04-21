@@ -16,6 +16,7 @@ import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/generic_type.dart';
 import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/util/type_checker.dart';
 import 'package:yaml/yaml.dart';
@@ -216,21 +217,33 @@ class YmlGeneratorConfig {
     }
   }
 
-  String getPathForName(PubspecConfig pubspecConfig, String name) {
+  Iterable<String> getPathsForName(PubspecConfig pubspecConfig, String name) {
+    if (TypeChecker.isKnownDartType(name)) return [];
+
     final foundModel = models.firstWhereOrNull((model) => model.name == name);
     if (foundModel == null) {
-      throw Exception(
-          'getPathForName is null: because `$name` was not added to the config file');
-    }
-    final baseDirectory =
-        foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
-    final path = foundModel.path;
-    if (path == null) {
-      return '$baseDirectory';
-    } else if (path.startsWith('package:')) {
-      return path;
+      //Maybe a generic
+      final dartType = DartType(name);
+      if (dartType.generics.isEmpty) {
+        throw Exception(
+            'getPathForName is null: because `$name` was not added to the config file');
+      }
+      final paths = <String>{};
+      dartType.generics.forEach((element) {
+        paths.addAll(getPathsForName(pubspecConfig, element.toString()));
+      });
+      return paths;
     } else {
-      return '$baseDirectory/$path';
+      final baseDirectory =
+          foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
+      final path = foundModel.path;
+      if (path == null) {
+        return ['$baseDirectory'];
+      } else if (path.startsWith('package:')) {
+        return [path];
+      } else {
+        return ['$baseDirectory/$path'];
+      }
     }
   }
 
@@ -256,10 +269,7 @@ class YmlGeneratorConfig {
     print('Models used as a field in another model:');
     print(types);
     types.forEach((type) {
-      if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
-        throw Exception(
-            'Could not generate all models. `$type` is not added to the config file');
-      }
+      DartType(type).checkTypesKnown(names);
     });
   }
 

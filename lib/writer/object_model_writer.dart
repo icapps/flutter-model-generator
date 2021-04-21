@@ -1,4 +1,5 @@
 import 'package:model_generator/model/item_type/map_type.dart';
+import 'package:model_generator/util/generic_type.dart';
 
 import '../config/pubspec_config.dart';
 import '../config/yml_generator_config.dart';
@@ -25,14 +26,14 @@ class ObjectModelWriter {
     jsonModel.fields.forEach((field) {
       final type = field.type;
       if (!TypeChecker.isKnownDartType(type.name)) {
-        imports.add(_getImportFromPath(type.name));
+        imports.addAll(_getImportsFromPath(type.name));
       }
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
-        imports.add(_getImportFromPath(type.valueName));
+        imports.addAll(_getImportsFromPath(type.valueName));
       }
     });
     jsonModel.converters.forEach((converter) {
-      imports.add(_getImportFromPath(converter));
+      imports.addAll(_getImportsFromPath(converter));
     });
     imports.forEach(sb.writeln);
 
@@ -167,21 +168,28 @@ class ObjectModelWriter {
     return sb.toString();
   }
 
-  String _getImportFromPath(String name) {
-    final projectName = pubspecConfig.projectName;
-    final reCaseFieldName = CaseUtil(name);
-    final path = yamlConfig.getPathForName(pubspecConfig, name);
-    String pathWithPackage;
-    if (path.startsWith('package:')) {
-      pathWithPackage = path;
-    } else {
-      pathWithPackage = 'package:$projectName/$path';
-    }
+  Iterable<String> _getImportsFromPath(String name) {
+    final imports = <String>{};
+    for (final leaf in DartType(name).leaves) {
+      final projectName = pubspecConfig.projectName;
+      final reCaseFieldName = CaseUtil(leaf);
+      final paths = yamlConfig.getPathsForName(pubspecConfig, leaf);
+      for (final path in paths) {
+        String pathWithPackage;
+        if (path.startsWith('package:')) {
+          pathWithPackage = path;
+        } else {
+          pathWithPackage = 'package:$projectName/$path';
+        }
 
-    if (path.endsWith('.dart')) {
-      return "import '$pathWithPackage';";
-    } else {
-      return "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';";
+        if (path.endsWith('.dart')) {
+          imports.add("import '$pathWithPackage';");
+        } else {
+          imports.add(
+              "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
+        }
+      }
     }
+    return imports;
   }
 }
