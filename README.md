@@ -209,6 +209,24 @@ Gender:
     Y:
 ```
 
+### Generate mapping
+For enums, it is also possible to have a map generated that maps from the enum value to its string representation:
+
+```yaml
+Gender:
+  path: webservice/user
+  type: enum
+  generate_map: true
+  properties:
+    MALE:
+      value: _mAl3
+    FEMALE:
+      value: femAle
+    X:
+      value: X
+    Y:
+```
+
 ### Use unknownEnumValue 
 ```yaml
 UnknownEnumTestObject:

@@ -2,6 +2,7 @@ import 'package:model_generator/model/model/model.dart';
 
 class EnumModel extends Model {
   final List<EnumField>? fields;
+  final bool generateMap;
 
   EnumModel({
     required String name,
@@ -10,6 +11,7 @@ class EnumModel extends Model {
     this.fields,
     List<String>? extraImports,
     List<String>? extraAnnotations,
+    this.generateMap = false,
   }) : super(
           name: name,
           path: path,

@@ -1,4 +1,8 @@
 # Changelog
+## [4.3.1] - 2021-xx-xx
+### Added
+- Added support for generating a mapping for enum's: `generate_map: true`
+
 ## [4.3.0] - 2021-04-20
 ### Added
 - Added support for adding extra annotations and imports

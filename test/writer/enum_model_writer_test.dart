@@ -1,5 +1,5 @@
-import 'package:model_generator/model/model/enum_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:model_generator/model/model/enum_model.dart';
 
 import 'writer_test_helper.dart';
 
@@ -69,6 +69,25 @@ void main() {
         fields: [],
       );
       WriterTestHelper.testEnumModelWriter(model, 'no-fields');
+    });
+
+    test('Normal EnumModel generate map', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateMap: true,
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            value: 'customValue',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(model, 'custom-value-map');
     });
   });
 }
