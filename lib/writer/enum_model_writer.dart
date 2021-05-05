@@ -19,17 +19,19 @@ class EnumModelWriter {
     sb.writeln('}');
 
     if (jsonModel.generateMap) {
-      sb..writeln()
-          ..writeln('const ${jsonModel.name}Mapping = {');
+      sb..writeln()..writeln('const ${jsonModel.name}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null
             ? key.serializedName
             : key.value;
-        sb..write('  ${jsonModel.name}.${key.name}: ')..writeln('\'$jsonValue\',');
+        sb
+          ..write('  ${jsonModel.name}.${key.name}: ')
+          ..writeln('\'$jsonValue\',');
       });
 
-      sb..writeln('};')
+      sb
+        ..writeln('};')
         ..writeln()
         ..writeln('const reverse${jsonModel.name}Mapping = {');
 
@@ -37,20 +39,25 @@ class EnumModelWriter {
         final jsonValue = key.value == null || key.value?.isEmpty == null
             ? key.serializedName
             : key.value;
-        sb..write('  \'$jsonValue\': ')..writeln('${jsonModel.name}.${key.name},');
+        sb
+          ..write('  \'$jsonValue\': ')
+          ..writeln('${jsonModel.name}.${key.name},');
       });
 
       sb.writeln('};');
 
       if (jsonModel.generateExtensions) {
-        sb..writeln()
-          ..writeln('extension ${jsonModel.name}Extension on ${jsonModel.name} {')
-          ..writeln('  String get stringValue => ${jsonModel.name}Mapping[this]!;')
+        sb
+          ..writeln()
+          ..writeln(
+              'extension ${jsonModel.name}Extension on ${jsonModel.name} {')
+          ..writeln(
+              '  String get stringValue => ${jsonModel.name}Mapping[this]!;')
           ..writeln('}')
-
-        ..writeln()
+          ..writeln()
           ..writeln('extension ${jsonModel.name}StringExtension on String {')
-          ..writeln('  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
+          ..writeln(
+              '  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
           ..writeln('}');
       }
     }
