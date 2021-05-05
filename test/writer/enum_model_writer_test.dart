@@ -89,5 +89,25 @@ void main() {
       );
       WriterTestHelper.testEnumModelWriter(model, 'custom-value-map');
     });
+
+    test('Normal EnumModel generate map extension', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateMap: true,
+        generateExtensions: true,
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            value: 'customValue',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(model, 'custom-value-map-extension');
+    });
   });
 }

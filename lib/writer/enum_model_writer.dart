@@ -29,7 +29,30 @@ class EnumModelWriter {
         sb..write('  ${jsonModel.name}.${key.name}: ')..writeln('\'$jsonValue\',');
       });
 
+      sb..writeln('};')
+        ..writeln()
+        ..writeln('const reverse${jsonModel.name}Mapping = {');
+
+      jsonModel.fields?.forEach((key) {
+        final jsonValue = key.value == null || key.value?.isEmpty == null
+            ? key.serializedName
+            : key.value;
+        sb..write('  \'$jsonValue\': ')..writeln('${jsonModel.name}.${key.name},');
+      });
+
       sb.writeln('};');
+
+      if (jsonModel.generateExtensions) {
+        sb..writeln()
+          ..writeln('extension ${jsonModel.name}Extension on ${jsonModel.name} {')
+          ..writeln('  String get stringValue => ${jsonModel.name}Mapping[this]!;')
+          ..writeln('}')
+
+        ..writeln()
+          ..writeln('extension ${jsonModel.name}StringExtension on String {')
+          ..writeln('  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
+          ..writeln('}');
+      }
     }
 
     return sb.toString();

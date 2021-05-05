@@ -210,13 +210,35 @@ Gender:
 ```
 
 ### Generate mapping
-For enums, it is also possible to have a map generated that maps from the enum value to its string representation:
+For enums, it is also possible to have a map generated that maps from the enum value to its string representation and reverse. To enable this,
+use `generate_map: true`
 
 ```yaml
 Gender:
   path: webservice/user
   type: enum
   generate_map: true
+  properties:
+    MALE:
+      value: _mAl3
+    FEMALE:
+      value: femAle
+    X:
+      value: X
+    Y:
+```
+
+### Generate mapping extensions
+When generating maps, it is also possible to specify that special extension functions should be added that return either the string value
+or that takes a string value and tries to convert it to the enum value. To enable this,
+use `generate_map: true` **AND** `generate_extensions: true`
+
+```yaml
+Gender:
+  path: webservice/user
+  type: enum
+  generate_map: true
+  generate_extensions: true
   properties:
     MALE:
       value: _mAl3
