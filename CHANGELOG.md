@@ -1,5 +1,5 @@
 # Changelog
-## [4.3.1] - 2021-xx-xx
+## [4.3.1] - 2021-05-06
 ### Added
 - Added support for generating a mapping for enum's: `generate_map: true`
 - Added support for generating extension methods using the enum's mapping: `generate_extensions: true`
