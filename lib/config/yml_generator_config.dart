@@ -28,12 +28,15 @@ class YmlGeneratorConfig {
 
   YmlGeneratorConfig(PubspecConfig pubspecConfig, String configContent) {
     loadYaml(configContent).forEach((key, value) {
-      final String baseDirectory = value['base_directory'] ?? pubspecConfig.baseDirectory;
+      final String baseDirectory =
+          value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String? path = value['path'];
       final String? extend = value['extends'];
-      final bool generateForGenerics = value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
+      final bool generateForGenerics =
+          value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
 
-      final extraImports = value.containsKey('extra_imports') ? <String>[] : null;
+      final extraImports =
+          value.containsKey('extra_imports') ? <String>[] : null;
       final extraImportsVal = value['extra_imports'];
       extraImportsVal?.forEach((e) {
         if (e != null) {
@@ -41,7 +44,8 @@ class YmlGeneratorConfig {
         }
       });
 
-      final extraAnnotations = value.containsKey('extra_annotations') ? <String>[] : null;
+      final extraAnnotations =
+          value.containsKey('extra_annotations') ? <String>[] : null;
       final extraAnnotationsVal = value['extra_annotations'];
       extraAnnotationsVal?.forEach((e) {
         if (e != null) {
@@ -84,7 +88,8 @@ class YmlGeneratorConfig {
         throw Exception('Properties can not be null. model: $key');
       }
       if (!(properties is YamlMap)) {
-        throw Exception('Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
+        throw Exception(
+            'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
         final fields = <EnumField>[];
@@ -113,7 +118,8 @@ class YmlGeneratorConfig {
           }
           fields.add(getField(propertyKey, propertyValue));
         });
-        final mappedConverters = converters?.map((element) => element.toString()).toList();
+        final mappedConverters =
+            converters?.map((element) => element.toString()).toList();
         models.add(ObjectModel(
           name: key,
           path: path,
@@ -135,9 +141,12 @@ class YmlGeneratorConfig {
 
   Field getField(String name, YamlMap property) {
     try {
-      final required = property.containsKey('required') && property['required'] == true;
-      final ignored = property.containsKey('ignore') && property['ignore'] == true;
-      final nonFinal = ignored || property.containsKey('non_final') && property['non_final'] == true;
+      final required =
+          property.containsKey('required') && property['required'] == true;
+      final ignored =
+          property.containsKey('ignore') && property['ignore'] == true;
+      final nonFinal = ignored ||
+          property.containsKey('non_final') && property['non_final'] == true;
       final includeIfNull = property['include_if_null'] != false;
       final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
@@ -201,7 +210,9 @@ class YmlGeneratorConfig {
       return 'DateTime';
     } else if (typeName == 'int' || typeName == 'integer') {
       return 'int';
-    } else if (typeName == 'object' || typeName == 'dynamic' || typeName == 'any') {
+    } else if (typeName == 'object' ||
+        typeName == 'dynamic' ||
+        typeName == 'any') {
       return 'dynamic';
     } else {
       return typeName;
@@ -216,7 +227,8 @@ class YmlGeneratorConfig {
       //Maybe a generic
       final dartType = DartType(name);
       if (dartType.generics.isEmpty) {
-        throw Exception('getPathForName is null: because `$name` was not added to the config file');
+        throw Exception(
+            'getPathForName is null: because `$name` was not added to the config file');
       }
       final paths = <String>{};
       dartType.generics.forEach((element) {
@@ -224,7 +236,8 @@ class YmlGeneratorConfig {
       });
       return paths;
     } else {
-      final baseDirectory = foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
+      final baseDirectory =
+          foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
       final path = foundModel.path;
       if (path == null) {
         return ['$baseDirectory'];
@@ -276,16 +289,19 @@ class YmlGeneratorConfig {
 
   Model? getModelByName(ItemType itemType) {
     if (itemType is! ObjectType) return null;
-    final model = models.firstWhereOrNull((model) => model.name == itemType.name);
+    final model =
+        models.firstWhereOrNull((model) => model.name == itemType.name);
     if (model == null) {
-      throw Exception('getModelByname is null: because `${itemType.name}` was not added to the config file');
+      throw Exception(
+          'getModelByname is null: because `${itemType.name}` was not added to the config file');
     }
     return model;
   }
 
   void checkTypesKnown(final Set<String> names, String type) {
     if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
-      throw Exception('Could not generate all models. `$type` is not added to the config file');
+      throw Exception(
+          'Could not generate all models. `$type` is not added to the config file');
     }
   }
 }

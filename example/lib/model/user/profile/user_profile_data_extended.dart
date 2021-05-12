@@ -40,7 +40,8 @@ class UserProfileDataExtended extends UserProfileData {
           personsById: personsById,
         );
 
-  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) => _$UserProfileDataExtendedFromJson(json);
+  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileDataExtendedFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$UserProfileDataExtendedToJson(this);
@@ -54,13 +55,10 @@ class UserProfileDataExtended extends UserProfileData {
           super == other;
 
   @override
-  int get hashCode =>
-      additionalField.hashCode ^ 
-      super.hashCode;
+  int get hashCode => additionalField.hashCode ^ super.hashCode;
 
   @override
-  String toString() =>
-      'UserProfileDataExtended{'
+  String toString() => 'UserProfileDataExtended{'
       'additionalField: $additionalField, '
       'firstName: $firstName, '
       'lastName: $lastName, '
@@ -74,5 +72,4 @@ class UserProfileDataExtended extends UserProfileData {
       'persons: $persons, '
       'personsById: $personsById'
       '}';
-
 }

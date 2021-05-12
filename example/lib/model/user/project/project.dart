@@ -16,7 +16,8 @@ class Project {
     this.cost,
   });
 
-  factory Project.fromJson(Object? json) => _$ProjectFromJson(json as Map<String, dynamic>); // ignore: avoid_as
+  factory Project.fromJson(Object? json) =>
+      _$ProjectFromJson(json as Map<String, dynamic>); // ignore: avoid_as
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
 
@@ -29,15 +30,11 @@ class Project {
           cost == other.cost;
 
   @override
-  int get hashCode =>
-      name.hashCode ^
-      cost.hashCode;
+  int get hashCode => name.hashCode ^ cost.hashCode;
 
   @override
-  String toString() =>
-      'Project{'
+  String toString() => 'Project{'
       'name: $name, '
       'cost: $cost'
       '}';
-
 }

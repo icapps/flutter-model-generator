@@ -14,8 +14,11 @@ import 'package:collection/collection.dart';
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
-    ..addOption('path', help: 'Override the default model configuration path. This value will be used instead of the default OR what you have configured in pubspec.yaml')
-    ..addFlag('help', help: 'Displays this help screen', defaultsTo: false, negatable: false);
+    ..addOption('path',
+        help:
+            'Override the default model configuration path. This value will be used instead of the default OR what you have configured in pubspec.yaml')
+    ..addFlag('help',
+        help: 'Displays this help screen', defaultsTo: false, negatable: false);
 
   final results = argParser.parse(args);
   if (results['help']) {
@@ -25,7 +28,8 @@ Future<void> main(List<String> args) async {
 
   final pubspecYaml = File(join(Directory.current.path, 'pubspec.yaml'));
   if (!pubspecYaml.existsSync()) {
-    throw Exception('This program should be run from the root of a flutter/dart project');
+    throw Exception(
+        'This program should be run from the root of a flutter/dart project');
   }
   final pubspecContent = pubspecYaml.readAsStringSync();
   final pubspecConfig = PubspecConfig(pubspecContent);
@@ -42,14 +46,16 @@ Future<void> main(List<String> args) async {
     throw Exception('This program requires a config file. `$configPath`');
   }
   final modelGeneratorContent = configFile.readAsStringSync();
-  final modelGeneratorConfig = YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
+  final modelGeneratorConfig =
+      YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
   await generateJsonGeneratedModels(useFvm: pubspecConfig.useFvm);
   print('Done!!!');
 }
 
-void writeToFiles(PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
+void writeToFiles(
+    PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
   modelGeneratorConfig.models.forEach((model) {
     final modelDirectory = Directory(join('lib', model.baseDirectory));
     if (!modelDirectory.existsSync()) {
@@ -59,22 +65,28 @@ void writeToFiles(PubspecConfig pubspecConfig, YmlGeneratorConfig modelGenerator
     if (model is ObjectModel) {
       ObjectModel? extendsModel;
       if (model.extend != null) {
-        extendsModel = modelGeneratorConfig.models.firstWhereOrNull((element) => element.name == model.extend) as ObjectModel?; // ignore: avoid_as
+        extendsModel = modelGeneratorConfig.models
+                .firstWhereOrNull((element) => element.name == model.extend)
+            as ObjectModel?; // ignore: avoid_as
       }
-      content = ObjectModelWriter(pubspecConfig, model, extendsModel, modelGeneratorConfig).write();
+      content = ObjectModelWriter(
+              pubspecConfig, model, extendsModel, modelGeneratorConfig)
+          .write();
     } else if (model is EnumModel) {
       content = EnumModelWriter(model).write();
     } else if (model is JsonConverterModel) {
       return;
     }
     if (model is! CustomModel && content == null) {
-      throw Exception('content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
+      throw Exception(
+          'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
     }
     File file;
     if (model.path == null) {
       file = File(join('lib', model.baseDirectory, '${model.fileName}.dart'));
     } else {
-      file = File(join('lib', model.baseDirectory, model.path, '${model.fileName}.dart'));
+      file = File(join(
+          'lib', model.baseDirectory, model.path, '${model.fileName}.dart'));
     }
     if (!file.existsSync()) {
       file.createSync(recursive: true);
@@ -112,6 +124,7 @@ Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
     print('Successfully generated the jsonSerializable generated files');
     print('');
   } else {
-    print('Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
+    print(
+        'Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
   }
 }
