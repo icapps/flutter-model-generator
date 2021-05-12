@@ -1,3 +1,4 @@
+import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/util/generic_type.dart';
 
@@ -12,20 +13,23 @@ import '../util/type_checker.dart';
 class ObjectModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
+  final ObjectModel? extendsModel;
   final YmlGeneratorConfig yamlConfig;
 
-  const ObjectModelWriter(this.pubspecConfig, this.jsonModel, this.yamlConfig);
+  const ObjectModelWriter(this.pubspecConfig, this.jsonModel, this.extendsModel, this.yamlConfig);
 
   String write() {
     final sb = StringBuffer();
     final imports = <String>{}..add("import 'package:json_annotation/json_annotation.dart';");
     (jsonModel.extraImports ?? pubspecConfig.extraImports).forEach((element) => imports.add('import \'$element\';'));
 
-    if (jsonModel.extend != null) {
-      if (!TypeChecker.isKnownDartType(jsonModel.extend!)) {
-        imports.addAll(_getImportsFromPath(jsonModel.extend!));
+    if (extendsModel != null) {
+      if (!TypeChecker.isKnownDartType(extendsModel!.name)) {
+        imports.addAll(_getImportsFromPath(extendsModel!.name));
       }
+      (extendsModel?.extraImports ?? []).forEach((element) => imports.add('import \'$element\';'));
     }
+
     jsonModel.fields.forEach((field) {
       final type = field.type;
       if (!TypeChecker.isKnownDartType(type.name)) {
@@ -35,6 +39,16 @@ class ObjectModelWriter {
         imports.addAll(_getImportsFromPath(type.valueName));
       }
     });
+    extendsModel?.fields.forEach((field) {
+      final type = field.type;
+      if (!TypeChecker.isKnownDartType(type.name)) {
+        imports.addAll(_getImportsFromPath(type.name));
+      }
+      if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
+        imports.addAll(_getImportsFromPath(type.valueName));
+      }
+    });
+
     jsonModel.converters.forEach((converter) {
       imports.addAll(_getImportsFromPath(converter));
     });
@@ -47,8 +61,8 @@ class ObjectModelWriter {
       sb.writeln('@$converter()');
     });
 
-    if (jsonModel.extend != null) {
-      sb.writeln('class ${jsonModel.name} extends ${jsonModel.extend!} {');
+    if (extendsModel != null) {
+      sb.writeln('class ${jsonModel.name} extends ${extendsModel!.name} {');
     } else {
       sb.writeln('class ${jsonModel.name} {');
     }
@@ -90,34 +104,43 @@ class ObjectModelWriter {
       } else {
         sb.write('  final ');
       }
-      final nullableFlag = key.isRequired ? '' : '?';
-      final keyType = key.type;
-      if (keyType is ArrayType) {
-        sb.writeln('List<${keyType.name}>$nullableFlag ${key.name};');
-      } else if (keyType is MapType) {
-        sb.writeln('Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
-      } else {
-        sb.writeln('${key.type.name}$nullableFlag ${key.name};');
-      }
+      sb.writeln('${_getKeyType(key)} ${key.name};');
     });
 
     final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal);
     sb..writeln()..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    jsonModel.fields.forEach((key) {
-      if (key.isRequired) {
-        sb.writeln('    required this.${key.name},');
-      } else {
-        sb.writeln('    this.${key.name},');
-      }
+    jsonModel.fields.where((key) => key.isRequired).forEach((key) {
+      sb.writeln('    required this.${key.name},');
     });
-    sb..writeln('  });')..writeln();
+    extendsModel?.fields.where((key) => key.isRequired).forEach((key) {
+      sb.writeln('    required ${_getKeyType(key)} ${key.name},');
+    });
+    jsonModel.fields.where((key) => !key.isRequired).forEach((key) {
+      sb.writeln('    this.${key.name},');
+    });
+    extendsModel?.fields.where((key) => !key.isRequired).forEach((key) {
+      sb.writeln('    ${_getKeyType(key)} ${key.name},');
+    });
+    if (extendsModel != null) {
+      sb.writeln('  }) : super(');
+      extendsModel?.fields.forEach((key) {
+        sb.writeln('          ${key.name}: ${key.name},');
+      });
+      sb..writeln('        );')..writeln();
+    } else {
+      sb..writeln('  });')..writeln();
+    }
     if (jsonModel.generateForGenerics) {
       sb.writeln('  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
     } else {
       sb.writeln('  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
     }
-    sb..writeln()..writeln('  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
+    sb.writeln();
+    if (extendsModel != null) {
+      sb.writeln('  @override');
+    }
+    sb.writeln('  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
     if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
       sb
@@ -130,12 +153,18 @@ class ObjectModelWriter {
       jsonModel.fields.forEach((field) {
         sb.write(' &&\n          ${field.name} == other.${field.name}');
       });
+      if (extendsModel != null) {
+        sb.write(' &&\n          super == other');
+      }
       sb..writeln(';')..writeln()..writeln('  @override')..writeln('  int get hashCode =>');
       var c = 0;
       jsonModel.fields.forEach((field) {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
       });
+      if (extendsModel != null) {
+        sb.write(' ^ \n      super.hashCode');
+      }
       sb.writeln(';');
     }
     if (jsonModel.generateToString ?? pubspecConfig.generateToString) {
@@ -146,11 +175,27 @@ class ObjectModelWriter {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       });
+      extendsModel?.fields.forEach((field) {
+        if (c++ > 0) sb.writeln(', \'');
+        sb.write('      \'${field.name}: \$${field.name}');
+      });
       sb.writeln('\'\n      \'}\';');
     }
 
     sb..writeln()..writeln('}');
     return sb.toString();
+  }
+
+  String _getKeyType(Field key) {
+    final nullableFlag = key.isRequired ? '' : '?';
+    final keyType = key.type;
+    if (keyType is ArrayType) {
+      return 'List<${keyType.name}>$nullableFlag';
+    } else if (keyType is MapType) {
+      return 'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag';
+    } else {
+      return '${keyType.name}$nullableFlag';
+    }
   }
 
   Iterable<String> _getImportsFromPath(String name) {

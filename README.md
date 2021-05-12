@@ -116,6 +116,18 @@ UserModel:
     id:
       type: int
 ```
+
+##Expand
+If you want your models to expand any other model use expands:
+```yaml
+UserDetails:
+  path: webservice/user
+  expands: UserModel
+  properties:
+    name:
+      type: string
+```
+
 ## Default setup
 Example of the `model_generator/config.yaml` file
 ```yaml

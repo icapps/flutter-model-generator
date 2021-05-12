@@ -20,18 +20,15 @@ class WriterTestHelper {
 
   static testObjectModelWriter(ObjectModel model, String resultFileName) {
     print(Directory.current);
-    final file =
-        File('test/writer/object_model_writer/$resultFileName/output.txt');
-    final pubspecFile =
-        File('test/writer/object_model_writer/$resultFileName/pubspec.txt');
-    final configFile =
-        File('test/writer/object_model_writer/$resultFileName/config.txt');
+    final file = File('test/writer/object_model_writer/$resultFileName/output.txt');
+    final pubspecFile = File('test/writer/object_model_writer/$resultFileName/pubspec.txt');
+    final configFile = File('test/writer/object_model_writer/$resultFileName/config.txt');
     final output = file.readAsStringSync();
     final pubspecContent = pubspecFile.readAsStringSync();
     final configContent = configFile.readAsStringSync();
     final pubspecConfig = PubspecConfig(pubspecContent);
     final ymlConfig = YmlGeneratorConfig(pubspecConfig, configContent);
-    final actual = ObjectModelWriter(pubspecConfig, model, ymlConfig).write();
+    final actual = ObjectModelWriter(pubspecConfig, model, null, ymlConfig).write();
     // print(actual);
     expect(actual, output);
   }

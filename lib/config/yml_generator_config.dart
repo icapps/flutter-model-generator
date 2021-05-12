@@ -56,7 +56,6 @@ class YmlGeneratorConfig {
         models.add(CustomModel(
           name: key,
           path: path,
-          extend: extend,
           baseDirectory: baseDirectory,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
@@ -66,7 +65,6 @@ class YmlGeneratorConfig {
         models.add(CustomFromToJsonModel(
           name: key,
           path: path,
-          extend: extend,
           baseDirectory: baseDirectory,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
@@ -76,7 +74,6 @@ class YmlGeneratorConfig {
         models.add(JsonConverterModel(
           name: key,
           path: path,
-          extend: extend,
           baseDirectory: baseDirectory,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
@@ -103,7 +100,6 @@ class YmlGeneratorConfig {
         models.add(EnumModel(
           name: key,
           path: path,
-          extend: extend,
           baseDirectory: baseDirectory,
           fields: fields,
           extraImports: extraImports,
