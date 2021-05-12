@@ -75,7 +75,8 @@ class OGM {
       fields.hashCode;
 
   @override
-  String toString() => 'OGM{'
+  String toString() =>
+      'OGM{'
       'structuredMessage: $structuredMessage, '
       'beneficiary: $beneficiary, '
       'beneficiaryIBAN: $beneficiaryIBAN, '
@@ -87,4 +88,5 @@ class OGM {
       'dateChange: $dateChange, '
       'fields: $fields'
       '}';
+
 }

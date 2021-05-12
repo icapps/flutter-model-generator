@@ -8,11 +8,13 @@ class EnumModel extends Model {
     String? path,
     String? baseDirectory,
     this.fields,
+    String? extend,
     List<String>? extraImports,
     List<String>? extraAnnotations,
   }) : super(
           name: name,
           path: path,
+          extend: extend,
           baseDirectory: baseDirectory,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,

@@ -17,11 +17,13 @@ class ObjectModel extends Model {
     required this.converters,
     List<String>? extraImports,
     List<String>? extraAnnotations,
+    String? extend,
     this.equalsAndHashCode,
     this.generateToString,
   }) : super(
           name: name,
           path: path,
+          extend: extend,
           baseDirectory: baseDirectory,
           extraAnnotations: extraAnnotations,
           extraImports: extraImports,

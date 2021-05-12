@@ -37,6 +37,7 @@ OGM:
       type: array
       items:
         type: List<Testing>
+
 Testing:
   path: user
   type: object
@@ -61,6 +62,15 @@ Testing:
       type: Duration
     duration_from_json_test:
       type: DurationFromToJson
+
+UserProfileDataExtended:
+  path: user/profile
+  extends: UserProfileData
+  properties:
+    additionalField:
+      required: true
+      type: string
+
 UserProfileData:
   path: user/profile
   type: object
@@ -104,6 +114,7 @@ UserProfileData:
       items:
         key: String
         value: Person
+
 Person:
   path: user/person/
   type: object
@@ -115,6 +126,7 @@ Person:
       required: true
       unknown_enum_value: X
       type: Gender
+
 Gender:
   path: user/person/
   type: enum
@@ -135,6 +147,7 @@ Gender:
       value:
     GENDER_lap:
       value: GENDER_lap
+
 Duration:
   path: data/custom/
   type: custom
@@ -147,6 +160,7 @@ CustomBaseDirectoryObj:
   properties:
     name:
       type: string
+
 NoCustomBaseDirectoryObj:
   path: article
   properties:
