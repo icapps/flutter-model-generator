@@ -12,7 +12,7 @@ class User extends Person {
   const User({
     required this.email,
     required Address address,
-    required Map<String, Address> info,
+    Map<String, Address>? info,
   }) : super(
           address: address,
           info: info,
@@ -22,5 +22,18 @@ class User extends Person {
 
   @override
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is User &&
+          runtimeType == other.runtimeType &&
+          email == other.email &&
+          super == other;
+
+  @override
+  int get hashCode =>
+      email.hashCode ^ 
+      super.hashCode;
 
 }

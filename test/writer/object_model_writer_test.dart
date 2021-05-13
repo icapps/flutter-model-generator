@@ -538,7 +538,7 @@ void main() {
         Field(
           name: 'info',
           type: MapType(key: 'String', valueName: 'Address'),
-          isRequired: true,
+          isRequired: false,
           ignore: false,
           includeIfNull: true,
           nonFinal: false,
