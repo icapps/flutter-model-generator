@@ -1,0 +1,26 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
+import 'package:model_generator_example/model/user/custom_address.dart';
+
+part 'user.g.dart';
+
+@JsonSerializable()
+class User extends Person {
+  @JsonKey(name: 'email', required: true)
+  final String email;
+
+  const User({
+    required this.email,
+    required Address address,
+    required Map<String, Address> info,
+  }) : super(
+          address: address,
+          info: info,
+        );
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+}

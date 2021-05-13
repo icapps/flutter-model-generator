@@ -31,9 +31,7 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, [], 'normal');
     });
-    test(
-        'Normal ObjectModelWriter with not required field - equals and hashcode',
-        () {
+    test('Normal ObjectModelWriter with not required field - equals and hashcode', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -51,8 +49,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'normal-equals-hashcode');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-equals-hashcode');
     });
     test('Normal ObjectModelWriter with extra annotations', () {
       final model = ObjectModel(
@@ -114,8 +111,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'extra-imports-on-model');
+      WriterTestHelper.testObjectModelWriter(model, [], 'extra-imports-on-model');
     });
     test('Normal ObjectModelWriter with required field', () {
       final model = ObjectModel(
@@ -184,8 +180,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'generate-for-generics');
+      WriterTestHelper.testObjectModelWriter(model, [], 'generate-for-generics');
     });
 
     test('ObjectModelWriter with generate for generics override option', () {
@@ -206,8 +201,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'generate-for-generics-override');
+      WriterTestHelper.testObjectModelWriter(model, [], 'generate-for-generics-override');
     });
 
     test('ObjectModelWriter with generate for generics override option 2', () {
@@ -228,8 +222,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'generate-for-generics-override-2');
+      WriterTestHelper.testObjectModelWriter(model, [], 'generate-for-generics-override-2');
     });
 
     test('Normal ObjectModelWriter with ignroe field', () {
@@ -511,8 +504,47 @@ void main() {
           nonFinal: false,
         ),
       ];
-      WriterTestHelper.testObjectModelWriter(
-          model, extendsFields, 'extend-fields');
+      WriterTestHelper.testObjectModelWriter(model, extendsFields, 'extend-fields');
+    });
+
+    test('Normal ObjectModelWriter with extended fields', () {
+      final model = ObjectModel(
+        name: 'User',
+        extend: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'email',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      final extendsFields = [
+        Field(
+          name: 'address',
+          type: ObjectType('Address'),
+          isRequired: true,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+        Field(
+          name: 'info',
+          type: MapType(key: 'String', valueName: 'Address'),
+          isRequired: true,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+      ];
+      WriterTestHelper.testObjectModelWriter(model, extendsFields, 'extend-fields-with-non-dart-type');
     });
 
     test('Normal ObjectModelWriter with extended fields twice', () {
@@ -552,8 +584,7 @@ void main() {
           nonFinal: false,
         ),
       ];
-      WriterTestHelper.testObjectModelWriter(
-          model, extendsFields, 'extend-fields-twice');
+      WriterTestHelper.testObjectModelWriter(model, extendsFields, 'extend-fields-twice');
     });
 
     test('Normal ObjectModelWriter with package import', () {

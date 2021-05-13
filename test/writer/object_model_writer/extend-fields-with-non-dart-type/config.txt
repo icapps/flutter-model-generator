@@ -1,0 +1,27 @@
+User:
+  path: user/person/
+  type: object
+  extends: Person
+  properties:
+    email:
+      type: string
+
+Person:
+  path: user/person/
+  type: object
+  properties:
+    address:
+      type: Address
+    info:
+      type: map
+      items:
+        key: string
+        value: Address
+
+Address:
+  path: user/custom_address.dart
+  type: object
+  properties:
+    streetName:
+      required: true
+      type: string
