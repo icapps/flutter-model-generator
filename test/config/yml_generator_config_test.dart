@@ -12,11 +12,14 @@ void main() {
   group('YmlGeneratorConfig', () {
     group('Object', () {
       test('Normal object', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final ymlConfig = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
         expect(ymlConfig.models.length, 1);
         expect(ymlConfig.models.first is ObjectModel, true);
-        final objectModel = ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
         expect(objectModel.path, null);
         expect(objectModel.baseDirectory, 'model');
         expect(objectModel.fileName, 'person');
@@ -25,11 +28,14 @@ void main() {
       });
 
       test('Normal object with multiple fields', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final ymlConfig = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-multiple-fields'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-multiple-fields'));
         expect(ymlConfig.models.length, 1);
         expect(ymlConfig.models.first is ObjectModel, true);
-        final objectModel = ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
         expect(objectModel.path, null);
         expect(objectModel.baseDirectory, 'model');
         expect(objectModel.fileName, 'person');
@@ -38,11 +44,14 @@ void main() {
       });
 
       test('Normal object with baseDirectory', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final ymlConfig = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-base-dir'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-base-dir'));
         expect(ymlConfig.models.length, 1);
         expect(ymlConfig.models.first is ObjectModel, true);
-        final objectModel = ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
         expect(objectModel.path, null);
         expect(objectModel.baseDirectory, 'custom_base_dir');
         expect(objectModel.fileName, 'person');
@@ -51,11 +60,14 @@ void main() {
       });
 
       test('Normal object with all types', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final ymlConfig = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-all-types'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-all-types'));
         expect(ymlConfig.models.length, 2);
         expect(ymlConfig.models.first is ObjectModel, true);
-        final objectModel = ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
         expect(objectModel.path, null);
         expect(objectModel.baseDirectory, 'model');
         expect(objectModel.fileName, 'person');
@@ -64,11 +76,13 @@ void main() {
       });
 
       test('Error property is no object', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
         try {
-          YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-error-no-object'));
+          YmlGeneratorConfig(pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig('object-error-no-object'));
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -78,11 +92,15 @@ void main() {
       });
 
       test('Error missing type', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
         try {
-          YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-error-missing-type'));
+          YmlGeneratorConfig(
+              pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig(
+                  'object-error-missing-type'));
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -92,23 +110,30 @@ void main() {
       });
 
       test('Error no properties', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
         try {
-          YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-error-no-properties'));
+          YmlGeneratorConfig(
+              pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig(
+                  'object-error-no-properties'));
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
         }
         expect(hasError, true);
-        expect(errorMessage, 'Exception: Properties can not be null. model: Person');
+        expect(errorMessage,
+            'Exception: Properties can not be null. model: Person');
       });
     });
     group('Custom', () {
       test('Custom object', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final ymlConfig = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('custom-normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('custom-normal'));
         expect(ymlConfig.models.length, 2);
         expect(ymlConfig.models.first is ObjectModel, true);
         expect(ymlConfig.models.last is CustomModel, true);
@@ -116,12 +141,15 @@ void main() {
     });
     group('Enum', () {
       test('Normal Enum', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final ymlConfig = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('enum-normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('enum-normal'));
         expect(ymlConfig.models.length, 2);
         expect(ymlConfig.models.first is ObjectModel, true);
         expect(ymlConfig.models.last is EnumModel, true);
-        final enumModel = ymlConfig.models.last as EnumModel; // ignore: avoid_as
+        final enumModel =
+            ymlConfig.models.last as EnumModel; // ignore: avoid_as
         expect(enumModel.fields, isNotNull);
         expect(enumModel.fields!.length, 4);
         expect(enumModel.fields![0].name, 'MALE');
@@ -139,11 +167,13 @@ void main() {
       });
 
       test('Error Enum no properties map', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
         try {
-          YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('enum-error-no-object'));
+          YmlGeneratorConfig(pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig('enum-error-no-object'));
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -153,54 +183,69 @@ void main() {
       });
 
       test('Error Enum', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
         try {
-          YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('enum-error-no-properties-map'));
+          YmlGeneratorConfig(
+              pubspecConfig,
+              ConfigTestHelper.getYmlGeneratorConfig(
+                  'enum-error-no-properties-map'));
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
         }
         expect(hasError, true);
-        expect(errorMessage, 'Exception: Properties should be a map, right now you are using a String. model: Gender');
+        expect(errorMessage,
+            'Exception: Properties should be a map, right now you are using a String. model: Gender');
       });
     });
 
     test('Error with not registered object', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+      final pubspecConfig =
+          PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
       var hasError = false;
       var errorMessage = '';
       try {
-        YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('error-not-registered'));
+        YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('error-not-registered'));
       } catch (e) {
         hasError = true;
         errorMessage = e.toString();
       }
       expect(hasError, true);
-      expect(errorMessage, 'Exception: Could not generate all models. `Address` is not added to the config file');
+      expect(errorMessage,
+          'Exception: Could not generate all models. `Address` is not added to the config file');
     });
 
     test('Error with not registered extend', () {
-      final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+      final pubspecConfig =
+          PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
       var hasError = false;
       var errorMessage = '';
       try {
-        YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('error-not-registered-extend'));
+        YmlGeneratorConfig(
+            pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig(
+                'error-not-registered-extend'));
       } catch (e) {
         hasError = true;
         errorMessage = e.toString();
       }
       expect(hasError, true);
-      expect(errorMessage, 'Exception: Could not generate all models. `Address` is not added to the config file');
+      expect(errorMessage,
+          'Exception: Could not generate all models. `Address` is not added to the config file');
     });
 
     group('Getters', () {
       test('Get path with invalid model', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
-        final config = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
         try {
           config.getPathsForName(pubspecConfig, 'TESTING');
         } catch (e) {
@@ -208,18 +253,24 @@ void main() {
           errorMessage = e.toString();
         }
         expect(hasError, true);
-        expect(errorMessage, 'Exception: getPathForName is null: because `TESTING` was not added to the config file');
+        expect(errorMessage,
+            'Exception: getPathForName is null: because `TESTING` was not added to the config file');
       });
       test('Get paths with generic model', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        final config = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('generics-normal'));
-        expect(config.getPathsForName(pubspecConfig, 'List<Person>').toList(), ['model']);
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('generics-normal'));
+        expect(config.getPathsForName(pubspecConfig, 'List<Person>').toList(),
+            ['model']);
       });
       test('Get path with invalid model', () {
-        final pubspecConfig = PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
         var errorMessage = '';
-        final config = YmlGeneratorConfig(pubspecConfig, ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('object-normal'));
         try {
           config.getModelByName(ObjectType('TESTING'));
         } catch (e) {
@@ -227,7 +278,8 @@ void main() {
           errorMessage = e.toString();
         }
         expect(hasError, true);
-        expect(errorMessage, 'Exception: getModelByname is null: because `TESTING` was not added to the config file');
+        expect(errorMessage,
+            'Exception: getModelByname is null: because `TESTING` was not added to the config file');
       });
     });
   });
