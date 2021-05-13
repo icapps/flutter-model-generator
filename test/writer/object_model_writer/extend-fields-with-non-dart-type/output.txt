@@ -36,4 +36,12 @@ class User extends Person {
       email.hashCode ^ 
       super.hashCode;
 
+  @override
+  String toString() =>
+      'User{'
+      'email: $email, '
+      'address: $address, '
+      'info: $info'
+      '}';
+
 }
