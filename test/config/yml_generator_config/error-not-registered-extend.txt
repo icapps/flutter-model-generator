@@ -1,0 +1,7 @@
+Person:
+  type: object
+  extends: Address
+  properties:
+    address:
+        type: string
+

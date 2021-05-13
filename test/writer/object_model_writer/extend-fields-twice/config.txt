@@ -1,0 +1,22 @@
+Admin:
+  path: user/person/
+  type: object
+  extends: User
+  properties:
+    permission:
+      type: string
+
+User:
+  path: user/person/
+  type: object
+  extends: Person
+  properties:
+    email:
+      type: string
+
+Person:
+  path: user/person/
+  type: object
+  properties:
+    name:
+      type: string

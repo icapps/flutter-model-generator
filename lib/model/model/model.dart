@@ -4,17 +4,19 @@ abstract class Model {
   final String fileName;
   final String? baseDirectory;
   final String? path;
+  final String? extend;
   final String name;
   final List<String>? extraImports;
   final List<String>? extraAnnotations;
 
-  Model({
-    required this.name,
-    required String? path,
-    required String? baseDirectory,
-    required this.extraImports,
-    required this.extraAnnotations,
-  })   : path = getPath(path),
+  Model(
+      {required this.name,
+      required String? path,
+      required String? baseDirectory,
+      required this.extraImports,
+      required this.extraAnnotations,
+      this.extend})
+      : path = getPath(path),
         baseDirectory = getBaseDirectory(baseDirectory),
         fileName = getFileName(name);
 

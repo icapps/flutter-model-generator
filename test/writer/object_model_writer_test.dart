@@ -29,7 +29,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'normal');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal');
     });
     test(
         'Normal ObjectModelWriter with not required field - equals and hashcode',
@@ -51,7 +51,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'normal-equals-hashcode');
+      WriterTestHelper.testObjectModelWriter(
+          model, [], 'normal-equals-hashcode');
     });
     test('Normal ObjectModelWriter with extra annotations', () {
       final model = ObjectModel(
@@ -71,7 +72,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'extra-imports');
+      WriterTestHelper.testObjectModelWriter(model, [], 'extra-imports');
     });
     test('Normal ObjectModelWriter with toString', () {
       final model = ObjectModel(
@@ -91,7 +92,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'normal-to-string');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-to-string');
     });
     test('Normal ObjectModelWriter with extra annotations on model', () {
       final model = ObjectModel(
@@ -113,7 +114,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'extra-imports-on-model');
+      WriterTestHelper.testObjectModelWriter(
+          model, [], 'extra-imports-on-model');
     });
     test('Normal ObjectModelWriter with required field', () {
       final model = ObjectModel(
@@ -133,7 +135,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'required');
+      WriterTestHelper.testObjectModelWriter(model, [], 'required');
     });
     test('Nullsafe ObjectModelWriter with required field', () {
       final model = ObjectModel(
@@ -161,7 +163,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'nullsafety');
+      WriterTestHelper.testObjectModelWriter(model, [], 'nullsafety');
     });
 
     test('ObjectModelWriter with generate for generics default option', () {
@@ -182,7 +184,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'generate-for-generics');
+      WriterTestHelper.testObjectModelWriter(
+          model, [], 'generate-for-generics');
     });
 
     test('ObjectModelWriter with generate for generics override option', () {
@@ -204,7 +207,7 @@ void main() {
         converters: [],
       );
       WriterTestHelper.testObjectModelWriter(
-          model, 'generate-for-generics-override');
+          model, [], 'generate-for-generics-override');
     });
 
     test('ObjectModelWriter with generate for generics override option 2', () {
@@ -226,7 +229,7 @@ void main() {
         converters: [],
       );
       WriterTestHelper.testObjectModelWriter(
-          model, 'generate-for-generics-override-2');
+          model, [], 'generate-for-generics-override-2');
     });
 
     test('Normal ObjectModelWriter with ignroe field', () {
@@ -247,7 +250,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'ignore');
+      WriterTestHelper.testObjectModelWriter(model, [], 'ignore');
     });
 
     test('Normal ObjectModelWriter with array field', () {
@@ -268,7 +271,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'array');
+      WriterTestHelper.testObjectModelWriter(model, [], 'array');
     });
 
     test('Normal ObjectModelWriter with map field', () {
@@ -289,7 +292,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'map');
+      WriterTestHelper.testObjectModelWriter(model, [], 'map');
     });
 
     test('Normal ObjectModelWriter with map field with reference', () {
@@ -310,7 +313,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'map-reference');
+      WriterTestHelper.testObjectModelWriter(model, [], 'map-reference');
     });
 
     test('Normal ObjectModelWriter with non final', () {
@@ -331,7 +334,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'non-final');
+      WriterTestHelper.testObjectModelWriter(model, [], 'non-final');
     });
 
     test('Normal ObjectModelWriter with do not includeIfNull', () {
@@ -352,7 +355,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'include-if-null');
+      WriterTestHelper.testObjectModelWriter(model, [], 'include-if-null');
     });
 
     test('Normal ObjectModelWriter with do not includeIfNull', () {
@@ -374,7 +377,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'unknown-enum-value');
+      WriterTestHelper.testObjectModelWriter(model, [], 'unknown-enum-value');
     });
 
     test('Normal ObjectModelWriter with custom from to', () {
@@ -395,7 +398,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'custom-from-to');
+      WriterTestHelper.testObjectModelWriter(model, [], 'custom-from-to');
     });
 
     test('Normal ObjectModelWriter with sorting required fields', () {
@@ -432,7 +435,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'sort');
+      WriterTestHelper.testObjectModelWriter(model, [], 'sort');
     });
 
     test('Normal ObjectModelWriter with converter', () {
@@ -455,7 +458,7 @@ void main() {
           'DateTimeConverter',
         ],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'converter');
+      WriterTestHelper.testObjectModelWriter(model, [], 'converter');
     });
 
     test('Normal ObjectModelWriter with dart import', () {
@@ -476,7 +479,122 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'dart-import');
+      WriterTestHelper.testObjectModelWriter(model, [], 'dart-import');
+    });
+
+    test('Normal ObjectModelWriter with extended fields', () {
+      final model = ObjectModel(
+        name: 'User',
+        extend: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'email',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      final extendsFields = [
+        Field(
+          name: 'name',
+          type: StringType(),
+          isRequired: true,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+      ];
+      WriterTestHelper.testObjectModelWriter(
+          model, extendsFields, 'extend-fields');
+    });
+
+    test('Normal ObjectModelWriter with extended fields', () {
+      final model = ObjectModel(
+        name: 'User',
+        extend: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'email',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      final extendsFields = [
+        Field(
+          name: 'address',
+          type: ObjectType('Address'),
+          isRequired: true,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+        Field(
+          name: 'info',
+          type: MapType(key: 'String', valueName: 'Address'),
+          isRequired: false,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+      ];
+      WriterTestHelper.testObjectModelWriter(
+          model, extendsFields, 'extend-fields-with-non-dart-type');
+    });
+
+    test('Normal ObjectModelWriter with extended fields twice', () {
+      final model = ObjectModel(
+        name: 'Admin',
+        extend: 'User',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'permission',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      final extendsFields = [
+        Field(
+          name: 'name',
+          type: StringType(),
+          isRequired: true,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+        Field(
+          name: 'email',
+          type: StringType(),
+          isRequired: true,
+          ignore: false,
+          includeIfNull: true,
+          nonFinal: false,
+        ),
+      ];
+      WriterTestHelper.testObjectModelWriter(
+          model, extendsFields, 'extend-fields-twice');
     });
 
     test('Normal ObjectModelWriter with package import', () {
@@ -497,7 +615,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'package-import');
+      WriterTestHelper.testObjectModelWriter(model, [], 'package-import');
     });
 
     test('Normal ObjectModelWriter with package import and .dart', () {
@@ -518,7 +636,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'dart-package-import');
+      WriterTestHelper.testObjectModelWriter(model, [], 'dart-package-import');
     });
 
     test('Normal ObjectModelWriter without path', () {
@@ -539,7 +657,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'without-path');
+      WriterTestHelper.testObjectModelWriter(model, [], 'without-path');
     });
   });
 }

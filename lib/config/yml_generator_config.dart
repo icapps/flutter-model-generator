@@ -31,6 +31,7 @@ class YmlGeneratorConfig {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String? path = value['path'];
+      final String? extend = value['extends'];
       final bool generateForGenerics =
           value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
 
@@ -122,6 +123,7 @@ class YmlGeneratorConfig {
         models.add(ObjectModel(
           name: key,
           path: path,
+          extend: extend,
           baseDirectory: baseDirectory,
           generateForGenerics: generateForGenerics,
           fields: fields,
@@ -250,8 +252,12 @@ class YmlGeneratorConfig {
   void checkIfTypesAvailable() {
     final names = <String>{};
     final types = <String>{};
+    final extend = <String>{};
     models.forEach((model) {
       names.add(model.name);
+      if (model.extend != null) {
+        extend.add(model.extend!);
+      }
       if (model is ObjectModel) {
         model.fields.forEach((field) {
           final type = field.type;
@@ -268,8 +274,16 @@ class YmlGeneratorConfig {
     print('=======');
     print('Models used as a field in another model:');
     print(types);
+    if (extend.isNotEmpty) {
+      print('=======');
+      print('Models being extended:');
+      print(extend);
+    }
     types.forEach((type) {
       DartType(type).checkTypesKnown(names);
+    });
+    extend.forEach((extendsType) {
+      checkTypesKnown(names, extendsType);
     });
   }
 
@@ -282,5 +296,12 @@ class YmlGeneratorConfig {
           'getModelByname is null: because `${itemType.name}` was not added to the config file');
     }
     return model;
+  }
+
+  void checkTypesKnown(final Set<String> names, String type) {
+    if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
+      throw Exception(
+          'Could not generate all models. `$type` is not added to the config file');
+    }
   }
 }
