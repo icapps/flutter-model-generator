@@ -13,11 +13,11 @@ import '../util/type_checker.dart';
 class ObjectModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
-  final ObjectModel? extendsModel;
+  final List<Field> extendsFields;
   final YmlGeneratorConfig yamlConfig;
 
   const ObjectModelWriter(
-      this.pubspecConfig, this.jsonModel, this.extendsModel, this.yamlConfig);
+      this.pubspecConfig, this.jsonModel, this.extendsFields, this.yamlConfig);
 
   String write() {
     final sb = StringBuffer();
@@ -26,12 +26,10 @@ class ObjectModelWriter {
     (jsonModel.extraImports ?? pubspecConfig.extraImports)
         .forEach((element) => imports.add('import \'$element\';'));
 
-    if (extendsModel != null) {
-      if (!TypeChecker.isKnownDartType(extendsModel!.name)) {
-        imports.addAll(_getImportsFromPath(extendsModel!.name));
+    if (jsonModel.extend != null) {
+      if (!TypeChecker.isKnownDartType(jsonModel.extend!)) {
+        imports.addAll(_getImportsFromPath(jsonModel.extend!));
       }
-      (extendsModel?.extraImports ?? [])
-          .forEach((element) => imports.add('import \'$element\';'));
     }
 
     jsonModel.fields.forEach((field) {
@@ -43,7 +41,7 @@ class ObjectModelWriter {
         imports.addAll(_getImportsFromPath(type.valueName));
       }
     });
-    extendsModel?.fields.forEach((field) {
+    extendsFields.forEach((field) {
       final type = field.type;
       if (!TypeChecker.isKnownDartType(type.name)) {
         imports.addAll(_getImportsFromPath(type.name));
@@ -70,8 +68,8 @@ class ObjectModelWriter {
       sb.writeln('@$converter()');
     });
 
-    if (extendsModel != null) {
-      sb.writeln('class ${jsonModel.name} extends ${extendsModel!.name} {');
+    if (jsonModel.extend != null) {
+      sb.writeln('class ${jsonModel.name} extends ${jsonModel.extend} {');
     } else {
       sb.writeln('class ${jsonModel.name} {');
     }
@@ -125,18 +123,18 @@ class ObjectModelWriter {
     jsonModel.fields.where((key) => key.isRequired).forEach((key) {
       sb.writeln('    required this.${key.name},');
     });
-    extendsModel?.fields.where((key) => key.isRequired).forEach((key) {
+    extendsFields.where((key) => key.isRequired).forEach((key) {
       sb.writeln('    required ${_getKeyType(key)} ${key.name},');
     });
     jsonModel.fields.where((key) => !key.isRequired).forEach((key) {
       sb.writeln('    this.${key.name},');
     });
-    extendsModel?.fields.where((key) => !key.isRequired).forEach((key) {
+    extendsFields.where((key) => !key.isRequired).forEach((key) {
       sb.writeln('    ${_getKeyType(key)} ${key.name},');
     });
-    if (extendsModel != null) {
+    if (jsonModel.extend != null) {
       sb.writeln('  }) : super(');
-      extendsModel?.fields.forEach((key) {
+      extendsFields.forEach((key) {
         sb.writeln('          ${key.name}: ${key.name},');
       });
       sb..writeln('        );')..writeln();
@@ -151,7 +149,7 @@ class ObjectModelWriter {
           '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
     }
     sb.writeln();
-    if (extendsModel != null) {
+    if (jsonModel.extend != null) {
       sb.writeln('  @override');
     }
     sb.writeln(
@@ -168,7 +166,7 @@ class ObjectModelWriter {
       jsonModel.fields.forEach((field) {
         sb.write(' &&\n          ${field.name} == other.${field.name}');
       });
-      if (extendsModel != null) {
+      if (jsonModel.extend != null) {
         sb.write(' &&\n          super == other');
       }
       sb
@@ -181,7 +179,7 @@ class ObjectModelWriter {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
       });
-      if (extendsModel != null) {
+      if (jsonModel.extend != null) {
         sb.write(' ^ \n      super.hashCode');
       }
       sb.writeln(';');
@@ -198,7 +196,7 @@ class ObjectModelWriter {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       });
-      extendsModel?.fields.forEach((field) {
+      extendsFields.forEach((field) {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       });

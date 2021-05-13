@@ -63,6 +63,14 @@ Testing:
     duration_from_json_test:
       type: DurationFromToJson
 
+AdminProfileData:
+  path: user/profile
+  extends: UserProfileDataExtended
+  properties:
+    privileges:
+      required: true
+      type: string
+
 UserProfileDataExtended:
   path: user/profile
   extends: UserProfileData
@@ -181,8 +189,3 @@ Project:
       type: string
     cost:
       type: double
-
-
-
-
-
