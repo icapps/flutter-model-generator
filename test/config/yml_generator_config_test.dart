@@ -235,7 +235,7 @@ void main() {
       }
       expect(hasError, true);
       expect(errorMessage,
-          'Exception: Could not generate all models. `Address` is not added to the config file');
+          'Exception: Could not generate all models. `Address` is not added to the config file, but is extended. These types are known: Person');
     });
 
     group('Getters', () {

@@ -117,12 +117,12 @@ UserModel:
       type: int
 ```
 
-##Expand
-If you want your models to expand any other model use expands:
+## Extends
+If you want your models to expand any other model use extends:
 ```yaml
 UserDetails:
   path: webservice/user
-  expands: UserModel
+  extends: UserModel
   properties:
     name:
       type: string

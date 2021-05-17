@@ -10,11 +10,11 @@ part 'admin_profile_data.g.dart';
 @JsonSerializable()
 @immutable
 class AdminProfileData extends UserProfileDataExtended {
-  @JsonKey(name: 'priveledges', required: true)
-  final String priveledges;
+  @JsonKey(name: 'privileges', required: true)
+  final String privileges;
 
   const AdminProfileData({
-    required this.priveledges,
+    required this.privileges,
     required String additionalField,
     required String firstName,
     required String lastName,
@@ -53,15 +53,15 @@ class AdminProfileData extends UserProfileDataExtended {
       identical(this, other) ||
       other is AdminProfileData &&
           runtimeType == other.runtimeType &&
-          priveledges == other.priveledges &&
+          privileges == other.privileges &&
           super == other;
 
   @override
-  int get hashCode => priveledges.hashCode ^ super.hashCode;
+  int get hashCode => privileges.hashCode ^ super.hashCode;
 
   @override
   String toString() => 'AdminProfileData{'
-      'priveledges: $priveledges, '
+      'privileges: $privileges, '
       'additionalField: $additionalField, '
       'firstName: $firstName, '
       'lastName: $lastName, '

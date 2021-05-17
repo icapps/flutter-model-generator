@@ -485,7 +485,7 @@ void main() {
     test('Normal ObjectModelWriter with extended fields', () {
       final model = ObjectModel(
         name: 'User',
-        extend: 'Person',
+        extendsModel: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
@@ -518,7 +518,7 @@ void main() {
     test('Normal ObjectModelWriter with extended fields', () {
       final model = ObjectModel(
         name: 'User',
-        extend: 'Person',
+        extendsModel: 'Person',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
@@ -559,7 +559,7 @@ void main() {
     test('Normal ObjectModelWriter with extended fields twice', () {
       final model = ObjectModel(
         name: 'Admin',
-        extend: 'User',
+        extendsModel: 'User',
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,

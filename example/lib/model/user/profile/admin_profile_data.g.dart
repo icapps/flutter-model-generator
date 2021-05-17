@@ -16,10 +16,10 @@ AdminProfileData _$AdminProfileDataFromJson(Map<String, dynamic> json) {
     'phones',
     'legalAddress',
     'additionalField',
-    'priveledges'
+    'privileges'
   ]);
   return AdminProfileData(
-    priveledges: json['priveledges'] as String,
+    privileges: json['privileges'] as String,
     additionalField: json['additionalField'] as String,
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
@@ -64,6 +64,6 @@ Map<String, dynamic> _$AdminProfileDataToJson(AdminProfileData instance) {
   val['persons'] = instance.persons;
   val['personsById'] = instance.personsById;
   val['additionalField'] = instance.additionalField;
-  val['priveledges'] = instance.priveledges;
+  val['privileges'] = instance.privileges;
   return val;
 }

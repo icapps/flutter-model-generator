@@ -17,7 +17,11 @@ class ObjectModelWriter {
   final YmlGeneratorConfig yamlConfig;
 
   const ObjectModelWriter(
-      this.pubspecConfig, this.jsonModel, this.extendsFields, this.yamlConfig);
+    this.pubspecConfig,
+    this.jsonModel,
+    this.extendsFields,
+    this.yamlConfig,
+  );
 
   String write() {
     final sb = StringBuffer();
@@ -25,10 +29,11 @@ class ObjectModelWriter {
       ..add("import 'package:json_annotation/json_annotation.dart';");
     (jsonModel.extraImports ?? pubspecConfig.extraImports)
         .forEach((element) => imports.add('import \'$element\';'));
+    final extendsModel = jsonModel.extendsModel;
 
-    if (jsonModel.extend != null) {
-      if (!TypeChecker.isKnownDartType(jsonModel.extend!)) {
-        imports.addAll(_getImportsFromPath(jsonModel.extend!));
+    if (extendsModel != null) {
+      if (!TypeChecker.isKnownDartType(extendsModel)) {
+        imports.addAll(_getImportsFromPath(extendsModel));
       }
     }
 
@@ -68,8 +73,8 @@ class ObjectModelWriter {
       sb.writeln('@$converter()');
     });
 
-    if (jsonModel.extend != null) {
-      sb.writeln('class ${jsonModel.name} extends ${jsonModel.extend} {');
+    if (extendsModel != null) {
+      sb.writeln('class ${jsonModel.name} extends ${extendsModel} {');
     } else {
       sb.writeln('class ${jsonModel.name} {');
     }
@@ -115,7 +120,8 @@ class ObjectModelWriter {
       sb.writeln('${_getKeyType(key)} ${key.name};');
     });
 
-    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal);
+    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal) ||
+        extendsFields.any((element) => element.nonFinal);
     sb
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
@@ -132,7 +138,7 @@ class ObjectModelWriter {
     extendsFields.where((key) => !key.isRequired).forEach((key) {
       sb.writeln('    ${_getKeyType(key)} ${key.name},');
     });
-    if (jsonModel.extend != null) {
+    if (extendsModel != null) {
       sb.writeln('  }) : super(');
       extendsFields.forEach((key) {
         sb.writeln('          ${key.name}: ${key.name},');
@@ -149,7 +155,7 @@ class ObjectModelWriter {
           '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
     }
     sb.writeln();
-    if (jsonModel.extend != null) {
+    if (extendsModel != null) {
       sb.writeln('  @override');
     }
     sb.writeln(
@@ -166,7 +172,7 @@ class ObjectModelWriter {
       jsonModel.fields.forEach((field) {
         sb.write(' &&\n          ${field.name} == other.${field.name}');
       });
-      if (jsonModel.extend != null) {
+      if (extendsModel != null) {
         sb.write(' &&\n          super == other');
       }
       sb
@@ -179,7 +185,7 @@ class ObjectModelWriter {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
       });
-      if (jsonModel.extend != null) {
+      if (extendsModel != null) {
         sb.write(' ^ \n      super.hashCode');
       }
       sb.writeln(';');

@@ -65,24 +65,27 @@ void writeToFiles(
     String? content;
     if (model is ObjectModel) {
       final extendsModelfields = <Field>[];
-      if (model.extend != null) {
-        final extendsModel = modelGeneratorConfig.models
-                .firstWhereOrNull((element) => element.name == model.extend)
+      if (model.extendsModel != null) {
+        final extendsModel = modelGeneratorConfig.models.firstWhereOrNull(
+                (element) => element.name == model.extendsModel)
             as ObjectModel?; // ignore: avoid_as
         extendsModelfields.addAll(extendsModel?.fields ?? []);
-        var extendsModelextends = extendsModel?.extend;
+        var extendsModelextends = extendsModel?.extendsModel;
         while (extendsModelextends != null) {
           final extendsModelextendsModel = modelGeneratorConfig.models
                   .firstWhereOrNull(
                       (element) => element.name == extendsModelextends)
               as ObjectModel?; // ignore: avoid_as
           extendsModelfields.addAll(extendsModelextendsModel?.fields ?? []);
-          extendsModelextends = extendsModelextendsModel?.extend;
+          extendsModelextends = extendsModelextendsModel?.extendsModel;
         }
       }
       content = ObjectModelWriter(
-              pubspecConfig, model, extendsModelfields, modelGeneratorConfig)
-          .write();
+        pubspecConfig,
+        model,
+        extendsModelfields,
+        modelGeneratorConfig,
+      ).write();
     } else if (model is EnumModel) {
       content = EnumModelWriter(model).write();
     } else if (model is JsonConverterModel) {
