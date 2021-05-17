@@ -104,6 +104,8 @@ class YmlGeneratorConfig {
         models.add(EnumModel(
           name: key,
           path: path,
+          generateMap: value['generate_map'] == true,
+          generateExtensions: value['generate_extensions'] == true,
           baseDirectory: baseDirectory,
           fields: fields,
           extraImports: extraImports,
