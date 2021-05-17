@@ -65,20 +65,14 @@ void writeToFiles(
     String? content;
     if (model is ObjectModel) {
       final extendsModelfields = <Field>[];
-      if (model.extendsModel != null) {
-        final extendsModel = modelGeneratorConfig.models.firstWhereOrNull(
-                (element) => element.name == model.extendsModel)
+      var extendsModelextends = model.extendsModel;
+      while (extendsModelextends != null) {
+        final extendsModelextendsModel = modelGeneratorConfig.models
+                .firstWhereOrNull(
+                    (element) => element.name == extendsModelextends)
             as ObjectModel?; // ignore: avoid_as
-        extendsModelfields.addAll(extendsModel?.fields ?? []);
-        var extendsModelextends = extendsModel?.extendsModel;
-        while (extendsModelextends != null) {
-          final extendsModelextendsModel = modelGeneratorConfig.models
-                  .firstWhereOrNull(
-                      (element) => element.name == extendsModelextends)
-              as ObjectModel?; // ignore: avoid_as
-          extendsModelfields.addAll(extendsModelextendsModel?.fields ?? []);
-          extendsModelextends = extendsModelextendsModel?.extendsModel;
-        }
+        extendsModelfields.addAll(extendsModelextendsModel?.fields ?? []);
+        extendsModelextends = extendsModelextendsModel?.extendsModel;
       }
       content = ObjectModelWriter(
         pubspecConfig,
