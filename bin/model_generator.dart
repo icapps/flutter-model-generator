@@ -85,10 +85,7 @@ void writeToFiles(
     if (!file.existsSync()) {
       file.createSync(recursive: true);
     }
-
-    if (model is! CustomModel && content != null) {
-      file.writeAsStringSync(content);
-    }
+    file.writeAsStringSync(content);
   });
 }
 
