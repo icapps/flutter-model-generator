@@ -68,8 +68,10 @@ void writeToFiles(
       content = EnumModelWriter(model).write();
     } else if (model is JsonConverterModel) {
       return;
+    } else if (model is CustomModel) {
+      return;
     }
-    if (model is! CustomModel && content == null) {
+    if (content == null) {
       throw Exception(
           'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
     }
@@ -83,10 +85,7 @@ void writeToFiles(
     if (!file.existsSync()) {
       file.createSync(recursive: true);
     }
-
-    if (model is! CustomModel && content != null) {
-      file.writeAsStringSync(content);
-    }
+    file.writeAsStringSync(content);
   });
 }
 
