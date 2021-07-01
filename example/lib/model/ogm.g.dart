@@ -24,9 +24,8 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     someThinGHuGE: json['some_ThinG_huGE'] as String,
     securityRole: json['securityIndicator'] as String?,
     mutableProperty: json['mutableProperty'] as String?,
-    dateChange: json['dateChange'] == null
-        ? null
-        : DateTime.parse(json['dateChange'] as String),
+    dateChange:
+        const DateTimeConverter().fromJson(json['dateChange'] as String),
     fields: (json['fields'] as List<dynamic>?)
         ?.map((e) => (e as List<dynamic>)
             .map((e) => Testing.fromJson(e as Map<String, dynamic>))
@@ -44,6 +43,8 @@ Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
       'some_ThinG_huGE': instance.someThinGHuGE,
       'securityIndicator': instance.securityRole,
       'mutableProperty': instance.mutableProperty,
-      'dateChange': instance.dateChange?.toIso8601String(),
-      'fields': instance.fields,
+      'dateChange': const DateTimeConverter().toJson(instance.dateChange),
+      'fields': instance.fields
+          ?.map((e) => e.map((e) => e.toJson()).toList())
+          .toList(),
     };

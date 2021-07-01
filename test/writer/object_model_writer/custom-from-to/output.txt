@@ -3,7 +3,7 @@ import 'package:model_generator_example/model/user/person/time.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'time', fromJson: handleTimeFromJson, toJson: handleTimeToJson)
   Time? time;

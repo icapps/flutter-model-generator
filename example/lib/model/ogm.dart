@@ -4,7 +4,7 @@ import 'package:model_generator_example/model/converter/date_time_converter.dart
 
 part 'ogm.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class OGM {
   @JsonKey(name: 'structuredMessage', required: true)

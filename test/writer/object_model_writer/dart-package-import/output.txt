@@ -3,7 +3,7 @@ import 'package:shared/user/custom_address.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'address', required: true)
   final Address address;

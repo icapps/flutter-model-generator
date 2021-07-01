@@ -37,11 +37,12 @@ class ObjectModelWriter {
     });
     imports.forEach(sb.writeln);
 
-    sb
-      ..writeln()
-      ..writeln("part '${jsonModel.fileName}.g.dart';")
-      ..writeln()
-      ..writeln('@JsonSerializable()');
+    sb..writeln()..writeln("part '${jsonModel.fileName}.g.dart';")..writeln();
+    if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
+      sb.writeln('@JsonSerializable(explicitToJson: true)');
+    } else {
+      sb.writeln('@JsonSerializable()');
+    }
     (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
         .forEach(sb.writeln);
 

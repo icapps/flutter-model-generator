@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'firstName', required: true)
   final String firstName;

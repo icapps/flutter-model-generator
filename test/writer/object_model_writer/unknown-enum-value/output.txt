@@ -3,7 +3,7 @@ import 'package:model_generator_example/model/user/person/gender.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'gender', required: true, unknownEnumValue: Gender.X)
   final Gender gender;

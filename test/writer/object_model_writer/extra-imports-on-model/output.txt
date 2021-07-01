@@ -3,7 +3,7 @@ import 'testing:package.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @veryGood
 class Person {
   @JsonKey(name: 'firstName')

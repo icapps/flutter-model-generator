@@ -26,7 +26,7 @@ Map<String, dynamic> _$TestingToJson(Testing instance) => <String, dynamic>{
       'structuredMessage': instance.structuredMessage,
       'beneficiaryIBAN': instance.beneficiaryIBAN,
       'dynamicField': instance.dynamicField,
-      'duration': instance.duration,
+      'duration': instance.duration?.toJson(),
       'duration_from_json_test':
           handleDurationFromToJsonToJson(instance.durationFromJsonTest),
     };
