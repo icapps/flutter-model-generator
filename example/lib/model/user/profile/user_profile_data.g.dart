@@ -57,8 +57,8 @@ Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) {
 
   writeNotNull('offTrack', instance.offTrack);
   val['onTrack'] = instance.onTrack?.map((e) => e.toJson()).toList();
-  val['persons'] = instance.persons?.map((e) => e.toJson()).toList();
-  val['personsById'] =
-      instance.personsById?.map((k, e) => MapEntry(k, e.toJson()));
+  writeNotNull('persons', instance.persons?.map((e) => e.toJson()).toList());
+  writeNotNull('personsById',
+      instance.personsById?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }

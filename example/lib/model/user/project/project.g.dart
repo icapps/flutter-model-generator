@@ -14,7 +14,17 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
-      'name': instance.name,
-      'cost': instance.cost,
-    };
+Map<String, dynamic> _$ProjectToJson(Project instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cost', instance.cost);
+  return val;
+}

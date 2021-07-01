@@ -93,6 +93,7 @@ UserProfileData:
       items:
         type: string
     onTrack:
+      include_if_null: true
       type: array
       items:
         type: OGM
