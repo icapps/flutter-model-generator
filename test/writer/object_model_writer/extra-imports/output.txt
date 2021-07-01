@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class Person {
   @JsonKey(name: 'firstName')
