@@ -15,7 +15,7 @@ class Testing {
   @JsonKey(name: 'beneficiaryIBAN')
   final String? beneficiaryIBAN;
   @JsonKey(name: 'dynamicField')
-  final dynamic? dynamicField;
+  final dynamic dynamicField;
   @JsonKey(name: 'duration')
   final Duration? duration;
   @JsonKey(
