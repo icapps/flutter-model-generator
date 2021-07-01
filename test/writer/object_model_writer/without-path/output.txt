@@ -3,7 +3,7 @@ import 'package:model_generator_example/model/address.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'address', required: true)
   final Address address;
