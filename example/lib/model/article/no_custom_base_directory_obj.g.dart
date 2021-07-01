@@ -17,7 +17,16 @@ NoCustomBaseDirectoryObj _$NoCustomBaseDirectoryObjFromJson(
 }
 
 Map<String, dynamic> _$NoCustomBaseDirectoryObjToJson(
-        NoCustomBaseDirectoryObj instance) =>
-    <String, dynamic>{
-      'customBaseDirectoryObj': instance.customBaseDirectoryObj?.toJson(),
-    };
+    NoCustomBaseDirectoryObj instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'customBaseDirectoryObj', instance.customBaseDirectoryObj?.toJson());
+  return val;
+}

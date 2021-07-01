@@ -6,9 +6,9 @@ part 'project.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class Project {
-  @JsonKey(name: 'name', required: true)
+  @JsonKey(name: 'name', required: true, includeIfNull: false)
   final String name;
-  @JsonKey(name: 'cost')
+  @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;
 
   const Project({
@@ -16,8 +16,7 @@ class Project {
     this.cost,
   });
 
-  factory Project.fromJson(Object? json) =>
-      _$ProjectFromJson(json as Map<String, dynamic>); // ignore: avoid_as
+  factory Project.fromJson(Object? json) => _$ProjectFromJson(json as Map<String, dynamic>); // ignore: avoid_as
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
 
@@ -30,11 +29,15 @@ class Project {
           cost == other.cost;
 
   @override
-  int get hashCode => name.hashCode ^ cost.hashCode;
+  int get hashCode =>
+      name.hashCode ^
+      cost.hashCode;
 
   @override
-  String toString() => 'Project{'
+  String toString() =>
+      'Project{'
       'name: $name, '
       'cost: $cost'
       '}';
+
 }

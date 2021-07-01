@@ -3,6 +3,8 @@
 ### Added
 - explicit_to_json at global level (default is true)
 - explicit_to_json at model level (default is true)
+### Fixed
+- include_if_null changed the default value to false
 
 ## [4.3.2] - 2021-05-06
 ### Added

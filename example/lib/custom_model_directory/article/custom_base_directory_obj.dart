@@ -6,15 +6,14 @@ part 'custom_base_directory_obj.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class CustomBaseDirectoryObj {
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
 
   const CustomBaseDirectoryObj({
     this.name,
   });
 
-  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) =>
-      _$CustomBaseDirectoryObjFromJson(json);
+  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) => _$CustomBaseDirectoryObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomBaseDirectoryObjToJson(this);
 
@@ -26,10 +25,13 @@ class CustomBaseDirectoryObj {
           name == other.name;
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode =>
+      name.hashCode;
 
   @override
-  String toString() => 'CustomBaseDirectoryObj{'
+  String toString() =>
+      'CustomBaseDirectoryObj{'
       'name: $name'
       '}';
+
 }

@@ -34,17 +34,27 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
-      'structuredMessage': instance.structuredMessage,
-      'beneficiary': instance.beneficiary,
-      'beneficiaryIBAN': instance.beneficiaryIBAN,
-      'test_Test': instance.testTest,
-      'some_Thing': instance.someThing,
-      'some_ThinG_huGE': instance.someThinGHuGE,
-      'securityIndicator': instance.securityRole,
-      'mutableProperty': instance.mutableProperty,
-      'dateChange': const DateTimeConverter().toJson(instance.dateChange),
-      'fields': instance.fields
-          ?.map((e) => e.map((e) => e.toJson()).toList())
-          .toList(),
-    };
+Map<String, dynamic> _$OGMToJson(OGM instance) {
+  final val = <String, dynamic>{
+    'structuredMessage': instance.structuredMessage,
+    'beneficiary': instance.beneficiary,
+    'beneficiaryIBAN': instance.beneficiaryIBAN,
+    'test_Test': instance.testTest,
+    'some_Thing': instance.someThing,
+    'some_ThinG_huGE': instance.someThinGHuGE,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('securityIndicator', instance.securityRole);
+  writeNotNull('mutableProperty', instance.mutableProperty);
+  writeNotNull(
+      'dateChange', const DateTimeConverter().toJson(instance.dateChange));
+  writeNotNull('fields',
+      instance.fields?.map((e) => e.map((e) => e.toJson()).toList()).toList());
+  return val;
+}

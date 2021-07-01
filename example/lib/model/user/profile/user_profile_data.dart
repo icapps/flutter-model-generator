@@ -9,27 +9,27 @@ part 'user_profile_data.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class UserProfileData {
-  @JsonKey(name: 'firstName', required: true)
+  @JsonKey(name: 'firstName', required: true, includeIfNull: false)
   final String firstName;
-  @JsonKey(name: 'lastName', required: true)
+  @JsonKey(name: 'lastName', required: true, includeIfNull: false)
   final String lastName;
-  @JsonKey(name: 'standardLanguage', required: true)
+  @JsonKey(name: 'standardLanguage', required: true, includeIfNull: false)
   final String standardLanguage;
-  @JsonKey(name: 'mainAccountNumber', required: true)
+  @JsonKey(name: 'mainAccountNumber', required: true, includeIfNull: false)
   final String mainAccountNumber;
-  @JsonKey(name: 'legalEmail', required: true)
+  @JsonKey(name: 'legalEmail', required: true, includeIfNull: false)
   final String legalEmail;
-  @JsonKey(name: 'phones', required: true)
+  @JsonKey(name: 'phones', required: true, includeIfNull: false)
   final Testing phones;
-  @JsonKey(name: 'legalAddress', required: true)
+  @JsonKey(name: 'legalAddress', required: true, includeIfNull: false)
   final OGM legalAddress;
   @JsonKey(name: 'offTrack', includeIfNull: false)
   final List<String>? offTrack;
   @JsonKey(name: 'onTrack')
   final List<OGM>? onTrack;
-  @JsonKey(name: 'persons')
+  @JsonKey(name: 'persons', includeIfNull: false)
   final List<Person>? persons;
-  @JsonKey(name: 'personsById')
+  @JsonKey(name: 'personsById', includeIfNull: false)
   final Map<String, Person>? personsById;
 
   const UserProfileData({
@@ -46,8 +46,7 @@ class UserProfileData {
     this.personsById,
   });
 
-  factory UserProfileData.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataFromJson(json);
+  factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
 
@@ -83,7 +82,8 @@ class UserProfileData {
       personsById.hashCode;
 
   @override
-  String toString() => 'UserProfileData{'
+  String toString() =>
+      'UserProfileData{'
       'firstName: $firstName, '
       'lastName: $lastName, '
       'standardLanguage: $standardLanguage, '
@@ -96,4 +96,5 @@ class UserProfileData {
       'persons: $persons, '
       'personsById: $personsById'
       '}';
+
 }
