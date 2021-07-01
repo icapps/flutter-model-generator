@@ -6,7 +6,7 @@ import 'package:model_generator_example/model/user/person/person.dart';
 
 part 'user_profile_data.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class UserProfileData {
   @JsonKey(name: 'firstName', required: true)

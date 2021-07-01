@@ -59,6 +59,23 @@ UserModel:
     id:
       type: int
 ```
+##explicit_to_json
+By default json_serializable will not generate the toJson methods on an other json_serializable object or list or map.
+With the model_generator we can enable this by default since 5.0.0.
+You can override it at a global level:
+```yaml
+model_generator:
+  explicit_to_json: false
+```
+or to override the values per object:
+```yaml
+UserModel:
+  path: webservice/user
+  explicit_to_json: false
+  properties:
+    id:
+      type: int
+```
 
 ##toString
 If you want the generated models to include generated toString code, you can turn it on in `pubspec.yaml`. Defaults to false.

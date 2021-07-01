@@ -131,6 +131,7 @@ class YmlGeneratorConfig {
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
           equalsAndHashCode: value['equals_and_hash_code'],
+          explicitToJson: value['explicit_to_json'],
           generateToString: value['to_string'],
         ));
       }

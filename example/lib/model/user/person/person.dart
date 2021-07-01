@@ -4,7 +4,7 @@ import 'package:model_generator_example/model/user/person/gender.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class Person {
   @JsonKey(name: 'firstName', required: true)

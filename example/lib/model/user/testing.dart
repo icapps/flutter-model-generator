@@ -4,7 +4,7 @@ import 'package:model_generator_example/model/data/custom/duration_from_to_json.
 
 part 'testing.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Testing {
   @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
