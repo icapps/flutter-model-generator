@@ -61,7 +61,7 @@ UserModel:
 ```
 ##explicit_to_json
 By default json_serializable will not generate the toJson methods on an other json_serializable object or list or map.
-With the model_generator we can enable this by default since 5.0.0.
+With the model_generator we can enable this by default since 5.0.0
 You can override it at a global level:
 ```yaml
 model_generator:
