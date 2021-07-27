@@ -1,5 +1,5 @@
 # Changelog
-## [5.0.0] - 2021-07-01
+## [5.0.0] - 2021-07-27
 ### Breaking
 - include_if_null changed the default value to false
 ### Added
