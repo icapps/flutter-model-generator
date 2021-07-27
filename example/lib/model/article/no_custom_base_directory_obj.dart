@@ -7,7 +7,7 @@ part 'no_custom_base_directory_obj.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class NoCustomBaseDirectoryObj {
-  @JsonKey(name: 'customBaseDirectoryObj')
+  @JsonKey(name: 'customBaseDirectoryObj', includeIfNull: false)
   final CustomBaseDirectoryObj? customBaseDirectoryObj;
 
   const NoCustomBaseDirectoryObj({
