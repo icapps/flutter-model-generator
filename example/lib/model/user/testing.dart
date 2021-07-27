@@ -15,7 +15,7 @@ class Testing {
   @JsonKey(name: 'beneficiaryIBAN', includeIfNull: false)
   final String? beneficiaryIBAN;
   @JsonKey(name: 'dynamicField', includeIfNull: false)
-  final dynamic? dynamicField;
+  final dynamic dynamicField;
   @JsonKey(name: 'duration', includeIfNull: false)
   final Duration? duration;
   @JsonKey(
