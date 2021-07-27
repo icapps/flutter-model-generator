@@ -38,7 +38,7 @@ class PubspecConfig {
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
       equalsHashCode = false;
-      explicitToJson = false;
+      explicitToJson = true;
       generateToString = false;
       return;
     }
