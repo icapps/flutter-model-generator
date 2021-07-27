@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 part 'project.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class Project {
   @JsonKey(name: 'name', required: true)

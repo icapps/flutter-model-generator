@@ -40,8 +40,12 @@ class ObjectModelWriter {
     sb
       ..writeln()
       ..writeln("part '${jsonModel.fileName}.g.dart';")
-      ..writeln()
-      ..writeln('@JsonSerializable()');
+      ..writeln();
+    if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
+      sb.writeln('@JsonSerializable(explicitToJson: true)');
+    } else {
+      sb.writeln('@JsonSerializable()');
+    }
     (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
         .forEach(sb.writeln);
 
@@ -113,7 +117,9 @@ class ObjectModelWriter {
         sb.writeln('    this.${key.name},');
       }
     });
-    sb..writeln('  });')..writeln();
+    sb
+      ..writeln('  });')
+      ..writeln();
     if (jsonModel.generateForGenerics) {
       sb.writeln(
           '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
@@ -164,7 +170,9 @@ class ObjectModelWriter {
       sb.writeln('\'\n      \'}\';');
     }
 
-    sb..writeln()..writeln('}');
+    sb
+      ..writeln()
+      ..writeln('}');
     return sb.toString();
   }
 

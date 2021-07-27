@@ -64,6 +64,7 @@ Testing:
 UserProfileData:
   path: user/profile
   type: object
+  explicit_to_json: true
   properties:
     firstName:
       required: true

@@ -3,7 +3,7 @@ import 'package:model_generator_example/model/user/person/date_time_converter.da
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class Person {
   @JsonKey(name: 'birthday')

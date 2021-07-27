@@ -19,5 +19,5 @@ NoCustomBaseDirectoryObj _$NoCustomBaseDirectoryObjFromJson(
 Map<String, dynamic> _$NoCustomBaseDirectoryObjToJson(
         NoCustomBaseDirectoryObj instance) =>
     <String, dynamic>{
-      'customBaseDirectoryObj': instance.customBaseDirectoryObj,
+      'customBaseDirectoryObj': instance.customBaseDirectoryObj?.toJson(),
     };

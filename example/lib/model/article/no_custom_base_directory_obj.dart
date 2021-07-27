@@ -4,7 +4,7 @@ import 'package:model_generator_example/custom_model_directory/article/custom_ba
 
 part 'no_custom_base_directory_obj.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class NoCustomBaseDirectoryObj {
   @JsonKey(name: 'customBaseDirectoryObj')

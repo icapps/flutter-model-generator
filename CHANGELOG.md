@@ -1,4 +1,9 @@
 # Changelog
+## [5.0.0] - 2021-07-01
+### Added
+- explicit_to_json at global level (default is true)
+- explicit_to_json at model level (default is true)
+
 ## [4.3.2] - 2021-05-06
 ### Added
 - Added support for generating a mapping for enum's: `generate_map: true`

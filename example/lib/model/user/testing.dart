@@ -4,7 +4,7 @@ import 'package:model_generator_example/model/data/custom/duration_from_to_json.
 
 part 'testing.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Testing {
   @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
@@ -15,7 +15,7 @@ class Testing {
   @JsonKey(name: 'beneficiaryIBAN')
   final String? beneficiaryIBAN;
   @JsonKey(name: 'dynamicField')
-  final dynamic? dynamicField;
+  final dynamic dynamicField;
   @JsonKey(name: 'duration')
   final Duration? duration;
   @JsonKey(
