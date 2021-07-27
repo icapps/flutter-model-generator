@@ -53,6 +53,48 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, 'normal-equals-hashcode');
     });
+    test('Normal ObjectModelWriter with explicit to json false', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        explicitToJson: false,
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'explicit-to-json-false');
+    });
+    test('Normal ObjectModelWriter with explicit to json false in pubspec', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(
+          model, 'explicit-to-json-false-pubspec');
+    });
     test('Normal ObjectModelWriter with extra annotations', () {
       final model = ObjectModel(
         name: 'Person',
