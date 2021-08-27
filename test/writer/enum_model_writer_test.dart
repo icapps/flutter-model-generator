@@ -14,6 +14,7 @@ void main() {
           EnumField(
             name: 'MY_VALUE_1',
             value: 'MY_VALUE_1',
+            description: 'A good description of this field',
           ),
           EnumField(
             name: 'MY_VALUE_2',

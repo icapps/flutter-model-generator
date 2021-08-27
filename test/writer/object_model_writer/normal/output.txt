@@ -4,6 +4,7 @@ part 'person.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Person {
+  ///A good description
   @JsonKey(name: 'firstName')
   final String? firstName;
 

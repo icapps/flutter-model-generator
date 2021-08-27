@@ -14,16 +14,16 @@ class EnumModelWriter {
       final jsonValue = key.value == null || key.value?.isEmpty == null
           ? key.serializedName
           : key.value;
-      sb
-        ..writeln("  @JsonValue('$jsonValue')")
-        ..writeln('  ${key.name},');
+      final description = key.description;
+      if (description != null) {
+        sb.writeln('  ///$description');
+      }
+      sb..writeln("  @JsonValue('$jsonValue')")..writeln('  ${key.name},');
     });
     sb.writeln('}');
 
     if (jsonModel.generateMap) {
-      sb
-        ..writeln()
-        ..writeln('const ${jsonModel.name}Mapping = {');
+      sb..writeln()..writeln('const ${jsonModel.name}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null

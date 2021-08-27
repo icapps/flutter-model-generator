@@ -37,10 +37,7 @@ class ObjectModelWriter {
     });
     imports.forEach(sb.writeln);
 
-    sb
-      ..writeln()
-      ..writeln("part '${jsonModel.fileName}.g.dart';")
-      ..writeln();
+    sb..writeln()..writeln("part '${jsonModel.fileName}.g.dart';")..writeln();
     if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
       sb.writeln('@JsonSerializable(explicitToJson: true)');
     } else {
@@ -62,6 +59,10 @@ class ObjectModelWriter {
     });
 
     jsonModel.fields.forEach((key) {
+      final description = key.description;
+      if (description != null) {
+        sb.writeln('  ///$description');
+      }
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.isRequired) {
         sb.write(', required: true');
@@ -117,9 +118,7 @@ class ObjectModelWriter {
         sb.writeln('    this.${key.name},');
       }
     });
-    sb
-      ..writeln('  });')
-      ..writeln();
+    sb..writeln('  });')..writeln();
     if (jsonModel.generateForGenerics) {
       sb.writeln(
           '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
@@ -170,9 +169,7 @@ class ObjectModelWriter {
       sb.writeln('\'\n      \'}\';');
     }
 
-    sb
-      ..writeln()
-      ..writeln('}');
+    sb..writeln()..writeln('}');
     return sb.toString();
   }
 

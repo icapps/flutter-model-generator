@@ -99,6 +99,8 @@ class YmlGeneratorConfig {
           fields.add(EnumField(
             name: propertyKey,
             value: propertyValue == null ? null : propertyValue['value'],
+            description:
+                propertyValue == null ? null : propertyValue['description'],
           ));
         });
         models.add(EnumModel(
@@ -152,6 +154,9 @@ class YmlGeneratorConfig {
           property['include_if_null'] == true;
       final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
+      final description = property.containsKey('description')
+          ? property['description']!.toString()
+          : null;
       final type = property['type'];
       ItemType itemType;
 
@@ -192,6 +197,7 @@ class YmlGeneratorConfig {
         ignore: ignored,
         jsonKey: jsonKey,
         nonFinal: nonFinal,
+        description: description,
         includeIfNull: includeIfNull,
         unknownEnumValue: unknownEnumValue,
       );
