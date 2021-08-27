@@ -11,6 +11,7 @@ class Field {
   final bool includeIfNull;
   final bool nonFinal;
   final String? unknownEnumValue;
+  final String? description;
 
   Field({
     required String name,
@@ -19,6 +20,7 @@ class Field {
     required this.ignore,
     required this.includeIfNull,
     required this.nonFinal,
+    this.description,
     this.unknownEnumValue,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,

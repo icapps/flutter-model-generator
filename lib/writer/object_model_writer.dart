@@ -25,7 +25,8 @@ class ObjectModelWriter {
 
     jsonModel.fields.forEach((field) {
       final type = field.type;
-      if (!TypeChecker.isKnownDartType(type.name)) {
+      if (!TypeChecker.isKnownDartType(type.name) &&
+          type.name != jsonModel.name) {
         imports.addAll(_getImportsFromPath(type.name));
       }
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
@@ -62,6 +63,10 @@ class ObjectModelWriter {
     });
 
     jsonModel.fields.forEach((key) {
+      final description = key.description;
+      if (description != null) {
+        sb.writeln('  ///$description');
+      }
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.isRequired) {
         sb.write(', required: true');

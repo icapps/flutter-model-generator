@@ -324,3 +324,16 @@ DateTimeConverter:
   type: json_converter
   path: converter/
 ```
+
+## Documentation support
+You can specify `description` on fields and on enum entries. This description will be used verbatim to generate a code comment for that field
+```yaml
+UserModel:
+  path: webservice/user
+  converters:
+    - DateTimeConverter
+  properties:
+    description: The time at which the user has last updated his information
+    changedAt:
+      type: datetime
+```

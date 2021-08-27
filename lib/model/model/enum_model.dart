@@ -27,20 +27,24 @@ class EnumField {
   final String name;
   final String serializedName;
   final String? value;
+  final String? description;
 
   EnumField._({
     required this.name,
     required this.serializedName,
     required this.value,
+    required this.description,
   });
 
   factory EnumField({
     required String name,
     String? value,
+    String? description,
   }) =>
       EnumField._(
         name: name.toUpperCase(),
         serializedName: name,
         value: value,
+        description: description,
       );
 }

@@ -19,13 +19,13 @@ void main() {
         generateForGenerics: false,
         fields: [
           Field(
-            name: 'firstName',
-            type: StringType(),
-            isRequired: false,
-            ignore: false,
-            includeIfNull: true,
-            nonFinal: false,
-          ),
+              name: 'firstName',
+              type: StringType(),
+              isRequired: false,
+              ignore: false,
+              includeIfNull: true,
+              nonFinal: false,
+              description: 'A good description'),
         ],
         converters: [],
       );
