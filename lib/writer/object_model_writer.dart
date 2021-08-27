@@ -25,7 +25,8 @@ class ObjectModelWriter {
 
     jsonModel.fields.forEach((field) {
       final type = field.type;
-      if (!TypeChecker.isKnownDartType(type.name)) {
+      if (!TypeChecker.isKnownDartType(type.name) &&
+          type.name != jsonModel.name) {
         imports.addAll(_getImportsFromPath(type.name));
       }
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
