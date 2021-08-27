@@ -14,7 +14,7 @@ abstract class Model {
     required String? baseDirectory,
     required this.extraImports,
     required this.extraAnnotations,
-  })  : path = getPath(path),
+  })   : path = getPath(path),
         baseDirectory = getBaseDirectory(baseDirectory),
         fileName = getFileName(name);
 
