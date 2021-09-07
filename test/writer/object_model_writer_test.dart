@@ -628,7 +628,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'to-json-from-json-handler');
+      WriterTestHelper.testObjectModelWriter(
+          model, 'to-json-from-json-handler');
     });
   });
 }
