@@ -1,7 +1,11 @@
 # Changelog
+## [5.2.0] - 2021-09-07
+- fromJson & toJson custom override
+
 ## [5.1.1] - 2021-08-27
 - Add support for adding `description` on fields to generate documentation entries
 - Fix self references (#82)
+
 ## [5.0.0] - 2021-07-27
 ### Breaking
 - include_if_null changed the default value to false

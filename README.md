@@ -305,7 +305,21 @@ CustomObjectFromToJson:
 {Model_Name} handle{Model_Name}FromJson(object) => {Model_Name}.fromJson(object);
 
 {Original_Type} handle{Model_Name}ToJson({Model_Name} data) => data.toJson();
+
 ```
+## fromJson & toJson override
+Support for custom objects but use fromJson & toJson instead of full object parsing:
+```yaml
+UserModel:
+  path: webservice/user
+  properties:
+    description: The time at which the user has last updated his information
+    changedAt:
+      type: datetime
+      fromJson: handleFromJsonWithCustomCode
+      toJson: handleToJsonWithCustomCode
+```
+### Required functions outside your file. (extra import should be used)
 
 ## JsonConverter support
 You can specify custom json converters to be used for types that match
