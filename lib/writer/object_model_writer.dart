@@ -86,10 +86,14 @@ class ObjectModelWriter {
       }
 
       final fieldModel = yamlConfig.getModelByName(key.type);
-      if (fieldModel is CustomFromToJsonModel) {
+      if (key.fromJson != null) {
+        sb.write(', fromJson: ${key.fromJson}');
+      } else if (fieldModel is CustomFromToJsonModel) {
         sb.write(', fromJson: handle${fieldModel.name}FromJson');
       }
-      if (fieldModel is CustomFromToJsonModel) {
+      if (key.toJson != null) {
+        sb.write(', toJson: ${key.toJson}');
+      } else if (fieldModel is CustomFromToJsonModel) {
         sb.write(', toJson: handle${fieldModel.name}ToJson');
       }
       sb.writeln(')');
