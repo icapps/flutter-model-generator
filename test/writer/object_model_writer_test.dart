@@ -583,5 +583,52 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, 'without-path');
     });
+
+    test('Normal ObjectModelWriter with toJson & fromJson', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'address',
+            type: ObjectType('Address'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+            toJson: 'handleToJson',
+            fromJson: 'handleFromJson',
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'to-json-from-json');
+    });
+
+    test('Normal ObjectModelWriter with toJson & fromJson extra imports', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        extraImports: ['testing:handler.dart'],
+        fields: [
+          Field(
+            name: 'address',
+            type: ObjectType('Address'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            nonFinal: false,
+            toJson: 'Handler.handleToJson',
+            fromJson: 'Handler.handleFromJson',
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'to-json-from-json-handler');
+    });
   });
 }

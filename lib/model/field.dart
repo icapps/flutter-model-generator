@@ -12,6 +12,8 @@ class Field {
   final bool nonFinal;
   final String? unknownEnumValue;
   final String? description;
+  final String? fromJson;
+  final String? toJson;
 
   Field({
     required String name,
@@ -22,6 +24,8 @@ class Field {
     required this.nonFinal,
     this.description,
     this.unknownEnumValue,
+    this.fromJson,
+    this.toJson,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,
         name =

@@ -154,6 +154,8 @@ class YmlGeneratorConfig {
           property['include_if_null'] == true;
       final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
+      final fromJson = property['fromJson'];
+      final toJson = property['toJson'];
       final description = property.containsKey('description')
           ? property['description']!.toString()
           : null;
@@ -200,6 +202,8 @@ class YmlGeneratorConfig {
         description: description,
         includeIfNull: includeIfNull,
         unknownEnumValue: unknownEnumValue,
+        fromJson: fromJson,
+        toJson: toJson,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
