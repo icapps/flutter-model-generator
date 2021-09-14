@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'testing:handler.dart';
 import 'package:model_generator_example/model/address.dart';
+import 'testing:handler.dart';
 
 part 'person.g.dart';
 

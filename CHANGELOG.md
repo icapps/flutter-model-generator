@@ -1,4 +1,8 @@
 # Changelog
+## [5.3.0] - 2021-09-14
+- Ensure the import directives are sorted (new lint rules)
+- Ensure dynamic fields are not marked nullable (new lint rules)
+
 ## [5.2.0] - 2021-09-07
 - fromJson & toJson custom override
 

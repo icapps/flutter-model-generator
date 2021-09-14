@@ -55,7 +55,7 @@ Future<void> main(List<String> args) async {
 
 void writeToFiles(
     PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
-  modelGeneratorConfig.models.forEach((model) {
+  for (var model in modelGeneratorConfig.models) {
     final modelDirectory = Directory(join('lib', model.baseDirectory));
     if (!modelDirectory.existsSync()) {
       modelDirectory.createSync(recursive: true);
@@ -86,7 +86,7 @@ void writeToFiles(
       file.createSync(recursive: true);
     }
     file.writeAsStringSync(content);
-  });
+  }
 }
 
 Future<void> generateJsonGeneratedModels({required bool useFvm}) async {

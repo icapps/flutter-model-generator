@@ -1,8 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:model_generator_example/model/user/testing.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/ogm.dart';
 import 'package:model_generator_example/model/user/person/person.dart';
+import 'package:model_generator_example/model/user/testing.dart';
 
 part 'user_profile_data.g.dart';
 

@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 class PubspecConfig {
   static final _DEFAULT_CONFIG_PATH = // ignore: non_constant_identifier_names
       'model_generator${Platform.pathSeparator}config.yaml';
-  static const _DEFAULT_BASE_DIRECTORY = 'model';
+  static const _defaultBaseDirectory = 'model';
 
   late String projectName;
   late String baseDirectory;
@@ -20,7 +20,7 @@ class PubspecConfig {
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
-    if (!(doc is YamlMap)) {
+    if (doc is! YamlMap) {
       throw Exception('Could not parse the pubspec.yaml');
     }
     final projectName = doc['name'];
@@ -33,7 +33,7 @@ class PubspecConfig {
     this.projectName = projectName;
     final config = doc['model_generator'];
     if (config == null) {
-      baseDirectory = _DEFAULT_BASE_DIRECTORY;
+      baseDirectory = _defaultBaseDirectory;
       generateForGenerics = false;
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
@@ -43,7 +43,7 @@ class PubspecConfig {
       return;
     }
 
-    baseDirectory = config['base_directory'] ?? _DEFAULT_BASE_DIRECTORY;
+    baseDirectory = config['base_directory'] ?? _defaultBaseDirectory;
     useFvm = (config['use_fvm'] ?? false) == true;
     generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;

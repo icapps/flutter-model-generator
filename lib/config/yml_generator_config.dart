@@ -86,14 +86,14 @@ class YmlGeneratorConfig {
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
-      if (!(properties is YamlMap)) {
+      if (properties is! YamlMap) {
         throw Exception(
             'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
         final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
-          if (propertyValue != null && !(propertyValue is YamlMap)) {
+          if (propertyValue != null && propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
           fields.add(EnumField(
@@ -116,7 +116,7 @@ class YmlGeneratorConfig {
       } else {
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
-          if (!(propertyValue is YamlMap)) {
+          if (propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
           fields.add(getField(propertyKey, propertyValue));
@@ -243,16 +243,16 @@ class YmlGeneratorConfig {
             'getPathForName is null: because `$name` was not added to the config file');
       }
       final paths = <String>{};
-      dartType.generics.forEach((element) {
+      for (var element in dartType.generics) {
         paths.addAll(getPathsForName(pubspecConfig, element.toString()));
-      });
+      }
       return paths;
     } else {
       final baseDirectory =
           foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
       final path = foundModel.path;
       if (path == null) {
-        return ['$baseDirectory'];
+        return [baseDirectory];
       } else if (path.startsWith('package:')) {
         return [path];
       } else {
@@ -264,27 +264,27 @@ class YmlGeneratorConfig {
   void checkIfTypesAvailable() {
     final names = <String>{};
     final types = <String>{};
-    models.forEach((model) {
+    for (var model in models) {
       names.add(model.name);
       if (model is ObjectModel) {
-        model.fields.forEach((field) {
+        for (var field in model.fields) {
           final type = field.type;
           types.add(type.name);
           if (type is MapType) {
             types.add(type.valueName);
           }
-        });
+        }
       }
-    });
+    }
 
     print('Registered models:');
     print(names);
     print('=======');
     print('Models used as a field in another model:');
     print(types);
-    types.forEach((type) {
+    for (var type in types) {
       DartType(type).checkTypesKnown(names);
-    });
+    }
   }
 
   Model? getModelByName(ItemType itemType) {

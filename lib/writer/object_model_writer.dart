@@ -20,10 +20,12 @@ class ObjectModelWriter {
     final sb = StringBuffer();
     final imports = <String>{}
       ..add("import 'package:json_annotation/json_annotation.dart';");
-    (jsonModel.extraImports ?? pubspecConfig.extraImports)
-        .forEach((element) => imports.add('import \'$element\';'));
+    for (var element
+        in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
+      imports.add('import \'$element\';');
+    }
 
-    jsonModel.fields.forEach((field) {
+    for (var field in jsonModel.fields) {
       final type = field.type;
       if (!TypeChecker.isKnownDartType(type.name) &&
           type.name != jsonModel.name) {
@@ -32,11 +34,11 @@ class ObjectModelWriter {
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
         imports.addAll(_getImportsFromPath(type.valueName));
       }
-    });
-    jsonModel.converters.forEach((converter) {
+    }
+    for (var converter in jsonModel.converters) {
       imports.addAll(_getImportsFromPath(converter));
-    });
-    imports.forEach(sb.writeln);
+    }
+    (imports.toList()..sort()).forEach(sb.writeln);
 
     sb
       ..writeln()
@@ -50,9 +52,9 @@ class ObjectModelWriter {
     (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
         .forEach(sb.writeln);
 
-    jsonModel.converters.forEach((converter) {
+    for (var converter in jsonModel.converters) {
       sb.writeln('@$converter()');
-    });
+    }
 
     sb.writeln('class ${jsonModel.name} {');
 
@@ -62,7 +64,7 @@ class ObjectModelWriter {
       return b2 - b1;
     });
 
-    jsonModel.fields.forEach((key) {
+    for (var key in jsonModel.fields) {
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -102,30 +104,31 @@ class ObjectModelWriter {
       } else {
         sb.write('  final ');
       }
-      final nullableFlag = key.isRequired ? '' : '?';
       final keyType = key.type;
+      final nullableFlag =
+          (key.isRequired || keyType.name == 'dynamic') ? '' : '?';
       if (keyType is ArrayType) {
         sb.writeln('List<${keyType.name}>$nullableFlag ${key.name};');
       } else if (keyType is MapType) {
         sb.writeln(
             'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
       } else {
-        sb.writeln('${key.type.name}$nullableFlag ${key.name};');
+        sb.writeln('${keyType.name}$nullableFlag ${key.name};');
       }
-    });
+    }
 
     final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal);
     sb
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    jsonModel.fields.forEach((key) {
+    for (var key in jsonModel.fields) {
       if (key.isRequired) {
         sb.writeln('    required this.${key.name},');
       } else {
         sb.writeln('    this.${key.name},');
       }
-    });
+    }
     sb
       ..writeln('  });')
       ..writeln();
@@ -149,19 +152,19 @@ class ObjectModelWriter {
         ..writeln('      identical(this, other) ||')
         ..writeln('      other is ${jsonModel.name} &&')
         ..write('          runtimeType == other.runtimeType');
-      jsonModel.fields.forEach((field) {
+      for (var field in jsonModel.fields) {
         sb.write(' &&\n          ${field.name} == other.${field.name}');
-      });
+      }
       sb
         ..writeln(';')
         ..writeln()
         ..writeln('  @override')
         ..writeln('  int get hashCode =>');
       var c = 0;
-      jsonModel.fields.forEach((field) {
+      for (var field in jsonModel.fields) {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
-      });
+      }
       sb.writeln(';');
     }
     if (jsonModel.generateToString ?? pubspecConfig.generateToString) {
@@ -172,10 +175,10 @@ class ObjectModelWriter {
         ..writeln('      \'${jsonModel.name}{\'');
 
       var c = 0;
-      jsonModel.fields.forEach((field) {
+      for (var field in jsonModel.fields) {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
-      });
+      }
       sb.writeln('\'\n      \'}\';');
     }
 
