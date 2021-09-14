@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:model_generator_example/model/user/testing.dart';
 import 'package:model_generator_example/model/converter/date_time_converter.dart';
+import 'package:model_generator_example/model/user/testing.dart';
 
 part 'ogm.g.dart';
 

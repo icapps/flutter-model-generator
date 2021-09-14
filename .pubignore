@@ -1,0 +1,6 @@
+.fvm/
+tool
+.github/
+.travis.yml
+coverage/
+example/.metadata
