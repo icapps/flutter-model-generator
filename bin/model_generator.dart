@@ -67,9 +67,9 @@ void writeToFiles(
     } else if (model is EnumModel) {
       content = EnumModelWriter(model).write();
     } else if (model is JsonConverterModel) {
-      return;
+      continue;
     } else if (model is CustomModel) {
-      return;
+      continue;
     }
     if (content == null) {
       throw Exception(

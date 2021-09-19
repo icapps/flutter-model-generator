@@ -1,4 +1,7 @@
 # Changelog
+## [5.3.1] - 2021-09-19
+- Fixed bug that caused the generation loop to prematurely exit when it encountered a custom or json converter model
+
 ## [5.3.0] - 2021-09-14
 - Ensure the import directives are sorted (new lint rules)
 - Ensure dynamic fields are not marked nullable (new lint rules)
