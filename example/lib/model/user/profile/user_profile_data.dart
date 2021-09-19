@@ -46,8 +46,7 @@ class UserProfileData {
     this.personsById,
   });
 
-  factory UserProfileData.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataFromJson(json);
+  factory UserProfileData.fromJson(Map<String, dynamic> json) => _$UserProfileDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserProfileDataToJson(this);
 
@@ -83,7 +82,8 @@ class UserProfileData {
       personsById.hashCode;
 
   @override
-  String toString() => 'UserProfileData{'
+  String toString() =>
+      'UserProfileData{'
       'firstName: $firstName, '
       'lastName: $lastName, '
       'standardLanguage: $standardLanguage, '
@@ -96,4 +96,5 @@ class UserProfileData {
       'persons: $persons, '
       'personsById: $personsById'
       '}';
+
 }

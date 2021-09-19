@@ -17,6 +17,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
               name: 'firstName',
@@ -39,6 +40,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -60,6 +62,7 @@ void main() {
         baseDirectory: 'base_dir',
         explicitToJson: false,
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -80,6 +83,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -101,6 +105,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -121,6 +126,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -141,6 +147,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         extraAnnotations: ['@veryGood'],
         extraImports: ['testing:package.dart'],
         fields: [
@@ -163,6 +170,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -183,6 +191,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -212,6 +221,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: true,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -233,6 +243,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: true,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -255,6 +266,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -277,6 +289,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -298,6 +311,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'info',
@@ -319,6 +333,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'info',
@@ -340,6 +355,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'info',
@@ -361,6 +377,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'gender',
@@ -382,6 +399,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'firstName',
@@ -403,6 +421,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'gender',
@@ -425,6 +444,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'time',
@@ -446,6 +466,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'b',
@@ -483,6 +504,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'birthday',
@@ -506,6 +528,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'address',
@@ -527,6 +550,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'address',
@@ -548,6 +572,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'address',
@@ -569,6 +594,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'address',
@@ -590,6 +616,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         fields: [
           Field(
             name: 'address',
@@ -613,6 +640,7 @@ void main() {
         path: 'path_to_my_model',
         baseDirectory: 'base_dir',
         generateForGenerics: false,
+        staticCreate: false,
         extraImports: ['testing:handler.dart'],
         fields: [
           Field(
@@ -630,6 +658,28 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(
           model, 'to-json-from-json-handler');
+    });
+
+    test('Normal ObjectModelWriter with static create', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: true,
+        fields: [
+          Field(
+              name: 'firstName',
+              type: StringType(),
+              isRequired: false,
+              ignore: false,
+              includeIfNull: true,
+              nonFinal: false,
+              description: 'A good description'),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'normal-static-create');
     });
   });
 }

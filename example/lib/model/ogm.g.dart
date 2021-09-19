@@ -7,14 +7,17 @@ part of 'ogm.dart';
 // **************************************************************************
 
 OGM _$OGMFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const [
-    'structuredMessage',
-    'beneficiary',
-    'beneficiaryIBAN',
-    'test_Test',
-    'some_Thing',
-    'some_ThinG_huGE'
-  ]);
+  $checkKeys(
+    json,
+    requiredKeys: const [
+      'structuredMessage',
+      'beneficiary',
+      'beneficiaryIBAN',
+      'test_Test',
+      'some_Thing',
+      'some_ThinG_huGE'
+    ],
+  );
   return OGM(
     structuredMessage: json['structuredMessage'] as String,
     beneficiary: json['beneficiary'] as String,

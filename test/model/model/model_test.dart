@@ -11,6 +11,7 @@ void main() {
         generateForGenerics: true,
         fields: [],
         converters: [],
+        staticCreate: false,
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
@@ -29,6 +30,7 @@ void main() {
         generateForGenerics: true,
         fields: [],
         converters: [],
+        staticCreate: false,
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');
@@ -46,6 +48,7 @@ void main() {
         generateForGenerics: true,
         fields: [],
         converters: [],
+        staticCreate: false,
       );
       expect(model.name, 'MyModel');
       expect(model.path, 'path_to_my_model');

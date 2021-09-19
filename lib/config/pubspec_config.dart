@@ -15,6 +15,7 @@ class PubspecConfig {
   late bool equalsHashCode;
   late bool explicitToJson;
   late bool generateToString;
+  late bool staticCreate;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
 
@@ -40,6 +41,7 @@ class PubspecConfig {
       equalsHashCode = false;
       explicitToJson = true;
       generateToString = false;
+      staticCreate = false;
       return;
     }
 
@@ -50,6 +52,7 @@ class PubspecConfig {
     equalsHashCode = (config['equals_and_hash_code'] ?? false) == true;
     explicitToJson = (config['explicit_to_json'] ?? true) == true;
     generateToString = (config['to_string'] ?? false) == true;
+    staticCreate = (config['static_create'] ?? false) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {

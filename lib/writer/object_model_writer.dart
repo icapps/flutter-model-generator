@@ -144,6 +144,14 @@ class ObjectModelWriter {
       ..writeln(
           '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
+    print('${jsonModel.name} => ${jsonModel.staticCreate}');
+    if (jsonModel.staticCreate ?? pubspecConfig.staticCreate) {
+      sb
+        ..writeln()
+        ..writeln(
+            '  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json); // ignore: prefer_constructors_over_static_methods');
+    }
+
     if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
       sb
         ..writeln()

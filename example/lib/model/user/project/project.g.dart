@@ -7,7 +7,10 @@ part of 'project.dart';
 // **************************************************************************
 
 Project _$ProjectFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const ['name']);
+  $checkKeys(
+    json,
+    requiredKeys: const ['name'],
+  );
   return Project(
     name: json['name'] as String,
     cost: (json['cost'] as num?)?.toDouble(),

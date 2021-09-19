@@ -18,11 +18,7 @@ class Testing {
   final dynamic dynamicField;
   @JsonKey(name: 'duration', includeIfNull: false)
   final Duration? duration;
-  @JsonKey(
-      name: 'duration_from_json_test',
-      includeIfNull: false,
-      fromJson: handleDurationFromToJsonFromJson,
-      toJson: handleDurationFromToJsonToJson)
+  @JsonKey(name: 'duration_from_json_test', includeIfNull: false, fromJson: handleDurationFromToJsonFromJson, toJson: handleDurationFromToJsonToJson)
   final DurationFromToJson? durationFromJsonTest;
 
   Testing({
@@ -35,8 +31,8 @@ class Testing {
     this.durationFromJsonTest,
   });
 
-  factory Testing.fromJson(Map<String, dynamic> json) =>
-      _$TestingFromJson(json);
+  factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
+
 }
