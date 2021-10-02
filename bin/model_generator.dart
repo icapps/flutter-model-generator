@@ -61,7 +61,6 @@ void writeToFiles(
       modelDirectory.createSync(recursive: true);
     }
     String? content;
-    print('${model.name} - ${model.runtimeType}');
     if (model is ObjectModel) {
       content =
           ObjectModelWriter(pubspecConfig, model, modelGeneratorConfig).write();
@@ -117,6 +116,8 @@ Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
     print('');
   } else {
     print(
-        'Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
+        'Failed to run `${useFvm ? 'fvm ' : ''}flutter packages pub run build_runner build --delete-conflicting-outputs`');
+    print('StdErr: ${result.stderr}');
+    print('StdOut: ${result.stdout}');
   }
 }
