@@ -18,17 +18,14 @@ class ObjectModelWriter {
 
   String write() {
     final sb = StringBuffer();
-    final imports = <String>{}
-      ..add("import 'package:json_annotation/json_annotation.dart';");
-    for (var element
-        in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
+    final imports = <String>{}..add("import 'package:json_annotation/json_annotation.dart';");
+    for (var element in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
       imports.add('import \'$element\';');
     }
 
     for (var field in jsonModel.fields) {
       final type = field.type;
-      if (!TypeChecker.isKnownDartType(type.name) &&
-          type.name != jsonModel.name) {
+      if (!TypeChecker.isKnownDartType(type.name) && type.name != jsonModel.name) {
         imports.addAll(_getImportsFromPath(type.name));
       }
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
@@ -49,8 +46,7 @@ class ObjectModelWriter {
     } else {
       sb.writeln('@JsonSerializable()');
     }
-    (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
-        .forEach(sb.writeln);
+    (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations).forEach(sb.writeln);
 
     for (var converter in jsonModel.converters) {
       sb.writeln('@$converter()');
@@ -83,8 +79,7 @@ class ObjectModelWriter {
       }
 
       if (key.unknownEnumValue != null) {
-        sb.write(
-            ', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
+        sb.write(', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
       }
 
       final fieldModel = yamlConfig.getModelByName(key.type);
@@ -105,13 +100,11 @@ class ObjectModelWriter {
         sb.write('  final ');
       }
       final keyType = key.type;
-      final nullableFlag =
-          (key.isRequired || keyType.name == 'dynamic') ? '' : '?';
+      final nullableFlag = (key.isRequired || keyType.name == 'dynamic') ? '' : '?';
       if (keyType is ArrayType) {
         sb.writeln('List<${keyType.name}>$nullableFlag ${key.name};');
       } else if (keyType is MapType) {
-        sb.writeln(
-            'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
+        sb.writeln('Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
       } else {
         sb.writeln('${keyType.name}$nullableFlag ${key.name};');
       }
@@ -133,23 +126,20 @@ class ObjectModelWriter {
       ..writeln('  });')
       ..writeln();
     if (jsonModel.generateForGenerics) {
-      sb.writeln(
-          '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
+      sb.writeln('  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
     } else {
-      sb.writeln(
-          '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
+      sb.writeln('  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
     }
     sb
       ..writeln()
-      ..writeln(
-          '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
+      ..writeln('  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
-    print('${jsonModel.name} => ${jsonModel.staticCreate}');
     if (jsonModel.staticCreate ?? pubspecConfig.staticCreate) {
       sb
         ..writeln()
+        ..writeln('  // ignore: prefer_constructors_over_static_methods')
         ..writeln(
-            '  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json); // ignore: prefer_constructors_over_static_methods');
+            '  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json);');
     }
 
     if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
@@ -213,8 +203,7 @@ class ObjectModelWriter {
         if (path.endsWith('.dart')) {
           imports.add("import '$pathWithPackage';");
         } else {
-          imports.add(
-              "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
+          imports.add("import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
         }
       }
     }

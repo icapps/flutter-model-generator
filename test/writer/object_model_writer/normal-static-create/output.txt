@@ -16,6 +16,7 @@ class Person {
 
   Map<String, dynamic> toJson() => _$PersonToJson(this);
 
-  static Person create(Map<String, dynamic> json) => Person.fromJson(json); // ignore: prefer_constructors_over_static_methods
+  // ignore: prefer_constructors_over_static_methods
+  static Person create(Map<String, dynamic> json) => Person.fromJson(json);
 
 }
