@@ -7,15 +7,18 @@ part of 'user_profile_data.dart';
 // **************************************************************************
 
 UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const [
-    'firstName',
-    'lastName',
-    'standardLanguage',
-    'mainAccountNumber',
-    'legalEmail',
-    'phones',
-    'legalAddress'
-  ]);
+  $checkKeys(
+    json,
+    requiredKeys: const [
+      'firstName',
+      'lastName',
+      'standardLanguage',
+      'mainAccountNumber',
+      'legalEmail',
+      'phones',
+      'legalAddress'
+    ],
+  );
   return UserProfileData(
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,

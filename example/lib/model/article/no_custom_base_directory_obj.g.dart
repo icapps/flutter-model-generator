@@ -7,14 +7,13 @@ part of 'no_custom_base_directory_obj.dart';
 // **************************************************************************
 
 NoCustomBaseDirectoryObj _$NoCustomBaseDirectoryObjFromJson(
-    Map<String, dynamic> json) {
-  return NoCustomBaseDirectoryObj(
-    customBaseDirectoryObj: json['customBaseDirectoryObj'] == null
-        ? null
-        : CustomBaseDirectoryObj.fromJson(
-            json['customBaseDirectoryObj'] as Map<String, dynamic>),
-  );
-}
+        Map<String, dynamic> json) =>
+    NoCustomBaseDirectoryObj(
+      customBaseDirectoryObj: json['customBaseDirectoryObj'] == null
+          ? null
+          : CustomBaseDirectoryObj.fromJson(
+              json['customBaseDirectoryObj'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$NoCustomBaseDirectoryObjToJson(
     NoCustomBaseDirectoryObj instance) {

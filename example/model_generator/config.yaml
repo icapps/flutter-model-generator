@@ -137,18 +137,22 @@ Gender:
       value:
     GENDER_lap:
       value: GENDER_lap
+
 Duration:
   path: data/custom/
   type: custom
+
 DurationFromToJson:
   path: data/custom/
   type: custom_from_to_json
+
 CustomBaseDirectoryObj:
   base_directory: custom_model_directory
   path: article
   properties:
     name:
       type: string
+
 NoCustomBaseDirectoryObj:
   path: article
   properties:
@@ -163,6 +167,7 @@ Project:
   path: user/project/
   type: object
   generate_for_generics: true
+  static_create: true
   properties:
     name:
       required: true

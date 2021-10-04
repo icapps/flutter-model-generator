@@ -114,6 +114,7 @@ class YmlGeneratorConfig {
           extraAnnotations: extraAnnotations,
         ));
       } else {
+        final staticCreate = (value['static_create'] ?? false) == true;
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue is! YamlMap) {
@@ -132,6 +133,7 @@ class YmlGeneratorConfig {
           converters: mappedConverters ?? [],
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
+          staticCreate: staticCreate,
           equalsAndHashCode: value['equals_and_hash_code'],
           explicitToJson: value['explicit_to_json'],
           generateToString: value['to_string'],

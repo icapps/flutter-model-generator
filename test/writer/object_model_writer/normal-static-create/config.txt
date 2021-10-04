@@ -1,0 +1,8 @@
+Person:
+  path: user/person/
+  type: object
+  static_create: true
+  properties:
+    firstName:
+      description: A good description
+      type: string

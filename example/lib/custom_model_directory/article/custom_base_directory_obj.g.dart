@@ -7,11 +7,10 @@ part of 'custom_base_directory_obj.dart';
 // **************************************************************************
 
 CustomBaseDirectoryObj _$CustomBaseDirectoryObjFromJson(
-    Map<String, dynamic> json) {
-  return CustomBaseDirectoryObj(
-    name: json['name'] as String?,
-  );
-}
+        Map<String, dynamic> json) =>
+    CustomBaseDirectoryObj(
+      name: json['name'] as String?,
+    );
 
 Map<String, dynamic> _$CustomBaseDirectoryObjToJson(
     CustomBaseDirectoryObj instance) {

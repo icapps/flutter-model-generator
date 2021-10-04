@@ -21,6 +21,9 @@ class Project {
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
 
+  // ignore: prefer_constructors_over_static_methods
+  static Project create(Object? json) => Project.fromJson(json);
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

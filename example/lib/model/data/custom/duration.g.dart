@@ -7,7 +7,10 @@ part of 'duration.dart';
 // **************************************************************************
 
 Duration _$DurationFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const ['test']);
+  $checkKeys(
+    json,
+    requiredKeys: const ['test'],
+  );
   return Duration(
     test: json['test'] as String,
   );

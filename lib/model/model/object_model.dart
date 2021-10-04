@@ -8,6 +8,7 @@ class ObjectModel extends Model {
   final bool? equalsAndHashCode;
   final bool? explicitToJson;
   final bool? generateToString;
+  final bool? staticCreate;
 
   ObjectModel({
     required String name,
@@ -21,6 +22,7 @@ class ObjectModel extends Model {
     this.equalsAndHashCode,
     this.explicitToJson,
     this.generateToString,
+    this.staticCreate,
   }) : super(
           name: name,
           path: path,

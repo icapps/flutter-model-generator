@@ -7,7 +7,10 @@ part of 'person.dart';
 // **************************************************************************
 
 Person _$PersonFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const ['firstName', 'gender']);
+  $checkKeys(
+    json,
+    requiredKeys: const ['firstName', 'gender'],
+  );
   return Person(
     firstName: json['firstName'] as String,
     gender:

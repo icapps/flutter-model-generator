@@ -55,7 +55,7 @@ Future<void> main(List<String> args) async {
 
 void writeToFiles(
     PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
-  for (var model in modelGeneratorConfig.models) {
+  for (final model in modelGeneratorConfig.models) {
     final modelDirectory = Directory(join('lib', model.baseDirectory));
     if (!modelDirectory.existsSync()) {
       modelDirectory.createSync(recursive: true);
@@ -116,6 +116,8 @@ Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
     print('');
   } else {
     print(
-        'Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
+        'Failed to run `${useFvm ? 'fvm ' : ''}flutter packages pub run build_runner build --delete-conflicting-outputs`');
+    print('StdErr: ${result.stderr}');
+    print('StdOut: ${result.stdout}');
   }
 }
