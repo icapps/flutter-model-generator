@@ -91,13 +91,17 @@ class YmlGeneratorConfig {
             'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
+        final uppercaseEnums =
+            (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
+
         final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue != null && propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
           fields.add(EnumField(
-            name: propertyKey,
+            name: uppercaseEnums ? propertyKey.toUpperCase() : propertyKey,
+            rawName: propertyKey,
             value: propertyValue == null ? null : propertyValue['value'],
             description:
                 propertyValue == null ? null : propertyValue['description'],

@@ -13,11 +13,13 @@ void main() {
         fields: [
           EnumField(
             name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
             value: 'MY_VALUE_1',
             description: 'A good description of this field',
           ),
           EnumField(
             name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
             value: 'MY_VALUE_2',
           ),
         ],
@@ -33,10 +35,12 @@ void main() {
         fields: [
           EnumField(
             name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
             value: 'MY_VALUE_1',
           ),
           EnumField(
             name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
             value: 'custom_value_2',
           ),
         ],
@@ -52,10 +56,12 @@ void main() {
         fields: [
           EnumField(
             name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
             value: 'MY_VALUE_1',
           ),
           EnumField(
             name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
           ),
         ],
       );
@@ -81,10 +87,12 @@ void main() {
         fields: [
           EnumField(
             name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
             value: 'customValue',
           ),
           EnumField(
             name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
           ),
         ],
       );
@@ -101,10 +109,12 @@ void main() {
         fields: [
           EnumField(
             name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
             value: 'customValue',
           ),
           EnumField(
             name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
           ),
         ],
       );
