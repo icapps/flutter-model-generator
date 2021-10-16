@@ -16,6 +16,7 @@ class PubspecConfig {
   late bool explicitToJson;
   late bool generateToString;
   late bool staticCreate;
+  late bool uppercaseEnums;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
 
@@ -42,6 +43,7 @@ class PubspecConfig {
       explicitToJson = true;
       generateToString = false;
       staticCreate = false;
+      uppercaseEnums = true;
       return;
     }
 
@@ -53,6 +55,7 @@ class PubspecConfig {
     explicitToJson = (config['explicit_to_json'] ?? true) == true;
     generateToString = (config['to_string'] ?? false) == true;
     staticCreate = (config['static_create'] ?? false) == true;
+    uppercaseEnums = (config['uppercase_enums'] ?? true) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {

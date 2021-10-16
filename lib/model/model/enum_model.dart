@@ -38,12 +38,13 @@ class EnumField {
 
   factory EnumField({
     required String name,
+    required String rawName,
     String? value,
     String? description,
   }) =>
       EnumField._(
-        name: name.toUpperCase(),
-        serializedName: name,
+        name: name,
+        serializedName: rawName,
         value: value,
         description: description,
       );
