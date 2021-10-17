@@ -70,6 +70,23 @@ UserModel:
       type: int
 ```
 
+### Ignored fields
+If you wish to ignore certain fields when generating the `==` and `hashCode` methods, you can mark those fields with `ignore_equality: true`.
+
+**Note**: Models with all fields ignored will report a zero hash code and equal only on identity
+
+```yaml
+UserModel:
+  path: webservice/user
+  equals_and_hash_code: false
+  properties:
+    id:
+      type: int
+      ignore_equality: true
+    include:
+      type: string
+```
+
 ## explicit_to_json
 
 By default json_serializable will not generate the toJson methods on an other json_serializable object or list or map. With the model_generator we can enable this by default since

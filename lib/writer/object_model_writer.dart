@@ -160,8 +160,10 @@ class ObjectModelWriter {
         ..writeln('      identical(this, other) ||')
         ..writeln('      other is ${jsonModel.name} &&')
         ..write('          runtimeType == other.runtimeType');
-      for (var field in jsonModel.fields) {
-        sb.write(' &&\n          ${field.name} == other.${field.name}');
+      for (final field in jsonModel.fields) {
+        if (!field.ignoreEquality) {
+          sb.write(' &&\n          ${field.name} == other.${field.name}');
+        }
       }
       sb
         ..writeln(';')
@@ -169,10 +171,13 @@ class ObjectModelWriter {
         ..writeln('  @override')
         ..writeln('  int get hashCode =>');
       var c = 0;
-      for (var field in jsonModel.fields) {
-        if (c++ > 0) sb.write(' ^\n');
-        sb.write('      ${field.name}.hashCode');
+      for (final field in jsonModel.fields) {
+        if (!field.ignoreEquality) {
+          if (c++ > 0) sb.write(' ^\n');
+          sb.write('      ${field.name}.hashCode');
+        }
       }
+      if (c == 0) sb.write('      0');
       sb.writeln(';');
     }
     if (jsonModel.generateToString ?? pubspecConfig.generateToString) {

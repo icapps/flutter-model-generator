@@ -1,6 +1,6 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Default', () {
@@ -12,6 +12,7 @@ void main() {
         ignore: true,
         includeIfNull: true,
         nonFinal: true,
+        ignoreEquality: false,
         unknownEnumValue: 'Unknown Enum Value',
       );
       expect(field.name, 'fieldName');
@@ -20,6 +21,7 @@ void main() {
       expect(field.ignore, true);
       expect(field.includeIfNull, true);
       expect(field.nonFinal, true);
+      expect(field.ignoreEquality, false);
       expect(field.unknownEnumValue, 'Unknown Enum Value');
       expect(field.serializedName, 'fieldName');
     });
@@ -31,6 +33,7 @@ void main() {
         isRequired: true,
         ignore: true,
         includeIfNull: true,
+        ignoreEquality: true,
         nonFinal: true,
         unknownEnumValue: 'Unknown Enum Value',
       );
@@ -39,6 +42,7 @@ void main() {
       expect(field.isRequired, true);
       expect(field.ignore, true);
       expect(field.includeIfNull, true);
+      expect(field.ignoreEquality, true);
       expect(field.nonFinal, true);
       expect(field.unknownEnumValue, 'Unknown Enum Value');
       expect(field.serializedName, 'FieldName');
@@ -53,6 +57,7 @@ void main() {
         isRequired: true,
         ignore: true,
         includeIfNull: true,
+        ignoreEquality: true,
         nonFinal: true,
         unknownEnumValue: 'Unknown Enum Value',
         jsonKey: 'field_name',
@@ -74,6 +79,7 @@ void main() {
         isRequired: true,
         ignore: true,
         includeIfNull: true,
+        ignoreEquality: true,
         nonFinal: true,
         unknownEnumValue: 'Unknown Enum Value',
         jsonKey: 'field_name',

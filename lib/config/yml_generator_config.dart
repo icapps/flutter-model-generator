@@ -166,6 +166,7 @@ class YmlGeneratorConfig {
           ? property['description']!.toString()
           : null;
       final type = property['type'];
+      final skipEquality = property['ignore_equality'] == true;
       ItemType itemType;
 
       if (type == null) {
@@ -210,6 +211,7 @@ class YmlGeneratorConfig {
         unknownEnumValue: unknownEnumValue,
         fromJson: fromJson,
         toJson: toJson,
+        ignoreEquality: skipEquality,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');

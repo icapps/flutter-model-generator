@@ -14,6 +14,7 @@ class Field {
   final String? description;
   final String? fromJson;
   final String? toJson;
+  final bool ignoreEquality;
 
   Field({
     required String name,
@@ -22,6 +23,7 @@ class Field {
     required this.ignore,
     required this.includeIfNull,
     required this.nonFinal,
+    required this.ignoreEquality,
     this.description,
     this.unknownEnumValue,
     this.fromJson,

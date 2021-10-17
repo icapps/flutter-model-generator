@@ -1,6 +1,9 @@
 # Changelog
+## [5.5.0] - 2021-10-17
+- Allow configuration that ignores certain fields for equals and hashCode generation. (Fixes #99)
+
 ## [5.4.0] - 2021-10-16
-- Allow configuration that stops the automatic uppercasing of enums. Fixes (#97)
+- Allow configuration that stops the automatic uppercasing of enums. (Fixes #97)
 
 ## [5.3.1] - 2021-09-19
 - Fixed bug that caused the generation loop to prematurely exit when it encountered a custom or json converter model
