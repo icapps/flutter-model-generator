@@ -174,7 +174,7 @@ UserModel:
     name:
       type: string
       required: true
-      defaultl_value: "'an example quoted string'"
+      default_value: "'an example quoted string'"
 ```
 
 ## Generics support support
