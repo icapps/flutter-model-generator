@@ -12,8 +12,8 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
     requiredKeys: const ['name'],
   );
   return Project(
-    name: json['name'] as String,
-    cost: (json['cost'] as num?)?.toDouble(),
+    name: json['name'] as String? ?? 'test',
+    cost: (json['cost'] as num?)?.toDouble() ?? 0.2,
   );
 }
 

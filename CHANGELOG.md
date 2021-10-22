@@ -1,4 +1,7 @@
 # Changelog
+## [5.6.0] - 2021-10-22
+- Support default values for properties. (Fixes #54)
+
 ## [5.5.0] - 2021-10-17
 - Allow configuration that ignores certain fields for equals and hashCode generation. (Fixes #99)
 

@@ -15,6 +15,9 @@ class Field {
   final String? fromJson;
   final String? toJson;
   final bool ignoreEquality;
+  final String? defaultValue;
+
+  bool get hasDefaultValue => defaultValue != null;
 
   Field({
     required String name,
@@ -28,6 +31,7 @@ class Field {
     this.unknownEnumValue,
     this.fromJson,
     this.toJson,
+    this.defaultValue,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,
         name =

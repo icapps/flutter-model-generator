@@ -123,8 +123,10 @@ class ObjectModelWriter {
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
     for (var key in jsonModel.fields) {
-      if (key.isRequired) {
+      if (key.isRequired && !key.hasDefaultValue) {
         sb.writeln('    required this.${key.name},');
+      } else if (key.hasDefaultValue) {
+        sb.writeln('    this.${key.name} = ${key.defaultValue},');
       } else {
         sb.writeln('    this.${key.name},');
       }
