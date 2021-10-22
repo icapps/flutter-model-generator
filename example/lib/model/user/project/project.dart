@@ -12,8 +12,8 @@ class Project {
   final double? cost;
 
   const Project({
-    required this.name,
-    this.cost,
+    this.name = 'test',
+    this.cost = 0.2,
   });
 
   factory Project.fromJson(Object? json) =>

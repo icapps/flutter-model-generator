@@ -172,8 +172,10 @@ Project:
     name:
       required: true
       type: string
+      default_value: "'test'"
     cost:
       type: double
+      default_value: 0.2
 
 
 

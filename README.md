@@ -154,6 +154,29 @@ UserModel:
       type: int
 ```
 
+## Default values
+Since version `5.6.0` default values are supported for properties. You can specify a default value for 
+both required and optional properties by adding `default_value: ...` to the property definition.
+
+**Note:** Default values are taken exactly how they are specified in the yaml file, this means for example
+that you will need to quote strings correctly, ensure imports are there, ensure the value is a constant, ...
+
+```yaml
+UserModel:
+  path: webservice/user
+  extra_imports:
+  extra_annotations:
+    - '@someAnnotation'
+  properties:
+    id:
+      type: int
+      default_value: 1
+    name:
+      type: string
+      required: true
+      default_value: "'an example quoted string'"
+```
+
 ## Generics support support
 
 If you want your models to generate code that can be used in combination with generics. use this:
@@ -196,6 +219,7 @@ UserModel:
       type: dynamic
     isLoggedIn:
       type: bool
+      default_value: false
     roles:
       type: array
       items:
