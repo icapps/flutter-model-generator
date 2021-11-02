@@ -319,6 +319,29 @@ void main() {
       WriterTestHelper.testObjectModelWriter(model, 'ignore');
     });
 
+    test('Normal ObjectModelWriter with import sorting', () {
+      final model = ObjectModel(
+        name: 'BModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+              name: 'aModel',
+              type: ObjectType('AModel'),
+              isRequired: false,
+              ignore: false,
+              includeIfNull: true,
+              ignoreEquality: false,
+              nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'import_sorting');
+    });
+
     test('Normal ObjectModelWriter with array field', () {
       final model = ObjectModel(
         name: 'Person',

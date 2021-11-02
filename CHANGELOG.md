@@ -1,4 +1,7 @@
 # Changelog
+## [5.7.0] - 2021-11-02
+- Added better support for import sorting. This way the analyzer won't break each time you build. (Fixes #101)
+
 ## [5.6.0] - 2021-10-22
 - Support default values for properties. (Fixes #54)
 

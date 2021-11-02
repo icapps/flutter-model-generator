@@ -38,7 +38,7 @@ class ObjectModelWriter {
     for (var converter in jsonModel.converters) {
       imports.addAll(_getImportsFromPath(converter));
     }
-    (imports.toList()..sort()).forEach(sb.writeln);
+    (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
 
     sb
       ..writeln()
@@ -225,6 +225,6 @@ class ObjectModelWriter {
         }
       }
     }
-    return imports;
+    return imports.toList()..sort((i1, i2) => i1.compareTo(i2));
   }
 }
