@@ -1,0 +1,12 @@
+BModel:
+  path: user/b_model/
+  type: object
+  properties:
+    firstName:
+      type: AModel
+AModel:
+  path: user/a_model/
+  type: object
+  properties:
+    firstName:
+      type: string
