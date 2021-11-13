@@ -1,4 +1,7 @@
 # Changelog
+## [5.7.1] - 2021-11-13
+- Fixed issue where default values would still throw missing key exceptions. (Fixes #103)
+
 ## [5.7.0] - 2021-11-02
 - Added better support for import sorting. This way the analyzer won't break each time you build. (Fixes #101)
 
