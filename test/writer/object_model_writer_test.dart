@@ -844,5 +844,28 @@ void main() {
           description: 'A good class description');
       WriterTestHelper.testObjectModelWriter(model, 'normal-with-description');
     });
+    test('Normal ObjectModelWriter with default required field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+              name: 'firstName',
+              type: StringType(),
+              isRequired: true,
+              ignore: false,
+              includeIfNull: true,
+              ignoreEquality: false,
+              nonFinal: false,
+              defaultValue: '\'test\'',
+              description: 'A good description'),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'default-field-required');
+    });
   });
 }

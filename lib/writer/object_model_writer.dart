@@ -77,7 +77,11 @@ class ObjectModelWriter {
       }
       sb.write("  @JsonKey(name: '${key.serializedName}'");
       if (key.isRequired) {
-        sb.write(', required: true');
+        if (key.hasDefaultValue) {
+          sb.write(', required: false, disallowNullValue: true');
+        } else {
+          sb.write(', required: true');
+        }
       }
 
       if (!key.includeIfNull) {
