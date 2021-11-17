@@ -27,7 +27,7 @@ class ObjectModelWriter {
     final sb = StringBuffer();
     final imports = <String>{}
       ..add("import 'package:json_annotation/json_annotation.dart';");
-    for (var element
+    for (final element
         in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
       imports.add('import \'$element\';');
     }
@@ -39,7 +39,7 @@ class ObjectModelWriter {
       }
     }
 
-    for (var field in jsonModel.fields) {
+    for (final field in jsonModel.fields) {
       final type = field.type;
       if (!TypeChecker.isKnownDartType(type.name) &&
           type.name != jsonModel.name) {
@@ -49,11 +49,11 @@ class ObjectModelWriter {
         imports.addAll(_getImportsFromPath(type.valueName));
       }
     }
-    for (var field in extendsFields) {
+    for (final field in extendsFields) {
       imports.addAll(_getImportsFromField(field));
     }
 
-    for (var converter in jsonModel.converters) {
+    for (final converter in jsonModel.converters) {
       imports.addAll(_getImportsFromPath(converter));
     }
     (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
@@ -70,7 +70,7 @@ class ObjectModelWriter {
     (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
         .forEach(sb.writeln);
 
-    for (var converter in jsonModel.converters) {
+    for (final converter in jsonModel.converters) {
       sb.writeln('@$converter()');
     }
 
@@ -86,7 +86,7 @@ class ObjectModelWriter {
       return b2 - b1;
     });
 
-    for (var key in jsonModel.fields) {
+    for (final key in jsonModel.fields) {
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -139,27 +139,27 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    for (var key in jsonModel.fields
+    for (final key in jsonModel.fields
         .where((key) => (key.isRequired && !key.hasDefaultValue))) {
       sb.writeln('    required this.${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in extendsFields
+    for (final key in extendsFields
         .where((key) => (key.isRequired && !key.hasDefaultValue))) {
       sb.writeln(
           '    required ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in jsonModel.fields
+    for (final key in jsonModel.fields
         .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
       sb.writeln('    this.${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in extendsFields
+    for (final key in extendsFields
         .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
       sb.writeln(
           '    ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
     if (extendsModel != null) {
       sb.writeln('  }) : super(');
-      for (var key in extendsFields) {
+      for (final key in extendsFields) {
         sb.writeln('          ${key.name}: ${key.name},');
       }
       sb
@@ -232,11 +232,11 @@ class ObjectModelWriter {
         ..writeln('      \'${jsonModel.name}{\'');
 
       var c = 0;
-      for (var field in jsonModel.fields) {
+      for (final field in jsonModel.fields) {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       }
-      for (var field in extendsFields) {
+      for (final field in extendsFields) {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       }

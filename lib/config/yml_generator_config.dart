@@ -255,7 +255,7 @@ class YmlGeneratorConfig {
             'getPathForName is null: because `$name` was not added to the config file');
       }
       final paths = <String>{};
-      for (var element in dartType.generics) {
+      for (final element in dartType.generics) {
         paths.addAll(getPathsForName(pubspecConfig, element.toString()));
       }
       return paths;
@@ -277,13 +277,13 @@ class YmlGeneratorConfig {
     final names = <String>{};
     final types = <String>{};
     final extendsModels = <String>{};
-    for (var model in models) {
+    for (final model in models) {
       names.add(model.name);
       if (model.extendsModel != null) {
         extendsModels.add(model.extendsModel!);
       }
       if (model is ObjectModel) {
-        for (var field in model.fields) {
+        for (final field in model.fields) {
           final type = field.type;
           types.add(type.name);
           if (type is MapType) {
@@ -303,10 +303,10 @@ class YmlGeneratorConfig {
       print('Models being extended:');
       print(extendsModels);
     }
-    for (var type in types) {
+    for (final type in types) {
       DartType(type).checkTypesKnown(names);
     }
-    for (var extendsType in extendsModels) {
+    for (final extendsType in extendsModels) {
       checkTypesKnown(names, extendsType);
     }
   }
