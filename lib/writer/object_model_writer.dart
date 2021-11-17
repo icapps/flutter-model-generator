@@ -44,6 +44,12 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln("part '${jsonModel.fileName}.g.dart';")
       ..writeln();
+
+    final modelDescription = jsonModel.description?.trim();
+    if (modelDescription != null && modelDescription.isNotEmpty) {
+      sb.writeln("///$modelDescription");
+    }
+
     if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
       sb.writeln('@JsonSerializable(explicitToJson: true)');
     } else {

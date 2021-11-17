@@ -52,6 +52,7 @@ class YmlGeneratorConfig {
         }
       });
 
+      final description = value['description']?.toString();
       final dynamic properties = value['properties'];
       final YamlList? converters = value['converters'];
       final String? type = value['type'];
@@ -116,6 +117,7 @@ class YmlGeneratorConfig {
           fields: fields,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
+          description: description,
         ));
       } else {
         final staticCreate = (value['static_create'] ?? false) == true;
@@ -141,6 +143,7 @@ class YmlGeneratorConfig {
           equalsAndHashCode: value['equals_and_hash_code'],
           explicitToJson: value['explicit_to_json'],
           generateToString: value['to_string'],
+          description: description,
         ));
       }
     });

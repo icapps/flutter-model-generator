@@ -23,11 +23,13 @@ class ObjectModel extends Model {
     this.explicitToJson,
     this.generateToString,
     this.staticCreate,
+    String? description,
   }) : super(
           name: name,
           path: path,
           baseDirectory: baseDirectory,
           extraAnnotations: extraAnnotations,
           extraImports: extraImports,
+          description: description,
         );
 }
