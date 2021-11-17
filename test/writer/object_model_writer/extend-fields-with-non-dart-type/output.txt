@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:model_generator_example/model/user/person/person.dart';
 import 'package:model_generator_example/model/user/custom_address.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class User extends Person {
   @JsonKey(name: 'email', required: true)
   final String email;

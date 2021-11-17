@@ -133,17 +133,17 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    for (var key in jsonModel.fields.where((key) => key.isRequired)) {
-      sb.writeln('    required this.${key.name},');
+    for (var key in jsonModel.fields.where((key) => (key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln('    required this.${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in extendsFields.where((key) => key.isRequired)) {
-      sb.writeln('    required ${_getKeyType(key)} ${key.name},');
+    for (var key in extendsFields.where((key) => (key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln('    required ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in jsonModel.fields.where((key) => !key.isRequired)) {
-      sb.writeln('    this.${key.name},');
+    for (var key in jsonModel.fields.where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln('    this.${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in extendsFields.where((key) => !key.isRequired)) {
-      sb.writeln('    ${_getKeyType(key)} ${key.name},');
+    for (var key in extendsFields.where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln('    ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
     if (extendsModel != null) {
       sb.writeln('  }) : super(');
@@ -184,8 +184,8 @@ class ObjectModelWriter {
         ..writeln('      identical(this, other) ||')
         ..writeln('      other is ${jsonModel.name} &&')
         ..write('          runtimeType == other.runtimeType');
-      for (final field in jsonModel.fields) {
-        if (!field.ignoreEquality) sb.write(' &&\n          ${field.name} == other.${field.name}');
+      for (final field in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+        sb.write(' &&\n          ${field.name} == other.${field.name}');
       }
       if (extendsModel != null) {
         sb.write(' &&\n          super == other');
@@ -196,7 +196,7 @@ class ObjectModelWriter {
         ..writeln('  @override')
         ..writeln('  int get hashCode =>');
       var c = 0;
-      for (final field in jsonModel.fields) {
+      for (final field in jsonModel.fields.where((field) => !field.ignoreEquality)) {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
       }
@@ -277,5 +277,13 @@ class ObjectModelWriter {
       }
     }
     return imports.toList()..sort((i1, i2) => i1.compareTo(i2));
+  }
+
+  String _fillDefaulValue(Field key) {
+    if (key.hasDefaultValue) {
+      return ' = ${key.defaultValue}';
+    } else {
+      return '';
+    }
   }
 }

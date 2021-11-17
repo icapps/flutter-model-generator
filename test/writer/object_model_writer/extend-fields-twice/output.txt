@@ -3,7 +3,7 @@ import 'package:model_generator_example/model/user/person/user.dart';
 
 part 'admin.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Admin extends User {
   @JsonKey(name: 'permission', required: true)
   final String permission;
