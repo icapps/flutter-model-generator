@@ -25,8 +25,10 @@ class ObjectModelWriter {
 
   String write() {
     final sb = StringBuffer();
-    final imports = <String>{}..add("import 'package:json_annotation/json_annotation.dart';");
-    for (var element in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
+    final imports = <String>{}
+      ..add("import 'package:json_annotation/json_annotation.dart';");
+    for (var element
+        in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
       imports.add('import \'$element\';');
     }
     final extendsModel = jsonModel.extendsModel;
@@ -39,7 +41,8 @@ class ObjectModelWriter {
 
     for (var field in jsonModel.fields) {
       final type = field.type;
-      if (!TypeChecker.isKnownDartType(type.name) && type.name != jsonModel.name) {
+      if (!TypeChecker.isKnownDartType(type.name) &&
+          type.name != jsonModel.name) {
         imports.addAll(_getImportsFromPath(type.name));
       }
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
@@ -55,16 +58,14 @@ class ObjectModelWriter {
     }
     (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
 
-    sb
-      ..writeln()
-      ..writeln("part '${jsonModel.fileName}.g.dart';")
-      ..writeln();
+    sb..writeln()..writeln("part '${jsonModel.fileName}.g.dart';")..writeln();
     if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
       sb.writeln('@JsonSerializable(explicitToJson: true)');
     } else {
       sb.writeln('@JsonSerializable()');
     }
-    (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations).forEach(sb.writeln);
+    (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
+        .forEach(sb.writeln);
 
     for (var converter in jsonModel.converters) {
       sb.writeln('@$converter()');
@@ -105,7 +106,8 @@ class ObjectModelWriter {
       }
 
       if (key.unknownEnumValue != null) {
-        sb.write(', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
+        sb.write(
+            ', unknownEnumValue: ${key.type.name}.${key.unknownEnumValue}');
       }
 
       final fieldModel = yamlConfig.getModelByName(key.type);
@@ -128,52 +130,59 @@ class ObjectModelWriter {
       sb.writeln('${_getKeyType(key)} ${key.name};');
     }
 
-    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal) || extendsFields.any((element) => element.nonFinal);
+    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal) ||
+        extendsFields.any((element) => element.nonFinal);
     sb
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    for (var key in jsonModel.fields.where((key) => (key.isRequired && !key.hasDefaultValue))) {
+    for (var key in jsonModel.fields
+        .where((key) => (key.isRequired && !key.hasDefaultValue))) {
       sb.writeln('    required this.${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in extendsFields.where((key) => (key.isRequired && !key.hasDefaultValue))) {
-      sb.writeln('    required ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
+    for (var key in extendsFields
+        .where((key) => (key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln(
+          '    required ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in jsonModel.fields.where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+    for (var key in jsonModel.fields
+        .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
       sb.writeln('    this.${key.name}${_fillDefaulValue(key)},');
     }
-    for (var key in extendsFields.where((key) => !(key.isRequired && !key.hasDefaultValue))) {
-      sb.writeln('    ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
+    for (var key in extendsFields
+        .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln(
+          '    ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
     if (extendsModel != null) {
       sb.writeln('  }) : super(');
       for (var key in extendsFields) {
         sb.writeln('          ${key.name}: ${key.name},');
       }
-      sb
-        ..writeln('        );')
-        ..writeln();
+      sb..writeln('        );')..writeln();
     } else {
-      sb
-        ..writeln('  });')
-        ..writeln();
+      sb..writeln('  });')..writeln();
     }
     if (jsonModel.generateForGenerics) {
-      sb.writeln('  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
+      sb.writeln(
+          '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
     } else {
-      sb.writeln('  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
+      sb.writeln(
+          '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
     }
     sb.writeln();
     if (extendsModel != null) {
       sb.writeln('  @override');
     }
-    sb.writeln('  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
+    sb.writeln(
+        '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
     if (jsonModel.staticCreate ?? pubspecConfig.staticCreate) {
       sb
         ..writeln()
         ..writeln('  // ignore: prefer_constructors_over_static_methods')
-        ..writeln('  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json);');
+        ..writeln(
+            '  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json);');
     }
 
     if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
@@ -184,7 +193,8 @@ class ObjectModelWriter {
         ..writeln('      identical(this, other) ||')
         ..writeln('      other is ${jsonModel.name} &&')
         ..write('          runtimeType == other.runtimeType');
-      for (final field in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+      for (final field
+          in jsonModel.fields.where((field) => !field.ignoreEquality)) {
         sb.write(' &&\n          ${field.name} == other.${field.name}');
       }
       if (extendsModel != null) {
@@ -196,7 +206,8 @@ class ObjectModelWriter {
         ..writeln('  @override')
         ..writeln('  int get hashCode =>');
       var c = 0;
-      for (final field in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+      for (final field
+          in jsonModel.fields.where((field) => !field.ignoreEquality)) {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
       }
@@ -225,14 +236,13 @@ class ObjectModelWriter {
       sb.writeln('\'\n      \'}\';');
     }
 
-    sb
-      ..writeln()
-      ..writeln('}');
+    sb..writeln()..writeln('}');
     return sb.toString();
   }
 
   String _getKeyType(Field key) {
-    final nullableFlag = key.isRequired || key.type.name == 'dynamic' ? '' : '?';
+    final nullableFlag =
+        key.isRequired || key.type.name == 'dynamic' ? '' : '?';
     final keyType = key.type;
     if (keyType is ArrayType) {
       return 'List<${keyType.name}>$nullableFlag';
@@ -272,7 +282,8 @@ class ObjectModelWriter {
         if (path.endsWith('.dart')) {
           imports.add("import '$pathWithPackage';");
         } else {
-          imports.add("import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
+          imports.add(
+              "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
         }
       }
     }

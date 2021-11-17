@@ -42,13 +42,19 @@ class AdminProfileData extends UserProfileDataExtended {
           personsById: personsById,
         );
 
-  factory AdminProfileData.fromJson(Map<String, dynamic> json) => _$AdminProfileDataFromJson(json);
+  factory AdminProfileData.fromJson(Map<String, dynamic> json) =>
+      _$AdminProfileDataFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$AdminProfileDataToJson(this);
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AdminProfileData && runtimeType == other.runtimeType && privileges == other.privileges && super == other;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AdminProfileData &&
+          runtimeType == other.runtimeType &&
+          privileges == other.privileges &&
+          super == other;
 
   @override
   int get hashCode => privileges.hashCode ^ super.hashCode;

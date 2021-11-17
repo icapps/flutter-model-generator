@@ -40,14 +40,19 @@ class UserProfileDataExtended extends UserProfileData {
           personsById: personsById,
         );
 
-  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) => _$UserProfileDataExtendedFromJson(json);
+  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileDataExtendedFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$UserProfileDataExtendedToJson(this);
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is UserProfileDataExtended && runtimeType == other.runtimeType && additionalField == other.additionalField && super == other;
+      identical(this, other) ||
+      other is UserProfileDataExtended &&
+          runtimeType == other.runtimeType &&
+          additionalField == other.additionalField &&
+          super == other;
 
   @override
   int get hashCode => additionalField.hashCode ^ super.hashCode;
