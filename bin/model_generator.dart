@@ -57,7 +57,7 @@ Future<void> main(List<String> args) async {
 
 void writeToFiles(
     PubspecConfig pubspecConfig, YmlGeneratorConfig modelGeneratorConfig) {
-  modelGeneratorConfig.models.forEach((model) {
+  for (final model in modelGeneratorConfig.models) {
     final modelDirectory = Directory(join('lib', model.baseDirectory));
     if (!modelDirectory.existsSync()) {
       modelDirectory.createSync(recursive: true);
@@ -83,9 +83,11 @@ void writeToFiles(
     } else if (model is EnumModel) {
       content = EnumModelWriter(model).write();
     } else if (model is JsonConverterModel) {
-      return;
+      continue;
+    } else if (model is CustomModel) {
+      continue;
     }
-    if (model is! CustomModel && content == null) {
+    if (content == null) {
       throw Exception(
           'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
     }
@@ -99,11 +101,8 @@ void writeToFiles(
     if (!file.existsSync()) {
       file.createSync(recursive: true);
     }
-
-    if (model is! CustomModel && content != null) {
-      file.writeAsStringSync(content);
-    }
-  });
+    file.writeAsStringSync(content);
+  }
 }
 
 Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
@@ -133,6 +132,8 @@ Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
     print('');
   } else {
     print(
-        'Failed to run `flutter packages pub run build_runner build --delete-conflicting-outputs`');
+        'Failed to run `${useFvm ? 'fvm ' : ''}flutter packages pub run build_runner build --delete-conflicting-outputs`');
+    print('StdErr: ${result.stderr}');
+    print('StdOut: ${result.stdout}');
   }
 }

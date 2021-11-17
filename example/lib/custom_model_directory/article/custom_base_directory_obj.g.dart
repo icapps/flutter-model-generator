@@ -7,14 +7,21 @@ part of 'custom_base_directory_obj.dart';
 // **************************************************************************
 
 CustomBaseDirectoryObj _$CustomBaseDirectoryObjFromJson(
-    Map<String, dynamic> json) {
-  return CustomBaseDirectoryObj(
-    name: json['name'] as String?,
-  );
-}
+        Map<String, dynamic> json) =>
+    CustomBaseDirectoryObj(
+      name: json['name'] as String?,
+    );
 
 Map<String, dynamic> _$CustomBaseDirectoryObjToJson(
-        CustomBaseDirectoryObj instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-    };
+    CustomBaseDirectoryObj instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}

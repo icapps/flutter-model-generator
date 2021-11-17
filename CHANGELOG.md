@@ -1,4 +1,47 @@
 # Changelog
+## [5.7.1] - 2021-11-13
+- Fixed issue where default values would still throw missing key exceptions. (Fixes #103)
+
+## [5.7.0] - 2021-11-02
+- Added better support for import sorting. This way the analyzer won't break each time you build. (Fixes #101)
+
+## [5.6.0] - 2021-10-22
+- Support default values for properties. (Fixes #54)
+
+## [5.5.0] - 2021-10-17
+- Allow configuration that ignores certain fields for equals and hashCode generation. (Fixes #99)
+
+## [5.4.0] - 2021-10-16
+- Allow configuration that stops the automatic uppercasing of enums. (Fixes #97)
+
+## [5.3.1] - 2021-09-19
+- Fixed bug that caused the generation loop to prematurely exit when it encountered a custom or json converter model
+
+## [5.3.0] - 2021-09-14
+- Ensure the import directives are sorted (new lint rules)
+- Ensure dynamic fields are not marked nullable (new lint rules)
+
+## [5.2.0] - 2021-09-07
+- fromJson & toJson custom override
+
+## [5.1.1] - 2021-08-27
+- Add support for adding `description` on fields to generate documentation entries
+- Fix self references (#82)
+
+## [5.0.0] - 2021-07-27
+### Breaking
+- include_if_null changed the default value to false
+### Added
+- explicit_to_json at global level (default is true)
+- explicit_to_json at model level (default is true)
+
+## [4.3.2] - 2021-05-06
+### Added
+- Added support for generating a mapping for enum's: `generate_map: true`
+- Added support for generating extension methods using the enum's mapping: `generate_extensions: true`
+### Fixed
+- Custom models will not generate a new file
+
 ## [4.3.0] - 2021-04-20
 ### Added
 - Added support for adding extra annotations and imports

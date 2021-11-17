@@ -28,15 +28,12 @@ class YmlGeneratorConfig {
 
   YmlGeneratorConfig(PubspecConfig pubspecConfig, String configContent) {
     loadYaml(configContent).forEach((key, value) {
-      final String baseDirectory =
-          value['base_directory'] ?? pubspecConfig.baseDirectory;
+      final String baseDirectory = value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String? path = value['path'];
       final String? extendsModel = value['extends'];
-      final bool generateForGenerics =
-          value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
+      final bool generateForGenerics = value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
 
-      final extraImports =
-          value.containsKey('extra_imports') ? <String>[] : null;
+      final extraImports = value.containsKey('extra_imports') ? <String>[] : null;
       final extraImportsVal = value['extra_imports'];
       extraImportsVal?.forEach((e) {
         if (e != null) {
@@ -44,8 +41,7 @@ class YmlGeneratorConfig {
         }
       });
 
-      final extraAnnotations =
-          value.containsKey('extra_annotations') ? <String>[] : null;
+      final extraAnnotations = value.containsKey('extra_annotations') ? <String>[] : null;
       final extraAnnotationsVal = value['extra_annotations'];
       extraAnnotationsVal?.forEach((e) {
         if (e != null) {
@@ -87,39 +83,44 @@ class YmlGeneratorConfig {
       if (properties == null) {
         throw Exception('Properties can not be null. model: $key');
       }
-      if (!(properties is YamlMap)) {
-        throw Exception(
-            'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
+      if (properties is! YamlMap) {
+        throw Exception('Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
+        final uppercaseEnums = (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
+
         final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
-          if (propertyValue != null && !(propertyValue is YamlMap)) {
+          if (propertyValue != null && propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
           fields.add(EnumField(
-            name: propertyKey,
+            name: uppercaseEnums ? propertyKey.toUpperCase() : propertyKey,
+            rawName: propertyKey,
             value: propertyValue == null ? null : propertyValue['value'],
+            description: propertyValue == null ? null : propertyValue['description'],
           ));
         });
         models.add(EnumModel(
           name: key,
           path: path,
+          generateMap: value['generate_map'] == true,
+          generateExtensions: value['generate_extensions'] == true,
           baseDirectory: baseDirectory,
           fields: fields,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
         ));
       } else {
+        final staticCreate = (value['static_create'] ?? false) == true;
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
-          if (!(propertyValue is YamlMap)) {
+          if (propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
           fields.add(getField(propertyKey, propertyValue));
         });
-        final mappedConverters =
-            converters?.map((element) => element.toString()).toList();
+        final mappedConverters = converters?.map((element) => element.toString()).toList();
         models.add(ObjectModel(
           name: key,
           path: path,
@@ -130,7 +131,9 @@ class YmlGeneratorConfig {
           converters: mappedConverters ?? [],
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
+          staticCreate: staticCreate,
           equalsAndHashCode: value['equals_and_hash_code'],
+          explicitToJson: value['explicit_to_json'],
           generateToString: value['to_string'],
         ));
       }
@@ -141,16 +144,18 @@ class YmlGeneratorConfig {
 
   Field getField(String name, YamlMap property) {
     try {
-      final required =
-          property.containsKey('required') && property['required'] == true;
-      final ignored =
-          property.containsKey('ignore') && property['ignore'] == true;
-      final nonFinal = ignored ||
-          property.containsKey('non_final') && property['non_final'] == true;
-      final includeIfNull = property['include_if_null'] != false;
+      final required = property.containsKey('required') && property['required'] == true;
+      final ignored = property.containsKey('ignore') && property['ignore'] == true;
+      final nonFinal = ignored || property.containsKey('non_final') && property['non_final'] == true;
+      final includeIfNull = property.containsKey('include_if_null') && property['include_if_null'] == true;
       final unknownEnumValue = property['unknown_enum_value'];
       final jsonKey = property['jsonKey'] ?? property['jsonkey'];
+      final fromJson = property['fromJson'];
+      final toJson = property['toJson'];
+      final description = property.containsKey('description') ? property['description']!.toString() : null;
       final type = property['type'];
+      final skipEquality = property['ignore_equality'] == true;
+      var defaultValue = property['default_value']?.toString();
       ItemType itemType;
 
       if (type == null) {
@@ -190,8 +195,13 @@ class YmlGeneratorConfig {
         ignore: ignored,
         jsonKey: jsonKey,
         nonFinal: nonFinal,
+        description: description,
         includeIfNull: includeIfNull,
         unknownEnumValue: unknownEnumValue,
+        fromJson: fromJson,
+        toJson: toJson,
+        ignoreEquality: skipEquality,
+        defaultValue: defaultValue,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');
@@ -210,9 +220,7 @@ class YmlGeneratorConfig {
       return 'DateTime';
     } else if (typeName == 'int' || typeName == 'integer') {
       return 'int';
-    } else if (typeName == 'object' ||
-        typeName == 'dynamic' ||
-        typeName == 'any') {
+    } else if (typeName == 'object' || typeName == 'dynamic' || typeName == 'any') {
       return 'dynamic';
     } else {
       return typeName;
@@ -227,20 +235,18 @@ class YmlGeneratorConfig {
       //Maybe a generic
       final dartType = DartType(name);
       if (dartType.generics.isEmpty) {
-        throw Exception(
-            'getPathForName is null: because `$name` was not added to the config file');
+        throw Exception('getPathForName is null: because `$name` was not added to the config file');
       }
       final paths = <String>{};
-      dartType.generics.forEach((element) {
+      for (var element in dartType.generics) {
         paths.addAll(getPathsForName(pubspecConfig, element.toString()));
-      });
+      }
       return paths;
     } else {
-      final baseDirectory =
-          foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
+      final baseDirectory = foundModel.baseDirectory ?? pubspecConfig.baseDirectory;
       final path = foundModel.path;
       if (path == null) {
-        return ['$baseDirectory'];
+        return [baseDirectory];
       } else if (path.startsWith('package:')) {
         return [path];
       } else {
@@ -253,21 +259,21 @@ class YmlGeneratorConfig {
     final names = <String>{};
     final types = <String>{};
     final extendsModels = <String>{};
-    models.forEach((model) {
+    for (var model in models) {
       names.add(model.name);
       if (model.extendsModel != null) {
         extendsModels.add(model.extendsModel!);
       }
       if (model is ObjectModel) {
-        model.fields.forEach((field) {
+        for (var field in model.fields) {
           final type = field.type;
           types.add(type.name);
           if (type is MapType) {
             types.add(type.valueName);
           }
-        });
+        }
       }
-    });
+    }
 
     print('Registered models:');
     print(names);
@@ -279,29 +285,26 @@ class YmlGeneratorConfig {
       print('Models being extended:');
       print(extendsModels);
     }
-    types.forEach((type) {
+    for (var type in types) {
       DartType(type).checkTypesKnown(names);
-    });
-    extendsModels.forEach((extendsType) {
+    }
+    for (var extendsType in extendsModels) {
       checkTypesKnown(names, extendsType);
-    });
+    }
   }
 
   Model? getModelByName(ItemType itemType) {
     if (itemType is! ObjectType) return null;
-    final model =
-        models.firstWhereOrNull((model) => model.name == itemType.name);
+    final model = models.firstWhereOrNull((model) => model.name == itemType.name);
     if (model == null) {
-      throw Exception(
-          'getModelByname is null: because `${itemType.name}` was not added to the config file');
+      throw Exception('getModelByname is null: because `${itemType.name}` was not added to the config file');
     }
     return model;
   }
 
   void checkTypesKnown(final Set<String> names, String type) {
     if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
-      throw Exception(
-          'Could not generate all models. `$type` is not added to the config file, but is extended. These types are known: ${names.join(',')}');
+      throw Exception('Could not generate all models. `$type` is not added to the config file, but is extended. These types are known: ${names.join(',')}');
     }
   }
 }

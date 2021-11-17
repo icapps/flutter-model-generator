@@ -7,14 +7,27 @@ part of 'project.dart';
 // **************************************************************************
 
 Project _$ProjectFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const ['name']);
+  $checkKeys(
+    json,
+    requiredKeys: const ['name'],
+  );
   return Project(
-    name: json['name'] as String,
-    cost: (json['cost'] as num?)?.toDouble(),
+    name: json['name'] as String? ?? 'test',
+    cost: (json['cost'] as num?)?.toDouble() ?? 0.2,
   );
 }
 
-Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
-      'name': instance.name,
-      'cost': instance.cost,
-    };
+Map<String, dynamic> _$ProjectToJson(Project instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cost', instance.cost);
+  return val;
+}

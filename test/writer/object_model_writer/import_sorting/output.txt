@@ -1,0 +1,19 @@
+import 'package:aaaaaa_application/model/user/a_model/a_model.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'b_model.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class BModel {
+  @JsonKey(name: 'aModel')
+  final AModel? aModel;
+
+  const BModel({
+    this.aModel,
+  });
+
+  factory BModel.fromJson(Map<String, dynamic> json) => _$BModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BModelToJson(this);
+
+}

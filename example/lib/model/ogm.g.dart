@@ -7,14 +7,17 @@ part of 'ogm.dart';
 // **************************************************************************
 
 OGM _$OGMFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const [
-    'structuredMessage',
-    'beneficiary',
-    'beneficiaryIBAN',
-    'test_Test',
-    'some_Thing',
-    'some_ThinG_huGE'
-  ]);
+  $checkKeys(
+    json,
+    requiredKeys: const [
+      'structuredMessage',
+      'beneficiary',
+      'beneficiaryIBAN',
+      'test_Test',
+      'some_Thing',
+      'some_ThinG_huGE'
+    ],
+  );
   return OGM(
     structuredMessage: json['structuredMessage'] as String,
     beneficiary: json['beneficiary'] as String,
@@ -35,15 +38,26 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$OGMToJson(OGM instance) => <String, dynamic>{
-      'structuredMessage': instance.structuredMessage,
-      'beneficiary': instance.beneficiary,
-      'beneficiaryIBAN': instance.beneficiaryIBAN,
-      'test_Test': instance.testTest,
-      'some_Thing': instance.someThing,
-      'some_ThinG_huGE': instance.someThinGHuGE,
-      'securityIndicator': instance.securityRole,
-      'mutableProperty': instance.mutableProperty,
-      'dateChange': instance.dateChange?.toIso8601String(),
-      'fields': instance.fields,
-    };
+Map<String, dynamic> _$OGMToJson(OGM instance) {
+  final val = <String, dynamic>{
+    'structuredMessage': instance.structuredMessage,
+    'beneficiary': instance.beneficiary,
+    'beneficiaryIBAN': instance.beneficiaryIBAN,
+    'test_Test': instance.testTest,
+    'some_Thing': instance.someThing,
+    'some_ThinG_huGE': instance.someThinGHuGE,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('securityIndicator', instance.securityRole);
+  writeNotNull('mutableProperty', instance.mutableProperty);
+  writeNotNull('dateChange', instance.dateChange?.toIso8601String());
+  writeNotNull('fields',
+      instance.fields?.map((e) => e.map((e) => e.toJson()).toList()).toList());
+  return val;
+}

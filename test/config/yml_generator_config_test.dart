@@ -145,11 +145,13 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final ymlConfig = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('enum-normal'));
-        expect(ymlConfig.models.length, 2);
+        expect(ymlConfig.models.length, 3);
         expect(ymlConfig.models.first is ObjectModel, true);
+        expect(ymlConfig.models[1] is EnumModel, true);
         expect(ymlConfig.models.last is EnumModel, true);
-        final enumModel =
-            ymlConfig.models.last as EnumModel; // ignore: avoid_as
+        expect(pubspecConfig.uppercaseEnums, true);
+        final enumModel = ymlConfig.models[1] as EnumModel; // ignore: avoid_as
+        final enumModel2 = ymlConfig.models[2] as EnumModel; // ignore: avoid_as
         expect(enumModel.fields, isNotNull);
         expect(enumModel.fields!.length, 4);
         expect(enumModel.fields![0].name, 'MALE');
@@ -164,6 +166,21 @@ void main() {
         expect(enumModel.fields![3].name, 'X');
         expect(enumModel.fields![3].serializedName, 'X');
         expect(enumModel.fields![3].value, null);
+
+        expect(enumModel2.fields, isNotNull);
+        expect(enumModel2.fields!.length, 4);
+        expect(enumModel2.fields![0].name, 'male');
+        expect(enumModel2.fields![0].serializedName, 'male');
+        expect(enumModel2.fields![0].value, null);
+        expect(enumModel2.fields![1].name, 'female');
+        expect(enumModel2.fields![1].serializedName, 'female');
+        expect(enumModel2.fields![1].value, 'femAle');
+        expect(enumModel2.fields![2].name, 'other');
+        expect(enumModel2.fields![2].serializedName, 'other');
+        expect(enumModel2.fields![2].value, null);
+        expect(enumModel2.fields![3].name, 'X');
+        expect(enumModel2.fields![3].serializedName, 'X');
+        expect(enumModel2.fields![3].value, null);
       });
 
       test('Error Enum no properties map', () {

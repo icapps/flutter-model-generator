@@ -1,0 +1,7 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      type: string
+      ignore_equality: true

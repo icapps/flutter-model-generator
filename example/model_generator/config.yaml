@@ -82,6 +82,7 @@ UserProfileDataExtended:
 UserProfileData:
   path: user/profile
   type: object
+  explicit_to_json: true
   properties:
     firstName:
       required: true
@@ -110,6 +111,7 @@ UserProfileData:
       items:
         type: string
     onTrack:
+      include_if_null: true
       type: array
       items:
         type: OGM
@@ -159,9 +161,11 @@ Gender:
 Duration:
   path: data/custom/
   type: custom
+
 DurationFromToJson:
   path: data/custom/
   type: custom_from_to_json
+
 CustomBaseDirectoryObj:
   base_directory: custom_model_directory
   path: article
@@ -183,9 +187,17 @@ Project:
   path: user/project/
   type: object
   generate_for_generics: true
+  static_create: true
   properties:
     name:
       required: true
       type: string
+      default_value: "'test'"
     cost:
       type: double
+      default_value: 0.2
+
+
+
+
+

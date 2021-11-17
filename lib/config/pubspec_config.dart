@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 class PubspecConfig {
   static final _DEFAULT_CONFIG_PATH = // ignore: non_constant_identifier_names
       'model_generator${Platform.pathSeparator}config.yaml';
-  static const _DEFAULT_BASE_DIRECTORY = 'model';
+  static const _defaultBaseDirectory = 'model';
 
   late String projectName;
   late String baseDirectory;
@@ -13,13 +13,16 @@ class PubspecConfig {
   late bool generateForGenerics;
   late String configPath;
   late bool equalsHashCode;
+  late bool explicitToJson;
   late bool generateToString;
+  late bool staticCreate;
+  late bool uppercaseEnums;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
 
   PubspecConfig(String pubspecContent) {
     final doc = loadYaml(pubspecContent);
-    if (!(doc is YamlMap)) {
+    if (doc is! YamlMap) {
       throw Exception('Could not parse the pubspec.yaml');
     }
     final projectName = doc['name'];
@@ -32,21 +35,27 @@ class PubspecConfig {
     this.projectName = projectName;
     final config = doc['model_generator'];
     if (config == null) {
-      baseDirectory = _DEFAULT_BASE_DIRECTORY;
+      baseDirectory = _defaultBaseDirectory;
       generateForGenerics = false;
       useFvm = false;
       configPath = _DEFAULT_CONFIG_PATH;
       equalsHashCode = false;
+      explicitToJson = true;
       generateToString = false;
+      staticCreate = false;
+      uppercaseEnums = true;
       return;
     }
 
-    baseDirectory = config['base_directory'] ?? _DEFAULT_BASE_DIRECTORY;
+    baseDirectory = config['base_directory'] ?? _defaultBaseDirectory;
     useFvm = (config['use_fvm'] ?? false) == true;
     generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
     equalsHashCode = (config['equals_and_hash_code'] ?? false) == true;
+    explicitToJson = (config['explicit_to_json'] ?? true) == true;
     generateToString = (config['to_string'] ?? false) == true;
+    staticCreate = (config['static_create'] ?? false) == true;
+    uppercaseEnums = (config['uppercase_enums'] ?? true) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {

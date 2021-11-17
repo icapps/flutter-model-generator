@@ -1,9 +1,9 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:model_generator_example/model/user/profile/user_profile_data.dart';
-import 'package:model_generator_example/model/user/testing.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/ogm.dart';
 import 'package:model_generator_example/model/user/person/person.dart';
+import 'package:model_generator_example/model/user/profile/user_profile_data.dart';
+import 'package:model_generator_example/model/user/testing.dart';
 
 part 'user_profile_data_extended.g.dart';
 
@@ -40,19 +40,14 @@ class UserProfileDataExtended extends UserProfileData {
           personsById: personsById,
         );
 
-  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataExtendedFromJson(json);
+  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) => _$UserProfileDataExtendedFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$UserProfileDataExtendedToJson(this);
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UserProfileDataExtended &&
-          runtimeType == other.runtimeType &&
-          additionalField == other.additionalField &&
-          super == other;
+      identical(this, other) || other is UserProfileDataExtended && runtimeType == other.runtimeType && additionalField == other.additionalField && super == other;
 
   @override
   int get hashCode => additionalField.hashCode ^ super.hashCode;

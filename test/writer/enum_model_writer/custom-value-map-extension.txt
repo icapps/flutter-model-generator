@@ -1,0 +1,26 @@
+import 'package:json_annotation/json_annotation.dart';
+
+enum MyEnumModel {
+  @JsonValue('customValue')
+  MY_VALUE_1,
+  @JsonValue('MY_VALUE_2')
+  MY_VALUE_2,
+}
+
+const MyEnumModelMapping = {
+  MyEnumModel.MY_VALUE_1: 'customValue',
+  MyEnumModel.MY_VALUE_2: 'MY_VALUE_2',
+};
+
+const reverseMyEnumModelMapping = {
+  'customValue': MyEnumModel.MY_VALUE_1,
+  'MY_VALUE_2': MyEnumModel.MY_VALUE_2,
+};
+
+extension MyEnumModelExtension on MyEnumModel {
+  String get stringValue => MyEnumModelMapping[this]!;
+}
+
+extension MyEnumModelStringExtension on String {
+  MyEnumModel? get asMyEnumModel => reverseMyEnumModelMapping[this];
+}

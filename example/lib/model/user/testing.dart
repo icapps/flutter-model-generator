@@ -4,22 +4,23 @@ import 'package:model_generator_example/model/data/custom/duration_from_to_json.
 
 part 'testing.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Testing {
-  @JsonKey(name: 'beneficiary', required: true)
+  @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
   final String beneficiary;
-  @JsonKey(name: 'isFavourite', ignore: true)
+  @JsonKey(name: 'isFavourite', includeIfNull: false, ignore: true)
   String? isFavourite;
-  @JsonKey(name: 'structuredMessage')
+  @JsonKey(name: 'structuredMessage', includeIfNull: false)
   final String? structuredMessage;
-  @JsonKey(name: 'beneficiaryIBAN')
+  @JsonKey(name: 'beneficiaryIBAN', includeIfNull: false)
   final String? beneficiaryIBAN;
-  @JsonKey(name: 'dynamicField')
-  final dynamic? dynamicField;
-  @JsonKey(name: 'duration')
+  @JsonKey(name: 'dynamicField', includeIfNull: false)
+  final dynamic dynamicField;
+  @JsonKey(name: 'duration', includeIfNull: false)
   final Duration? duration;
   @JsonKey(
       name: 'duration_from_json_test',
+      includeIfNull: false,
       fromJson: handleDurationFromToJsonFromJson,
       toJson: handleDurationFromToJsonToJson)
   final DurationFromToJson? durationFromJsonTest;

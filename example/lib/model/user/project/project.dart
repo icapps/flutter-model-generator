@@ -1,25 +1,28 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'project.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class Project {
-  @JsonKey(name: 'name', required: true)
+  @JsonKey(name: 'name', required: true, includeIfNull: false)
   final String name;
-  @JsonKey(name: 'cost')
+  @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;
 
   const Project({
-    required this.name,
-    this.cost,
+    this.name = 'test',
+    this.cost = 0.2,
   });
 
   factory Project.fromJson(Object? json) =>
       _$ProjectFromJson(json as Map<String, dynamic>); // ignore: avoid_as
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
+
+  // ignore: prefer_constructors_over_static_methods
+  static Project create(Object? json) => Project.fromJson(json);
 
   @override
   bool operator ==(Object other) =>

@@ -1,9 +1,9 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:model_generator_example/model/user/profile/user_profile_data_extended.dart';
-import 'package:model_generator_example/model/user/testing.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/ogm.dart';
 import 'package:model_generator_example/model/user/person/person.dart';
+import 'package:model_generator_example/model/user/profile/user_profile_data_extended.dart';
+import 'package:model_generator_example/model/user/testing.dart';
 
 part 'admin_profile_data.g.dart';
 
@@ -42,19 +42,13 @@ class AdminProfileData extends UserProfileDataExtended {
           personsById: personsById,
         );
 
-  factory AdminProfileData.fromJson(Map<String, dynamic> json) =>
-      _$AdminProfileDataFromJson(json);
+  factory AdminProfileData.fromJson(Map<String, dynamic> json) => _$AdminProfileDataFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$AdminProfileDataToJson(this);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AdminProfileData &&
-          runtimeType == other.runtimeType &&
-          privileges == other.privileges &&
-          super == other;
+  bool operator ==(Object other) => identical(this, other) || other is AdminProfileData && runtimeType == other.runtimeType && privileges == other.privileges && super == other;
 
   @override
   int get hashCode => privileges.hashCode ^ super.hashCode;

@@ -1,15 +1,19 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/user/person/gender.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class Person {
-  @JsonKey(name: 'firstName', required: true)
+  @JsonKey(name: 'firstName', required: true, includeIfNull: false)
   final String firstName;
-  @JsonKey(name: 'gender', required: true, unknownEnumValue: Gender.X)
+  @JsonKey(
+      name: 'gender',
+      required: true,
+      includeIfNull: false,
+      unknownEnumValue: Gender.X)
   final Gender gender;
 
   const Person({

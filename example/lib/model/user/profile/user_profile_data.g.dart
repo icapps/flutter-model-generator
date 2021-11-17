@@ -7,15 +7,18 @@ part of 'user_profile_data.dart';
 // **************************************************************************
 
 UserProfileData _$UserProfileDataFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, requiredKeys: const [
-    'firstName',
-    'lastName',
-    'standardLanguage',
-    'mainAccountNumber',
-    'legalEmail',
-    'phones',
-    'legalAddress'
-  ]);
+  $checkKeys(
+    json,
+    requiredKeys: const [
+      'firstName',
+      'lastName',
+      'standardLanguage',
+      'mainAccountNumber',
+      'legalEmail',
+      'phones',
+      'legalAddress'
+    ],
+  );
   return UserProfileData(
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
@@ -45,8 +48,8 @@ Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) {
     'standardLanguage': instance.standardLanguage,
     'mainAccountNumber': instance.mainAccountNumber,
     'legalEmail': instance.legalEmail,
-    'phones': instance.phones,
-    'legalAddress': instance.legalAddress,
+    'phones': instance.phones.toJson(),
+    'legalAddress': instance.legalAddress.toJson(),
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -56,8 +59,9 @@ Map<String, dynamic> _$UserProfileDataToJson(UserProfileData instance) {
   }
 
   writeNotNull('offTrack', instance.offTrack);
-  val['onTrack'] = instance.onTrack;
-  val['persons'] = instance.persons;
-  val['personsById'] = instance.personsById;
+  val['onTrack'] = instance.onTrack?.map((e) => e.toJson()).toList();
+  writeNotNull('persons', instance.persons?.map((e) => e.toJson()).toList());
+  writeNotNull('personsById',
+      instance.personsById?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }

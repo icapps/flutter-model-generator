@@ -1,0 +1,7 @@
+Person:
+  path: user/person/
+  type: object
+  explicit_to_json: false
+  properties:
+    firstName:
+      type: string

@@ -1,0 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class Person {
+  ///A good description
+  @JsonKey(name: 'firstName')
+  final String? firstName;
+
+  const Person({
+    this.firstName,
+  });
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+  // ignore: prefer_constructors_over_static_methods
+  static Person create(Map<String, dynamic> json) => Person.fromJson(json);
+
+}

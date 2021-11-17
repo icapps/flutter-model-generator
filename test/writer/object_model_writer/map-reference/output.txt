@@ -3,7 +3,7 @@ import 'package:model_generator_example/model/user/person/person.dart';
 
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'info')
   final Map<String, Person>? info;

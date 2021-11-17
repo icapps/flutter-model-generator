@@ -11,6 +11,13 @@ class Field {
   final bool includeIfNull;
   final bool nonFinal;
   final String? unknownEnumValue;
+  final String? description;
+  final String? fromJson;
+  final String? toJson;
+  final bool ignoreEquality;
+  final String? defaultValue;
+
+  bool get hasDefaultValue => defaultValue != null;
 
   Field({
     required String name,
@@ -19,7 +26,12 @@ class Field {
     required this.ignore,
     required this.includeIfNull,
     required this.nonFinal,
+    required this.ignoreEquality,
+    this.description,
     this.unknownEnumValue,
+    this.fromJson,
+    this.toJson,
+    this.defaultValue,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,
         name =

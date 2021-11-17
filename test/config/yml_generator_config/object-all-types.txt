@@ -74,6 +74,7 @@ Person:
         items:
             type: datetime
     listObject:
+        description: A cool list of items
         type: array
         items:
             type: Address

@@ -1,31 +1,31 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:model_generator_example/model/user/testing.dart';
 import 'package:model_generator_example/model/converter/date_time_converter.dart';
+import 'package:model_generator_example/model/user/testing.dart';
 
 part 'ogm.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class OGM {
-  @JsonKey(name: 'structuredMessage', required: true)
+  @JsonKey(name: 'structuredMessage', required: true, includeIfNull: false)
   final String structuredMessage;
-  @JsonKey(name: 'beneficiary', required: true)
+  @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
   final String beneficiary;
-  @JsonKey(name: 'beneficiaryIBAN', required: true)
+  @JsonKey(name: 'beneficiaryIBAN', required: true, includeIfNull: false)
   final String beneficiaryIBAN;
-  @JsonKey(name: 'test_Test', required: true)
+  @JsonKey(name: 'test_Test', required: true, includeIfNull: false)
   final String testTest;
-  @JsonKey(name: 'some_Thing', required: true)
+  @JsonKey(name: 'some_Thing', required: true, includeIfNull: false)
   final String someThing;
-  @JsonKey(name: 'some_ThinG_huGE', required: true)
+  @JsonKey(name: 'some_ThinG_huGE', required: true, includeIfNull: false)
   final String someThinGHuGE;
-  @JsonKey(name: 'securityIndicator')
+  @JsonKey(name: 'securityIndicator', includeIfNull: false)
   final String? securityRole;
-  @JsonKey(name: 'mutableProperty')
+  @JsonKey(name: 'mutableProperty', includeIfNull: false)
   String? mutableProperty;
-  @JsonKey(name: 'dateChange')
+  @JsonKey(name: 'dateChange', includeIfNull: false)
   final DateTime? dateChange;
-  @JsonKey(name: 'fields')
+  @JsonKey(name: 'fields', includeIfNull: false)
   final List<List<Testing>>? fields;
 
   OGM({

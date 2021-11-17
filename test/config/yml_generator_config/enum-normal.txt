@@ -12,3 +12,13 @@ Gender:
       value: femAle
     other:
     X:
+
+Vehicles:
+  type: enum
+  uppercase_enums: false
+  properties:
+    male:
+    female:
+      value: femAle
+    other:
+    X:

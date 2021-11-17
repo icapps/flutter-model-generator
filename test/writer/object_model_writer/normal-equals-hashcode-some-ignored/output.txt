@@ -1,0 +1,32 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class Person {
+  @JsonKey(name: 'firstName')
+  final String? firstName;
+  @JsonKey(name: 'lastName')
+  final String? lastName;
+
+  const Person({
+    this.firstName,
+    this.lastName,
+  });
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Person &&
+          runtimeType == other.runtimeType &&
+          lastName == other.lastName;
+
+  @override
+  int get hashCode =>
+      lastName.hashCode;
+
+}

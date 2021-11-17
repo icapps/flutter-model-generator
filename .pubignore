@@ -1,0 +1,12 @@
+.fvm/
+tool
+.github/
+.travis.yml
+coverage/
+example/.metadata
+example/android/gradle/wrapper/
+example/android/gradlew
+example/android/gradlew.bat
+example/ios/Podfile.lock
+test/
+build/

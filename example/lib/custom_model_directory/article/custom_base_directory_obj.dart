@@ -1,12 +1,12 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'custom_base_directory_obj.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class CustomBaseDirectoryObj {
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', includeIfNull: false)
   final String? name;
 
   const CustomBaseDirectoryObj({
