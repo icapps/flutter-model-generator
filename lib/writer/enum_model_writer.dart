@@ -18,12 +18,16 @@ class EnumModelWriter {
       if (description != null) {
         sb.writeln('  ///$description');
       }
-      sb..writeln("  @JsonValue('$jsonValue')")..writeln('  ${key.name},');
+      sb
+        ..writeln("  @JsonValue('$jsonValue')")
+        ..writeln('  ${key.name},');
     });
     sb.writeln('}');
 
     if (jsonModel.generateMap) {
-      sb..writeln()..writeln('const ${jsonModel.name}Mapping = {');
+      sb
+        ..writeln()
+        ..writeln('const ${jsonModel.name}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null

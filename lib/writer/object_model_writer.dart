@@ -58,7 +58,10 @@ class ObjectModelWriter {
     }
     (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
 
-    sb..writeln()..writeln("part '${jsonModel.fileName}.g.dart';")..writeln();
+    sb
+      ..writeln()
+      ..writeln("part '${jsonModel.fileName}.g.dart';")
+      ..writeln();
     if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
       sb.writeln('@JsonSerializable(explicitToJson: true)');
     } else {
@@ -159,9 +162,13 @@ class ObjectModelWriter {
       for (var key in extendsFields) {
         sb.writeln('          ${key.name}: ${key.name},');
       }
-      sb..writeln('        );')..writeln();
+      sb
+        ..writeln('        );')
+        ..writeln();
     } else {
-      sb..writeln('  });')..writeln();
+      sb
+        ..writeln('  });')
+        ..writeln();
     }
     if (jsonModel.generateForGenerics) {
       sb.writeln(
@@ -236,7 +243,9 @@ class ObjectModelWriter {
       sb.writeln('\'\n      \'}\';');
     }
 
-    sb..writeln()..writeln('}');
+    sb
+      ..writeln()
+      ..writeln('}');
     return sb.toString();
   }
 
