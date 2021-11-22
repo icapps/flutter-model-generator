@@ -9,7 +9,7 @@ part of 'project.dart';
 Project _$ProjectFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name'],
+    disallowNullValues: const ['name'],
   );
   return Project(
     name: json['name'] as String? ?? 'test',

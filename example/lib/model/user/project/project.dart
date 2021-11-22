@@ -6,7 +6,11 @@ part 'project.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class Project {
-  @JsonKey(name: 'name', required: true, includeIfNull: false)
+  @JsonKey(
+      name: 'name',
+      required: false,
+      disallowNullValue: true,
+      includeIfNull: false)
   final String name;
   @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;
@@ -41,3 +45,13 @@ class Project {
       'cost: $cost'
       '}';
 }
+
+Project deserializeProject(Map<String, dynamic> json) => Project.fromJson(json);
+
+Map<String, dynamic> serializeProject(Project object) => object.toJson();
+
+List<Project> deserializeProjectList(List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => Project.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializeProjectList(List<Project> objects) =>
+    objects.map((object) => object.toJson()).toList();
