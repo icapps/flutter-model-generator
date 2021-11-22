@@ -14,12 +14,14 @@ class EnumModel extends Model {
     List<String>? extraAnnotations,
     this.generateMap = false,
     this.generateExtensions = false,
+    String? description,
   }) : super(
           name: name,
           path: path,
           baseDirectory: baseDirectory,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
+          description: description,
         );
 }
 

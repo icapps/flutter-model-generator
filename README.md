@@ -445,11 +445,12 @@ DateTimeConverter:
 
 ## Documentation support
 
-You can specify `description` on fields and on enum entries. This description will be used verbatim to generate a code comment for that field
+You can specify `description` on models, enum, fields and on enum entries. This description will be used verbatim to generate a code comment for that class/enum/field
 
 ```yaml
 UserModel:
   path: webservice/user
+  description: The model holding user data
   converters:
     - DateTimeConverter
   properties:
