@@ -210,6 +210,11 @@ class ObjectModelWriter {
     sb
       ..writeln()
       ..writeln('}');
+
+    if (pubspecConfig.retrofitMappers) {
+      createRetrofitMappers(sb);
+    }
+
     return sb.toString();
   }
 
@@ -236,5 +241,24 @@ class ObjectModelWriter {
       }
     }
     return imports.toList()..sort((i1, i2) => i1.compareTo(i2));
+  }
+
+  void createRetrofitMappers(StringBuffer sb) {
+    sb
+      ..writeln()
+      ..writeln(
+          '${jsonModel.name} deserialize${jsonModel.name}(Map<String, dynamic> json) => ${jsonModel.name}.fromJson(json);')
+      ..writeln()
+      ..writeln(
+          'Map<String, dynamic> serialize${jsonModel.name}(${jsonModel.name} object) => object.toJson();')
+      ..writeln()
+      ..writeln(
+          'List<${jsonModel.name}> deserialize${jsonModel.name}List(List<Map<String, dynamic>> jsonList)')
+      ..writeln(
+          '    => jsonList.map((json) => ${jsonModel.name}.fromJson(json)).toList();')
+      ..writeln()
+      ..writeln(
+          'List<Map<String, dynamic>> serialize${jsonModel.name}List(List<${jsonModel.name}> objects)')
+      ..writeln('    => objects.map((object) => object.toJson()).toList();');
   }
 }

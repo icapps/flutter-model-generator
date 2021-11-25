@@ -42,3 +42,13 @@ class Person {
       'gender: $gender'
       '}';
 }
+
+Person deserializePerson(Map<String, dynamic> json) => Person.fromJson(json);
+
+Map<String, dynamic> serializePerson(Person object) => object.toJson();
+
+List<Person> deserializePersonList(List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => Person.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializePersonList(List<Person> objects) =>
+    objects.map((object) => object.toJson()).toList();

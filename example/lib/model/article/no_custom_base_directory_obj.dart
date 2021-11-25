@@ -34,3 +34,19 @@ class NoCustomBaseDirectoryObj {
       'customBaseDirectoryObj: $customBaseDirectoryObj'
       '}';
 }
+
+NoCustomBaseDirectoryObj deserializeNoCustomBaseDirectoryObj(
+        Map<String, dynamic> json) =>
+    NoCustomBaseDirectoryObj.fromJson(json);
+
+Map<String, dynamic> serializeNoCustomBaseDirectoryObj(
+        NoCustomBaseDirectoryObj object) =>
+    object.toJson();
+
+List<NoCustomBaseDirectoryObj> deserializeNoCustomBaseDirectoryObjList(
+        List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => NoCustomBaseDirectoryObj.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializeNoCustomBaseDirectoryObjList(
+        List<NoCustomBaseDirectoryObj> objects) =>
+    objects.map((object) => object.toJson()).toList();

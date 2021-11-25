@@ -867,5 +867,27 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(model, 'default-field-required');
     });
+    test('Normal ObjectModelWriter with retrofit compute', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+              name: 'firstName',
+              type: StringType(),
+              isRequired: false,
+              ignore: false,
+              includeIfNull: true,
+              ignoreEquality: false,
+              nonFinal: false,
+              description: 'A good description'),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, 'normal-retrofit-compute');
+    });
   });
 }
