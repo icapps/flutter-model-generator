@@ -1,5 +1,5 @@
 # Changelog
-## [5.8.0] - 2021-11-22
+## [5.8.0] - 2021-11-25
 - Added `retrofit_compute` option to generate top-level functions compatible with retrofit's compute mode. (Fixes #106)
 - 
 ## [5.7.1] - 2021-11-13
