@@ -201,6 +201,19 @@ UserModel:
       type: int
 ```
 
+## Extends
+If you want your models to expand any other model use extends:
+
+*Note: It is not supported to extend custom models*
+```yaml
+UserDetails:
+  path: webservice/user
+  extends: UserModel
+  properties:
+    name:
+      type: string
+```
+
 ## Default setup
 
 Example of the `model_generator/config.yaml` file

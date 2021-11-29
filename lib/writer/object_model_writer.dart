@@ -1,3 +1,4 @@
+import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/util/generic_type.dart';
 
@@ -12,20 +13,33 @@ import '../util/type_checker.dart';
 class ObjectModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
+  final List<Field> extendsFields;
   final YmlGeneratorConfig yamlConfig;
 
-  const ObjectModelWriter(this.pubspecConfig, this.jsonModel, this.yamlConfig);
+  const ObjectModelWriter(
+    this.pubspecConfig,
+    this.jsonModel,
+    this.extendsFields,
+    this.yamlConfig,
+  );
 
   String write() {
     final sb = StringBuffer();
     final imports = <String>{}
       ..add("import 'package:json_annotation/json_annotation.dart';");
-    for (var element
+    for (final element
         in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
       imports.add('import \'$element\';');
     }
+    final extendsModel = jsonModel.extendsModel;
 
-    for (var field in jsonModel.fields) {
+    if (extendsModel != null) {
+      if (!TypeChecker.isKnownDartType(extendsModel)) {
+        imports.addAll(_getImportsFromPath(extendsModel));
+      }
+    }
+
+    for (final field in jsonModel.fields) {
       final type = field.type;
       if (!TypeChecker.isKnownDartType(type.name) &&
           type.name != jsonModel.name) {
@@ -35,7 +49,11 @@ class ObjectModelWriter {
         imports.addAll(_getImportsFromPath(type.valueName));
       }
     }
-    for (var converter in jsonModel.converters) {
+    for (final field in extendsFields) {
+      imports.addAll(_getImportsFromField(field));
+    }
+
+    for (final converter in jsonModel.converters) {
       imports.addAll(_getImportsFromPath(converter));
     }
     (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
@@ -58,11 +76,15 @@ class ObjectModelWriter {
     (jsonModel.extraAnnotations ?? pubspecConfig.extraAnnotations)
         .forEach(sb.writeln);
 
-    for (var converter in jsonModel.converters) {
+    for (final converter in jsonModel.converters) {
       sb.writeln('@$converter()');
     }
 
-    sb.writeln('class ${jsonModel.name} {');
+    if (extendsModel != null) {
+      sb.writeln('class ${jsonModel.name} extends $extendsModel {');
+    } else {
+      sb.writeln('class ${jsonModel.name} {');
+    }
 
     jsonModel.fields.sort((a, b) {
       final b1 = a.isRequired ? 1 : 0;
@@ -70,7 +92,7 @@ class ObjectModelWriter {
       return b2 - b1;
     });
 
-    for (var key in jsonModel.fields) {
+    for (final key in jsonModel.fields) {
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -114,36 +136,46 @@ class ObjectModelWriter {
       } else {
         sb.write('  final ');
       }
-      final keyType = key.type;
-      final nullableFlag =
-          (key.isRequired || keyType.name == 'dynamic') ? '' : '?';
-      if (keyType is ArrayType) {
-        sb.writeln('List<${keyType.name}>$nullableFlag ${key.name};');
-      } else if (keyType is MapType) {
-        sb.writeln(
-            'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag ${key.name};');
-      } else {
-        sb.writeln('${keyType.name}$nullableFlag ${key.name};');
-      }
+      sb.writeln('${_getKeyType(key)} ${key.name};');
     }
 
-    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal);
+    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal) ||
+        extendsFields.any((element) => element.nonFinal);
     sb
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    for (var key in jsonModel.fields) {
-      if (key.isRequired && !key.hasDefaultValue) {
-        sb.writeln('    required this.${key.name},');
-      } else if (key.hasDefaultValue) {
-        sb.writeln('    this.${key.name} = ${key.defaultValue},');
-      } else {
-        sb.writeln('    this.${key.name},');
-      }
+    for (final key in jsonModel.fields
+        .where((key) => (key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln('    required this.${key.name}${_fillDefaulValue(key)},');
     }
-    sb
-      ..writeln('  });')
-      ..writeln();
+    for (final key in extendsFields
+        .where((key) => (key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln(
+          '    required ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
+    }
+    for (final key in jsonModel.fields
+        .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln('    this.${key.name}${_fillDefaulValue(key)},');
+    }
+    for (final key in extendsFields
+        .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+      sb.writeln(
+          '    ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
+    }
+    if (extendsModel != null) {
+      sb.writeln('  }) : super(');
+      for (final key in extendsFields) {
+        sb.writeln('          ${key.name}: ${key.name},');
+      }
+      sb
+        ..writeln('        );')
+        ..writeln();
+    } else {
+      sb
+        ..writeln('  });')
+        ..writeln();
+    }
     if (jsonModel.generateForGenerics) {
       sb.writeln(
           '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
@@ -151,10 +183,12 @@ class ObjectModelWriter {
       sb.writeln(
           '  factory ${jsonModel.name}.fromJson(Map<String, dynamic> json) => _\$${jsonModel.name}FromJson(json);');
     }
-    sb
-      ..writeln()
-      ..writeln(
-          '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
+    sb.writeln();
+    if (extendsModel != null) {
+      sb.writeln('  @override');
+    }
+    sb.writeln(
+        '  Map<String, dynamic> toJson() => _\$${jsonModel.name}ToJson(this);');
 
     if (jsonModel.staticCreate ?? pubspecConfig.staticCreate) {
       sb
@@ -172,10 +206,12 @@ class ObjectModelWriter {
         ..writeln('      identical(this, other) ||')
         ..writeln('      other is ${jsonModel.name} &&')
         ..write('          runtimeType == other.runtimeType');
-      for (final field in jsonModel.fields) {
-        if (!field.ignoreEquality) {
-          sb.write(' &&\n          ${field.name} == other.${field.name}');
-        }
+      for (final field
+          in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+        sb.write(' &&\n          ${field.name} == other.${field.name}');
+      }
+      if (extendsModel != null) {
+        sb.write(' &&\n          super == other');
       }
       sb
         ..writeln(';')
@@ -183,11 +219,13 @@ class ObjectModelWriter {
         ..writeln('  @override')
         ..writeln('  int get hashCode =>');
       var c = 0;
-      for (final field in jsonModel.fields) {
-        if (!field.ignoreEquality) {
-          if (c++ > 0) sb.write(' ^\n');
-          sb.write('      ${field.name}.hashCode');
-        }
+      for (final field
+          in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+        if (c++ > 0) sb.write(' ^\n');
+        sb.write('      ${field.name}.hashCode');
+      }
+      if (extendsModel != null) {
+        sb.write(' ^ \n      super.hashCode');
       }
       if (c == 0) sb.write('      0');
       sb.writeln(';');
@@ -200,7 +238,11 @@ class ObjectModelWriter {
         ..writeln('      \'${jsonModel.name}{\'');
 
       var c = 0;
-      for (var field in jsonModel.fields) {
+      for (final field in jsonModel.fields) {
+        if (c++ > 0) sb.writeln(', \'');
+        sb.write('      \'${field.name}: \$${field.name}');
+      }
+      for (final field in extendsFields) {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       }
@@ -216,6 +258,31 @@ class ObjectModelWriter {
     }
 
     return sb.toString();
+  }
+
+  String _getKeyType(Field key) {
+    final nullableFlag =
+        key.isRequired || key.type.name == 'dynamic' ? '' : '?';
+    final keyType = key.type;
+    if (keyType is ArrayType) {
+      return 'List<${keyType.name}>$nullableFlag';
+    } else if (keyType is MapType) {
+      return 'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag';
+    } else {
+      return '${keyType.name}$nullableFlag';
+    }
+  }
+
+  Iterable<String> _getImportsFromField(Field field) {
+    final imports = <String>{};
+    final type = field.type;
+    if (!TypeChecker.isKnownDartType(type.name)) {
+      imports.addAll(_getImportsFromPath(type.name));
+    }
+    if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
+      imports.addAll(_getImportsFromPath(type.valueName));
+    }
+    return imports;
   }
 
   Iterable<String> _getImportsFromPath(String name) {
@@ -241,6 +308,14 @@ class ObjectModelWriter {
       }
     }
     return imports.toList()..sort((i1, i2) => i1.compareTo(i2));
+  }
+
+  String _fillDefaulValue(Field key) {
+    if (key.hasDefaultValue) {
+      return ' = ${key.defaultValue}';
+    } else {
+      return '';
+    }
   }
 
   void createRetrofitMappers(StringBuffer sb) {

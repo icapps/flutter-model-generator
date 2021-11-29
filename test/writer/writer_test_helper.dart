@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
@@ -18,7 +19,8 @@ class WriterTestHelper {
     expect(actual, output);
   }
 
-  static testObjectModelWriter(ObjectModel model, String resultFileName) {
+  static testObjectModelWriter(
+      ObjectModel model, List<Field> extendsFields, String resultFileName) {
     print(Directory.current);
     final file =
         File('test/writer/object_model_writer/$resultFileName/output.txt');
@@ -31,7 +33,9 @@ class WriterTestHelper {
     final configContent = configFile.readAsStringSync();
     final pubspecConfig = PubspecConfig(pubspecContent);
     final ymlConfig = YmlGeneratorConfig(pubspecConfig, configContent);
-    final actual = ObjectModelWriter(pubspecConfig, model, ymlConfig).write();
+    final actual =
+        ObjectModelWriter(pubspecConfig, model, extendsFields, ymlConfig)
+            .write();
     // print(actual);
     expect(actual, output);
   }

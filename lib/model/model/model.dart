@@ -4,6 +4,7 @@ abstract class Model {
   final String fileName;
   final String? baseDirectory;
   final String? path;
+  final String? extendsModel;
   final String name;
   final List<String>? extraImports;
   final List<String>? extraAnnotations;
@@ -15,6 +16,7 @@ abstract class Model {
     required String? baseDirectory,
     required this.extraImports,
     required this.extraAnnotations,
+    this.extendsModel,
     this.description,
   })  : path = getPath(path),
         baseDirectory = getBaseDirectory(baseDirectory),

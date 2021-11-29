@@ -19,6 +19,7 @@ class ObjectModel extends Model {
     required this.converters,
     List<String>? extraImports,
     List<String>? extraAnnotations,
+    String? extendsModel,
     this.equalsAndHashCode,
     this.explicitToJson,
     this.generateToString,
@@ -27,6 +28,7 @@ class ObjectModel extends Model {
   }) : super(
           name: name,
           path: path,
+          extendsModel: extendsModel,
           baseDirectory: baseDirectory,
           extraAnnotations: extraAnnotations,
           extraImports: extraImports,

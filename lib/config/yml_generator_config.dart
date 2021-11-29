@@ -31,6 +31,7 @@ class YmlGeneratorConfig {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String? path = value['path'];
+      final String? extendsModel = value['extends'];
       final bool generateForGenerics =
           value['generate_for_generics'] ?? pubspecConfig.generateForGenerics;
 
@@ -133,6 +134,7 @@ class YmlGeneratorConfig {
         models.add(ObjectModel(
           name: key,
           path: path,
+          extendsModel: extendsModel,
           baseDirectory: baseDirectory,
           generateForGenerics: generateForGenerics,
           fields: fields,
@@ -256,7 +258,7 @@ class YmlGeneratorConfig {
             'getPathForName is null: because `$name` was not added to the config file');
       }
       final paths = <String>{};
-      for (var element in dartType.generics) {
+      for (final element in dartType.generics) {
         paths.addAll(getPathsForName(pubspecConfig, element.toString()));
       }
       return paths;
@@ -277,10 +279,14 @@ class YmlGeneratorConfig {
   void checkIfTypesAvailable() {
     final names = <String>{};
     final types = <String>{};
-    for (var model in models) {
+    final extendsModels = <String>{};
+    for (final model in models) {
       names.add(model.name);
+      if (model.extendsModel != null) {
+        extendsModels.add(model.extendsModel!);
+      }
       if (model is ObjectModel) {
-        for (var field in model.fields) {
+        for (final field in model.fields) {
           final type = field.type;
           types.add(type.name);
           if (type is MapType) {
@@ -295,8 +301,16 @@ class YmlGeneratorConfig {
     print('=======');
     print('Models used as a field in another model:');
     print(types);
-    for (var type in types) {
+    if (extendsModels.isNotEmpty) {
+      print('=======');
+      print('Models being extended:');
+      print(extendsModels);
+    }
+    for (final type in types) {
       DartType(type).checkTypesKnown(names);
+    }
+    for (final extendsType in extendsModels) {
+      checkTypesKnown(names, extendsType);
     }
   }
 
@@ -309,5 +323,12 @@ class YmlGeneratorConfig {
           'getModelByname is null: because `${itemType.name}` was not added to the config file');
     }
     return model;
+  }
+
+  void checkTypesKnown(final Set<String> names, String type) {
+    if (!TypeChecker.isKnownDartType(type) && !names.contains(type)) {
+      throw Exception(
+          'Could not generate all models. `$type` is not added to the config file, but is extended. These types are known: ${names.join(',')}');
+    }
   }
 }

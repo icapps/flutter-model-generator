@@ -236,6 +236,25 @@ void main() {
           'Exception: Could not generate all models. `Address` is not added to the config file');
     });
 
+    test('Error with not registered extend', () {
+      final pubspecConfig =
+          PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+      var hasError = false;
+      var errorMessage = '';
+      try {
+        YmlGeneratorConfig(
+            pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig(
+                'error-not-registered-extend'));
+      } catch (e) {
+        hasError = true;
+        errorMessage = e.toString();
+      }
+      expect(hasError, true);
+      expect(errorMessage,
+          'Exception: Could not generate all models. `Address` is not added to the config file, but is extended. These types are known: Person');
+    });
+
     group('Getters', () {
       test('Get path with invalid model', () {
         final pubspecConfig =

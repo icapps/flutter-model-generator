@@ -1,0 +1,47 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/custom_address.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
+
+part 'user.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class User extends Person {
+  @JsonKey(name: 'email', required: true)
+  final String email;
+
+  const User({
+    required this.email,
+    required Address address,
+    Map<String, Address>? info,
+  }) : super(
+          address: address,
+          info: info,
+        );
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is User &&
+          runtimeType == other.runtimeType &&
+          email == other.email &&
+          super == other;
+
+  @override
+  int get hashCode =>
+      email.hashCode ^ 
+      super.hashCode;
+
+  @override
+  String toString() =>
+      'User{'
+      'email: $email, '
+      'address: $address, '
+      'info: $info'
+      '}';
+
+}

@@ -1,0 +1,6 @@
+name: model_generator_example
+
+model_generator:
+  config_path: model_generator/config.yaml
+  equals_and_hash_code: true
+  to_string: true

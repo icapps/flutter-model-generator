@@ -22,7 +22,7 @@ class DartType {
   Iterable<String> get leaves {
     if (generics.isEmpty) return [baseType];
     final leaves = <String>{};
-    for (var element in generics) {
+    for (final element in generics) {
       leaves.addAll(element.leaves);
     }
     return leaves;
@@ -38,7 +38,7 @@ class DartType {
       throw Exception(
           'Could not generate all models. `$baseType` is currently not supported as generic base type');
     } else {
-      for (var e in generics) {
+      for (final e in generics) {
         e.checkTypesKnown(names);
       }
     }
@@ -51,7 +51,7 @@ class DartType {
     }
     final builder = StringBuffer(baseType)..write('<');
     var c = 0;
-    for (var element in generics) {
+    for (final element in generics) {
       if (c++ > 0) builder.write(', ');
       builder.write(element.toString());
     }
