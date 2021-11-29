@@ -971,7 +971,7 @@ void main() {
           ],
           converters: [],
           description: 'A good class description');
-      WriterTestHelper.testObjectModelWriter(model, 'normal-with-description');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-with-description');
     });
     test('Normal ObjectModelWriter with default required field', () {
       final model = ObjectModel(
@@ -1017,7 +1017,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, 'normal-retrofit-compute');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-retrofit-compute');
     });
   });
 }

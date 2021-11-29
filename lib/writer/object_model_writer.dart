@@ -316,6 +316,7 @@ class ObjectModelWriter {
     } else {
       return '';
     }
+  }
 
   void createRetrofitMappers(StringBuffer sb) {
     sb
