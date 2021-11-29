@@ -97,3 +97,17 @@ class UserProfileData {
       'personsById: $personsById'
       '}';
 }
+
+UserProfileData deserializeUserProfileData(Map<String, dynamic> json) =>
+    UserProfileData.fromJson(json);
+
+Map<String, dynamic> serializeUserProfileData(UserProfileData object) =>
+    object.toJson();
+
+List<UserProfileData> deserializeUserProfileDataList(
+        List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => UserProfileData.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializeUserProfileDataList(
+        List<UserProfileData> objects) =>
+    objects.map((object) => object.toJson()).toList();

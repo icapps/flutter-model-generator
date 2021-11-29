@@ -1,0 +1,7 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      description: A good description
+      type: string

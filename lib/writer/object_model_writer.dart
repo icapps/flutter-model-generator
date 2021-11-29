@@ -62,6 +62,12 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln("part '${jsonModel.fileName}.g.dart';")
       ..writeln();
+
+    final modelDescription = jsonModel.description?.trim();
+    if (modelDescription != null && modelDescription.isNotEmpty) {
+      sb.writeln("///$modelDescription");
+    }
+
     if (jsonModel.explicitToJson ?? pubspecConfig.explicitToJson) {
       sb.writeln('@JsonSerializable(explicitToJson: true)');
     } else {
@@ -246,6 +252,11 @@ class ObjectModelWriter {
     sb
       ..writeln()
       ..writeln('}');
+
+    if (pubspecConfig.retrofitMappers) {
+      createRetrofitMappers(sb);
+    }
+
     return sb.toString();
   }
 
@@ -305,5 +316,23 @@ class ObjectModelWriter {
     } else {
       return '';
     }
+
+  void createRetrofitMappers(StringBuffer sb) {
+    sb
+      ..writeln()
+      ..writeln(
+          '${jsonModel.name} deserialize${jsonModel.name}(Map<String, dynamic> json) => ${jsonModel.name}.fromJson(json);')
+      ..writeln()
+      ..writeln(
+          'Map<String, dynamic> serialize${jsonModel.name}(${jsonModel.name} object) => object.toJson();')
+      ..writeln()
+      ..writeln(
+          'List<${jsonModel.name}> deserialize${jsonModel.name}List(List<Map<String, dynamic>> jsonList)')
+      ..writeln(
+          '    => jsonList.map((json) => ${jsonModel.name}.fromJson(json)).toList();')
+      ..writeln()
+      ..writeln(
+          'List<Map<String, dynamic>> serialize${jsonModel.name}List(List<${jsonModel.name}> objects)')
+      ..writeln('    => objects.map((object) => object.toJson()).toList();');
   }
 }

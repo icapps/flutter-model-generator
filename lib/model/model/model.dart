@@ -8,6 +8,7 @@ abstract class Model {
   final String name;
   final List<String>? extraImports;
   final List<String>? extraAnnotations;
+  final String? description;
 
   Model({
     required this.name,
@@ -16,6 +17,7 @@ abstract class Model {
     required this.extraImports,
     required this.extraAnnotations,
     this.extendsModel,
+    this.description,
   })  : path = getPath(path),
         baseDirectory = getBaseDirectory(baseDirectory),
         fileName = getFileName(name);

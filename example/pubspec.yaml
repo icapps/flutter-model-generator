@@ -29,4 +29,5 @@ model_generator:
     - '@immutable'
   equals_and_hash_code: true
   to_string: true
+  retrofit_compute: true
 #  base_directory: model

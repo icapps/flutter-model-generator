@@ -71,6 +71,7 @@ UserModel:
 ```
 
 ### Ignored fields
+
 If you wish to ignore certain fields when generating the `==` and `hashCode` methods, you can mark those fields with `ignore_equality: true`.
 
 **Note**: Models with all fields ignored will report a zero hash code and equal only on identity
@@ -155,11 +156,12 @@ UserModel:
 ```
 
 ## Default values
-Since version `5.6.0` default values are supported for properties. You can specify a default value for 
-both required and optional properties by adding `default_value: ...` to the property definition.
 
-**Note:** Default values are taken exactly how they are specified in the yaml file, this means for example
-that you will need to quote strings correctly, ensure imports are there, ensure the value is a constant, ...
+Since version `5.6.0` default values are supported for properties. You can specify a default value for both required and optional properties by adding `default_value: ...` to the
+property definition.
+
+**Note:** Default values are taken exactly how they are specified in the yaml file, this means for example that you will need to quote strings correctly, ensure imports are there,
+ensure the value is a constant, ...
 
 ```yaml
 UserModel:
@@ -458,11 +460,12 @@ DateTimeConverter:
 
 ## Documentation support
 
-You can specify `description` on fields and on enum entries. This description will be used verbatim to generate a code comment for that field
+You can specify `description` on models, enum, fields and on enum entries. This description will be used verbatim to generate a code comment for that class/enum/field
 
 ```yaml
 UserModel:
   path: webservice/user
+  description: The model holding user data
   converters:
     - DateTimeConverter
   properties:
@@ -483,4 +486,14 @@ UserModel:
   properties:
     changedAt:
       type: datetime
+```
+
+## Retrofit compute support
+
+Retrofit has added compute function support for decoding json payload in version 3.0.0. This requires top-level functions with a certain signature. You can have model generator
+generate these for you by setting `retrofit_compute: true` in the pubspec.yaml file:
+
+```yaml
+model_generator:
+  retrofit_compute: true
 ```

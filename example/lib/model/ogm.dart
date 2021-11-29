@@ -88,3 +88,13 @@ class OGM {
       'fields: $fields'
       '}';
 }
+
+OGM deserializeOGM(Map<String, dynamic> json) => OGM.fromJson(json);
+
+Map<String, dynamic> serializeOGM(OGM object) => object.toJson();
+
+List<OGM> deserializeOGMList(List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => OGM.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializeOGMList(List<OGM> objects) =>
+    objects.map((object) => object.toJson()).toList();

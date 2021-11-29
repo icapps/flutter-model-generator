@@ -24,6 +24,7 @@ class ObjectModel extends Model {
     this.explicitToJson,
     this.generateToString,
     this.staticCreate,
+    String? description,
   }) : super(
           name: name,
           path: path,
@@ -31,5 +32,6 @@ class ObjectModel extends Model {
           baseDirectory: baseDirectory,
           extraAnnotations: extraAnnotations,
           extraImports: extraImports,
+          description: description,
         );
 }

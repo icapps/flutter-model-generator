@@ -120,5 +120,28 @@ void main() {
       );
       WriterTestHelper.testEnumModelWriter(model, 'custom-value-map-extension');
     });
+
+    test('Normal EnumModel with description', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: 'MY_VALUE_1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: 'MY_VALUE_2',
+          ),
+        ],
+        description: 'A good description of this enum',
+      );
+      WriterTestHelper.testEnumModelWriter(model, 'normal-description');
+    });
   });
 }
