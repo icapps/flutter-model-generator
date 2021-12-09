@@ -8,10 +8,10 @@ import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 import 'package:path/path.dart';
-import 'package:collection/collection.dart';
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()

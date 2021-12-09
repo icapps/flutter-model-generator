@@ -4,9 +4,8 @@ tool
 .travis.yml
 coverage/
 example/.metadata
-example/android/gradle/wrapper/
-example/android/gradlew
-example/android/gradlew.bat
+example/android/
+example/ios/
 example/ios/Podfile.lock
 test/
 build/
