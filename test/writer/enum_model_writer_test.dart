@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 
 import 'writer_test_helper.dart';

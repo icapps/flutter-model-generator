@@ -319,18 +319,22 @@ class ObjectModelWriter {
   }
 
   void createRetrofitMappers(StringBuffer sb) {
+    final hasConstructorTearOffs =
+        pubspecConfig.languageVersion?.isAtLeast(2, 15) ?? false;
     sb
       ..writeln()
-      ..writeln(
-          '${jsonModel.name} deserialize${jsonModel.name}(Map<String, dynamic> json) => ${jsonModel.name}.fromJson(json);')
+      ..writeln(hasConstructorTearOffs
+          ? 'const deserialize${jsonModel.name} = ${jsonModel.name}.fromJson;'
+          : '${jsonModel.name} deserialize${jsonModel.name}(Map<String, dynamic> json) => ${jsonModel.name}.fromJson(json);')
       ..writeln()
       ..writeln(
           'Map<String, dynamic> serialize${jsonModel.name}(${jsonModel.name} object) => object.toJson();')
       ..writeln()
       ..writeln(
           'List<${jsonModel.name}> deserialize${jsonModel.name}List(List<Map<String, dynamic>> jsonList)')
-      ..writeln(
-          '    => jsonList.map((json) => ${jsonModel.name}.fromJson(json)).toList();')
+      ..writeln(hasConstructorTearOffs
+          ? '    => jsonList.map(${jsonModel.name}.fromJson).toList();'
+          : '    => jsonList.map((json) => ${jsonModel.name}.fromJson(json)).toList();')
       ..writeln()
       ..writeln(
           'List<Map<String, dynamic>> serialize${jsonModel.name}List(List<${jsonModel.name}> objects)')
