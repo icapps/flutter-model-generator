@@ -18,7 +18,7 @@ class Person {
 
 }
 
-Person deserializePerson(Map<String, dynamic> json) => Person.fromJson(json);
+const deserializePerson = Person.fromJson;
 
 Map<String, dynamic> serializePerson(Person object) => object.toJson();
 
