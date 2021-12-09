@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:meta/meta.dart';
+import 'package:model_generator/util/language_version.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 class PubspecConfig {
@@ -18,6 +21,7 @@ class PubspecConfig {
   late bool staticCreate;
   late bool uppercaseEnums;
   late bool retrofitMappers;
+  LanguageVersion? languageVersion;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
 
@@ -27,6 +31,7 @@ class PubspecConfig {
       throw Exception('Could not parse the pubspec.yaml');
     }
     final projectName = doc['name'];
+    languageVersion = parseLanguageVersion(doc);
 
     if (projectName == null || projectName.isEmpty) {
       throw Exception(
@@ -70,5 +75,24 @@ class PubspecConfig {
       extraAnnotations
           .forEach((element) => this.extraAnnotations.add(element.toString()));
     }
+  }
+
+  @visibleForTesting
+  static LanguageVersion? parseLanguageVersion(YamlMap doc) {
+    final environmentRoot = doc['environment'];
+    if (environmentRoot is! YamlMap) return null;
+    final sdk = environmentRoot['sdk'];
+    if (sdk is! String) return null;
+
+    final range = VersionConstraint.parse(sdk);
+    if (range is Version) {
+      return LanguageVersion(range.major, range.minor, range.patch);
+    } else if (range is VersionRange) {
+      final min = range.min;
+      if (min == null) return null;
+      return LanguageVersion(min.major, min.minor, min.patch);
+    }
+
+    return null;
   }
 }

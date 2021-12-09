@@ -1,0 +1,8 @@
+name: model_generator_example
+
+environment:
+    sdk: ">= 2.15.0 <3.0.0"
+
+model_generator:
+  config_path: model_generator/config.yaml
+  retrofit_compute: true

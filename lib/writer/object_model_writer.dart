@@ -319,6 +319,7 @@ class ObjectModelWriter {
   }
 
   void createRetrofitMappers(StringBuffer sb) {
+    final useTearOff = pubspecConfig.languageVersion?.isAtLeast(2, 15) ?? false;
     sb
       ..writeln()
       ..writeln(
@@ -329,8 +330,9 @@ class ObjectModelWriter {
       ..writeln()
       ..writeln(
           'List<${jsonModel.name}> deserialize${jsonModel.name}List(List<Map<String, dynamic>> jsonList)')
-      ..writeln(
-          '    => jsonList.map((json) => ${jsonModel.name}.fromJson(json)).toList();')
+      ..writeln(useTearOff
+          ? '    => jsonList.map(${jsonModel.name}.fromJson).toList();'
+          : '    => jsonList.map((json) => ${jsonModel.name}.fromJson(json)).toList();')
       ..writeln()
       ..writeln(
           'List<Map<String, dynamic>> serialize${jsonModel.name}List(List<${jsonModel.name}> objects)')

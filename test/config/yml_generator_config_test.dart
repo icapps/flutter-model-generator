@@ -1,10 +1,10 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:test/test.dart';
 
 import 'config_test_helper.dart';
 

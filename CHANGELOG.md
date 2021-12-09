@@ -1,4 +1,7 @@
 # Changelog
+## [5.8.1] - 2021-12-09
+- Detect the current min dart version and use newer features when available. (Fixes #108)
+
 ## [5.8.0] - 2021-11-25
 - Added `retrofit_compute` option to generate top-level functions compatible with retrofit's compute mode. (Fixes #106)
 - 

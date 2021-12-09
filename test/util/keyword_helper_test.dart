@@ -1,5 +1,5 @@
 import 'package:model_generator/util/keyword_helper.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Default', () {

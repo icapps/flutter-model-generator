@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
 import 'package:model_generator/config/pubspec_config.dart';
+import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 import 'config_test_helper.dart';
 
@@ -100,6 +101,36 @@ void main() {
       expect(hasError, true);
       expect(errorMessage,
           'Exception: Could not parse the pubspec.yaml, project name not found');
+    });
+    test('Test parse any version', () {
+      expect(
+          PubspecConfig.parseLanguageVersion(YamlMap.wrap({
+            'environment': {'sdk': 'any'}
+          })),
+          null);
+    });
+    test('Test parse fixed version', () {
+      expect(
+          PubspecConfig.parseLanguageVersion(YamlMap.wrap({
+            'environment': {'sdk': '2.14.0'}
+          }))!
+              .toString(),
+          '2.14.0');
+    });
+    test('Test parse max version', () {
+      expect(
+          PubspecConfig.parseLanguageVersion(YamlMap.wrap({
+            'environment': {'sdk': '<2.14.0'}
+          })),
+          null);
+    });
+    test('Test parse min and max version', () {
+      expect(
+          PubspecConfig.parseLanguageVersion(YamlMap.wrap({
+            'environment': {'sdk': '>=2.14.0 <3.0.0'}
+          }))!
+              .toString(),
+          '2.14.0');
     });
   });
 }

@@ -5,7 +5,7 @@ import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/object_model.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 import 'writer_test_helper.dart';
 
@@ -1020,6 +1020,29 @@ void main() {
       );
       WriterTestHelper.testObjectModelWriter(
           model, [], 'normal-retrofit-compute');
+    });
+    test('Normal ObjectModelWriter with retrofit compute - tearoff', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+              name: 'firstName',
+              type: StringType(),
+              isRequired: false,
+              ignore: false,
+              includeIfNull: true,
+              ignoreEquality: false,
+              nonFinal: false,
+              description: 'A good description'),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(
+          model, [], 'retrofit-compute-tearoff');
     });
   });
 }
