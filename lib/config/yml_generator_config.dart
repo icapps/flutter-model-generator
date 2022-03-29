@@ -122,12 +122,17 @@ class YmlGeneratorConfig {
         ));
       } else {
         final staticCreate = (value['static_create'] ?? false) == true;
+        final disallowNullForDefaults =
+            value.containsKey('disallow_null_for_defaults')
+                ? (value['disallow_null_for_defaults'] == true)
+                : pubspecConfig.disallowNullForDefaults;
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
-          fields.add(getField(propertyKey, propertyValue));
+          fields.add(getField(propertyKey, propertyValue,
+              disallowNullForDefaults: disallowNullForDefaults));
         });
         final mappedConverters =
             converters?.map((element) => element.toString()).toList();
@@ -146,6 +151,7 @@ class YmlGeneratorConfig {
           explicitToJson: value['explicit_to_json'],
           generateToString: value['to_string'],
           description: description,
+          disallowNullForDefaults: disallowNullForDefaults,
         ));
       }
     });
@@ -153,7 +159,8 @@ class YmlGeneratorConfig {
     checkIfTypesAvailable();
   }
 
-  Field getField(String name, YamlMap property) {
+  Field getField(String name, YamlMap property,
+      {required bool disallowNullForDefaults}) {
     try {
       final required =
           property.containsKey('required') && property['required'] == true;
@@ -172,7 +179,10 @@ class YmlGeneratorConfig {
           : null;
       final type = property['type'];
       final skipEquality = property['ignore_equality'] == true;
-      var defaultValue = property['default_value']?.toString();
+      final defaultValue = property['default_value']?.toString();
+      final disallowNull = property.containsKey('disallow_null')
+          ? (property['disallow_null'] == true)
+          : disallowNullForDefaults;
       ItemType itemType;
 
       if (type == null) {
@@ -219,6 +229,7 @@ class YmlGeneratorConfig {
         toJson: toJson,
         ignoreEquality: skipEquality,
         defaultValue: defaultValue,
+        disallowNull: disallowNull,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');

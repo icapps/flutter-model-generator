@@ -9,6 +9,7 @@ class ObjectModel extends Model {
   final bool? explicitToJson;
   final bool? generateToString;
   final bool? staticCreate;
+  final bool? disallowNullForDefaults;
 
   ObjectModel({
     required String name,
@@ -24,6 +25,7 @@ class ObjectModel extends Model {
     this.explicitToJson,
     this.generateToString,
     this.staticCreate,
+    this.disallowNullForDefaults,
     String? description,
   }) : super(
           name: name,

@@ -16,6 +16,7 @@ class Field {
   final String? toJson;
   final bool ignoreEquality;
   final String? defaultValue;
+  final bool disallowNull;
 
   bool get hasDefaultValue => defaultValue != null;
 
@@ -32,6 +33,7 @@ class Field {
     this.fromJson,
     this.toJson,
     this.defaultValue,
+    this.disallowNull = false,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,
         name =

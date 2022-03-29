@@ -1,10 +1,16 @@
 # Changelog
+## [5.9.0] - 2022-03-29
+- *POTENTIALLY BREAKING CHANGE*: By default, fields with a default value will now accept 'null' to use their default value
+- Add options to control whether fields with default value accepts 'null' or not
+  - `disallow_null` on fields
+  - `disallow_null_for_defaults` on the root yml config or the object config
+
 ## [5.8.1] - 2021-12-09
 - Detect the current min dart version and use newer features when available. (Fixes #108)
 
 ## [5.8.0] - 2021-11-25
 - Added `retrofit_compute` option to generate top-level functions compatible with retrofit's compute mode. (Fixes #106)
-- 
+
 ## [5.7.1] - 2021-11-13
 - Fixed issue where default values would still throw missing key exceptions. (Fixes #103)
 
