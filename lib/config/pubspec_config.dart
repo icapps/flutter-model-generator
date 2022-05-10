@@ -21,6 +21,7 @@ class PubspecConfig {
   late bool staticCreate;
   late bool uppercaseEnums;
   late bool retrofitMappers;
+  late bool disallowNullForDefaults;
   LanguageVersion? languageVersion;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
@@ -51,6 +52,7 @@ class PubspecConfig {
       staticCreate = false;
       uppercaseEnums = true;
       retrofitMappers = false;
+      disallowNullForDefaults = false;
       return;
     }
 
@@ -64,6 +66,8 @@ class PubspecConfig {
     staticCreate = (config['static_create'] ?? false) == true;
     uppercaseEnums = (config['uppercase_enums'] ?? true) == true;
     retrofitMappers = (config['retrofit_compute'] ?? false) == true;
+    disallowNullForDefaults =
+        (config['disallow_null_for_defaults'] ?? false) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {

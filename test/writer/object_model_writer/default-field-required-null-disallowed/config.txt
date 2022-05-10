@@ -1,0 +1,10 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      description: A good description
+      type: string
+      required: true
+      default_field: "'test'"
+      disallow_null: true

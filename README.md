@@ -179,6 +179,52 @@ UserModel:
       default_value: "'an example quoted string'"
 ```
 
+### Default values and null
+
+Since version `5.9.0` fields with default values can accept null values in json. In which case the default value will be used instead.
+
+If you wish to control this behaviour, you can add `disallow_null_for_defaults: true` to either the `model_generator` config or the model property. Alternatively you can specify
+the behaviour per field by using `disallow_null`.
+
+Example:
+
+```yaml
+model_generator:
+  disallow_null_for_defaults: true
+```
+
+Example 2:
+
+```yaml
+UserModel:
+  path: webservice/user
+  disallow_null_for_defaults: true
+  properties:
+    id:
+      type: int
+      default_value: 1
+    name:
+      type: string
+      required: true
+      default_value: "'an example quoted string'"
+```
+
+Example 3:
+
+```yaml
+UserModel:
+  path: webservice/user
+  properties:
+    id:
+      type: int
+      default_value: 1
+    name:
+      type: string
+      required: true
+      default_value: "'an example quoted string'"
+      disallow_null: true
+```
+
 ## Generics support support
 
 If you want your models to generate code that can be used in combination with generics. use this:
@@ -202,9 +248,11 @@ UserModel:
 ```
 
 ## Extends
+
 If you want your models to expand any other model use extends:
 
 *Note: It is not supported to extend custom models*
+
 ```yaml
 UserDetails:
   path: webservice/user
