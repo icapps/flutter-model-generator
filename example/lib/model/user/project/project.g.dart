@@ -6,16 +6,10 @@ part of 'project.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Project _$ProjectFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    disallowNullValues: const ['name'],
-  );
-  return Project(
-    name: json['name'] as String? ?? 'test',
-    cost: (json['cost'] as num?)?.toDouble() ?? 0.2,
-  );
-}
+Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
+      name: json['name'] as String? ?? 'test',
+      cost: (json['cost'] as num?)?.toDouble() ?? 0.2,
+    );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) {
   final val = <String, dynamic>{

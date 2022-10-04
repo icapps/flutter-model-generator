@@ -7,8 +7,6 @@ part 'ogm.g.dart';
 @JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class OGM {
-  @JsonKey(name: 'structuredMessage', required: true, includeIfNull: false)
-  final String structuredMessage;
   @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
   final String beneficiary;
   @JsonKey(name: 'beneficiaryIBAN', required: true, includeIfNull: false)
@@ -19,6 +17,10 @@ class OGM {
   final String someThing;
   @JsonKey(name: 'some_ThinG_huGE', required: true, includeIfNull: false)
   final String someThinGHuGE;
+  @JsonKey(name: 'simpleFields', required: true)
+  final List<Testing> simpleFields;
+  @JsonKey(name: 'structuredMessage')
+  final String? structuredMessage;
   @JsonKey(name: 'securityIndicator', includeIfNull: false)
   final String? securityRole;
   @JsonKey(name: 'mutableProperty', includeIfNull: false)
@@ -27,18 +29,22 @@ class OGM {
   final DateTime? dateChange;
   @JsonKey(name: 'fields', includeIfNull: false)
   final List<List<Testing>>? fields;
+  @JsonKey(name: 'simpleMap')
+  final Map<String, Testing>? simpleMap;
 
   OGM({
-    required this.structuredMessage,
     required this.beneficiary,
     required this.beneficiaryIBAN,
     required this.testTest,
     required this.someThing,
     required this.someThinGHuGE,
+    required this.simpleFields,
+    this.structuredMessage,
     this.securityRole,
     this.mutableProperty,
     this.dateChange,
     this.fields,
+    this.simpleMap,
   });
 
   factory OGM.fromJson(Map<String, dynamic> json) => _$OGMFromJson(json);
@@ -50,42 +56,48 @@ class OGM {
       identical(this, other) ||
       other is OGM &&
           runtimeType == other.runtimeType &&
-          structuredMessage == other.structuredMessage &&
           beneficiary == other.beneficiary &&
           beneficiaryIBAN == other.beneficiaryIBAN &&
           testTest == other.testTest &&
           someThing == other.someThing &&
           someThinGHuGE == other.someThinGHuGE &&
+          simpleFields == other.simpleFields &&
+          structuredMessage == other.structuredMessage &&
           securityRole == other.securityRole &&
           mutableProperty == other.mutableProperty &&
           dateChange == other.dateChange &&
-          fields == other.fields;
+          fields == other.fields &&
+          simpleMap == other.simpleMap;
 
   @override
   int get hashCode =>
-      structuredMessage.hashCode ^
       beneficiary.hashCode ^
       beneficiaryIBAN.hashCode ^
       testTest.hashCode ^
       someThing.hashCode ^
       someThinGHuGE.hashCode ^
+      simpleFields.hashCode ^
+      structuredMessage.hashCode ^
       securityRole.hashCode ^
       mutableProperty.hashCode ^
       dateChange.hashCode ^
-      fields.hashCode;
+      fields.hashCode ^
+      simpleMap.hashCode;
 
   @override
   String toString() => 'OGM{'
-      'structuredMessage: $structuredMessage, '
       'beneficiary: $beneficiary, '
       'beneficiaryIBAN: $beneficiaryIBAN, '
       'testTest: $testTest, '
       'someThing: $someThing, '
       'someThinGHuGE: $someThinGHuGE, '
+      'simpleFields: $simpleFields, '
+      'structuredMessage: $structuredMessage, '
       'securityRole: $securityRole, '
       'mutableProperty: $mutableProperty, '
       'dateChange: $dateChange, '
-      'fields: $fields'
+      'fields: $fields, '
+      'simpleMap: $simpleMap'
       '}';
 }
 

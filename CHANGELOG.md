@@ -1,4 +1,21 @@
 # Changelog
+## [6.0.0] - 2022-10-04
+- Added the ability to specify simple fields in a more compact way, inline.
+
+Example: id and id2, name and name2 are equivalent notations
+```yaml
+ExampleModel:
+  properties:
+    id: string
+    id2: 
+      type: string
+      required: true
+    name: string?
+    name2:
+      type: string
+      required: false
+```
+
 ## [5.9.0] - 2022-03-29
 - *POTENTIALLY BREAKING CHANGE*: By default, fields with a default value will now accept 'null' to use their default value
 - Add options to control whether fields with default value accepts 'null' or not

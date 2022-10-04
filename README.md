@@ -341,6 +341,25 @@ DateTimeConverter:
 
 ```
 
+## Inline types (since 6.0.0)
+
+In some cases, writing the full specification for simple fields is very verbose. Since 6.0.0 it is possible to write simple fields inline, without nesting below the field name:
+
+```yaml
+UserModel:
+  properties:
+    id: int
+    name: string
+    age: int
+    is_active: bool?
+    created_at: DateTime
+    roles: List<string>
+    customProperties: Map<String, Property>?
+```
+
+Currently all basic types are supported, simple Lists and Maps (no nested types, no nullable generic parameters) as well as references to other objects.
+Items post-fixed with `?` will be marked optional.
+
 ## Enum support
 
 Add enums with custom values

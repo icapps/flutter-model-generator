@@ -128,11 +128,14 @@ class YmlGeneratorConfig {
                 : pubspecConfig.disallowNullForDefaults;
         final fields = <Field>[];
         properties.forEach((propertyKey, propertyValue) {
-          if (propertyValue is! YamlMap) {
+          if (propertyValue is YamlMap) {
+            fields.add(getField(propertyKey, propertyValue,
+                disallowNullForDefaults: disallowNullForDefaults));
+          } else if (propertyValue is String) {
+            fields.add(getSimpleField(name: propertyKey, value: propertyValue));
+          } else {
             throw Exception('$propertyKey should be an object');
           }
-          fields.add(getField(propertyKey, propertyValue,
-              disallowNullForDefaults: disallowNullForDefaults));
         });
         final mappedConverters =
             converters?.map((element) => element.toString()).toList();
@@ -235,6 +238,23 @@ class YmlGeneratorConfig {
       print('Something went wrong with $name:\n\n${e.toString()}');
       rethrow;
     }
+  }
+
+  Field getSimpleField({required String name, required String value}) {
+    final optional = value.endsWith('?');
+    final typeString = optional ? value.substring(0, value.length - 1) : value;
+
+    final type = _parseSimpleType(typeString);
+
+    return Field(
+      name: name,
+      type: type,
+      isRequired: !optional,
+      ignore: false,
+      includeIfNull: true,
+      nonFinal: false,
+      ignoreEquality: false,
+    );
   }
 
   String _makeGenericName(String typeName) {
@@ -341,5 +361,33 @@ class YmlGeneratorConfig {
       throw Exception(
           'Could not generate all models. `$type` is not added to the config file, but is extended. These types are known: ${names.join(',')}');
     }
+  }
+
+  ItemType _parseSimpleType(String type) {
+    final listRegex = RegExp(r'List<\s*([^<>]*)\s*>');
+    final mapRegex = RegExp(r'Map<([^<>,]*)\s*,\s*([^<>,]*)\s*>');
+
+    if (type == 'object' || type == 'dynamic' || type == 'any') {
+      return DynamicType();
+    } else if (type == 'bool' || type == 'boolean') {
+      return BooleanType();
+    } else if (type == 'string' || type == 'String') {
+      return StringType();
+    } else if (type == 'date' || type == 'datetime') {
+      return DateTimeType();
+    } else if (type == 'double') {
+      return DoubleType();
+    } else if (type == 'int' || type == 'integer') {
+      return IntegerType();
+    } else if (listRegex.hasMatch(type)) {
+      final arrayType = listRegex.firstMatch(type)!.group(1)!;
+      return ArrayType(_makeGenericName(arrayType));
+    } else if (mapRegex.hasMatch(type)) {
+      final match = mapRegex.firstMatch(type)!;
+      return MapType(
+          key: _makeGenericName(match.group(1)!),
+          valueName: _makeGenericName(match.group(2)!));
+    }
+    return ObjectType(type);
   }
 }
