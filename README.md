@@ -85,7 +85,7 @@ UserModel:
       type: int
       ignore_equality: true
     include:
-      type: string
+      type: String
 ```
 
 ## explicit_to_json
@@ -174,7 +174,7 @@ UserModel:
       type: int
       default_value: 1
     name:
-      type: string
+      type: String
       required: true
       default_value: "'an example quoted string'"
 ```
@@ -204,7 +204,7 @@ UserModel:
       type: int
       default_value: 1
     name:
-      type: string
+      type: String
       required: true
       default_value: "'an example quoted string'"
 ```
@@ -219,7 +219,7 @@ UserModel:
       type: int
       default_value: 1
     name:
-      type: string
+      type: String
       required: true
       default_value: "'an example quoted string'"
       disallow_null: true
@@ -259,7 +259,20 @@ UserDetails:
   extends: UserModel
   properties:
     name:
-      type: string
+      type: String
+```
+
+## Builtin types
+The following framework types descriptors are known out of the box:
+```
+string/String
+int/integer
+bool/boolean
+double
+date/datetime
+dynamic/object/any
+array
+map
 ```
 
 ## Default setup
@@ -275,7 +288,7 @@ UserModel:
     id:
       type: int
     name:
-      type: string
+      type: String
     salary:
       type: double
     something:
@@ -286,7 +299,7 @@ UserModel:
     roles:
       type: array
       items:
-        type: string
+        type: String
     birthday:
       type: date
     addresses:
@@ -299,19 +312,19 @@ UserModel:
         key: String
         value: Address
     securityRole:
-      type: string
+      type: String
       jsonKey: securityIndicator
     dynamicField:
       type: dynamic
     includeIfNullField:
       include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
-      type: string
+      type: String
     ignoreField:
       ignore: false #this field will not be final, and not be used in the json parsing
-      type: string
+      type: String
     mutableField:
       non_final: true #Field will not be marked final
-      type: string
+      type: String
     changedAt:
       type: datetime
     idToAddressList:
@@ -324,7 +337,7 @@ Address:
   path: webservice/user #Can also be package:... and/or end with the actual file (.dart)
   properties:
     street:
-      type: string
+      type: String
 
 #Custom base_directory
 CustomBaseDirectoryObject:
@@ -332,7 +345,7 @@ CustomBaseDirectoryObject:
   path: webservice
   properties:
     path:
-      type: string
+      type: String
 
 #Custom json converter. Use with converters property on models
 DateTimeConverter:
@@ -349,7 +362,7 @@ In some cases, writing the full specification for simple fields is very verbose.
 UserModel:
   properties:
     id: int
-    name: string
+    name: String
     age: int
     is_active: bool?
     created_at: DateTime
