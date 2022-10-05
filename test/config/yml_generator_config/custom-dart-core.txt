@@ -1,0 +1,9 @@
+Person:
+  type: object
+  properties:
+    address:
+        type: Address
+
+Address:
+  type: custom
+  path: dart:core

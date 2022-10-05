@@ -305,6 +305,8 @@ class YmlGeneratorConfig {
         return [baseDirectory];
       } else if (path.startsWith('package:')) {
         return [path];
+      } else if (path == 'dart:core') {
+        return [];
       } else {
         return ['$baseDirectory/$path'];
       }
@@ -355,7 +357,7 @@ class YmlGeneratorConfig {
         models.firstWhereOrNull((model) => model.name == itemType.name);
     if (model == null) {
       throw Exception(
-          'getModelByname is null: because `${itemType.name}` was not added to the config file');
+          'getModelByName is null: because `${itemType.name}` was not added to the config file');
     }
     return model;
   }
