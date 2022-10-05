@@ -7,10 +7,10 @@ import 'package:model_generator_example/model/user/testing.dart';
 
 part 'user_profile_data_extended.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class UserProfileDataExtended extends UserProfileData {
-  @JsonKey(name: 'additionalField', required: true)
+  @JsonKey(name: 'additionalField', required: true, includeIfNull: false)
   final String additionalField;
 
   const UserProfileDataExtended({
@@ -73,3 +73,19 @@ class UserProfileDataExtended extends UserProfileData {
       'personsById: $personsById'
       '}';
 }
+
+UserProfileDataExtended deserializeUserProfileDataExtended(
+        Map<String, dynamic> json) =>
+    UserProfileDataExtended.fromJson(json);
+
+Map<String, dynamic> serializeUserProfileDataExtended(
+        UserProfileDataExtended object) =>
+    object.toJson();
+
+List<UserProfileDataExtended> deserializeUserProfileDataExtendedList(
+        List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => UserProfileDataExtended.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializeUserProfileDataExtendedList(
+        List<UserProfileDataExtended> objects) =>
+    objects.map((object) => object.toJson()).toList();

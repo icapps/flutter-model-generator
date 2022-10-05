@@ -7,10 +7,10 @@ import 'package:model_generator_example/model/user/testing.dart';
 
 part 'admin_profile_data.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 @immutable
 class AdminProfileData extends UserProfileDataExtended {
-  @JsonKey(name: 'privileges', required: true)
+  @JsonKey(name: 'privileges', required: true, includeIfNull: false)
   final String privileges;
 
   const AdminProfileData({
@@ -76,3 +76,17 @@ class AdminProfileData extends UserProfileDataExtended {
       'personsById: $personsById'
       '}';
 }
+
+AdminProfileData deserializeAdminProfileData(Map<String, dynamic> json) =>
+    AdminProfileData.fromJson(json);
+
+Map<String, dynamic> serializeAdminProfileData(AdminProfileData object) =>
+    object.toJson();
+
+List<AdminProfileData> deserializeAdminProfileDataList(
+        List<Map<String, dynamic>> jsonList) =>
+    jsonList.map((json) => AdminProfileData.fromJson(json)).toList();
+
+List<Map<String, dynamic>> serializeAdminProfileDataList(
+        List<AdminProfileData> objects) =>
+    objects.map((object) => object.toJson()).toList();

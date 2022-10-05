@@ -7,9 +7,7 @@ OGM:
   extra_imports:
     -
   properties:
-    structuredMessage:
-      required: true
-      type: string
+    structuredMessage: string?
     beneficiary:
       required: true
       type: string
@@ -37,6 +35,8 @@ OGM:
       type: array
       items:
         type: List<Testing>
+    simpleFields: List<Testing>
+    simpleMap: Map<String, Testing>?
 
 Testing:
   path: user

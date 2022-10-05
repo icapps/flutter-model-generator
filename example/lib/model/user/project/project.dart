@@ -9,7 +9,7 @@ class Project {
   @JsonKey(
       name: 'name',
       required: false,
-      disallowNullValue: true,
+      disallowNullValue: false,
       includeIfNull: false)
   final String name;
   @JsonKey(name: 'cost', includeIfNull: false)
