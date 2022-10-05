@@ -180,7 +180,7 @@ class YmlGeneratorConfig {
       final description = property.containsKey('description')
           ? property['description']!.toString()
           : null;
-      final type = property['type'];
+      final type = property['type'] as String?;
       final skipEquality = property['ignore_equality'] == true;
       final defaultValue = property['default_value']?.toString();
       final disallowNull = property.containsKey('disallow_null')
@@ -191,23 +191,26 @@ class YmlGeneratorConfig {
       if (type == null) {
         throw Exception('$name has no defined type');
       }
-      if (type == 'object' || type == 'dynamic' || type == 'any') {
+      final lowerType = type.toLowerCase();
+      if (lowerType == 'object' ||
+          lowerType == 'dynamic' ||
+          lowerType == 'any') {
         itemType = DynamicType();
-      } else if (type == 'bool' || type == 'boolean') {
+      } else if (type == 'bool' || lowerType == 'boolean') {
         itemType = BooleanType();
-      } else if (type == 'string' || type == 'String') {
+      } else if (lowerType == 'string') {
         itemType = StringType();
-      } else if (type == 'date' || type == 'datetime') {
+      } else if (lowerType == 'date' || lowerType == 'datetime') {
         itemType = DateTimeType();
-      } else if (type == 'double') {
+      } else if (lowerType == 'double') {
         itemType = DoubleType();
       } else if (type == 'int' || type == 'integer') {
         itemType = IntegerType();
-      } else if (type == 'array') {
+      } else if (lowerType == 'array') {
         final items = property['items'];
         final arrayType = items['type'];
         itemType = ArrayType(_makeGenericName(arrayType));
-      } else if (type == 'map') {
+      } else if (lowerType == 'map') {
         final items = property['items'];
         final keyType = items['key'];
         final valueType = items['value'];
@@ -258,19 +261,20 @@ class YmlGeneratorConfig {
   }
 
   String _makeGenericName(String typeName) {
-    if (typeName == 'string' || typeName == 'String') {
+    final lowerType = typeName.toLowerCase();
+    if (lowerType == 'string') {
       return 'String';
-    } else if (typeName == 'bool' || typeName == 'boolean') {
+    } else if (lowerType == 'bool' || lowerType == 'boolean') {
       return 'bool';
-    } else if (typeName == 'double') {
+    } else if (lowerType == 'double') {
       return 'double';
-    } else if (typeName == 'date' || typeName == 'datetime') {
+    } else if (lowerType == 'date' || lowerType == 'datetime') {
       return 'DateTime';
-    } else if (typeName == 'int' || typeName == 'integer') {
+    } else if (lowerType == 'int' || lowerType == 'integer') {
       return 'int';
-    } else if (typeName == 'object' ||
-        typeName == 'dynamic' ||
-        typeName == 'any') {
+    } else if (lowerType == 'object' ||
+        lowerType == 'dynamic' ||
+        lowerType == 'any') {
       return 'dynamic';
     } else {
       return typeName;
@@ -364,20 +368,23 @@ class YmlGeneratorConfig {
   }
 
   ItemType _parseSimpleType(String type) {
-    final listRegex = RegExp(r'List<\s*([^<>]*)\s*>');
-    final mapRegex = RegExp(r'Map<([^<>,]*)\s*,\s*([^<>,]*)\s*>');
+    final listRegex = RegExp(r'^[Ll]ist<\s*([a-zA-Z_0-9]*)\s*>\s*$');
+    final mapRegex =
+        RegExp(r'^[Mm]ap<([a-zA-Z_0-9]*)\s*,\s*([a-zA-Z_0-9]*)\s*>\s*$');
 
-    if (type == 'object' || type == 'dynamic' || type == 'any') {
+    final lowerType = type.toLowerCase();
+
+    if (lowerType == 'object' || lowerType == 'dynamic' || lowerType == 'any') {
       return DynamicType();
-    } else if (type == 'bool' || type == 'boolean') {
+    } else if (lowerType == 'bool' || lowerType == 'boolean') {
       return BooleanType();
-    } else if (type == 'string' || type == 'String') {
+    } else if (lowerType == 'string') {
       return StringType();
-    } else if (type == 'date' || type == 'datetime') {
+    } else if (lowerType == 'date' || lowerType == 'datetime') {
       return DateTimeType();
-    } else if (type == 'double') {
+    } else if (lowerType == 'double') {
       return DoubleType();
-    } else if (type == 'int' || type == 'integer') {
+    } else if (lowerType == 'int' || lowerType == 'integer') {
       return IntegerType();
     } else if (listRegex.hasMatch(type)) {
       final arrayType = listRegex.firstMatch(type)!.group(1)!;
