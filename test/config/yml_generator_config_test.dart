@@ -281,6 +281,13 @@ void main() {
         expect(config.getPathsForName(pubspecConfig, 'List<Person>').toList(),
             ['model']);
       });
+      test('Get paths with dart:core model', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final config = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('custom-dart-core'));
+        expect(config.getPathsForName(pubspecConfig, 'Address').toList(), []);
+      });
       test('Get path with invalid model', () {
         final pubspecConfig =
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
@@ -296,7 +303,7 @@ void main() {
         }
         expect(hasError, true);
         expect(errorMessage,
-            'Exception: getModelByname is null: because `TESTING` was not added to the config file');
+            'Exception: getModelByName is null: because `TESTING` was not added to the config file');
       });
     });
   });
