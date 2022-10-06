@@ -1,4 +1,7 @@
 # Changelog
+## [6.0.2] - 2022-10-06
+- Updated travis to use linux instead of macOS
+
 ## [6.0.1] - 2022-10-05
 - Don't create dart:core imports for custom objects
 
