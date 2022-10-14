@@ -36,23 +36,52 @@ Future<void> main(List<String> args) async {
   final pubspecConfig = PubspecConfig(pubspecContent);
 
   final configPath = results['path'] ?? pubspecConfig.configPath;
-  File configFile;
+  String absolutePath;
   if (isAbsolute(configPath)) {
-    configFile = File(configPath);
+    absolutePath = configPath;
   } else {
-    configFile = File(join(Directory.current.path, configPath));
+    absolutePath = join(Directory.current.path, configPath);
+  }
+  final FileSystemEntity configEntity;
+  switch (FileSystemEntity.typeSync(absolutePath)) {
+    case FileSystemEntityType.directory:
+      configEntity = Directory(absolutePath);
+      break;
+    case FileSystemEntityType.file:
+    default:
+      configEntity = File(absolutePath);
+      break;
   }
 
-  if (!configFile.existsSync()) {
-    throw Exception('This program requires a config file. `$configPath`');
+  if (!configEntity.existsSync()) {
+    throw Exception(
+        'This program requires a config file/dir. `$configPath` does not exist');
   }
-  final modelGeneratorContent = configFile.readAsStringSync();
-  final modelGeneratorConfig =
-      YmlGeneratorConfig(pubspecConfig, modelGeneratorContent);
+  final YmlGeneratorConfig modelGeneratorConfig;
+  if (configEntity is Directory) {
+    modelGeneratorConfig =
+        readConfigFilesInDirectory(pubspecConfig, configEntity, configPath);
+  } else {
+    final modelGeneratorContent = (configEntity as File).readAsStringSync();
+    modelGeneratorConfig =
+        YmlGeneratorConfig(pubspecConfig, modelGeneratorContent, configPath);
+  }
+  modelGeneratorConfig.checkIfTypesAvailable();
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
   await generateJsonGeneratedModels(useFvm: pubspecConfig.useFvm);
   print('Done!!!');
+}
+
+YmlGeneratorConfig readConfigFilesInDirectory(
+    PubspecConfig config, Directory configEntity, String directoryPath) {
+  final configFiles = configEntity
+      .listSync(recursive: true)
+      .whereType<File>()
+      .where((element) => extension(element.path) == '.yaml');
+  final configs = configFiles.map((e) =>
+      YmlGeneratorConfig(config, e.readAsStringSync(), relative(e.path)));
+  return YmlGeneratorConfig.merge(configs, directoryPath);
 }
 
 void writeToFiles(

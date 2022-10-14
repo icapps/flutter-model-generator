@@ -1,4 +1,7 @@
 # Changelog
+## [6.1.0] - 2022-10-14
+- Support passing a directory instead of a file. All .yaml files inside this folder (recursively) will be used to build the final model data.
+
 ## [6.0.2] - 2022-10-06
 - Updated travis to use linux instead of macOS
 

@@ -1,4 +1,4 @@
-Person:
+User:
   type: object
   properties:
     gender:

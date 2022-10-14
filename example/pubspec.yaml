@@ -22,7 +22,7 @@ dev_dependencies:
 #In the model_generator/config.yaml you will see a object with a custom base_directory
 #
 model_generator:
-  config_path: model_generator/config.yaml
+  config_path: model_generator/
   extra_imports:
     - 'package:flutter/foundation.dart'
   extra_annotations:

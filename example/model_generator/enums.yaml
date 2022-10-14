@@ -1,0 +1,20 @@
+Gender:
+  path: user/person/
+  type: enum
+  properties:
+    MALE:
+      value: _mAl3
+    FEMALE:
+      value: femAle
+    X:
+      value: X
+    GENDER_X:
+    GENDER_Y:
+      value:
+    GENDER_z:
+      value: gender_z
+    GENDER_abC:
+    GENDER_def:
+      value:
+    GENDER_lap:
+      value: GENDER_lap
