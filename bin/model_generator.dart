@@ -67,6 +67,9 @@ Future<void> main(List<String> args) async {
         YmlGeneratorConfig(pubspecConfig, modelGeneratorContent, configPath);
   }
   modelGeneratorConfig.checkIfTypesAvailable();
+  if (modelGeneratorConfig.models.isEmpty) {
+    print('No models defined in config files, skipping generation');
+  }
 
   writeToFiles(pubspecConfig, modelGeneratorConfig);
   await generateJsonGeneratedModels(useFvm: pubspecConfig.useFvm);
