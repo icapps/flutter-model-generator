@@ -29,7 +29,9 @@ class YmlGeneratorConfig {
 
   YmlGeneratorConfig(
       PubspecConfig pubspecConfig, String configContent, this.fileName) {
-    loadYaml(configContent).forEach((key, value) {
+    final yamlContent = loadYaml(configContent);
+    if (yamlContent == null) return; // Ignore empty file
+    yamlContent.forEach((key, value) {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
       final String? path = value['path'];

@@ -10,12 +10,21 @@ import 'config_test_helper.dart';
 
 void main() {
   group('YmlGeneratorConfig', () {
+    group('Empty', () {
+      test('Behaviour with empty file', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig, '', '');
+        expect(ymlConfig.models.isEmpty, true);
+      });
+    });
     group('Object', () {
       test('Normal object', () {
         final pubspecConfig =
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final ymlConfig = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('object-normal'), '');
+        ymlConfig.checkIfTypesAvailable();
         expect(ymlConfig.models.length, 1);
         expect(ymlConfig.models.first is ObjectModel, true);
         final objectModel =
@@ -34,6 +43,7 @@ void main() {
             pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('object-multiple-fields'),
             '');
+        ymlConfig.checkIfTypesAvailable();
         expect(ymlConfig.models.length, 1);
         expect(ymlConfig.models.first is ObjectModel, true);
         final objectModel =
@@ -50,6 +60,7 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final ymlConfig = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('object-base-dir'), '');
+        ymlConfig.checkIfTypesAvailable();
         expect(ymlConfig.models.length, 1);
         expect(ymlConfig.models.first is ObjectModel, true);
         final objectModel =
@@ -66,6 +77,7 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final ymlConfig = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('object-all-types'), '');
+        ymlConfig.checkIfTypesAvailable();
         expect(ymlConfig.models.length, 2);
         expect(ymlConfig.models.first is ObjectModel, true);
         final objectModel =
@@ -84,9 +96,11 @@ void main() {
         var errorMessage = '';
         try {
           YmlGeneratorConfig(
-              pubspecConfig,
-              ConfigTestHelper.getYmlGeneratorConfig('object-error-no-object'),
-              '');
+                  pubspecConfig,
+                  ConfigTestHelper.getYmlGeneratorConfig(
+                      'object-error-no-object'),
+                  '')
+              .checkIfTypesAvailable();
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -102,10 +116,11 @@ void main() {
         var errorMessage = '';
         try {
           YmlGeneratorConfig(
-              pubspecConfig,
-              ConfigTestHelper.getYmlGeneratorConfig(
-                  'object-error-missing-type'),
-              '');
+                  pubspecConfig,
+                  ConfigTestHelper.getYmlGeneratorConfig(
+                      'object-error-missing-type'),
+                  '')
+              .checkIfTypesAvailable();
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -121,10 +136,11 @@ void main() {
         var errorMessage = '';
         try {
           YmlGeneratorConfig(
-              pubspecConfig,
-              ConfigTestHelper.getYmlGeneratorConfig(
-                  'object-error-no-properties'),
-              '');
+                  pubspecConfig,
+                  ConfigTestHelper.getYmlGeneratorConfig(
+                      'object-error-no-properties'),
+                  '')
+              .checkIfTypesAvailable();
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -140,6 +156,7 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final ymlConfig = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('custom-normal'), '');
+        ymlConfig.checkIfTypesAvailable();
         expect(ymlConfig.models.length, 2);
         expect(ymlConfig.models.first is ObjectModel, true);
         expect(ymlConfig.models.last is CustomModel, true);
@@ -151,6 +168,7 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final ymlConfig = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('enum-normal'), '');
+        ymlConfig.checkIfTypesAvailable();
         expect(ymlConfig.models.length, 3);
         expect(ymlConfig.models.first is ObjectModel, true);
         expect(ymlConfig.models[1] is EnumModel, true);
@@ -196,9 +214,11 @@ void main() {
         var errorMessage = '';
         try {
           YmlGeneratorConfig(
-              pubspecConfig,
-              ConfigTestHelper.getYmlGeneratorConfig('enum-error-no-object'),
-              '');
+                  pubspecConfig,
+                  ConfigTestHelper.getYmlGeneratorConfig(
+                      'enum-error-no-object'),
+                  '')
+              .checkIfTypesAvailable();
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -214,10 +234,11 @@ void main() {
         var errorMessage = '';
         try {
           YmlGeneratorConfig(
-              pubspecConfig,
-              ConfigTestHelper.getYmlGeneratorConfig(
-                  'enum-error-no-properties-map'),
-              '');
+                  pubspecConfig,
+                  ConfigTestHelper.getYmlGeneratorConfig(
+                      'enum-error-no-properties-map'),
+                  '')
+              .checkIfTypesAvailable();
         } catch (e) {
           hasError = true;
           errorMessage = e.toString();
@@ -276,7 +297,8 @@ void main() {
         var hasError = false;
         var errorMessage = '';
         final config = YmlGeneratorConfig(pubspecConfig,
-            ConfigTestHelper.getYmlGeneratorConfig('object-normal'), '');
+            ConfigTestHelper.getYmlGeneratorConfig('object-normal'), '')
+          ..checkIfTypesAvailable();
         try {
           config.getPathsForName(pubspecConfig, 'TESTING');
         } catch (e) {
@@ -292,6 +314,7 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final config = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('generics-normal'), '');
+        config.checkIfTypesAvailable();
         expect(config.getPathsForName(pubspecConfig, 'List<Person>').toList(),
             ['model']);
       });
@@ -300,6 +323,7 @@ void main() {
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         final config = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('custom-dart-core'), '');
+        config.checkIfTypesAvailable();
         expect(config.getPathsForName(pubspecConfig, 'Address').toList(), []);
       });
       test('Get path with invalid model', () {
@@ -309,6 +333,7 @@ void main() {
         var errorMessage = '';
         final config = YmlGeneratorConfig(pubspecConfig,
             ConfigTestHelper.getYmlGeneratorConfig('object-normal'), '');
+        config.checkIfTypesAvailable();
         try {
           config.getModelByName(ObjectType('TESTING'));
         } catch (e) {
