@@ -28,7 +28,7 @@ flutter packages run model_generator --path my_other_model_dir/config.yaml
 ```
 
 **Note**: Since version 6.1.0, instead of a single model file, you can specify a directory containing multiple model files. 
-The generator will then generate models for all `.yaml` files in the directory. References across files are supported.
+The generator will then generate models for all `.yaml` (or `.yml`) files in the directory. References across files are supported.
 
 ## Default setup
 
