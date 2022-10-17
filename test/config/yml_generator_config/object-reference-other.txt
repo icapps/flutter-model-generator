@@ -1,0 +1,4 @@
+Person:
+  type: object
+  properties:
+    gender: Gender

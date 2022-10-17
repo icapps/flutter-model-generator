@@ -32,7 +32,7 @@ class WriterTestHelper {
     final pubspecContent = pubspecFile.readAsStringSync();
     final configContent = configFile.readAsStringSync();
     final pubspecConfig = PubspecConfig(pubspecContent);
-    final ymlConfig = YmlGeneratorConfig(pubspecConfig, configContent);
+    final ymlConfig = YmlGeneratorConfig(pubspecConfig, configContent, '');
     final actual =
         ObjectModelWriter(pubspecConfig, model, extendsFields, ymlConfig)
             .write();

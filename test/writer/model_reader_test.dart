@@ -16,7 +16,9 @@ import 'package:test/test.dart';
 void main() {
   group('ModelReaderTest', () {
     test('Test simple basic fields', () {
-      final models = YmlGeneratorConfig(PubspecConfig("name: test"), """
+      final models = YmlGeneratorConfig(
+              PubspecConfig("name: test"),
+              """
 TestModel:
   properties:
     simpleString: string
@@ -26,7 +28,9 @@ TestModel:
     simpleDouble: double
     simpleDynamic: dynamic
     simpleDateTime: datetime?
-""").models;
+""",
+              '')
+          .models;
 
       expect(models.length, 1);
       final model = models.first;
@@ -63,13 +67,17 @@ TestModel:
       expect(simpleDateTime.isRequired, false);
     });
     test('Test simple generic fields', () {
-      final models = YmlGeneratorConfig(PubspecConfig("name: test"), """
+      final models = YmlGeneratorConfig(
+              PubspecConfig("name: test"),
+              """
 TestModel:
   properties:
     simpleStringList: List<string>
     nullableStringList: List<string>?
     simpleMap: Map<String, int>
-""").models;
+""",
+              '')
+          .models;
 
       expect(models.length, 1);
       final model = models.first;
@@ -90,7 +98,9 @@ TestModel:
       expect(simpleMap.isRequired, true);
     });
     test('Test simple object reference fields', () {
-      final models = YmlGeneratorConfig(PubspecConfig("name: test"), """
+      final models = YmlGeneratorConfig(
+              PubspecConfig("name: test"),
+              """
 TestModel:
   properties:
     simpleRef: TestModel2
@@ -99,7 +109,9 @@ TestModel:
 TestModel2:
   properties:
     simpleMap: Map<String, int>
-""").models;
+""",
+              '')
+          .models;
 
       expect(models.length, 2);
       final model = models.firstWhere((element) => element.name == 'TestModel');

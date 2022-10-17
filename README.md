@@ -11,7 +11,7 @@ This model generator can be used to generate JsonSerializable models
 
 `flutter packages run model_generator`
 
-## Model file
+## Model file(s)
 
 By default, the model generator looks for the model yaml file in `model_generator/config.yaml`. If you want to overwrite this, specify it in your `pubspec.yaml` file by
 using `config_path`. Example of the `pubspec.yaml` file if you want to use a custom model file location:
@@ -26,6 +26,9 @@ You can also specify a command line parameter to override the location for a sin
 ```bash
 flutter packages run model_generator --path my_other_model_dir/config.yaml
 ```
+
+**Note**: Since version 6.1.0, instead of a single model file, you can specify a directory containing multiple model files. 
+The generator will then generate models for all `.yaml` (or `.yml`) files in the directory. References across files are supported.
 
 ## Default setup
 

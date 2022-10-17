@@ -22,11 +22,13 @@ import 'package:model_generator/util/type_checker.dart';
 import 'package:yaml/yaml.dart';
 
 class YmlGeneratorConfig {
+  final String fileName;
   final _models = <Model>[];
 
   List<Model> get models => _models;
 
-  YmlGeneratorConfig(PubspecConfig pubspecConfig, String configContent) {
+  YmlGeneratorConfig(
+      PubspecConfig pubspecConfig, String configContent, this.fileName) {
     loadYaml(configContent).forEach((key, value) {
       final String baseDirectory =
           value['base_directory'] ?? pubspecConfig.baseDirectory;
@@ -158,8 +160,6 @@ class YmlGeneratorConfig {
         ));
       }
     });
-
-    checkIfTypesAvailable();
   }
 
   Field getField(String name, YamlMap property,
@@ -398,5 +398,20 @@ class YmlGeneratorConfig {
           valueName: _makeGenericName(match.group(2)!));
     }
     return ObjectType(type);
+  }
+
+  YmlGeneratorConfig.merge(Iterable<YmlGeneratorConfig> configs, String dirName)
+      : fileName = dirName {
+    final names = <String, YmlGeneratorConfig>{};
+    for (final config in configs) {
+      for (final model in config.models) {
+        if (names.containsKey(model.name)) {
+          throw Exception(
+              'Model with same name ${model.name} found in multiple files: ${names[model.name]!.fileName} and ${config.fileName}');
+        }
+        names[model.name] = config;
+      }
+      _models.addAll(config.models);
+    }
   }
 }
