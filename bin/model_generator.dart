@@ -78,7 +78,9 @@ YmlGeneratorConfig readConfigFilesInDirectory(
   final configFiles = configEntity
       .listSync(recursive: true)
       .whereType<File>()
-      .where((element) => extension(element.path) == '.yaml' || extension(element.path) == '.yml');
+      .where((element) =>
+          extension(element.path) == '.yaml' ||
+          extension(element.path) == '.yml');
   final configs = configFiles.map((e) =>
       YmlGeneratorConfig(config, e.readAsStringSync(), relative(e.path)));
   return YmlGeneratorConfig.merge(configs, directoryPath);
