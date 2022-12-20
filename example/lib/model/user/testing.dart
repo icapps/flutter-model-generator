@@ -1,3 +1,5 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/data/custom/duration.dart';
 import 'package:model_generator_example/model/data/custom/duration_from_to_json.dart';
