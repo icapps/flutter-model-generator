@@ -7,6 +7,7 @@ class EnumModelWriter {
 
   String write() {
     final sb = StringBuffer()
+      ..writeln("// Auto generated code. Do not modify.")
       ..writeln("import 'package:json_annotation/json_annotation.dart';")
       ..writeln();
 

@@ -24,7 +24,8 @@ class ObjectModelWriter {
   );
 
   String write() {
-    final sb = StringBuffer();
+    final sb = StringBuffer()
+      ..writeln("// Auto generated code. Do not modify.");
     final imports = <String>{}
       ..add("import 'package:json_annotation/json_annotation.dart';");
     for (final element
