@@ -18,9 +18,7 @@ class CaseUtil {
 
     for (var i = 0; i < text.length; i++) {
       final char = String.fromCharCode(text.codeUnitAt(i));
-      final nextChar = i + 1 == text.length
-          ? null
-          : String.fromCharCode(text.codeUnitAt(i + 1));
+      final nextChar = i + 1 == text.length ? null : String.fromCharCode(text.codeUnitAt(i + 1));
 
       if (_symbolRegex.hasMatch(char)) {
         continue;
@@ -28,9 +26,7 @@ class CaseUtil {
 
       sb.write(char);
 
-      final isEndOfWord = nextChar == null ||
-          (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) ||
-          _symbolRegex.hasMatch(nextChar);
+      final isEndOfWord = nextChar == null || (_upperAlphaRegex.hasMatch(nextChar) && !isAllCaps) || _symbolRegex.hasMatch(nextChar);
 
       if (isEndOfWord) {
         words.add(sb.toString());
@@ -45,13 +41,19 @@ class CaseUtil {
 
   String get camelCase => _getCamelCase();
 
-  String _getSnakeCase({String separator = '_'}) =>
-      _words.map((word) => word.toLowerCase()).toList().join(separator);
+  String get upperCamelCase => _uppserCamelCase();
+
+  String _getSnakeCase({String separator = '_'}) => _words.map((word) => word.toLowerCase()).toList().join(separator);
 
   String _getCamelCase({String separator = ''}) {
     final words = _words.map(_upperCaseFirstLetter).toList();
     words[0] = words[0].toLowerCase();
 
+    return words.join(separator);
+  }
+
+  String _uppserCamelCase({String separator = ''}) {
+    final words = _words.map(_upperCaseFirstLetter).toList();
     return words.join(separator);
   }
 

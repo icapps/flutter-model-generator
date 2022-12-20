@@ -1,0 +1,21 @@
+import 'package:drift/drift.dart';
+import 'package:model_generator_example/database/example.dart';
+
+@DataClassName('DbPerson')
+class DbPersonTable extends Table {
+  ///A good description
+  TextColumn get firstName => text().nullable()();
+
+}
+
+extension DbPersonExtension on DbPerson {
+  Person get model => Person(
+        firstName: firstName,
+      );
+}
+
+extension PersonExtension on Person {
+  DbPerson get dbModel => DbPerson(
+        firstName: firstName,
+      );
+}

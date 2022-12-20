@@ -1,0 +1,8 @@
+Person:
+  path: user/person/
+  type: object
+  generate_table: true
+  properties:
+    firstName:
+      description: A good description
+      type: string
