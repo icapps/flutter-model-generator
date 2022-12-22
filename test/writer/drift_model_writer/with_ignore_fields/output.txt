@@ -9,8 +9,9 @@ class DbPersonTable extends Table {
 }
 
 extension DbPersonExtension on DbPerson {
-  Person get model => Person(
+  Person getModel({String? lastName}) => Person(
         firstName: firstName,
+        lastName: lastName,
       );
 }
 

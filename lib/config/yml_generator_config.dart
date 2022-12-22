@@ -190,6 +190,7 @@ class YmlGeneratorConfig {
       final disallowNull = property.containsKey('disallow_null')
           ? (property['disallow_null'] == true)
           : disallowNullForDefaults;
+      final ignoreForTable = property['ignore_for_table'] == true;
       ItemType itemType;
 
       if (type == null) {
@@ -240,6 +241,7 @@ class YmlGeneratorConfig {
         ignoreEquality: skipEquality,
         defaultValue: defaultValue,
         disallowNull: disallowNull,
+        ignoreForTable: ignoreForTable,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');

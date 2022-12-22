@@ -2,4 +2,3 @@ name: model_generator_example
 
 model_generator:
   config_path: model_generator/config.yaml
-  database_path: database/example.dart

@@ -1,4 +1,5 @@
 import 'package:model_generator/model/field.dart';
+import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/util/generic_type.dart';
 import 'package:path/path.dart';
@@ -77,13 +78,16 @@ class DriftModelWriter {
     }
     sb.writeln('class Db${modelNameUpperCamelCase}Table extends Table {');
 
-    jsonModel.fields.sort((a, b) {
+    final fields =
+        jsonModel.fields.where((element) => !element.ignoreForTable).toList();
+
+    fields.sort((a, b) {
       final b1 = a.isRequired ? 1 : 0;
       final b2 = b.isRequired ? 1 : 0;
       return b2 - b1;
     }); // same order as object model writer
 
-    for (final key in jsonModel.fields) {
+    for (final key in fields) {
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -109,8 +113,20 @@ class DriftModelWriter {
       ..writeln('}')
       ..writeln('')
       ..writeln(
-          'extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {')
-      ..writeln('  ${jsonModel.name} get model => ${jsonModel.name}(');
+          'extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {');
+
+    if (jsonModel.fields.any((element) => element.ignoreForTable)) {
+      final ignoredFields =
+          jsonModel.fields.where((element) => element.ignoreForTable).toList();
+      final ignoredFieldsString = ignoredFields
+          .map((e) =>
+              '${e.isRequired ? 'required ' : ''}${_getKeyType(e)} ${e.name}')
+          .join(', ');
+      sb.writeln(
+          '  ${jsonModel.name} getModel({$ignoredFieldsString}) => ${jsonModel.name}(');
+    } else {
+      sb.writeln('  ${jsonModel.name} get model => ${jsonModel.name}(');
+    }
 
     for (final key in jsonModel.fields) {
       sb.writeln('        ${key.name}: ${key.name},');
@@ -125,7 +141,7 @@ class DriftModelWriter {
       ..writeln(
           '  Db$modelNameUpperCamelCase get dbModel => Db$modelNameUpperCamelCase(');
 
-    for (final key in jsonModel.fields) {
+    for (final key in fields) {
       sb.writeln('        ${key.name}: ${key.name},');
     }
 
@@ -134,6 +150,19 @@ class DriftModelWriter {
       ..writeln('}');
 
     return sb.toString();
+  }
+
+  String _getKeyType(Field key) {
+    final nullableFlag =
+        key.isRequired || key.type.name == 'dynamic' ? '' : '?';
+    final keyType = key.type;
+    if (keyType is ArrayType) {
+      return 'List<${keyType.name}>$nullableFlag';
+    } else if (keyType is MapType) {
+      return 'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag';
+    } else {
+      return '${keyType.name}$nullableFlag';
+    }
   }
 
   Iterable<String> _getImportsFromField(Field field) {

@@ -22,12 +22,11 @@ void main() {
           Field(
             name: 'firstName',
             type: StringType(),
-            isRequired: false,
+            isRequired: true,
             ignore: false,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
-            description: 'A good description',
           ),
         ],
         converters: [],
@@ -35,31 +34,7 @@ void main() {
       WriterTestHelper.testDriftModelWriter(model, [], 'normal');
     });
 
-    test('Normal DriftModelWriter with specified databasePath', () {
-      final model = ObjectModel(
-        name: 'Person',
-        path: 'path_to_my_model',
-        baseDirectory: 'base_dir',
-        generateForGenerics: false,
-        staticCreate: false,
-        fields: [
-          Field(
-            name: 'firstName',
-            type: StringType(),
-            isRequired: false,
-            ignore: false,
-            includeIfNull: true,
-            ignoreEquality: false,
-            nonFinal: false,
-            description: 'A good description',
-          ),
-        ],
-        converters: [],
-      );
-      WriterTestHelper.testDriftModelWriter(model, [], 'normal');
-    });
-
-    test('Normal DriftModelWriter normal fields', () {
+    test('DriftModelWriter with multiple dart fields', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -116,6 +91,129 @@ void main() {
         converters: [],
       );
       WriterTestHelper.testDriftModelWriter(model, [], 'normal_fields');
+    });
+
+    test('DriftModelWriter with nullable field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'lastName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'nullable_field');
+    });
+
+    test('DriftModelWriter with specified databasePath', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            description: 'A good description',
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(
+          model, [], 'specified_database_path');
+    });
+
+    test('DriftModelWriter with ignored table field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'lastName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            ignoreForTable: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'with_ignore_fields');
+    });
+
+    test('DriftModelWriter with ignored table, but required field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'lastName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            ignoreForTable: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(
+          model, [], 'with_ignore_required_fields');
     });
   });
 }

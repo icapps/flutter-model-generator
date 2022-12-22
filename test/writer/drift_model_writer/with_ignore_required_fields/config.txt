@@ -3,3 +3,7 @@ Person:
   generate_table: true
   properties:
     firstName: string
+    lastName:
+      type: string
+      required: true
+      ignore_for_table: true

@@ -6,16 +6,20 @@ import 'package:model_generator_example/database/model_generator_example_databas
 class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
+  TextColumn get lastName => text().nullable()();
+
 }
 
 extension DbPersonExtension on DbPerson {
   Person get model => Person(
         firstName: firstName,
+        lastName: lastName,
       );
 }
 
 extension PersonExtension on Person {
   DbPerson get dbModel => DbPerson(
         firstName: firstName,
+        lastName: lastName,
       );
 }

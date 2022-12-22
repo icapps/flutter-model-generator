@@ -3,3 +3,4 @@ Person:
   generate_table: true
   properties:
     firstName: string
+    lastName: string?
