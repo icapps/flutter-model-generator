@@ -176,7 +176,12 @@ Project:
       type: double
       default_value: 0.2
 
-
-
-
-
+Book:
+  path: user/
+  generate_table: true
+  properties:
+    name: string
+    publishingDate: datetime
+    price: double?
+    pages: int?
+    isAvailable: bool

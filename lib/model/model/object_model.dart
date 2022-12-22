@@ -10,6 +10,7 @@ class ObjectModel extends Model {
   final bool? generateToString;
   final bool? staticCreate;
   final bool? disallowNullForDefaults;
+  final bool? generateTable;
 
   ObjectModel({
     required String name,
@@ -18,6 +19,7 @@ class ObjectModel extends Model {
     required this.generateForGenerics,
     required this.fields,
     required this.converters,
+    this.generateTable,
     List<String>? extraImports,
     List<String>? extraAnnotations,
     String? extendsModel,

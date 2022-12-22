@@ -1,6 +1,7 @@
 import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/util/generic_type.dart';
+import 'package:path/path.dart';
 
 import '../config/pubspec_config.dart';
 import '../config/yml_generator_config.dart';
@@ -23,11 +24,19 @@ class DriftModelWriter {
 
   String write() {
     final sb = StringBuffer();
+    final modelDirectory = [
+      pubspecConfig.projectName,
+      jsonModel.baseDirectory,
+      jsonModel.path,
+      '${jsonModel.fileName}.dart'
+    ].whereType<String>();
     final imports = <String>{}
       ..add("import 'package:drift/drift.dart';")
-      ..add("import 'package:${pubspecConfig.projectName}/${pubspecConfig.databasePath}';");
+      ..add(
+          "import 'package:${pubspecConfig.projectName}/${pubspecConfig.databasePath}';")
+      ..add("import 'package:${joinAll(modelDirectory)}';");
 
-    for (final element in (jsonModel.extraImports ?? pubspecConfig.extraImports)) {
+    for (final element in (jsonModel.extraImports ?? [])) {
       imports.add('import \'$element\';');
     }
     final extendsModel = jsonModel.extendsModel;
@@ -40,7 +49,8 @@ class DriftModelWriter {
 
     for (final field in jsonModel.fields) {
       final type = field.type;
-      if (!TypeChecker.isKnownDartType(type.name) && type.name != jsonModel.name) {
+      if (!TypeChecker.isKnownDartType(type.name) &&
+          type.name != jsonModel.name) {
         imports.addAll(_getImportsFromPath(type.name));
       }
       if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
@@ -79,10 +89,12 @@ class DriftModelWriter {
         sb.writeln('  ///$description');
       }
       if (key.type.driftColumn == null || key.type.driftType == null) {
-        throw Exception('No drift column or type for ${key.type.name} (${key.name})');
+        throw Exception(
+            'No drift column or type for ${key.type.name} (${key.name})');
       }
 
-      sb.write("  ${key.type.driftColumn} get ${key.name} => ${key.type.driftType}()");
+      sb.write(
+          "  ${key.type.driftColumn} get ${key.name} => ${key.type.driftType}()");
 
       if (!key.isRequired && !key.disallowNull) {
         sb.write('.nullable()');
@@ -96,7 +108,8 @@ class DriftModelWriter {
     sb
       ..writeln('}')
       ..writeln('')
-      ..writeln('extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {')
+      ..writeln(
+          'extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {')
       ..writeln('  ${jsonModel.name} get model => ${jsonModel.name}(');
 
     for (final key in jsonModel.fields) {
@@ -107,8 +120,10 @@ class DriftModelWriter {
       ..writeln('      );')
       ..writeln('}')
       ..writeln('')
-      ..writeln('extension ${modelNameUpperCamelCase}Extension on $modelNameUpperCamelCase {')
-      ..writeln('  Db$modelNameUpperCamelCase get dbModel => Db$modelNameUpperCamelCase(');
+      ..writeln(
+          'extension ${modelNameUpperCamelCase}Extension on $modelNameUpperCamelCase {')
+      ..writeln(
+          '  Db$modelNameUpperCamelCase get dbModel => Db$modelNameUpperCamelCase(');
 
     for (final key in jsonModel.fields) {
       sb.writeln('        ${key.name}: ${key.name},');
@@ -150,7 +165,8 @@ class DriftModelWriter {
         if (path.endsWith('.dart')) {
           imports.add("import '$pathWithPackage';");
         } else {
-          imports.add("import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
+          imports.add(
+              "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
         }
       }
     }

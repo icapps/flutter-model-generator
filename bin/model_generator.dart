@@ -7,8 +7,10 @@ import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
+import 'package:model_generator/model/model/model.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/util/list_extensions.dart';
+import 'package:model_generator/writer/drift_model_writer.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 import 'package:path/path.dart';
@@ -114,6 +116,15 @@ void writeToFiles(
         extendsModelfields,
         modelGeneratorConfig,
       ).write();
+      if (model.generateTable == true) {
+        final tableContent = DriftModelWriter(
+          pubspecConfig,
+          model,
+          extendsModelfields,
+          modelGeneratorConfig,
+        ).write();
+        _saveFile(model, tableContent, 'database');
+      }
     } else if (model is EnumModel) {
       content = EnumModelWriter(model).write();
     } else if (model is JsonConverterModel) {
@@ -125,18 +136,24 @@ void writeToFiles(
       throw Exception(
           'content is null for ${model.name}. File a bug report on github. This is not normal. https://github.com/icapps/flutter-model-generator/issues');
     }
-    File file;
-    if (model.path == null) {
-      file = File(join('lib', model.baseDirectory, '${model.fileName}.dart'));
-    } else {
-      file = File(join(
-          'lib', model.baseDirectory, model.path, '${model.fileName}.dart'));
-    }
-    if (!file.existsSync()) {
-      file.createSync(recursive: true);
-    }
-    file.writeAsStringSync(content);
+    _saveFile(model, content);
   }
+}
+
+void _saveFile(Model model, String content, [String? directory]) {
+  File file;
+  final path = [
+    'lib',
+    directory,
+    model.baseDirectory,
+    model.path,
+    '${model.fileName}.dart'
+  ].whereType<String>();
+  file = File(joinAll(path));
+  if (!file.existsSync()) {
+    file.createSync(recursive: true);
+  }
+  file.writeAsStringSync(content);
 }
 
 Future<void> generateJsonGeneratedModels({required bool useFvm}) async {

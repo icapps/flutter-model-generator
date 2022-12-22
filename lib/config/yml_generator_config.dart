@@ -61,6 +61,7 @@ class YmlGeneratorConfig {
       final dynamic properties = value['properties'];
       final YamlList? converters = value['converters'];
       final String? type = value['type'];
+      final bool? generateTable = value['generate_table'];
       if (type == 'custom') {
         models.add(CustomModel(
           name: key,
@@ -150,6 +151,7 @@ class YmlGeneratorConfig {
           baseDirectory: baseDirectory,
           generateForGenerics: generateForGenerics,
           fields: fields,
+          generateTable: generateTable,
           converters: mappedConverters ?? [],
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
