@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:model_generator_example/base_dir/path_to_my_model/person.dart';
 import 'package:model_generator_example/database/example.dart';
 
 @DataClassName('DbPerson')
