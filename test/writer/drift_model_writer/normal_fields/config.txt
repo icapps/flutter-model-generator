@@ -1,0 +1,9 @@
+Person:
+  path: user/person/
+  generate_table: true
+  properties:
+    firstName: string
+    boolField: bool
+    birthDay: datetime
+    doubleField: double
+    intField: int
