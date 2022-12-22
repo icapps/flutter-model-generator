@@ -1,14 +1,13 @@
+import 'package:model_generator/config/pubspec_config.dart';
+import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/field.dart';
+import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
+import 'package:model_generator/model/model/custom_from_to_json_model.dart';
+import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/case_util.dart';
 import 'package:model_generator/util/generic_type.dart';
-
-import '../config/pubspec_config.dart';
-import '../config/yml_generator_config.dart';
-import '../model/item_type/array_type.dart';
-import '../model/model/custom_from_to_json_model.dart';
-import '../model/model/object_model.dart';
-import '../util/case_util.dart';
-import '../util/type_checker.dart';
+import 'package:model_generator/util/type_checker.dart';
 
 class ObjectModelWriter {
   final PubspecConfig pubspecConfig;
