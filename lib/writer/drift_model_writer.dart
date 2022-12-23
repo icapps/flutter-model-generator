@@ -115,9 +115,10 @@ class DriftModelWriter {
         sb.write('.nullable()');
       }
       if (key.tableAutoIncrement) {
-        if (key.type is! IntegerType)
+        if (key.type is! IntegerType) {
           print(
               'WARNING: autoIncrement is only supported for integer types, but ${key.name} is ${key.type.name}. This may cause issues.');
+        }
         sb.write('.autoIncrement()');
       }
 
