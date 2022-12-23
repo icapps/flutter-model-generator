@@ -2,6 +2,7 @@ import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/array_type.dart';
+import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/util/case_util.dart';
@@ -10,7 +11,6 @@ import 'package:model_generator/util/type_checker.dart';
 import 'package:path/path.dart';
 
 // TODO: enums and create converters
-// TODO: autoIncrement
 // TODO: List<dartType> with fromDb.split(',').map((e) => utf8.decode(base64Decode(e))).toList();???
 
 class DriftModelWriter {
@@ -113,6 +113,12 @@ class DriftModelWriter {
 
       if (!key.isRequired && !key.disallowNull) {
         sb.write('.nullable()');
+      }
+      if (key.tableAutoIncrement) {
+        if (key.type is! IntegerType)
+          print(
+              'WARNING: autoIncrement is only supported for integer types, but ${key.name} is ${key.type.name}. This may cause issues.');
+        sb.write('.autoIncrement()');
       }
 
       sb

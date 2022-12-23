@@ -34,6 +34,39 @@ void main() {
       WriterTestHelper.testDriftModelWriter(model, [], 'normal');
     });
 
+    test('DriftModelWriter with auto increment field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'id',
+            type: IntegerType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            tableAutoIncrement: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'auto_increment');
+    });
+
     test('DriftModelWriter with multiple dart fields', () {
       final model = ObjectModel(
         name: 'Person',

@@ -192,6 +192,7 @@ class YmlGeneratorConfig {
           : disallowNullForDefaults;
       final ignoreForTable = property['ignore_for_table'] == true;
       final isTablePrimaryKey = property['is_table_primary_key'] == true;
+      final tableAutoIncrement = property['table_auto_increment'] == true;
       ItemType itemType;
 
       if (type == null) {
@@ -244,6 +245,7 @@ class YmlGeneratorConfig {
         disallowNull: disallowNull,
         ignoreForTable: ignoreForTable,
         isTablePrimaryKey: isTablePrimaryKey,
+        tableAutoIncrement: tableAutoIncrement,
       );
     } catch (e) {
       print('Something went wrong with $name:\n\n${e.toString()}');

@@ -1,0 +1,8 @@
+Person:
+  path: user/person/
+  generate_table: true
+  properties:
+    firstName: string
+    id:
+      type: int
+      table_auto_increment: true
