@@ -182,6 +182,74 @@ void main() {
       WriterTestHelper.testDriftModelWriter(model, [], 'with_ignore_fields');
     });
 
+    test('DriftModelWriter with single primaryKey field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isTablePrimaryKey: true,
+          ),
+          Field(
+            name: 'lastName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isTablePrimaryKey: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'primary_key_single');
+    });
+
+    test('DriftModelWriter with multiple primaryKey fields', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isTablePrimaryKey: true,
+          ),
+          Field(
+            name: 'lastName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isTablePrimaryKey: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'primary_key_multiple');
+    });
+
     test('DriftModelWriter with ignored table, but required field', () {
       final model = ObjectModel(
         name: 'Person',

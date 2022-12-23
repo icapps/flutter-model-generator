@@ -1,0 +1,28 @@
+import 'package:drift/drift.dart';
+import 'package:model_generator_example/base_dir/path_to_my_model/person.dart';
+import 'package:model_generator_example/database/model_generator_example_database.dart';
+
+@DataClassName('DbPerson')
+class DbPersonTable extends Table {
+  @override
+  Set<Column> get primaryKey => {firstName, lastName};
+
+  TextColumn get firstName => text()();
+
+  TextColumn get lastName => text().nullable()();
+
+}
+
+extension DbPersonExtension on DbPerson {
+  Person get model => Person(
+        firstName: firstName,
+        lastName: lastName,
+      );
+}
+
+extension PersonExtension on Person {
+  DbPerson get dbModel => DbPerson(
+        firstName: firstName,
+        lastName: lastName,
+      );
+}

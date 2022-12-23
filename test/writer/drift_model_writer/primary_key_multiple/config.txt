@@ -1,0 +1,12 @@
+Person:
+  path: user/person/
+  generate_table: true
+  properties:
+    firstName:
+      type: string
+      required: true
+      is_table_primary_key: true
+    lastName:
+      type: string
+      required: true
+      is_table_primary_key: true

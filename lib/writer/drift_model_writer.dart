@@ -10,7 +10,6 @@ import 'package:model_generator/util/type_checker.dart';
 import 'package:path/path.dart';
 
 // TODO: enums and create converters
-// TODO: primary key(s)
 // TODO: autoIncrement
 // TODO: List<dartType> with fromDb.split(',').map((e) => utf8.decode(base64Decode(e))).toList();???
 
@@ -90,6 +89,14 @@ class DriftModelWriter {
       final b2 = b.isRequired ? 1 : 0;
       return b2 - b1;
     }); // same order as object model writer
+
+    if (fields.any((element) => element.isTablePrimaryKey)) {
+      sb
+        ..writeln('  @override')
+        ..writeln(
+            '  Set<Column> get primaryKey => {${fields.where((element) => element.isTablePrimaryKey).map((e) => e.name).join(', ')}};')
+        ..writeln('');
+    }
 
     for (final key in fields) {
       final description = key.description;
