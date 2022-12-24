@@ -10,6 +10,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
     requiredKeys: const [
+      'id',
       'name',
       'publishingDate',
       'isAvailable',
@@ -18,6 +19,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
     ],
   );
   return Book(
+    id: json['id'] as int,
     name: json['name'] as String,
     publishingDate: DateTime.parse(json['publishingDate'] as String),
     isAvailable: json['isAvailable'] as bool,
@@ -35,6 +37,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$BookToJson(Book instance) {
   final val = <String, dynamic>{
+    'id': instance.id,
     'name': instance.name,
     'publishingDate': instance.publishingDate.toIso8601String(),
     'isAvailable': instance.isAvailable,

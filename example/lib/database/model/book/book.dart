@@ -6,6 +6,11 @@ import 'package:model_generator_example/model/user/person/person.dart';
 
 @DataClassName('DbBook')
 class DbBookTable extends Table {
+  @override
+  Set<Column> get primaryKey => {id};
+
+  IntColumn get id => integer()();
+
   TextColumn get name => text()();
 
   DateTimeColumn get publishingDate => dateTime()();
@@ -22,6 +27,7 @@ class DbBookTable extends Table {
 extension DbBookExtension on DbBook {
   Book getModel({required List<Person> authors, List<Person>? publishers}) =>
       Book(
+        id: id,
         name: name,
         publishingDate: publishingDate,
         isAvailable: isAvailable,
@@ -35,6 +41,7 @@ extension DbBookExtension on DbBook {
 
 extension BookExtension on Book {
   DbBook get dbModel => DbBook(
+        id: id,
         name: name,
         publishingDate: publishingDate,
         isAvailable: isAvailable,

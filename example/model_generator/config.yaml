@@ -180,6 +180,10 @@ Book:
   path: book/
   generate_table: true
   properties:
+    id:
+      type: int
+      required: true
+      is_table_primary_key: true
     name: string
     publishingDate: datetime
     price: double?

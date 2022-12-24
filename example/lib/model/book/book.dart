@@ -8,6 +8,8 @@ part 'book.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class Book {
+  @JsonKey(name: 'id', required: true, includeIfNull: false)
+  final int id;
   @JsonKey(name: 'name', required: true)
   final String name;
   @JsonKey(name: 'publishingDate', required: true)
@@ -26,6 +28,7 @@ class Book {
   final List<Person>? publishers;
 
   const Book({
+    required this.id,
     required this.name,
     required this.publishingDate,
     required this.isAvailable,
@@ -45,6 +48,7 @@ class Book {
       identical(this, other) ||
       other is Book &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           name == other.name &&
           publishingDate == other.publishingDate &&
           isAvailable == other.isAvailable &&
@@ -56,6 +60,7 @@ class Book {
 
   @override
   int get hashCode =>
+      id.hashCode ^
       name.hashCode ^
       publishingDate.hashCode ^
       isAvailable.hashCode ^
@@ -67,6 +72,7 @@ class Book {
 
   @override
   String toString() => 'Book{'
+      'id: $id, '
       'name: $name, '
       'publishingDate: $publishingDate, '
       'isAvailable: $isAvailable, '

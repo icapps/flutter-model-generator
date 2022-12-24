@@ -4,6 +4,7 @@ part of 'model_generator_example_database.dart';
 
 // ignore_for_file: type=lint
 class DbBook extends DataClass implements Insertable<DbBook> {
+  final int id;
   final String name;
   final DateTime publishingDate;
   final bool isAvailable;
@@ -11,7 +12,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   final double? price;
   final int? pages;
   const DbBook(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.publishingDate,
       required this.isAvailable,
       required this.category,
@@ -20,6 +22,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['publishing_date'] = Variable<DateTime>(publishingDate);
     map['is_available'] = Variable<bool>(isAvailable);
@@ -38,6 +41,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
 
   DbBookTableCompanion toCompanion(bool nullToAbsent) {
     return DbBookTableCompanion(
+      id: Value(id),
       name: Value(name),
       publishingDate: Value(publishingDate),
       isAvailable: Value(isAvailable),
@@ -53,6 +57,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DbBook(
+      id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       publishingDate: serializer.fromJson<DateTime>(json['publishingDate']),
       isAvailable: serializer.fromJson<bool>(json['isAvailable']),
@@ -65,6 +70,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'publishingDate': serializer.toJson<DateTime>(publishingDate),
       'isAvailable': serializer.toJson<bool>(isAvailable),
@@ -75,13 +81,15 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   }
 
   DbBook copyWith(
-          {String? name,
+          {int? id,
+          String? name,
           DateTime? publishingDate,
           bool? isAvailable,
           BookCategory? category,
           Value<double?> price = const Value.absent(),
           Value<int?> pages = const Value.absent()}) =>
       DbBook(
+        id: id ?? this.id,
         name: name ?? this.name,
         publishingDate: publishingDate ?? this.publishingDate,
         isAvailable: isAvailable ?? this.isAvailable,
@@ -92,6 +100,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   @override
   String toString() {
     return (StringBuffer('DbBook(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('publishingDate: $publishingDate, ')
           ..write('isAvailable: $isAvailable, ')
@@ -103,12 +112,13 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(name, publishingDate, isAvailable, category, price, pages);
+  int get hashCode => Object.hash(
+      id, name, publishingDate, isAvailable, category, price, pages);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DbBook &&
+          other.id == this.id &&
           other.name == this.name &&
           other.publishingDate == this.publishingDate &&
           other.isAvailable == this.isAvailable &&
@@ -118,6 +128,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
 }
 
 class DbBookTableCompanion extends UpdateCompanion<DbBook> {
+  final Value<int> id;
   final Value<String> name;
   final Value<DateTime> publishingDate;
   final Value<bool> isAvailable;
@@ -125,6 +136,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<double?> price;
   final Value<int?> pages;
   const DbBookTableCompanion({
+    this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.publishingDate = const Value.absent(),
     this.isAvailable = const Value.absent(),
@@ -133,6 +145,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.pages = const Value.absent(),
   });
   DbBookTableCompanion.insert({
+    this.id = const Value.absent(),
     required String name,
     required DateTime publishingDate,
     required bool isAvailable,
@@ -144,6 +157,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
         isAvailable = Value(isAvailable),
         category = Value(category);
   static Insertable<DbBook> custom({
+    Expression<int>? id,
     Expression<String>? name,
     Expression<DateTime>? publishingDate,
     Expression<bool>? isAvailable,
@@ -152,6 +166,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     Expression<int>? pages,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (publishingDate != null) 'publishing_date': publishingDate,
       if (isAvailable != null) 'is_available': isAvailable,
@@ -162,13 +177,15 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   }
 
   DbBookTableCompanion copyWith(
-      {Value<String>? name,
+      {Value<int>? id,
+      Value<String>? name,
       Value<DateTime>? publishingDate,
       Value<bool>? isAvailable,
       Value<BookCategory>? category,
       Value<double?>? price,
       Value<int?>? pages}) {
     return DbBookTableCompanion(
+      id: id ?? this.id,
       name: name ?? this.name,
       publishingDate: publishingDate ?? this.publishingDate,
       isAvailable: isAvailable ?? this.isAvailable,
@@ -181,6 +198,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
@@ -206,6 +226,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   @override
   String toString() {
     return (StringBuffer('DbBookTableCompanion(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('publishingDate: $publishingDate, ')
           ..write('isAvailable: $isAvailable, ')
@@ -223,6 +244,11 @@ class $DbBookTableTable extends DbBookTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $DbBookTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
@@ -265,7 +291,7 @@ class $DbBookTableTable extends DbBookTable
       type: DriftSqlType.int, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [name, publishingDate, isAvailable, category, price, pages];
+      [id, name, publishingDate, isAvailable, category, price, pages];
   @override
   String get aliasedName => _alias ?? 'db_book_table';
   @override
@@ -275,6 +301,9 @@ class $DbBookTableTable extends DbBookTable
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
@@ -310,11 +339,13 @@ class $DbBookTableTable extends DbBookTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   DbBook map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DbBook(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       publishingDate: attachedDatabase.typeMapping.read(
