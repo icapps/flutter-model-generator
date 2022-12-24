@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:model_generator_example/database/model/user/book.dart';
+import 'package:model_generator_example/database/model/book/book.dart';
 
 part 'model_generator_example_database.g.dart';
 

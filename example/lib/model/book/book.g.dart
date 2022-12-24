@@ -9,7 +9,13 @@ part of 'book.dart';
 Book _$BookFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name', 'publishingDate', 'isAvailable', 'authors'],
+    requiredKeys: const [
+      'name',
+      'publishingDate',
+      'isAvailable',
+      'authors',
+      'category'
+    ],
   );
   return Book(
     name: json['name'] as String,
@@ -18,6 +24,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
     authors: (json['authors'] as List<dynamic>)
         .map((e) => Person.fromJson(e as Map<String, dynamic>))
         .toList(),
+    category: $enumDecode(_$BookCategoryEnumMap, json['category']),
     price: (json['price'] as num?)?.toDouble(),
     pages: json['pages'] as int?,
     publishers: (json['publishers'] as List<dynamic>?)
@@ -32,6 +39,7 @@ Map<String, dynamic> _$BookToJson(Book instance) {
     'publishingDate': instance.publishingDate.toIso8601String(),
     'isAvailable': instance.isAvailable,
     'authors': instance.authors.map((e) => e.toJson()).toList(),
+    'category': _$BookCategoryEnumMap[instance.category]!,
     'price': instance.price,
     'pages': instance.pages,
   };
@@ -46,3 +54,9 @@ Map<String, dynamic> _$BookToJson(Book instance) {
       'publishers', instance.publishers?.map((e) => e.toJson()).toList());
   return val;
 }
+
+const _$BookCategoryEnumMap = {
+  BookCategory.UNKOWN: 'UNKOWN',
+  BookCategory.FICTION: 'FICTION',
+  BookCategory.FANTASY: 'FANTASY',
+};

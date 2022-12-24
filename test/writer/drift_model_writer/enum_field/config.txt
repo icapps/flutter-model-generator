@@ -1,0 +1,13 @@
+Person:
+  path: user/person/
+  generate_table: true
+  properties:
+    firstName: string
+    prefferedGender: Gender
+Gender:
+  path: user/person/
+  type: enum
+  properties:
+    MALE:
+    FEMALE:
+    X:

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/book/book_category.dart';
 import 'package:model_generator_example/model/user/person/person.dart';
 
 part 'book.g.dart';
@@ -15,6 +16,8 @@ class Book {
   final bool isAvailable;
   @JsonKey(name: 'authors', required: true, includeIfNull: false)
   final List<Person> authors;
+  @JsonKey(name: 'category', required: true)
+  final BookCategory category;
   @JsonKey(name: 'price')
   final double? price;
   @JsonKey(name: 'pages')
@@ -27,6 +30,7 @@ class Book {
     required this.publishingDate,
     required this.isAvailable,
     required this.authors,
+    required this.category,
     this.price,
     this.pages,
     this.publishers,
@@ -45,6 +49,7 @@ class Book {
           publishingDate == other.publishingDate &&
           isAvailable == other.isAvailable &&
           authors == other.authors &&
+          category == other.category &&
           price == other.price &&
           pages == other.pages &&
           publishers == other.publishers;
@@ -55,6 +60,7 @@ class Book {
       publishingDate.hashCode ^
       isAvailable.hashCode ^
       authors.hashCode ^
+      category.hashCode ^
       price.hashCode ^
       pages.hashCode ^
       publishers.hashCode;
@@ -65,6 +71,7 @@ class Book {
       'publishingDate: $publishingDate, '
       'isAvailable: $isAvailable, '
       'authors: $authors, '
+      'category: $category, '
       'price: $price, '
       'pages: $pages, '
       'publishers: $publishers'

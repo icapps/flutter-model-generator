@@ -7,12 +7,14 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   final String name;
   final DateTime publishingDate;
   final bool isAvailable;
+  final BookCategory category;
   final double? price;
   final int? pages;
   const DbBook(
       {required this.name,
       required this.publishingDate,
       required this.isAvailable,
+      required this.category,
       this.price,
       this.pages});
   @override
@@ -21,6 +23,10 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     map['name'] = Variable<String>(name);
     map['publishing_date'] = Variable<DateTime>(publishingDate);
     map['is_available'] = Variable<bool>(isAvailable);
+    {
+      final converter = $DbBookTableTable.$convertercategory;
+      map['category'] = Variable<String>(converter.toSql(category));
+    }
     if (!nullToAbsent || price != null) {
       map['price'] = Variable<double>(price);
     }
@@ -35,6 +41,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       name: Value(name),
       publishingDate: Value(publishingDate),
       isAvailable: Value(isAvailable),
+      category: Value(category),
       price:
           price == null && nullToAbsent ? const Value.absent() : Value(price),
       pages:
@@ -49,6 +56,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       name: serializer.fromJson<String>(json['name']),
       publishingDate: serializer.fromJson<DateTime>(json['publishingDate']),
       isAvailable: serializer.fromJson<bool>(json['isAvailable']),
+      category: serializer.fromJson<BookCategory>(json['category']),
       price: serializer.fromJson<double?>(json['price']),
       pages: serializer.fromJson<int?>(json['pages']),
     );
@@ -60,6 +68,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       'name': serializer.toJson<String>(name),
       'publishingDate': serializer.toJson<DateTime>(publishingDate),
       'isAvailable': serializer.toJson<bool>(isAvailable),
+      'category': serializer.toJson<BookCategory>(category),
       'price': serializer.toJson<double?>(price),
       'pages': serializer.toJson<int?>(pages),
     };
@@ -69,12 +78,14 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           {String? name,
           DateTime? publishingDate,
           bool? isAvailable,
+          BookCategory? category,
           Value<double?> price = const Value.absent(),
           Value<int?> pages = const Value.absent()}) =>
       DbBook(
         name: name ?? this.name,
         publishingDate: publishingDate ?? this.publishingDate,
         isAvailable: isAvailable ?? this.isAvailable,
+        category: category ?? this.category,
         price: price.present ? price.value : this.price,
         pages: pages.present ? pages.value : this.pages,
       );
@@ -84,6 +95,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           ..write('name: $name, ')
           ..write('publishingDate: $publishingDate, ')
           ..write('isAvailable: $isAvailable, ')
+          ..write('category: $category, ')
           ..write('price: $price, ')
           ..write('pages: $pages')
           ..write(')'))
@@ -92,7 +104,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
 
   @override
   int get hashCode =>
-      Object.hash(name, publishingDate, isAvailable, price, pages);
+      Object.hash(name, publishingDate, isAvailable, category, price, pages);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -100,6 +112,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           other.name == this.name &&
           other.publishingDate == this.publishingDate &&
           other.isAvailable == this.isAvailable &&
+          other.category == this.category &&
           other.price == this.price &&
           other.pages == this.pages);
 }
@@ -108,12 +121,14 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<String> name;
   final Value<DateTime> publishingDate;
   final Value<bool> isAvailable;
+  final Value<BookCategory> category;
   final Value<double?> price;
   final Value<int?> pages;
   const DbBookTableCompanion({
     this.name = const Value.absent(),
     this.publishingDate = const Value.absent(),
     this.isAvailable = const Value.absent(),
+    this.category = const Value.absent(),
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
   });
@@ -121,15 +136,18 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     required String name,
     required DateTime publishingDate,
     required bool isAvailable,
+    required BookCategory category,
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
   })  : name = Value(name),
         publishingDate = Value(publishingDate),
-        isAvailable = Value(isAvailable);
+        isAvailable = Value(isAvailable),
+        category = Value(category);
   static Insertable<DbBook> custom({
     Expression<String>? name,
     Expression<DateTime>? publishingDate,
     Expression<bool>? isAvailable,
+    Expression<String>? category,
     Expression<double>? price,
     Expression<int>? pages,
   }) {
@@ -137,6 +155,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       if (name != null) 'name': name,
       if (publishingDate != null) 'publishing_date': publishingDate,
       if (isAvailable != null) 'is_available': isAvailable,
+      if (category != null) 'category': category,
       if (price != null) 'price': price,
       if (pages != null) 'pages': pages,
     });
@@ -146,12 +165,14 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       {Value<String>? name,
       Value<DateTime>? publishingDate,
       Value<bool>? isAvailable,
+      Value<BookCategory>? category,
       Value<double?>? price,
       Value<int?>? pages}) {
     return DbBookTableCompanion(
       name: name ?? this.name,
       publishingDate: publishingDate ?? this.publishingDate,
       isAvailable: isAvailable ?? this.isAvailable,
+      category: category ?? this.category,
       price: price ?? this.price,
       pages: pages ?? this.pages,
     );
@@ -169,6 +190,10 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     if (isAvailable.present) {
       map['is_available'] = Variable<bool>(isAvailable.value);
     }
+    if (category.present) {
+      final converter = $DbBookTableTable.$convertercategory;
+      map['category'] = Variable<String>(converter.toSql(category.value));
+    }
     if (price.present) {
       map['price'] = Variable<double>(price.value);
     }
@@ -184,6 +209,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
           ..write('name: $name, ')
           ..write('publishingDate: $publishingDate, ')
           ..write('isAvailable: $isAvailable, ')
+          ..write('category: $category, ')
           ..write('price: $price, ')
           ..write('pages: $pages')
           ..write(')'))
@@ -220,6 +246,13 @@ class $DbBookTableTable extends DbBookTable
             SqlDialect.mysql: '',
             SqlDialect.postgres: '',
           }));
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumnWithTypeConverter<BookCategory, String> category =
+      GeneratedColumn<String>('category', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<BookCategory>($DbBookTableTable.$convertercategory);
   static const VerificationMeta _priceMeta = const VerificationMeta('price');
   @override
   late final GeneratedColumn<double> price = GeneratedColumn<double>(
@@ -232,7 +265,7 @@ class $DbBookTableTable extends DbBookTable
       type: DriftSqlType.int, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [name, publishingDate, isAvailable, price, pages];
+      [name, publishingDate, isAvailable, category, price, pages];
   @override
   String get aliasedName => _alias ?? 'db_book_table';
   @override
@@ -264,6 +297,7 @@ class $DbBookTableTable extends DbBookTable
     } else if (isInserting) {
       context.missing(_isAvailableMeta);
     }
+    context.handle(_categoryMeta, const VerificationResult.success());
     if (data.containsKey('price')) {
       context.handle(
           _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
@@ -287,6 +321,9 @@ class $DbBookTableTable extends DbBookTable
           DriftSqlType.dateTime, data['${effectivePrefix}publishing_date'])!,
       isAvailable: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_available'])!,
+      category: $DbBookTableTable.$convertercategory.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!),
       price: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}price']),
       pages: attachedDatabase.typeMapping
@@ -298,6 +335,9 @@ class $DbBookTableTable extends DbBookTable
   $DbBookTableTable createAlias(String alias) {
     return $DbBookTableTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<BookCategory, String> $convertercategory =
+      const BookCategoryConverter();
 }
 
 abstract class _$ModelGeneratorExampleDatabase extends GeneratedDatabase {

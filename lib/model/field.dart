@@ -20,6 +20,7 @@ class Field {
   final bool ignoreForTable;
   final bool isTablePrimaryKey;
   final bool tableAutoIncrement;
+  bool isEnum;
 
   bool get hasDefaultValue => defaultValue != null;
 
@@ -40,6 +41,7 @@ class Field {
     this.ignoreForTable = false,
     this.isTablePrimaryKey = false,
     this.tableAutoIncrement = false,
+    this.isEnum = false,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,
         name =

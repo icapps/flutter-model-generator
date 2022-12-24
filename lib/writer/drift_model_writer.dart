@@ -10,7 +10,6 @@ import 'package:model_generator/util/generic_type.dart';
 import 'package:model_generator/util/type_checker.dart';
 import 'package:path/path.dart';
 
-// TODO: enums and create converters
 // TODO: List<dartType> with fromDb.split(',').map((e) => utf8.decode(base64Decode(e))).toList();???
 
 class DriftModelWriter {
@@ -103,13 +102,17 @@ class DriftModelWriter {
       if (description != null) {
         sb.writeln('  ///$description');
       }
-      if (key.type.driftColumn == null || key.type.driftType == null) {
-        throw Exception(
-            'No drift column or type for ${key.type.name} (${key.name})');
+      if (key.isEnum) {
+        sb.write(
+            "  TextColumn get ${key.name} => text().map(const ${CaseUtil(key.type.name).upperCamelCase}Converter())");
+      } else {
+        if (key.type.driftColumn == null || key.type.driftType == null) {
+          throw Exception(
+              'No drift column or type for ${key.type.name} (${key.name})');
+        }
+        sb.write(
+            "  ${key.type.driftColumn} get ${key.name} => ${key.type.driftType}()");
       }
-
-      sb.write(
-          "  ${key.type.driftColumn} get ${key.name} => ${key.type.driftType}()");
 
       if (!key.isRequired && !key.disallowNull) {
         sb.write('.nullable()');
@@ -166,6 +169,29 @@ class DriftModelWriter {
     sb
       ..writeln('      );')
       ..writeln('}');
+
+    for (final field in fields.where((e) => e.isEnum)) {
+      final uppercaseFieldName = CaseUtil(field.type.name).upperCamelCase;
+      sb
+        ..writeln()
+        ..writeln(
+            """class ${uppercaseFieldName}Converter extends TypeConverter<$uppercaseFieldName, String> {
+  const ${uppercaseFieldName}Converter();
+
+  @override
+  $uppercaseFieldName fromSql(String fromDb) {
+    for (final value in $uppercaseFieldName.values) {
+      if (value.toString() == fromDb) return value;
+    }
+    return $uppercaseFieldName.values.first;
+  }
+
+  @override
+  String toSql($uppercaseFieldName value) {
+    return value.toString();
+  }
+}""");
+    }
 
     return sb.toString();
   }

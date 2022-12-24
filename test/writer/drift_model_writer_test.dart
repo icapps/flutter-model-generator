@@ -3,6 +3,7 @@ import 'package:model_generator/model/item_type/boolean_type.dart';
 import 'package:model_generator/model/item_type/date_time_type.dart';
 import 'package:model_generator/model/item_type/double_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
+import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:test/test.dart';
@@ -315,6 +316,39 @@ void main() {
       );
       WriterTestHelper.testDriftModelWriter(
           model, [], 'with_ignore_required_fields');
+    });
+
+    test('DriftModelWriter with enum field that creates a converter', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'prefferedGender',
+            type: ObjectType('Gender'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isEnum: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'enum_field');
     });
   });
 }

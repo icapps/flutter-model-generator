@@ -177,7 +177,7 @@ Project:
       default_value: 0.2
 
 Book:
-  path: user/
+  path: book/
   generate_table: true
   properties:
     name: string
@@ -197,3 +197,12 @@ Book:
       ignore_for_table: true
       items:
         type: Person
+    category: BookCategory
+
+BookCategory:
+  path: book/
+  type: enum
+  properties:
+    UNKOWN:
+    FICTION:
+    FANTASY:
