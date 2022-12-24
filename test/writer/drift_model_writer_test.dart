@@ -350,5 +350,41 @@ void main() {
       );
       WriterTestHelper.testDriftModelWriter(model, [], 'enum_field');
     });
+
+    test(
+        'DriftModelWriter with ignored enum field that doesn\'t creates a converter',
+        () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'prefferedGender',
+            type: ObjectType('Gender'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isEnum: true,
+            ignoreForTable: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'enum_field_ignored');
+    });
   });
 }
