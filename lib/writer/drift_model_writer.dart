@@ -10,6 +10,8 @@ import 'package:model_generator/util/generic_type.dart';
 import 'package:model_generator/util/type_checker.dart';
 import 'package:path/path.dart';
 
+// TODO: Check for multiple enum fields with the same type
+
 class DriftModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
