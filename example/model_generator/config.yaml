@@ -194,7 +194,6 @@ Book:
     publishers:
       type: array
       required: false # this is NOT required, so will be added to the getModel method as optional
-      ignore_for_table: true
       items:
         type: Person
     category: BookCategory

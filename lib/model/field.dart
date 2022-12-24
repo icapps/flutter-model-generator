@@ -17,9 +17,9 @@ class Field {
   final bool ignoreEquality;
   final String? defaultValue;
   final bool disallowNull;
-  final bool ignoreForTable;
   final bool isTablePrimaryKey;
   final bool tableAutoIncrement;
+  bool ignoreForTable;
   bool isEnum;
 
   bool get hasDefaultValue => defaultValue != null;
