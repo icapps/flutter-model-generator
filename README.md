@@ -42,6 +42,124 @@ model_generator:
 this will write all your models to /lib/custom_models
 `path` will be added after the `base_directory`
 
+Example of the `model_generator/config.yaml` file:
+
+```yaml
+UserModel:
+  path: webservice/user
+  converters:
+    - DateTimeConverter
+  properties:
+    id:
+      type: int
+    name:
+      type: String
+    salary:
+      type: double
+    something:
+      type: dynamic
+    isLoggedIn:
+      type: bool
+      default_value: false
+    roles:
+      type: array
+      items:
+        type: String
+    birthday:
+      type: date
+    addresses:
+      type: array
+      items:
+        type: Address
+    idToAddress:
+      type: map
+      items:
+        key: String
+        value: Address
+    securityRole:
+      type: String
+      jsonKey: securityIndicator
+    dynamicField:
+      type: dynamic
+    includeIfNullField:
+      include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
+      type: String
+    ignoreField:
+      ignore: false #this field will not be final, and not be used in the json parsing
+      type: String
+    mutableField:
+      non_final: true #Field will not be marked final
+      type: String
+    changedAt:
+      type: datetime
+    idToAddressList:
+      type: map
+      items:
+        key: String
+        value: List<Address>
+
+Address:
+  path: webservice/user #Can also be package:... and/or end with the actual file (.dart)
+  properties:
+    street:
+      type: String
+
+#Custom base_directory
+CustomBaseDirectoryObject:
+  base_directory: custom_models
+  path: webservice
+  properties:
+    path:
+      type: String
+
+#Custom json converter. Use with converters property on models
+DateTimeConverter:
+  type: json_converter
+  path: converter/
+
+Book:
+  path: book/
+  generate_table: true # A Drift table will be generated
+  properties:
+    id:
+      type: int
+      required: true
+      is_table_primary_key: true # This is the primary key, this can be set on any number of fields
+    name: string
+    publishingDate: datetime
+    price: double? # nullable fields will generate nullable database columns
+    pages: int?
+    isAvailable: bool
+    authors:
+      type: array
+      required: true # this is required, so will be added to the getModel method as required
+      ignore_for_table: true # You can specify whether a field is added to the table or not. If it is not added, you can still specify it in the getModel method to convert between DB model and generated model
+      items:
+        type: Person
+    publishers:
+      type: array # Arrays will not be added to the table, but specified in the getModel method. You should add another table for them (manually or generated)
+      required: false # this is NOT required, so will be added to the getModel method as optional
+      items:
+        type: Person
+    category: BookCategory # Enums can be added and will be converted to a text and back
+    secondCategory: BookCategory?
+
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName: string
+
+BookCategory:
+  path: book/
+  type: enum
+  properties:
+    UNKOWN:
+    FICTION:
+    FANTASY:
+```
+
+
 ## FVM support
 
 If you are using fvm for managing your flutter version. You can add an option to the model generator as well to run with fvm. add an option `use_fvm` and set it to true. (by
@@ -278,85 +396,6 @@ array
 map
 ```
 
-## Default setup
-
-Example of the `model_generator/config.yaml` file
-
-```yaml
-UserModel:
-  path: webservice/user
-  converters:
-    - DateTimeConverter
-  properties:
-    id:
-      type: int
-    name:
-      type: String
-    salary:
-      type: double
-    something:
-      type: dynamic
-    isLoggedIn:
-      type: bool
-      default_value: false
-    roles:
-      type: array
-      items:
-        type: String
-    birthday:
-      type: date
-    addresses:
-      type: array
-      items:
-        type: Address
-    idToAddress:
-      type: map
-      items:
-        key: String
-        value: Address
-    securityRole:
-      type: String
-      jsonKey: securityIndicator
-    dynamicField:
-      type: dynamic
-    includeIfNullField:
-      include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
-      type: String
-    ignoreField:
-      ignore: false #this field will not be final, and not be used in the json parsing
-      type: String
-    mutableField:
-      non_final: true #Field will not be marked final
-      type: String
-    changedAt:
-      type: datetime
-    idToAddressList:
-      type: map
-      items:
-        key: String
-        value: List<Address>
-
-Address:
-  path: webservice/user #Can also be package:... and/or end with the actual file (.dart)
-  properties:
-    street:
-      type: String
-
-#Custom base_directory
-CustomBaseDirectoryObject:
-  base_directory: custom_models
-  path: webservice
-  properties:
-    path:
-      type: String
-
-#Custom json converter. Use with converters property on models
-DateTimeConverter:
-  type: json_converter
-  path: converter/
-
-```
-
 ## Inline types (since 6.0.0)
 
 In some cases, writing the full specification for simple fields is very verbose. Since 6.0.0 it is possible to write simple fields inline, without nesting below the field name:
@@ -581,4 +620,130 @@ generate these for you by setting `retrofit_compute: true` in the pubspec.yaml f
 ```yaml
 model_generator:
   retrofit_compute: true
+```
+
+## Drift table generation support
+
+By adding `generate_table: true`, a drift table will be generated aswel as the regular model. It will contain all fields and have extensions made to convert between DB and Generated model. In case a field shouldn't be added to the database, you can specify `ignore_for_table: true` on the field. This will not add the field to the table, but will still be added to the getModel method. If the field is required, it will also be required in the getModel method. Otherwise it will be optional.
+
+You can specify a primary key by setting `is_table_primary_key: true` on the field. This can be set on any number of fields. You can also specify a field as autoincrement by setting `table_auto_increment: true` on the field. This can only be set on one field and no primary key should be specified (this will not throw an error in the generator, but will throw an error when running the generated code).
+
+You still need to manually add the table to the database and add the migrations (if applicable). See example/lib/database/model_generator_example_database.dart for an example.
+
+```yaml
+Book:
+  path: book/
+  generate_table: true # A Drift table will be generated
+  properties:
+    id:
+      type: int
+      required: true
+      is_table_primary_key: true # This is the primary key, this can be set on any number of fields
+    name: string
+    publishingDate: datetime
+    price: double? # nullable fields will generate nullable database columns
+    pages: int?
+    isAvailable: bool
+    authors:
+      type: array
+      required: true # this is required, so will be added to the getModel method as required
+      ignore_for_table: true # You can specify whether a field is added to the table or not. If it is not added, you can still specify it in the getModel method to convert between DB model and generated model
+      items:
+        type: Person
+    publishers:
+      type: array # Arrays will not be added to the table, but specified in the getModel method. You should add another table for them (manually or generated)
+      required: false # this is NOT required, so will be added to the getModel method as optional
+      items:
+        type: Person
+    category: BookCategory # Enums can be added and will be converted to a text and back
+    secondCategory: BookCategory?
+
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName: string
+
+BookCategory:
+  path: book/
+  type: enum
+  properties:
+    UNKOWN:
+    FICTION:
+    FANTASY:
+```
+
+The above yaml will result in the following dart code:
+
+```dart
+@DataClassName('DbBook')
+class DbBookTable extends Table {
+  @override
+  Set<Column> get primaryKey => {id};
+
+  IntColumn get id => integer()();
+
+  TextColumn get name => text()();
+
+  DateTimeColumn get publishingDate => dateTime()();
+
+  BoolColumn get isAvailable => boolean()();
+
+  TextColumn get category =>
+      text().map(const BookTableBookCategoryConverter())();
+
+  RealColumn get price => real().nullable()();
+
+  IntColumn get pages => integer().nullable()();
+
+  TextColumn get secondCategory =>
+      text().map(const BookTableBookCategoryConverter()).nullable()();
+}
+
+extension DbBookExtension on DbBook {
+  Book getModel({required List<Person> authors, List<Person>? publishers}) =>
+      Book(
+        id: id,
+        name: name,
+        publishingDate: publishingDate,
+        isAvailable: isAvailable,
+        authors: authors,
+        category: category,
+        price: price,
+        pages: pages,
+        publishers: publishers,
+        secondCategory: secondCategory,
+      );
+}
+
+extension BookExtension on Book {
+  DbBook get dbModel => DbBook(
+        id: id,
+        name: name,
+        publishingDate: publishingDate,
+        isAvailable: isAvailable,
+        category: category,
+        price: price,
+        pages: pages,
+        secondCategory: secondCategory,
+      );
+}
+
+class BookTableBookCategoryConverter
+    extends TypeConverter<BookCategory, String> {
+  const BookTableBookCategoryConverter();
+
+  @override
+  BookCategory fromSql(String fromDb) {
+    for (final value in BookCategory.values) {
+      if (value.toString() == fromDb) return value;
+    }
+    return BookCategory.values.first;
+  }
+
+  @override
+  String toSql(BookCategory value) {
+    return value.toString();
+  }
+}
 ```

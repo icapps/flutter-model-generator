@@ -1,4 +1,7 @@
 # Changelog
+## [7.0.0] - 2022-12-25
+- Added support for generating drift tables by adding `generate_table: true` on model definition
+
 ## [6.1.0] - 2022-10-14
 - Support passing a directory instead of a file. All .yaml files inside this folder (recursively) will be used to build the final model data.
 
