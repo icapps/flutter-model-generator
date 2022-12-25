@@ -26,6 +26,8 @@ class Book {
   final int? pages;
   @JsonKey(name: 'publishers', includeIfNull: false)
   final List<Person>? publishers;
+  @JsonKey(name: 'secondCategory')
+  final BookCategory? secondCategory;
 
   const Book({
     required this.id,
@@ -37,6 +39,7 @@ class Book {
     this.price,
     this.pages,
     this.publishers,
+    this.secondCategory,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);
@@ -56,7 +59,8 @@ class Book {
           category == other.category &&
           price == other.price &&
           pages == other.pages &&
-          publishers == other.publishers;
+          publishers == other.publishers &&
+          secondCategory == other.secondCategory;
 
   @override
   int get hashCode =>
@@ -68,7 +72,8 @@ class Book {
       category.hashCode ^
       price.hashCode ^
       pages.hashCode ^
-      publishers.hashCode;
+      publishers.hashCode ^
+      secondCategory.hashCode;
 
   @override
   String toString() => 'Book{'
@@ -80,7 +85,8 @@ class Book {
       'category: $category, '
       'price: $price, '
       'pages: $pages, '
-      'publishers: $publishers'
+      'publishers: $publishers, '
+      'secondCategory: $secondCategory'
       '}';
 }
 

@@ -11,6 +11,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   final BookCategory category;
   final double? price;
   final int? pages;
+  final BookCategory? secondCategory;
   const DbBook(
       {required this.id,
       required this.name,
@@ -18,7 +19,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       required this.isAvailable,
       required this.category,
       this.price,
-      this.pages});
+      this.pages,
+      this.secondCategory});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -36,6 +38,11 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     if (!nullToAbsent || pages != null) {
       map['pages'] = Variable<int>(pages);
     }
+    if (!nullToAbsent || secondCategory != null) {
+      final converter = $DbBookTableTable.$convertersecondCategoryn;
+      map['second_category'] =
+          Variable<String>(converter.toSql(secondCategory));
+    }
     return map;
   }
 
@@ -50,6 +57,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           price == null && nullToAbsent ? const Value.absent() : Value(price),
       pages:
           pages == null && nullToAbsent ? const Value.absent() : Value(pages),
+      secondCategory: secondCategory == null && nullToAbsent
+          ? const Value.absent()
+          : Value(secondCategory),
     );
   }
 
@@ -64,6 +74,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       category: serializer.fromJson<BookCategory>(json['category']),
       price: serializer.fromJson<double?>(json['price']),
       pages: serializer.fromJson<int?>(json['pages']),
+      secondCategory:
+          serializer.fromJson<BookCategory?>(json['secondCategory']),
     );
   }
   @override
@@ -77,6 +89,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       'category': serializer.toJson<BookCategory>(category),
       'price': serializer.toJson<double?>(price),
       'pages': serializer.toJson<int?>(pages),
+      'secondCategory': serializer.toJson<BookCategory?>(secondCategory),
     };
   }
 
@@ -87,7 +100,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           bool? isAvailable,
           BookCategory? category,
           Value<double?> price = const Value.absent(),
-          Value<int?> pages = const Value.absent()}) =>
+          Value<int?> pages = const Value.absent(),
+          Value<BookCategory?> secondCategory = const Value.absent()}) =>
       DbBook(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -96,6 +110,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
         category: category ?? this.category,
         price: price.present ? price.value : this.price,
         pages: pages.present ? pages.value : this.pages,
+        secondCategory:
+            secondCategory.present ? secondCategory.value : this.secondCategory,
       );
   @override
   String toString() {
@@ -106,14 +122,15 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           ..write('isAvailable: $isAvailable, ')
           ..write('category: $category, ')
           ..write('price: $price, ')
-          ..write('pages: $pages')
+          ..write('pages: $pages, ')
+          ..write('secondCategory: $secondCategory')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, name, publishingDate, isAvailable, category, price, pages);
+  int get hashCode => Object.hash(id, name, publishingDate, isAvailable,
+      category, price, pages, secondCategory);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -124,7 +141,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           other.isAvailable == this.isAvailable &&
           other.category == this.category &&
           other.price == this.price &&
-          other.pages == this.pages);
+          other.pages == this.pages &&
+          other.secondCategory == this.secondCategory);
 }
 
 class DbBookTableCompanion extends UpdateCompanion<DbBook> {
@@ -135,6 +153,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<BookCategory> category;
   final Value<double?> price;
   final Value<int?> pages;
+  final Value<BookCategory?> secondCategory;
   const DbBookTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -143,6 +162,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.category = const Value.absent(),
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
+    this.secondCategory = const Value.absent(),
   });
   DbBookTableCompanion.insert({
     this.id = const Value.absent(),
@@ -152,6 +172,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     required BookCategory category,
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
+    this.secondCategory = const Value.absent(),
   })  : name = Value(name),
         publishingDate = Value(publishingDate),
         isAvailable = Value(isAvailable),
@@ -164,6 +185,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     Expression<String>? category,
     Expression<double>? price,
     Expression<int>? pages,
+    Expression<String>? secondCategory,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -173,6 +195,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       if (category != null) 'category': category,
       if (price != null) 'price': price,
       if (pages != null) 'pages': pages,
+      if (secondCategory != null) 'second_category': secondCategory,
     });
   }
 
@@ -183,7 +206,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       Value<bool>? isAvailable,
       Value<BookCategory>? category,
       Value<double?>? price,
-      Value<int?>? pages}) {
+      Value<int?>? pages,
+      Value<BookCategory?>? secondCategory}) {
     return DbBookTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -192,6 +216,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       category: category ?? this.category,
       price: price ?? this.price,
       pages: pages ?? this.pages,
+      secondCategory: secondCategory ?? this.secondCategory,
     );
   }
 
@@ -220,6 +245,11 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     if (pages.present) {
       map['pages'] = Variable<int>(pages.value);
     }
+    if (secondCategory.present) {
+      final converter = $DbBookTableTable.$convertersecondCategoryn;
+      map['second_category'] =
+          Variable<String>(converter.toSql(secondCategory.value));
+    }
     return map;
   }
 
@@ -232,7 +262,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
           ..write('isAvailable: $isAvailable, ')
           ..write('category: $category, ')
           ..write('price: $price, ')
-          ..write('pages: $pages')
+          ..write('pages: $pages, ')
+          ..write('secondCategory: $secondCategory')
           ..write(')'))
         .toString();
   }
@@ -289,9 +320,26 @@ class $DbBookTableTable extends DbBookTable
   late final GeneratedColumn<int> pages = GeneratedColumn<int>(
       'pages', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _secondCategoryMeta =
+      const VerificationMeta('secondCategory');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, publishingDate, isAvailable, category, price, pages];
+  late final GeneratedColumnWithTypeConverter<BookCategory?, String>
+      secondCategory = GeneratedColumn<String>(
+              'second_category', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<BookCategory?>(
+              $DbBookTableTable.$convertersecondCategoryn);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        name,
+        publishingDate,
+        isAvailable,
+        category,
+        price,
+        pages,
+        secondCategory
+      ];
   @override
   String get aliasedName => _alias ?? 'db_book_table';
   @override
@@ -335,6 +383,7 @@ class $DbBookTableTable extends DbBookTable
       context.handle(
           _pagesMeta, pages.isAcceptableOrUnknown(data['pages']!, _pagesMeta));
     }
+    context.handle(_secondCategoryMeta, const VerificationResult.success());
     return context;
   }
 
@@ -359,6 +408,9 @@ class $DbBookTableTable extends DbBookTable
           .read(DriftSqlType.double, data['${effectivePrefix}price']),
       pages: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}pages']),
+      secondCategory: $DbBookTableTable.$convertersecondCategoryn.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}second_category'])),
     );
   }
 
@@ -368,7 +420,11 @@ class $DbBookTableTable extends DbBookTable
   }
 
   static TypeConverter<BookCategory, String> $convertercategory =
-      const BookCategoryConverter();
+      const BookTableBookCategoryConverter();
+  static TypeConverter<BookCategory, String> $convertersecondCategory =
+      const BookTableBookCategoryConverter();
+  static TypeConverter<BookCategory?, String?> $convertersecondCategoryn =
+      NullAwareTypeConverter.wrap($convertersecondCategory);
 }
 
 abstract class _$ModelGeneratorExampleDatabase extends GeneratedDatabase {

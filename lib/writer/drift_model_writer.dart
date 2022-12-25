@@ -10,8 +10,6 @@ import 'package:model_generator/util/generic_type.dart';
 import 'package:model_generator/util/type_checker.dart';
 import 'package:path/path.dart';
 
-// TODO: Check for multiple enum fields with the same type
-
 class DriftModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
@@ -112,7 +110,7 @@ class DriftModelWriter {
       }
       if (field.isEnum) {
         sb.write(
-            "  TextColumn get ${field.name} => text().map(const ${CaseUtil(field.type.name).upperCamelCase}Converter())");
+            "  TextColumn get ${field.name} => text().map(const ${modelNameUpperCamelCase}Table${CaseUtil(field.type.name).upperCamelCase}Converter())");
       } else {
         if (field.type.driftColumn == null || field.type.driftType == null) {
           throw Exception(
@@ -178,13 +176,14 @@ class DriftModelWriter {
       ..writeln('      );')
       ..writeln('}');
 
-    for (final field in fields.where((e) => e.isEnum)) {
-      final uppercaseFieldName = CaseUtil(field.type.name).upperCamelCase;
+    for (final enumType
+        in fields.where((e) => e.isEnum).map((e) => e.type.name).toSet()) {
+      final uppercaseFieldName = CaseUtil(enumType).upperCamelCase;
       sb
         ..writeln()
         ..writeln(
-            """class ${uppercaseFieldName}Converter extends TypeConverter<$uppercaseFieldName, String> {
-  const ${uppercaseFieldName}Converter();
+            """class ${modelNameUpperCamelCase}Table${uppercaseFieldName}Converter extends TypeConverter<$uppercaseFieldName, String> {
+  const ${modelNameUpperCamelCase}Table${uppercaseFieldName}Converter();
 
   @override
   $uppercaseFieldName fromSql(String fromDb) {

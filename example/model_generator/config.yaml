@@ -201,6 +201,7 @@ Book:
       items:
         type: Person
     category: BookCategory
+    secondCategory: BookCategory?
 
 BookCategory:
   path: book/

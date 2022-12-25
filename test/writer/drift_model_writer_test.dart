@@ -351,6 +351,50 @@ void main() {
       WriterTestHelper.testDriftModelWriter(model, [], 'enum_field');
     });
 
+    test('DriftModelWriter with two enum fields that creates one converter',
+        () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+          Field(
+            name: 'prefferedGender',
+            type: ObjectType('Gender'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isEnum: true,
+          ),
+          Field(
+            name: 'birthGender',
+            type: ObjectType('Gender'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            isEnum: true,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testDriftModelWriter(model, [], 'enum_field_twice');
+    });
+
     test(
         'DriftModelWriter with ignored enum field that doesn\'t creates a converter',
         () {

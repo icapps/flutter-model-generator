@@ -17,11 +17,15 @@ class DbBookTable extends Table {
 
   BoolColumn get isAvailable => boolean()();
 
-  TextColumn get category => text().map(const BookCategoryConverter())();
+  TextColumn get category =>
+      text().map(const BookTableBookCategoryConverter())();
 
   RealColumn get price => real().nullable()();
 
   IntColumn get pages => integer().nullable()();
+
+  TextColumn get secondCategory =>
+      text().map(const BookTableBookCategoryConverter()).nullable()();
 }
 
 extension DbBookExtension on DbBook {
@@ -36,6 +40,7 @@ extension DbBookExtension on DbBook {
         price: price,
         pages: pages,
         publishers: publishers,
+        secondCategory: secondCategory,
       );
 }
 
@@ -48,11 +53,13 @@ extension BookExtension on Book {
         category: category,
         price: price,
         pages: pages,
+        secondCategory: secondCategory,
       );
 }
 
-class BookCategoryConverter extends TypeConverter<BookCategory, String> {
-  const BookCategoryConverter();
+class BookTableBookCategoryConverter
+    extends TypeConverter<BookCategory, String> {
+  const BookTableBookCategoryConverter();
 
   @override
   BookCategory fromSql(String fromDb) {
