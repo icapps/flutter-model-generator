@@ -1,7 +1,7 @@
 Person:
   path: user/person/
   type: object
-  generate_table: true
+  generate_drift_table: true
   properties:
     firstName:
       description: A good description

@@ -6,20 +6,21 @@ import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/util/case_util.dart';
-import 'package:model_generator/util/generic_type.dart';
-import 'package:model_generator/util/type_checker.dart';
+import 'package:model_generator/util/model_helper.dart';
 import 'package:path/path.dart';
 
 class DriftModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
   final List<Field> extendsFields;
+  final List<Field> enumFields;
   final YmlGeneratorConfig yamlConfig;
 
   const DriftModelWriter(
     this.pubspecConfig,
     this.jsonModel,
     this.extendsFields,
+    this.enumFields,
     this.yamlConfig,
   );
 
@@ -31,43 +32,19 @@ class DriftModelWriter {
       jsonModel.path,
       '${jsonModel.fileName}.dart'
     ].whereType<String>();
-    final imports = <String>{}
-      ..add("import 'package:drift/drift.dart';")
-      ..add(
-          "import 'package:${pubspecConfig.projectName}/${pubspecConfig.databasePath}';")
-      ..add("import 'package:${joinAll(modelDirectory)}';");
 
-    for (final element in (jsonModel.extraImports ?? [])) {
-      imports.add('import \'$element\';');
-    }
-    final extendsModel = jsonModel.extendsModel;
-
-    if (extendsModel != null) {
-      if (!TypeChecker.isKnownDartType(extendsModel)) {
-        imports.addAll(_getImportsFromPath(extendsModel));
-      }
-    }
-
-    for (final field in jsonModel.fields) {
-      final type = field.type;
-      if (!TypeChecker.isKnownDartType(type.name) &&
-          type.name != jsonModel.name) {
-        imports.addAll(_getImportsFromPath(type.name));
-      }
-      if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
-        imports.addAll(_getImportsFromPath(type.valueName));
-      }
-    }
-    for (final field in extendsFields) {
-      imports.addAll(_getImportsFromField(field));
-    }
-
-    for (final converter in jsonModel.converters) {
-      imports.addAll(_getImportsFromPath(converter));
-    }
-    (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
-
-    sb.writeln();
+    ModelHelper.writeImports(
+      initialImports: {
+        "import 'package:drift/drift.dart';",
+        "import 'package:${pubspecConfig.projectName}/${pubspecConfig.databasePath}';",
+        "import 'package:${joinAll(modelDirectory)}';",
+      },
+      jsonModel: jsonModel,
+      pubspecConfig: pubspecConfig,
+      yamlConfig: yamlConfig,
+      extendsFields: extendsFields,
+      sb: sb,
+    );
 
     final modelNameUpperCamelCase = CaseUtil(jsonModel.name).upperCamelCase;
 
@@ -81,9 +58,8 @@ class DriftModelWriter {
     for (final field in jsonModel.fields.where((element) =>
         !element.ignoreForTable &&
         (element.type is ArrayType || element.type is MapType))) {
-      print(
-          '[WARNING] ${field.name} is an array or map. This is not supported in tables atm and will be ignored.');
-      field.ignoreForTable = true;
+      throw Exception(
+          '[ERROR] ${field.name} is an array or map. Ignore this field by adding ignore_for_table: true');
     }
 
     final fields =
@@ -108,7 +84,7 @@ class DriftModelWriter {
       if (description != null) {
         sb.writeln('  ///$description');
       }
-      if (field.isEnum) {
+      if (enumFields.contains(field)) {
         sb.write(
             "  TextColumn get ${field.name} => text().map(const ${modelNameUpperCamelCase}Table${CaseUtil(field.type.name).upperCamelCase}Converter())");
       } else {
@@ -147,7 +123,7 @@ class DriftModelWriter {
           jsonModel.fields.where((element) => element.ignoreForTable).toList();
       final ignoredFieldsString = ignoredFields
           .map((e) =>
-              '${e.isRequired ? 'required ' : ''}${_getKeyType(e)} ${e.name}')
+              '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}')
           .join(', ');
       sb.writeln(
           '  ${jsonModel.name} getModel({$ignoredFieldsString}) => ${jsonModel.name}(');
@@ -176,8 +152,10 @@ class DriftModelWriter {
       ..writeln('      );')
       ..writeln('}');
 
-    for (final enumType
-        in fields.where((e) => e.isEnum).map((e) => e.type.name).toSet()) {
+    for (final enumType in enumFields
+        .where((element) => !element.ignoreForTable)
+        .map((e) => e.type.name)
+        .toSet()) {
       final uppercaseFieldName = CaseUtil(enumType).upperCamelCase;
       sb
         ..writeln()
@@ -201,55 +179,5 @@ class DriftModelWriter {
     }
 
     return sb.toString();
-  }
-
-  String _getKeyType(Field field) {
-    final nullableFlag =
-        field.isRequired || field.type.name == 'dynamic' ? '' : '?';
-    final keyType = field.type;
-    if (keyType is ArrayType) {
-      return 'List<${keyType.name}>$nullableFlag';
-    } else if (keyType is MapType) {
-      return 'Map<${keyType.name}, ${keyType.valueName}>$nullableFlag';
-    } else {
-      return '${keyType.name}$nullableFlag';
-    }
-  }
-
-  Iterable<String> _getImportsFromField(Field field) {
-    final imports = <String>{};
-    final type = field.type;
-    if (!TypeChecker.isKnownDartType(type.name)) {
-      imports.addAll(_getImportsFromPath(type.name));
-    }
-    if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
-      imports.addAll(_getImportsFromPath(type.valueName));
-    }
-    return imports;
-  }
-
-  Iterable<String> _getImportsFromPath(String name) {
-    final imports = <String>{};
-    for (final leaf in DartType(name).leaves) {
-      final projectName = pubspecConfig.projectName;
-      final reCaseFieldName = CaseUtil(leaf);
-      final paths = yamlConfig.getPathsForName(pubspecConfig, leaf);
-      for (final path in paths) {
-        String pathWithPackage;
-        if (path.startsWith('package:')) {
-          pathWithPackage = path;
-        } else {
-          pathWithPackage = 'package:$projectName/$path';
-        }
-
-        if (path.endsWith('.dart')) {
-          imports.add("import '$pathWithPackage';");
-        } else {
-          imports.add(
-              "import '$pathWithPackage/${reCaseFieldName.snakeCase}.dart';");
-        }
-      }
-    }
-    return imports.toList()..sort((i1, i2) => i1.compareTo(i2));
   }
 }

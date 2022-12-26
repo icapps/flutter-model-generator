@@ -32,7 +32,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'normal');
+      WriterTestHelper.testDriftModelWriter(model, [], [], 'normal');
     });
 
     test('DriftModelWriter with auto increment field', () {
@@ -65,7 +65,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'auto_increment');
+      WriterTestHelper.testDriftModelWriter(model, [], [], 'auto_increment');
     });
 
     test('DriftModelWriter with multiple dart fields', () {
@@ -124,7 +124,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'normal_fields');
+      WriterTestHelper.testDriftModelWriter(model, [], [], 'normal_fields');
     });
 
     test('DriftModelWriter with nullable field', () {
@@ -156,7 +156,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'nullable_field');
+      WriterTestHelper.testDriftModelWriter(model, [], [], 'nullable_field');
     });
 
     test('DriftModelWriter with specified databasePath', () {
@@ -180,7 +180,7 @@ void main() {
         converters: [],
       );
       WriterTestHelper.testDriftModelWriter(
-          model, [], 'specified_database_path');
+          model, [], [], 'specified_database_path');
     });
 
     test('DriftModelWriter with ignored table field', () {
@@ -213,7 +213,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'with_ignore_fields');
+      WriterTestHelper.testDriftModelWriter(
+          model, [], [], 'with_ignore_fields');
     });
 
     test('DriftModelWriter with single primaryKey field', () {
@@ -247,7 +248,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'primary_key_single');
+      WriterTestHelper.testDriftModelWriter(
+          model, [], [], 'primary_key_single');
     });
 
     test('DriftModelWriter with multiple primaryKey fields', () {
@@ -281,7 +283,8 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'primary_key_multiple');
+      WriterTestHelper.testDriftModelWriter(
+          model, [], [], 'primary_key_multiple');
     });
 
     test('DriftModelWriter with ignored table, but required field', () {
@@ -315,10 +318,19 @@ void main() {
         converters: [],
       );
       WriterTestHelper.testDriftModelWriter(
-          model, [], 'with_ignore_required_fields');
+          model, [], [], 'with_ignore_required_fields');
     });
 
     test('DriftModelWriter with enum field that creates a converter', () {
+      final prefferedGender = Field(
+        name: 'prefferedGender',
+        type: ObjectType('Gender'),
+        isRequired: true,
+        ignore: false,
+        includeIfNull: true,
+        ignoreEquality: false,
+        nonFinal: false,
+      );
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -335,24 +347,34 @@ void main() {
             ignoreEquality: false,
             nonFinal: false,
           ),
-          Field(
-            name: 'prefferedGender',
-            type: ObjectType('Gender'),
-            isRequired: true,
-            ignore: false,
-            includeIfNull: true,
-            ignoreEquality: false,
-            nonFinal: false,
-            isEnum: true,
-          ),
+          prefferedGender,
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'enum_field');
+      WriterTestHelper.testDriftModelWriter(
+          model, [], [prefferedGender], 'enum_field');
     });
 
     test('DriftModelWriter with two enum fields that creates one converter',
         () {
+      final prefferedGender = Field(
+        name: 'prefferedGender',
+        type: ObjectType('Gender'),
+        isRequired: true,
+        ignore: false,
+        includeIfNull: true,
+        ignoreEquality: false,
+        nonFinal: false,
+      );
+      final birthGender = Field(
+        name: 'birthGender',
+        type: ObjectType('Gender'),
+        isRequired: true,
+        ignore: false,
+        includeIfNull: true,
+        ignoreEquality: false,
+        nonFinal: false,
+      );
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -369,35 +391,28 @@ void main() {
             ignoreEquality: false,
             nonFinal: false,
           ),
-          Field(
-            name: 'prefferedGender',
-            type: ObjectType('Gender'),
-            isRequired: true,
-            ignore: false,
-            includeIfNull: true,
-            ignoreEquality: false,
-            nonFinal: false,
-            isEnum: true,
-          ),
-          Field(
-            name: 'birthGender',
-            type: ObjectType('Gender'),
-            isRequired: true,
-            ignore: false,
-            includeIfNull: true,
-            ignoreEquality: false,
-            nonFinal: false,
-            isEnum: true,
-          ),
+          prefferedGender,
+          birthGender,
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'enum_field_twice');
+      WriterTestHelper.testDriftModelWriter(
+          model, [], [prefferedGender, birthGender], 'enum_field_twice');
     });
 
     test(
         'DriftModelWriter with ignored enum field that doesn\'t creates a converter',
         () {
+      final prefferedGender = Field(
+        name: 'prefferedGender',
+        type: ObjectType('Gender'),
+        isRequired: true,
+        ignore: false,
+        includeIfNull: true,
+        ignoreEquality: false,
+        nonFinal: false,
+        ignoreForTable: true,
+      );
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -414,21 +429,12 @@ void main() {
             ignoreEquality: false,
             nonFinal: false,
           ),
-          Field(
-            name: 'prefferedGender',
-            type: ObjectType('Gender'),
-            isRequired: true,
-            ignore: false,
-            includeIfNull: true,
-            ignoreEquality: false,
-            nonFinal: false,
-            isEnum: true,
-            ignoreForTable: true,
-          ),
+          prefferedGender,
         ],
         converters: [],
       );
-      WriterTestHelper.testDriftModelWriter(model, [], 'enum_field_ignored');
+      WriterTestHelper.testDriftModelWriter(
+          model, [], [prefferedGender], 'enum_field_ignored');
     });
   });
 }

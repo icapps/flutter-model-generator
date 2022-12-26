@@ -119,7 +119,7 @@ DateTimeConverter:
 
 Book:
   path: book/
-  generate_table: true # A Drift table will be generated
+  generate_drift_table: true # A Drift table will be generated
   properties:
     id:
       type: int
@@ -624,16 +624,18 @@ model_generator:
 
 ## Drift table generation support
 
-By adding `generate_table: true`, a drift table will be generated aswel as the regular model. It will contain all fields and have extensions made to convert between DB and Generated model. In case a field shouldn't be added to the database, you can specify `ignore_for_table: true` on the field. This will not add the field to the table, but will still be added to the getModel method. If the field is required, it will also be required in the getModel method. Otherwise it will be optional.
+By adding `generate_drift_table: true`, a drift table will be generated as well as the regular model. It will contain all fields and have extensions made to convert between DB and Generated model. In case a field shouldn't be added to the database, you can specify `ignore_for_table: true` on the field. This will not add the field to the table, but will still be added to the getModel method. If the field is required, it will also be required in the getModel method. Otherwise it will be optional.
 
 You can specify a primary key by setting `is_table_primary_key: true` on the field. This can be set on any number of fields. You can also specify a field as autoincrement by setting `table_auto_increment: true` on the field. This can only be set on one field and no primary key should be specified (this will not throw an error in the generator, but will throw an error when running the generated code).
 
 You still need to manually add the table to the database and add the migrations (if applicable). See example/lib/database/model_generator_example_database.dart for an example.
 
+**Note**: custom converters are not supported for drift at this moment.
+
 ```yaml
 Book:
   path: book/
-  generate_table: true # A Drift table will be generated
+  generate_drift_table: true # A Drift table will be generated
   properties:
     id:
       type: int

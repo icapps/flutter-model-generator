@@ -1,6 +1,6 @@
 Person:
   path: user/person/
-  generate_table: true
+  generate_drift_table: true
   properties:
     firstName: string
     prefferedGender: 

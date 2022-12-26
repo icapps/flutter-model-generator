@@ -4,7 +4,6 @@ import 'package:args/args.dart';
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/field.dart';
-import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
@@ -117,22 +116,21 @@ void writeToFiles(
         extendsModelfields,
         modelGeneratorConfig,
       ).write();
-      if (model.generateTable == true) {
+      if (model.generateDriftTable == true) {
+        final enumFields = <Field>[];
         for (final field
             in model.fields.where((element) => !element.ignoreForTable)) {
-          final fieldModel = modelGeneratorConfig.models.firstWhereOrNull(
-              (element) =>
-                  element.name == field.type.name ||
-                  (field.type is MapType &&
-                      element.name == (field.type as MapType).valueName));
+          final fieldModel = modelGeneratorConfig.models
+              .firstWhereOrNull((element) => element.name == field.type.name);
           if (fieldModel is EnumModel) {
-            field.isEnum = true;
+            enumFields.add(field);
           }
         }
         final tableContent = DriftModelWriter(
           pubspecConfig,
           model,
           extendsModelfields,
+          enumFields,
           modelGeneratorConfig,
         ).write();
         _saveFile(model, tableContent, 'database');

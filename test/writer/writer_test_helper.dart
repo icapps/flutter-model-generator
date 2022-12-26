@@ -41,8 +41,8 @@ class WriterTestHelper {
     expect(actual, output);
   }
 
-  static testDriftModelWriter(
-      ObjectModel model, List<Field> extendsFields, String resultFileName) {
+  static testDriftModelWriter(ObjectModel model, List<Field> extendsFields,
+      List<Field> enumFields, String resultFileName) {
     print(Directory.current);
     final file =
         File('test/writer/drift_model_writer/$resultFileName/output.txt');
@@ -55,9 +55,9 @@ class WriterTestHelper {
     final configContent = configFile.readAsStringSync();
     final pubspecConfig = PubspecConfig(pubspecContent);
     final ymlConfig = YmlGeneratorConfig(pubspecConfig, configContent, '');
-    final actual =
-        DriftModelWriter(pubspecConfig, model, extendsFields, ymlConfig)
-            .write();
+    final actual = DriftModelWriter(
+            pubspecConfig, model, extendsFields, enumFields, ymlConfig)
+        .write();
     // print(actual);
     expect(actual, output);
   }
