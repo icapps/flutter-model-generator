@@ -1,7 +1,9 @@
 import 'package:model_generator/model/field.dart';
+import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/boolean_type.dart';
 import 'package:model_generator/model/item_type/date_time_type.dart';
 import 'package:model_generator/model/item_type/double_type.dart';
+import 'package:model_generator/model/item_type/dynamic_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/object_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
@@ -75,6 +77,7 @@ void main() {
         baseDirectory: 'base_dir',
         generateForGenerics: false,
         staticCreate: false,
+        description: 'this is a person',
         fields: [
           Field(
             name: 'firstName',
@@ -120,6 +123,7 @@ void main() {
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
+            description: 'this is an int field',
           ),
         ],
         converters: [],
@@ -285,6 +289,85 @@ void main() {
       );
       WriterTestHelper.testDriftModelWriter(
           model, [], [], 'primary_key_multiple');
+    });
+
+    test('Invalid field type', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'address',
+            type: DynamicType(),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      expect(
+          () => WriterTestHelper.testDriftModelWriter(
+              model, [], [], 'invalid_field_type'),
+          throwsA(isA<Exception>()));
+    });
+
+    test('Invalid field type Array', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstNames',
+            type: ArrayType('String'),
+            isRequired: true,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      expect(
+          () => WriterTestHelper.testDriftModelWriter(
+              model, [], [], 'invalid_field_type_array'),
+          throwsA(isA<Exception>()));
+    });
+
+    test('Invalid field for autoincrement type', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'id',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+            tableAutoIncrement: true,
+          ),
+        ],
+        converters: [],
+      );
+      expect(
+          () => WriterTestHelper.testDriftModelWriter(
+              model, [], [], 'invalid_increment_field_type'),
+          throwsA(isA<Exception>()));
     });
 
     test('DriftModelWriter with ignored table, but required field', () {

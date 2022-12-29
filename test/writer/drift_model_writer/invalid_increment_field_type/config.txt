@@ -1,0 +1,7 @@
+Person:
+  path: user/person/
+  generate_drift_table: true
+  properties:
+    id:
+      type: string
+      table_auto_increment: true

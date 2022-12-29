@@ -59,7 +59,7 @@ class DriftModelWriter {
         !element.ignoreForTable &&
         (element.type is ArrayType || element.type is MapType))) {
       throw Exception(
-          '[ERROR] ${field.name} is an array or map. Ignore this field by adding ignore_for_table: true');
+          '${field.name} is an array or map. Ignore this field by adding ignore_for_table: true');
     }
 
     final fields =
@@ -101,8 +101,8 @@ class DriftModelWriter {
       }
       if (field.tableAutoIncrement) {
         if (field.type is! IntegerType) {
-          print(
-              '[WARNING] autoIncrement is only supported for integer types, but ${field.name} is ${field.type.name}. This may cause issues.');
+          throw Exception(
+              'autoIncrement is only supported for integer types, but ${field.name} is ${field.type.name}.');
         }
         sb.write('.autoIncrement()');
       }

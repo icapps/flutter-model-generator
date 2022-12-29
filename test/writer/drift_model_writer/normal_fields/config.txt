@@ -1,9 +1,13 @@
 Person:
   path: user/person/
   generate_drift_table: true
+  description: this is a person
   properties:
     firstName: string
     boolField: bool
     birthDay: datetime
     doubleField: double
-    intField: int
+    intField:
+      description: this is an int field
+      type: int
+      required: true

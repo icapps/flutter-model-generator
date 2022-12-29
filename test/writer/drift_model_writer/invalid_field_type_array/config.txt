@@ -1,0 +1,5 @@
+Person:
+  path: user/person/
+  generate_drift_table: true
+  properties:
+    firstNames: List<string>

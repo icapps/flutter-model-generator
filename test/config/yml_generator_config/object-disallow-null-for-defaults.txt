@@ -1,0 +1,6 @@
+Person:
+  type: object
+  disallow_null_for_defaults: true
+  properties:
+    firstName:
+      type: string

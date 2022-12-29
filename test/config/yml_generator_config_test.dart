@@ -34,6 +34,8 @@ void main() {
         expect(objectModel.fileName, 'person');
         expect(objectModel.fields.length, 1);
         expect(objectModel.converters.isEmpty, true);
+        expect(objectModel.disallowNullForDefaults, false);
+        expect(pubspecConfig.disallowNullForDefaults, false);
       });
 
       test('Normal object with multiple fields', () {
@@ -148,6 +150,28 @@ void main() {
         expect(hasError, true);
         expect(errorMessage,
             'Exception: Properties can not be null. model: Person');
+      });
+
+      test('Object disallow null for defaults', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(
+            pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig(
+                'object-disallow-null-for-defaults'),
+            '');
+        ymlConfig.checkIfTypesAvailable();
+        expect(ymlConfig.models.length, 1);
+        expect(ymlConfig.models.first is ObjectModel, true);
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        expect(objectModel.path, null);
+        expect(objectModel.baseDirectory, 'model');
+        expect(objectModel.fileName, 'person');
+        expect(objectModel.fields.length, 1);
+        expect(objectModel.converters.isEmpty, true);
+        expect(objectModel.disallowNullForDefaults, true);
+        expect(pubspecConfig.disallowNullForDefaults, false);
       });
     });
     group('Custom', () {

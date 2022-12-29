@@ -5,6 +5,7 @@ import 'package:model_generator_example/base_dir/path_to_my_model/person.dart';
 import 'package:model_generator_example/database/model_generator_example_database.dart';
 
 @DataClassName('DbPerson')
+///this is a person
 class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
@@ -14,6 +15,7 @@ class DbPersonTable extends Table {
 
   RealColumn get doubleField => real()();
 
+  ///this is an int field
   IntColumn get intField => integer()();
 
 }
