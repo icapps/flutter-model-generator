@@ -50,7 +50,7 @@ class ModelHelper {
       }
     }
     for (final field in extendsFields) {
-      imports.addAll(getImportsFromField(field, pubspecConfig, yamlConfig));
+      imports.addAll(_getImportsFromField(field, pubspecConfig, yamlConfig));
     }
 
     for (final converter in jsonModel.converters) {
@@ -74,7 +74,7 @@ class ModelHelper {
     }
   }
 
-  static Iterable<String> getImportsFromField(
+  static Iterable<String> _getImportsFromField(
       Field field, PubspecConfig pubspecConfig, YmlGeneratorConfig yamlConfig) {
     final imports = <String>{};
     final type = field.type;
