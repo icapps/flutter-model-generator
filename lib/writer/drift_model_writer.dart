@@ -96,15 +96,14 @@ class DriftModelWriter {
             "  ${field.type.driftColumn} get ${field.name} => ${field.type.driftType}()");
       }
 
-      if (!field.isRequired && !field.disallowNull) {
-        sb.write('.nullable()');
-      }
       if (field.tableAutoIncrement) {
         if (field.type is! IntegerType) {
           throw Exception(
               'autoIncrement is only supported for integer types, but ${field.name} is ${field.type.name}.');
         }
         sb.write('.autoIncrement()');
+      } else if (!field.isRequired && !field.disallowNull) {
+        sb.write('.nullable()');
       }
 
       sb

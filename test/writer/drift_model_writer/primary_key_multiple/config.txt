@@ -8,5 +8,5 @@ Person:
       is_table_primary_key: true
     lastName:
       type: string
-      required: true
+      required: false
       is_table_primary_key: true
