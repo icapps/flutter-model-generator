@@ -3,7 +3,6 @@ Person:
   type: object
   properties:
     time:
-      required: true
       type: Time
 Time:
   path: user/person/

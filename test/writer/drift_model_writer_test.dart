@@ -25,7 +25,8 @@ void main() {
           'The first model in the config file must be an object model and will be validated. The model is ${ymlConfig.models.first.runtimeType}');
     }
 
-    final enumFields = <Field>[];
+    final enumFields = <
+        Field>[]; // TODO: Move this to util since we want to test the actual code
     for (final field
         in jsonModel.fields.where((element) => !element.ignoreForTable)) {
       final fieldModel = ymlConfig.models

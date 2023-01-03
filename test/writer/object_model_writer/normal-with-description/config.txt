@@ -6,4 +6,4 @@ Person:
     firstName:
       description: A good description
       type: string
-      default_field: "'test'"
+      default_value: "'test'"

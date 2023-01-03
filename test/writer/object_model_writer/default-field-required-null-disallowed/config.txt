@@ -6,5 +6,5 @@ Person:
       description: A good description
       type: string
       required: true
-      default_field: "'test'"
+      default_value: "'test'"
       disallow_null: true
