@@ -16,7 +16,6 @@ class WriterTestHelper {
     final file = File('test/writer/enum_model_writer/$resultFileName.txt');
     final output = file.readAsStringSync();
     final actual = EnumModelWriter(model).write();
-    // print(actual);
     expect(actual, output);
   }
 
@@ -37,7 +36,6 @@ class WriterTestHelper {
     final actual =
         ObjectModelWriter(pubspecConfig, model, extendsFields, ymlConfig)
             .write();
-    // print(actual);
     expect(actual, output);
   }
 
@@ -58,7 +56,6 @@ class WriterTestHelper {
     final actual = DriftModelWriter(
             pubspecConfig, model, extendsFields, enumFields, ymlConfig)
         .write();
-    // print(actual);
     expect(actual, output);
   }
 }
