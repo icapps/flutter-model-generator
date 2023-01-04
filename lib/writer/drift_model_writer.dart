@@ -1,30 +1,29 @@
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
-import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/util/case_util.dart';
+import 'package:model_generator/util/field_util.dart';
 import 'package:model_generator/util/model_helper.dart';
 import 'package:path/path.dart';
 
 class DriftModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
-  final List<Field> extendsFields;
-  final List<Field> enumFields;
   final YmlGeneratorConfig yamlConfig;
 
   const DriftModelWriter(
     this.pubspecConfig,
     this.jsonModel,
-    this.extendsFields,
-    this.enumFields,
     this.yamlConfig,
   );
 
   String write() {
+    final extendsFields = FieldUtil.getExtendedFields(jsonModel, yamlConfig);
+    final enumFields = FieldUtil.getEnumFields(jsonModel, yamlConfig);
+
     final sb = StringBuffer();
     final modelDirectory = [
       pubspecConfig.projectName,

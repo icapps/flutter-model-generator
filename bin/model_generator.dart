@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
-import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/model.dart';
 import 'package:model_generator/model/model/object_model.dart';
-import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/writer/drift_model_writer.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
@@ -100,37 +98,15 @@ void writeToFiles(
     }
     String? content;
     if (model is ObjectModel) {
-      final extendsModelfields = <Field>[];
-      var extendsModelextends = model.extendsModel;
-      while (extendsModelextends != null) {
-        final extendsModelextendsModel = modelGeneratorConfig.models
-                .firstWhereOrNull(
-                    (element) => element.name == extendsModelextends)
-            as ObjectModel?; // ignore: avoid_as
-        extendsModelfields.addAll(extendsModelextendsModel?.fields ?? []);
-        extendsModelextends = extendsModelextendsModel?.extendsModel;
-      }
       content = ObjectModelWriter(
         pubspecConfig,
         model,
-        extendsModelfields,
         modelGeneratorConfig,
       ).write();
       if (model.generateDriftTable == true) {
-        final enumFields = <Field>[];
-        for (final field
-            in model.fields.where((element) => !element.ignoreForTable)) {
-          final fieldModel = modelGeneratorConfig.models
-              .firstWhereOrNull((element) => element.name == field.type.name);
-          if (fieldModel is EnumModel) {
-            enumFields.add(field);
-          }
-        }
         final tableContent = DriftModelWriter(
           pubspecConfig,
           model,
-          extendsModelfields,
-          enumFields,
           modelGeneratorConfig,
         ).write();
         _saveFile(model, tableContent, 'database');
