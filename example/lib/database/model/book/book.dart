@@ -1,3 +1,5 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 import 'package:drift/drift.dart';
 import 'package:model_generator_example/database/model_generator_example_database.dart';
 import 'package:model_generator_example/model/book/book.dart';
@@ -64,13 +66,13 @@ class BookTableBookCategoryConverter
   @override
   BookCategory fromSql(String fromDb) {
     for (final value in BookCategory.values) {
-      if (value.toString() == fromDb) return value;
+      if (value.jsonValue == fromDb) return value;
     }
     return BookCategory.values.first;
   }
 
   @override
   String toSql(BookCategory value) {
-    return value.toString();
+    return value.jsonValue;
   }
 }

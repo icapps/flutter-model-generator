@@ -164,14 +164,14 @@ class DriftModelWriter {
   @override
   $uppercaseFieldName fromSql(String fromDb) {
     for (final value in $uppercaseFieldName.values) {
-      if (value.toString() == fromDb) return value;
+      if (value.jsonValue == fromDb) return value;
     }
     return $uppercaseFieldName.values.first;
   }
 
   @override
   String toSql($uppercaseFieldName value) {
-    return value.toString();
+    return value.jsonValue;
   }
 }""");
     }

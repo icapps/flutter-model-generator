@@ -45,12 +45,12 @@ class Person {
       '}';
 }
 
-Person deserializePerson(Map<String, dynamic> json) => Person.fromJson(json);
+const deserializePerson = Person.fromJson;
 
 Map<String, dynamic> serializePerson(Person object) => object.toJson();
 
 List<Person> deserializePersonList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => Person.fromJson(json)).toList();
+    jsonList.map(Person.fromJson).toList();
 
 List<Map<String, dynamic>> serializePersonList(List<Person> objects) =>
     objects.map((object) => object.toJson()).toList();

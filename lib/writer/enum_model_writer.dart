@@ -19,18 +19,32 @@ class EnumModelWriter {
     }
 
     sb.writeln('enum ${jsonModel.name} {');
+    var first = true;
     jsonModel.fields?.forEach((key) {
       final jsonValue = key.value == null || key.value?.isEmpty == null
           ? key.serializedName
           : key.value;
       final description = key.description;
+
+      if (!first) {
+        sb.writeln(',');
+      } else {
+        first = false;
+      }
       if (description != null) {
         sb.writeln('  ///$description');
       }
       sb
         ..writeln("  @JsonValue('$jsonValue')")
-        ..writeln('  ${key.name},');
+        ..write("  ${key.name}('$jsonValue')");
     });
+    if (jsonModel.fields?.isNotEmpty == true) {
+      sb.writeln(';');
+    }
+    sb.writeln('');
+    sb.writeln('  final String jsonValue;');
+    sb.writeln('');
+    sb.writeln('  const ${jsonModel.name}(this.jsonValue);');
     sb.writeln('}');
 
     if (jsonModel.generateMap) {

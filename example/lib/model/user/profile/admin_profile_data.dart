@@ -79,15 +79,14 @@ class AdminProfileData extends UserProfileDataExtended {
       '}';
 }
 
-AdminProfileData deserializeAdminProfileData(Map<String, dynamic> json) =>
-    AdminProfileData.fromJson(json);
+const deserializeAdminProfileData = AdminProfileData.fromJson;
 
 Map<String, dynamic> serializeAdminProfileData(AdminProfileData object) =>
     object.toJson();
 
 List<AdminProfileData> deserializeAdminProfileDataList(
         List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => AdminProfileData.fromJson(json)).toList();
+    jsonList.map(AdminProfileData.fromJson).toList();
 
 List<Map<String, dynamic>> serializeAdminProfileDataList(
         List<AdminProfileData> objects) =>

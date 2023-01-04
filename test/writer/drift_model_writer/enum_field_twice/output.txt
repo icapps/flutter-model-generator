@@ -37,13 +37,13 @@ class PersonTableGenderConverter extends TypeConverter<Gender, String> {
   @override
   Gender fromSql(String fromDb) {
     for (final value in Gender.values) {
-      if (value.toString() == fromDb) return value;
+      if (value.jsonValue == fromDb) return value;
     }
     return Gender.values.first;
   }
 
   @override
   String toSql(Gender value) {
-    return value.toString();
+    return value.jsonValue;
   }
 }
