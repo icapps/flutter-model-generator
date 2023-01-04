@@ -5,6 +5,8 @@ Person:
     address:
       required: true
       type: Address
+      toJson: handleToJson
+      fromJson: handleFromJson
 
 Address:
   type: object
@@ -12,5 +14,3 @@ Address:
     streetName:
       required: true
       type: string
-      toJson: handleToJson
-      fromJson: handleFromJson

@@ -2,10 +2,11 @@ Person:
   path: user/person/
   type: object
   properties:
-    firstName:
-      required: false
-      include_if_null: false
-      type: string
+    gender:
+      required: true
+      include_if_null: true
+      type: Gender
+      unknown_enum_value: X
 Gender:
   path: user/person/
   type: enum
