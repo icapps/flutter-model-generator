@@ -2,7 +2,7 @@ BModel:
   path: user/b_model/
   type: object
   properties:
-    firstName:
+    aModel:
       type: AModel
 AModel:
   path: user/a_model/
