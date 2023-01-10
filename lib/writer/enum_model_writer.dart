@@ -26,10 +26,10 @@ class EnumModelWriter {
           : key.value;
       final description = key.description;
 
-      if (!first) {
-        sb.writeln(',');
-      } else {
+      if (first) {
         first = false;
+      } else {
+        sb.writeln(',');
       }
       if (description != null) {
         sb.writeln('  ///$description');
