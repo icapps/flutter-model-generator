@@ -48,12 +48,12 @@ class Project {
       '}';
 }
 
-Project deserializeProject(Map<String, dynamic> json) => Project.fromJson(json);
+const deserializeProject = Project.fromJson;
 
 Map<String, dynamic> serializeProject(Project object) => object.toJson();
 
 List<Project> deserializeProjectList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => Project.fromJson(json)).toList();
+    jsonList.map(Project.fromJson).toList();
 
 List<Map<String, dynamic>> serializeProjectList(List<Project> objects) =>
     objects.map((object) => object.toJson()).toList();

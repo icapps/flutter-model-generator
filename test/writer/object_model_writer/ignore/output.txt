@@ -6,10 +6,10 @@ part 'person.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Person {
-  @JsonKey(name: 'firstName', ignore: true)
-  final String? firstName;
+  @JsonKey(name: 'firstName', includeIfNull: false, ignore: true)
+  String? firstName;
 
-  const Person({
+  Person({
     this.firstName,
   });
 

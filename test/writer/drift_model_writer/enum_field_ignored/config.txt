@@ -5,8 +5,8 @@ Person:
     firstName: string
     prefferedGender: 
       type: Gender
-      isRequired: true
-      ignoreForTable: true
+      required: true
+      ignore_for_table: true
 Gender:
   path: user/person/
   type: enum

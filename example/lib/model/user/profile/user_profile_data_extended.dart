@@ -76,9 +76,7 @@ class UserProfileDataExtended extends UserProfileData {
       '}';
 }
 
-UserProfileDataExtended deserializeUserProfileDataExtended(
-        Map<String, dynamic> json) =>
-    UserProfileDataExtended.fromJson(json);
+const deserializeUserProfileDataExtended = UserProfileDataExtended.fromJson;
 
 Map<String, dynamic> serializeUserProfileDataExtended(
         UserProfileDataExtended object) =>
@@ -86,7 +84,7 @@ Map<String, dynamic> serializeUserProfileDataExtended(
 
 List<UserProfileDataExtended> deserializeUserProfileDataExtendedList(
         List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => UserProfileDataExtended.fromJson(json)).toList();
+    jsonList.map(UserProfileDataExtended.fromJson).toList();
 
 List<Map<String, dynamic>> serializeUserProfileDataExtendedList(
         List<UserProfileDataExtended> objects) =>

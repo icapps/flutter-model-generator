@@ -1,1 +1,1 @@
-// Should throw an error
+Exception

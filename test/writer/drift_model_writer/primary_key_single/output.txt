@@ -1,8 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:drift/drift.dart';
-import 'package:model_generator_example/base_dir/path_to_my_model/person.dart';
 import 'package:model_generator_example/database/model_generator_example_database.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
 
 @DataClassName('DbPerson')
 class DbPersonTable extends Table {
@@ -11,7 +11,7 @@ class DbPersonTable extends Table {
 
   TextColumn get firstName => text()();
 
-  TextColumn get lastName => text().nullable()();
+  TextColumn get lastName => text()();
 
 }
 

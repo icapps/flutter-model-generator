@@ -3,8 +3,7 @@ User:
   type: object
   extends: Person
   properties:
-    email:
-      type: string
+    email: string
 
 Person:
   path: user/person/
@@ -12,6 +11,7 @@ Person:
   properties:
     address:
       type: Address
+      required: true
     info:
       type: map
       required: false

@@ -3,22 +3,23 @@ import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/model/custom_from_to_json_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/field_util.dart';
 import 'package:model_generator/util/model_helper.dart';
 
 class ObjectModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
-  final List<Field> extendsFields;
   final YmlGeneratorConfig yamlConfig;
 
   const ObjectModelWriter(
     this.pubspecConfig,
     this.jsonModel,
-    this.extendsFields,
     this.yamlConfig,
   );
 
   String write() {
+    final extendsFields = FieldUtil.getExtendedFields(jsonModel, yamlConfig);
+
     final sb = StringBuffer();
 
     ModelHelper.writeImports(

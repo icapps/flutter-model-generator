@@ -1,6 +1,8 @@
 # Changelog
-## [7.0.0] - 2022-12-25
+## [7.0.0] - 2023-01-10
+- Updated min dart version to >2.17
 - Added support for generating drift tables by adding `generate_drift_table: true` on model definition
+- Added jsonValue to enum values to easily map from/to json values
 
 ## [6.1.0] - 2022-10-14
 - Support passing a directory instead of a file. All .yaml files inside this folder (recursively) will be used to build the final model data.
