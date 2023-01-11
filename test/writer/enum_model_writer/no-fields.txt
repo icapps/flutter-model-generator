@@ -3,4 +3,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum MyEnumModel {
+
+  final String jsonValue;
+
+  const MyEnumModel(this.jsonValue);
 }

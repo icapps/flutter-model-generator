@@ -1,3 +1,5 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:model_generator_example/model/book/book_category.dart';
@@ -90,12 +92,12 @@ class Book {
       '}';
 }
 
-Book deserializeBook(Map<String, dynamic> json) => Book.fromJson(json);
+const deserializeBook = Book.fromJson;
 
 Map<String, dynamic> serializeBook(Book object) => object.toJson();
 
 List<Book> deserializeBookList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => Book.fromJson(json)).toList();
+    jsonList.map(Book.fromJson).toList();
 
 List<Map<String, dynamic>> serializeBookList(List<Book> objects) =>
     objects.map((object) => object.toJson()).toList();

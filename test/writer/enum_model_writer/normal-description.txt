@@ -6,7 +6,11 @@ import 'package:json_annotation/json_annotation.dart';
 enum MyEnumModel {
   ///A good description of this field
   @JsonValue('MY_VALUE_1')
-  MY_VALUE_1,
+  MY_VALUE_1('MY_VALUE_1'),
   @JsonValue('MY_VALUE_2')
-  MY_VALUE_2,
+  MY_VALUE_2('MY_VALUE_2');
+
+  final String jsonValue;
+
+  const MyEnumModel(this.jsonValue);
 }
