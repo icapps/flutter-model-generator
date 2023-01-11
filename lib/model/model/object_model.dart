@@ -21,6 +21,7 @@ class ObjectModel extends Model {
     required this.converters,
     this.generateDriftTable,
     List<String>? extraImports,
+    List<String>? extraImportsForTable,
     List<String>? extraAnnotations,
     String? extendsModel,
     this.equalsAndHashCode,
@@ -36,6 +37,7 @@ class ObjectModel extends Model {
           baseDirectory: baseDirectory,
           extraAnnotations: extraAnnotations,
           extraImports: extraImports,
+          extraImportsForTable: extraImportsForTable,
           description: description,
         );
 }

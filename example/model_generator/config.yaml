@@ -179,6 +179,8 @@ Project:
 Book:
   path: book/
   generate_drift_table: true
+  extra_imports_for_table:
+    - 'package:model_generator_example/util/converters/string_list_converter.dart'
   properties:
     id:
       type: int
@@ -201,8 +203,16 @@ Book:
       ignore_for_table: true
       items:
         type: Person
+    tags:
+      type: array
+      items:
+        type: String
+      type_converter_for_table: StringListConverter
     category: BookCategory
     secondCategory: BookCategory?
+    onlyInDb:
+      type: string
+      only_for_table: true # This field will only be added to the table, not to the model
 
 BookCategory:
   path: book/

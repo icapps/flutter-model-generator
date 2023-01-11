@@ -91,6 +91,36 @@ void main() {
         expect(objectModel.converters.isEmpty, true);
       });
 
+      test('Imports', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('imports'), '');
+        ymlConfig.checkIfTypesAvailable();
+        expect(ymlConfig.models.length, 1);
+        expect(ymlConfig.models.first is ObjectModel, true);
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        expect(objectModel.extraImports?.length, 1);
+        expect(objectModel.extraImports!.first,
+            'package:model_generator_example/util/converters/string_list_converter.dart');
+      });
+
+      test('Imports for table', () {
+        final pubspecConfig =
+            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
+        final ymlConfig = YmlGeneratorConfig(pubspecConfig,
+            ConfigTestHelper.getYmlGeneratorConfig('imports-for-table'), '');
+        ymlConfig.checkIfTypesAvailable();
+        expect(ymlConfig.models.length, 1);
+        expect(ymlConfig.models.first is ObjectModel, true);
+        final objectModel =
+            ymlConfig.models.first as ObjectModel; // ignore: avoid_as
+        expect(objectModel.extraImportsForTable?.length, 1);
+        expect(objectModel.extraImportsForTable!.first,
+            'package:model_generator_example/util/converters/string_list_converter.dart');
+      });
+
       test('Error property is no object', () {
         final pubspecConfig =
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));

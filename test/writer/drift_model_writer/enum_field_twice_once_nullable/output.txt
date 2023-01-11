@@ -10,12 +10,15 @@ class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
   TextColumn get prefferedGender => text().map(const PersonTableGenderConverter())();
+
+  TextColumn get birthGender => text().map(const PersonTableGenderNullableConverter()).nullable()();
 }
 
 extension DbPersonExtension on DbPerson {
   Person get model => Person(
         firstName: firstName,
         prefferedGender: prefferedGender,
+        birthGender: birthGender,
       );
 }
 
@@ -23,6 +26,7 @@ extension PersonExtension on Person {
   DbPerson get dbModel => DbPerson(
         firstName: firstName,
         prefferedGender: prefferedGender,
+        birthGender: birthGender,
       );
 }
 
@@ -40,5 +44,22 @@ class PersonTableGenderConverter extends TypeConverter<Gender, String> {
   @override
   String toSql(Gender value) {
     return value.jsonValue;
+  }
+}
+
+class PersonTableGenderNullableConverter extends TypeConverter<Gender?, String?> {
+  const PersonTableGenderNullableConverter();
+
+  @override
+  Gender? fromSql(String? fromDb) {
+    for (final value in Gender.values) {
+      if (value.jsonValue == fromDb) return value;
+    }
+    return null;
+  }
+
+  @override
+  String? toSql(Gender? value) {
+    return value?.jsonValue;
   }
 }

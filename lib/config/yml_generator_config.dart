@@ -47,6 +47,14 @@ class YmlGeneratorConfig {
           extraImports!.add(e.toString());
         }
       });
+      final extraImportsForTable =
+          value.containsKey('extra_imports_for_table') ? <String>[] : null;
+      final extraImportsForTableVal = value['extra_imports_for_table'];
+      extraImportsForTableVal?.forEach((e) {
+        if (e != null) {
+          extraImportsForTable!.add(e.toString());
+        }
+      });
 
       final extraAnnotations =
           value.containsKey('extra_annotations') ? <String>[] : null;
@@ -154,6 +162,7 @@ class YmlGeneratorConfig {
           generateDriftTable: generateDriftTable,
           converters: mappedConverters ?? [],
           extraImports: extraImports,
+          extraImportsForTable: extraImportsForTable,
           extraAnnotations: extraAnnotations,
           staticCreate: staticCreate,
           equalsAndHashCode: value['equals_and_hash_code'],
@@ -191,6 +200,8 @@ class YmlGeneratorConfig {
           ? (property['disallow_null'] == true)
           : disallowNullForDefaults;
       final ignoreForTable = property['ignore_for_table'] == true;
+      final onlyForTable = property['only_for_table'] == true;
+      final typeConverterForTable = property['type_converter_for_table'];
       final isTablePrimaryKey = property['is_table_primary_key'] == true;
       final tableAutoIncrement = property['table_auto_increment'] == true;
       ItemType itemType;
@@ -244,6 +255,8 @@ class YmlGeneratorConfig {
         defaultValue: defaultValue,
         disallowNull: disallowNull,
         ignoreForTable: ignoreForTable,
+        onlyForTable: onlyForTable,
+        typeConverterForTable: typeConverterForTable,
         isTablePrimaryKey: isTablePrimaryKey,
         tableAutoIncrement: tableAutoIncrement,
       );

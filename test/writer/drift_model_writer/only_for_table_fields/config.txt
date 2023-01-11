@@ -1,0 +1,8 @@
+Person:
+  path: user/person/
+  generate_drift_table: true
+  properties:
+    firstName: string
+    lastName:
+      type: string
+      only_for_table: true

@@ -19,8 +19,9 @@ class ObjectModelWriter {
 
   String write() {
     final extendsFields = FieldUtil.getExtendedFields(jsonModel, yamlConfig);
-
     final sb = StringBuffer();
+    final fields =
+        jsonModel.fields.where((element) => !element.onlyForTable).toList();
 
     ModelHelper.writeImports(
       initialImports: {}
@@ -60,13 +61,13 @@ class ObjectModelWriter {
       sb.writeln('class ${jsonModel.name} {');
     }
 
-    jsonModel.fields.sort((a, b) {
+    fields.sort((a, b) {
       final b1 = a.isRequired ? 1 : 0;
       final b2 = b.isRequired ? 1 : 0;
       return b2 - b1;
     });
 
-    for (final key in jsonModel.fields) {
+    for (final key in fields) {
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -113,14 +114,14 @@ class ObjectModelWriter {
       sb.writeln('${ModelHelper.getKeyType(key)} ${key.name};');
     }
 
-    final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal) ||
+    final anyNonFinal = fields.any((element) => element.nonFinal) ||
         extendsFields.any((element) => element.nonFinal);
     sb
       ..writeln()
       ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
 
-    for (final key in jsonModel.fields
-        .where((key) => (key.isRequired && !key.hasDefaultValue))) {
+    for (final key
+        in fields.where((key) => (key.isRequired && !key.hasDefaultValue))) {
       sb.writeln('    required this.${key.name}${_fillDefaulValue(key)},');
     }
     for (final key in extendsFields
@@ -128,8 +129,8 @@ class ObjectModelWriter {
       sb.writeln(
           '    required ${ModelHelper.getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
-    for (final key in jsonModel.fields
-        .where((key) => !(key.isRequired && !key.hasDefaultValue))) {
+    for (final key
+        in fields.where((key) => !(key.isRequired && !key.hasDefaultValue))) {
       sb.writeln('    this.${key.name}${_fillDefaulValue(key)},');
     }
     for (final key in extendsFields
@@ -180,8 +181,7 @@ class ObjectModelWriter {
         ..writeln('      identical(this, other) ||')
         ..writeln('      other is ${jsonModel.name} &&')
         ..write('          runtimeType == other.runtimeType');
-      for (final field
-          in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+      for (final field in fields.where((field) => !field.ignoreEquality)) {
         sb.write(' &&\n          ${field.name} == other.${field.name}');
       }
       if (extendsModel != null) {
@@ -193,8 +193,7 @@ class ObjectModelWriter {
         ..writeln('  @override')
         ..writeln('  int get hashCode =>');
       var c = 0;
-      for (final field
-          in jsonModel.fields.where((field) => !field.ignoreEquality)) {
+      for (final field in fields.where((field) => !field.ignoreEquality)) {
         if (c++ > 0) sb.write(' ^\n');
         sb.write('      ${field.name}.hashCode');
       }
@@ -212,7 +211,7 @@ class ObjectModelWriter {
         ..writeln('      \'${jsonModel.name}{\'');
 
       var c = 0;
-      for (final field in jsonModel.fields) {
+      for (final field in fields) {
         if (c++ > 0) sb.writeln(', \'');
         sb.write('      \'${field.name}: \$${field.name}');
       }

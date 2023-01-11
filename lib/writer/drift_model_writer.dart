@@ -3,6 +3,7 @@ import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
+import 'package:model_generator/model/model/field_name_with_nullable.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/util/case_util.dart';
 import 'package:model_generator/util/field_util.dart';
@@ -43,6 +44,7 @@ class DriftModelWriter {
       yamlConfig: yamlConfig,
       extendsFields: extendsFields,
       sb: sb,
+      isForTable: true,
     );
 
     final modelNameUpperCamelCase = CaseUtil(jsonModel.name).upperCamelCase;
@@ -56,9 +58,10 @@ class DriftModelWriter {
 
     for (final field in jsonModel.fields.where((element) =>
         !element.ignoreForTable &&
-        (element.type is ArrayType || element.type is MapType))) {
+        (element.type is ArrayType || element.type is MapType) &&
+        element.typeConverterForTable == null)) {
       throw Exception(
-          '${field.name} is an array or map. Ignore this field by adding ignore_for_table: true');
+          '${field.name} is ${field.type is ArrayType ? 'an array' : 'a map'} which is not a supported column. You should create a separate table for this and ignore the field. You can ignore this field by adding ignore_for_table: true');
     }
 
     final fields =
@@ -76,16 +79,23 @@ class DriftModelWriter {
         ..writeln(
             '  Set<Column> get primaryKey => {${fields.where((element) => element.isTablePrimaryKey).map((e) => e.name).join(', ')}};')
         ..writeln('');
+    } else if (!fields.any((element) => element.tableAutoIncrement)) {
+      print(
+          'WARNING: No primary key or auto increment found for ${jsonModel.name}.');
     }
 
-    for (final field in fields) {
+    for (final entry in fields.asMap().entries) {
+      final field = entry.value;
       final description = field.description;
       if (description != null) {
         sb.writeln('  ///$description');
       }
-      if (enumFields.contains(field)) {
+      if (field.typeConverterForTable != null) {
         sb.write(
-            "  TextColumn get ${field.name} => text().map(const ${modelNameUpperCamelCase}Table${CaseUtil(field.type.name).upperCamelCase}Converter())");
+            "  TextColumn get ${field.name} => text().map(const ${field.typeConverterForTable}())");
+      } else if (enumFields.contains(field)) {
+        sb.write(
+            "  TextColumn get ${field.name} => text().map(const ${modelNameUpperCamelCase}Table${CaseUtil(field.type.name).upperCamelCase}${field.isRequired ? '' : 'Nullable'}Converter())");
       } else {
         if (field.type.driftColumn == null || field.type.driftType == null) {
           throw Exception(
@@ -105,9 +115,10 @@ class DriftModelWriter {
         sb.write('.nullable()');
       }
 
-      sb
-        ..writeln('();')
-        ..writeln('');
+      sb.writeln('();');
+      if (entry.key != fields.length - 1) {
+        sb.writeln('');
+      }
     }
 
     sb
@@ -116,9 +127,11 @@ class DriftModelWriter {
       ..writeln(
           'extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {');
 
-    if (jsonModel.fields.any((element) => element.ignoreForTable)) {
-      final ignoredFields =
-          jsonModel.fields.where((element) => element.ignoreForTable).toList();
+    if (jsonModel.fields
+        .any((element) => element.ignoreForTable && !element.onlyForTable)) {
+      final ignoredFields = jsonModel.fields
+          .where((element) => element.ignoreForTable && !element.onlyForTable)
+          .toList();
       final ignoredFieldsString = ignoredFields
           .map((e) =>
               '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}')
@@ -129,7 +142,8 @@ class DriftModelWriter {
       sb.writeln('  ${jsonModel.name} get model => ${jsonModel.name}(');
     }
 
-    for (final field in jsonModel.fields) {
+    for (final field
+        in jsonModel.fields.where((element) => !element.onlyForTable)) {
       sb.writeln('        ${field.name}: ${field.name},');
     }
 
@@ -138,11 +152,25 @@ class DriftModelWriter {
       ..writeln('}')
       ..writeln('')
       ..writeln(
-          'extension ${modelNameUpperCamelCase}Extension on $modelNameUpperCamelCase {')
-      ..writeln(
-          '  Db$modelNameUpperCamelCase get dbModel => Db$modelNameUpperCamelCase(');
+          'extension ${modelNameUpperCamelCase}Extension on $modelNameUpperCamelCase {');
 
-    for (final field in fields) {
+    if (jsonModel.fields
+        .any((element) => element.onlyForTable && !element.ignoreForTable)) {
+      final fieldsOnlyForTable = jsonModel.fields
+          .where((element) => element.onlyForTable && !element.ignoreForTable)
+          .toList();
+      final fieldsOnlyForTableString = fieldsOnlyForTable
+          .map((e) =>
+              '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}')
+          .join(', ');
+      sb.writeln(
+          '  Db$modelNameUpperCamelCase getModel({$fieldsOnlyForTableString}) => Db$modelNameUpperCamelCase(');
+    } else {
+      sb.writeln(
+          '  Db$modelNameUpperCamelCase get dbModel => Db$modelNameUpperCamelCase(');
+    }
+
+    for (final field in fields.where((element) => !element.ignoreForTable)) {
       sb.writeln('        ${field.name}: ${field.name},');
     }
 
@@ -150,28 +178,37 @@ class DriftModelWriter {
       ..writeln('      );')
       ..writeln('}');
 
-    for (final enumType in enumFields
-        .where((element) => !element.ignoreForTable)
-        .map((e) => e.type.name)
-        .toSet()) {
+    final generateConverterForFields = enumFields
+        .where((element) =>
+            !element.ignoreForTable && element.typeConverterForTable == null)
+        .toList();
+    final generateConverterForFieldsWithNullable = generateConverterForFields
+        .map((value) =>
+            FieldNameWithNullable(value.type.name, !value.isRequired))
+        .toSet();
+
+    for (final enumField in generateConverterForFieldsWithNullable) {
+      final enumType = enumField.name;
+      final nullableText = enumField.isNullable ? 'Nullable' : '';
+      final nullableQuestionMark = enumField.isNullable ? '?' : '';
       final uppercaseFieldName = CaseUtil(enumType).upperCamelCase;
       sb
         ..writeln()
         ..writeln(
-            """class ${modelNameUpperCamelCase}Table${uppercaseFieldName}Converter extends TypeConverter<$uppercaseFieldName, String> {
-  const ${modelNameUpperCamelCase}Table${uppercaseFieldName}Converter();
+            """class ${modelNameUpperCamelCase}Table$uppercaseFieldName${nullableText}Converter extends TypeConverter<$uppercaseFieldName$nullableQuestionMark, String$nullableQuestionMark> {
+  const ${modelNameUpperCamelCase}Table$uppercaseFieldName${nullableText}Converter();
 
   @override
-  $uppercaseFieldName fromSql(String fromDb) {
+  $uppercaseFieldName$nullableQuestionMark fromSql(String$nullableQuestionMark fromDb) {
     for (final value in $uppercaseFieldName.values) {
       if (value.jsonValue == fromDb) return value;
     }
-    return $uppercaseFieldName.values.first;
+    return ${enumField.isNullable ? 'null' : '$uppercaseFieldName.values.first'};
   }
 
   @override
-  String toSql($uppercaseFieldName value) {
-    return value.jsonValue;
+  String$nullableQuestionMark toSql($uppercaseFieldName$nullableQuestionMark value) {
+    return value$nullableQuestionMark.jsonValue;
   }
 }""");
     }

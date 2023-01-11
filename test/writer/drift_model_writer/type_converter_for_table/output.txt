@@ -6,18 +6,17 @@ import 'package:model_generator_example/model/user/person/person.dart';
 
 @DataClassName('DbPerson')
 class DbPersonTable extends Table {
-  ///A good description
-  TextColumn get firstName => text().nullable()();
+  TextColumn get tags => text().map(const StringListConverter()).nullable()();
 }
 
 extension DbPersonExtension on DbPerson {
   Person get model => Person(
-        firstName: firstName,
+        tags: tags,
       );
 }
 
 extension PersonExtension on Person {
   DbPerson get dbModel => DbPerson(
-        firstName: firstName,
+        tags: tags,
       );
 }

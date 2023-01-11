@@ -9,7 +9,7 @@ import 'package:model_generator_example/model/user/person/person.dart';
 class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
-  TextColumn get prefferedGender => text().map(const PersonTableGenderConverter())();
+  TextColumn get prefferedGender => text().map(const PersonTableGenderNullableConverter()).nullable()();
 }
 
 extension DbPersonExtension on DbPerson {
@@ -26,19 +26,19 @@ extension PersonExtension on Person {
       );
 }
 
-class PersonTableGenderConverter extends TypeConverter<Gender, String> {
-  const PersonTableGenderConverter();
+class PersonTableGenderNullableConverter extends TypeConverter<Gender?, String?> {
+  const PersonTableGenderNullableConverter();
 
   @override
-  Gender fromSql(String fromDb) {
+  Gender? fromSql(String? fromDb) {
     for (final value in Gender.values) {
       if (value.jsonValue == fromDb) return value;
     }
-    return Gender.values.first;
+    return null;
   }
 
   @override
-  String toSql(Gender value) {
-    return value.jsonValue;
+  String? toSql(Gender? value) {
+    return value?.jsonValue;
   }
 }

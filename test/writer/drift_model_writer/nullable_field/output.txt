@@ -9,7 +9,6 @@ class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
   TextColumn get lastName => text().nullable()();
-
 }
 
 extension DbPersonExtension on DbPerson {

@@ -1,0 +1,9 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      type: string
+    lastName:
+      type: string
+      only_for_table: true

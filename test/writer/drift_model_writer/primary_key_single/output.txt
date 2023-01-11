@@ -12,7 +12,6 @@ class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
   TextColumn get lastName => text()();
-
 }
 
 extension DbPersonExtension on DbPerson {

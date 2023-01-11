@@ -16,10 +16,12 @@ class Field {
   final String? toJson;
   final bool ignoreEquality;
   final String? defaultValue;
+  final String? typeConverterForTable;
   final bool disallowNull;
   final bool isTablePrimaryKey;
   final bool tableAutoIncrement;
   final bool ignoreForTable;
+  final bool onlyForTable;
 
   bool get hasDefaultValue => defaultValue != null;
 
@@ -36,8 +38,10 @@ class Field {
     this.fromJson,
     this.toJson,
     this.defaultValue,
+    this.typeConverterForTable,
     this.disallowNull = false,
     this.ignoreForTable = false,
+    this.onlyForTable = false,
     this.isTablePrimaryKey = false,
     this.tableAutoIncrement = false,
     String? jsonKey,

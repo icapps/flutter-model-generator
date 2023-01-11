@@ -27,7 +27,7 @@ You can also specify a command line parameter to override the location for a sin
 flutter packages run model_generator --path my_other_model_dir/config.yaml
 ```
 
-**Note**: Since version 6.1.0, instead of a single model file, you can specify a directory containing multiple model files. 
+**Note**: Since version 6.1.0, instead of a single model file, you can specify a directory containing multiple model files.
 The generator will then generate models for all `.yaml` (or `.yml`) files in the directory. References across files are supported.
 
 ## Default setup
@@ -143,6 +143,9 @@ Book:
         type: Person
     category: BookCategory # Enums can be added and will be converted to a text and back
     secondCategory: BookCategory?
+    onlyInDb:
+      type: string
+      only_for_table: true # This field will only be added to the table, not to the model
 
 Person:
   path: user/person/
@@ -158,7 +161,6 @@ BookCategory:
     FICTION:
     FANTASY:
 ```
-
 
 ## FVM support
 
@@ -258,9 +260,9 @@ If you wish for extra import statements in the generated files and/or extra anno
 ```yaml
 model_generator:
   extra_imports:
-    - 'package:flutter/foundation.dart'
+    - "package:flutter/foundation.dart"
   extra_annotations:
-    - '@immutable'
+    - "@immutable"
 ```
 
 or to override the values per object:
@@ -270,7 +272,7 @@ UserModel:
   path: webservice/user
   extra_imports:
   extra_annotations:
-    - '@someAnnotation'
+    - "@someAnnotation"
   properties:
     id:
       type: int
@@ -289,7 +291,7 @@ UserModel:
   path: webservice/user
   extra_imports:
   extra_annotations:
-    - '@someAnnotation'
+    - "@someAnnotation"
   properties:
     id:
       type: int
@@ -372,7 +374,7 @@ UserModel:
 
 If you want your models to expand any other model use extends:
 
-*Note: It is not supported to extend custom models*
+_Note: It is not supported to extend custom models_
 
 ```yaml
 UserDetails:
@@ -384,7 +386,9 @@ UserDetails:
 ```
 
 ## Builtin types
+
 The following framework types descriptors are known out of the box:
+
 ```
 string/String
 int/integer
@@ -636,6 +640,8 @@ You still need to manually add the table to the database and add the migrations 
 Book:
   path: book/
   generate_drift_table: true # A Drift table will be generated
+  extra_imports_for_table:
+    - 'package:model_generator_example/util/converters/string_list_converter.dart' # You can specify extra imports for the table (for example custom converters)
   properties:
     id:
       type: int
@@ -657,8 +663,16 @@ Book:
       required: false # this is NOT required, so will be added to the getModel method as optional
       items:
         type: Person
+    tags:
+      type: array
+      items:
+        type: String
+      type_converter_for_table: StringListConverter # You can specify a custom converter for the table, don't forget to add the extra import for it (see extra_imports_for_table)
     category: BookCategory # Enums can be added and will be converted to a text and back
-    secondCategory: BookCategory?
+    secondCategory: BookCategory? # Enums can also be nullable and be converted to a text and back
+    onlyInDb:
+      type: string
+      only_for_table: true # This field will only be added to the table, not to the model
 
 Person:
   path: user/person/
@@ -678,6 +692,15 @@ BookCategory:
 The above yaml will result in the following dart code:
 
 ```dart
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:drift/drift.dart';
+import 'package:model_generator_example/database/model_generator_example_database.dart';
+import 'package:model_generator_example/model/book/book.dart';
+import 'package:model_generator_example/model/book/book_category.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
+import 'package:model_generator_example/util/converters/string_list_converter.dart';
+
 @DataClassName('DbBook')
 class DbBookTable extends Table {
   @override
@@ -691,35 +714,37 @@ class DbBookTable extends Table {
 
   BoolColumn get isAvailable => boolean()();
 
-  TextColumn get category =>
-      text().map(const BookTableBookCategoryConverter())();
+  TextColumn get category => text().map(const BookTableBookCategoryConverter())();
 
   RealColumn get price => real().nullable()();
 
   IntColumn get pages => integer().nullable()();
 
-  TextColumn get secondCategory =>
-      text().map(const BookTableBookCategoryConverter()).nullable()();
+  TextColumn get tags => text().map(const StringListConverter()).nullable()();
+
+  TextColumn get secondCategory => text().map(const BookTableBookCategoryNullableConverter()).nullable()();
+
+  TextColumn get onlyInDb => text().nullable()();
 }
 
 extension DbBookExtension on DbBook {
-  Book getModel({required List<Person> authors, List<Person>? publishers}) =>
-      Book(
+  Book getModel({required List<Person> authors, List<Person>? publishers}) => Book(
         id: id,
         name: name,
         publishingDate: publishingDate,
-        isAvailable: isAvailable,
-        authors: authors,
-        category: category,
         price: price,
         pages: pages,
+        isAvailable: isAvailable,
+        authors: authors,
         publishers: publishers,
+        tags: tags,
+        category: category,
         secondCategory: secondCategory,
       );
 }
 
 extension BookExtension on Book {
-  DbBook get dbModel => DbBook(
+  DbBook getModel({String? onlyInDb}) => DbBook(
         id: id,
         name: name,
         publishingDate: publishingDate,
@@ -727,25 +752,43 @@ extension BookExtension on Book {
         category: category,
         price: price,
         pages: pages,
+        tags: tags,
         secondCategory: secondCategory,
+        onlyInDb: onlyInDb,
       );
 }
 
-class BookTableBookCategoryConverter
-    extends TypeConverter<BookCategory, String> {
+class BookTableBookCategoryConverter extends TypeConverter<BookCategory, String> {
   const BookTableBookCategoryConverter();
 
   @override
   BookCategory fromSql(String fromDb) {
     for (final value in BookCategory.values) {
-      if (value.toString() == fromDb) return value;
+      if (value.jsonValue == fromDb) return value;
     }
     return BookCategory.values.first;
   }
 
   @override
   String toSql(BookCategory value) {
-    return value.toString();
+    return value.jsonValue;
+  }
+}
+
+class BookTableBookCategoryNullableConverter extends TypeConverter<BookCategory?, String?> {
+  const BookTableBookCategoryNullableConverter();
+
+  @override
+  BookCategory? fromSql(String? fromDb) {
+    for (final value in BookCategory.values) {
+      if (value.jsonValue == fromDb) return value;
+    }
+    return null;
+  }
+
+  @override
+  String? toSql(BookCategory? value) {
+    return value?.jsonValue;
   }
 }
 ```

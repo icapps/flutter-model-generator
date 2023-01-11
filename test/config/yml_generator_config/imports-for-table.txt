@@ -1,0 +1,6 @@
+Person:
+  type: object
+  extra_imports_for_table:
+    - 'package:model_generator_example/util/converters/string_list_converter.dart'
+  properties:
+    firstName: string

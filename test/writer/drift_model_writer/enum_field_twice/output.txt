@@ -12,7 +12,6 @@ class DbPersonTable extends Table {
   TextColumn get prefferedGender => text().map(const PersonTableGenderConverter())();
 
   TextColumn get birthGender => text().map(const PersonTableGenderConverter())();
-
 }
 
 extension DbPersonExtension on DbPerson {

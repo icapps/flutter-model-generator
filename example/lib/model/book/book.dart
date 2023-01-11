@@ -28,6 +28,8 @@ class Book {
   final int? pages;
   @JsonKey(name: 'publishers', includeIfNull: false)
   final List<Person>? publishers;
+  @JsonKey(name: 'tags', includeIfNull: false)
+  final List<String>? tags;
   @JsonKey(name: 'secondCategory')
   final BookCategory? secondCategory;
 
@@ -41,6 +43,7 @@ class Book {
     this.price,
     this.pages,
     this.publishers,
+    this.tags,
     this.secondCategory,
   });
 
@@ -62,6 +65,7 @@ class Book {
           price == other.price &&
           pages == other.pages &&
           publishers == other.publishers &&
+          tags == other.tags &&
           secondCategory == other.secondCategory;
 
   @override
@@ -75,10 +79,12 @@ class Book {
       price.hashCode ^
       pages.hashCode ^
       publishers.hashCode ^
+      tags.hashCode ^
       secondCategory.hashCode;
 
   @override
-  String toString() => 'Book{'
+  String toString() =>
+      'Book{'
       'id: $id, '
       'name: $name, '
       'publishingDate: $publishingDate, '
@@ -88,16 +94,18 @@ class Book {
       'price: $price, '
       'pages: $pages, '
       'publishers: $publishers, '
+      'tags: $tags, '
       'secondCategory: $secondCategory'
       '}';
+
 }
 
 const deserializeBook = Book.fromJson;
 
 Map<String, dynamic> serializeBook(Book object) => object.toJson();
 
-List<Book> deserializeBookList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map(Book.fromJson).toList();
+List<Book> deserializeBookList(List<Map<String, dynamic>> jsonList)
+    => jsonList.map(Book.fromJson).toList();
 
-List<Map<String, dynamic>> serializeBookList(List<Book> objects) =>
-    objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializeBookList(List<Book> objects)
+    => objects.map((object) => object.toJson()).toList();

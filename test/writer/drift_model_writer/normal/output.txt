@@ -7,7 +7,6 @@ import 'package:model_generator_example/model/user/person/person.dart';
 @DataClassName('DbPerson')
 class DbPersonTable extends Table {
   TextColumn get firstName => text()();
-
 }
 
 extension DbPersonExtension on DbPerson {

@@ -11,7 +11,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   final BookCategory category;
   final double? price;
   final int? pages;
+  final List<String>? tags;
   final BookCategory? secondCategory;
+  final String? onlyInDb;
   const DbBook(
       {required this.id,
       required this.name,
@@ -20,7 +22,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       required this.category,
       this.price,
       this.pages,
-      this.secondCategory});
+      this.tags,
+      this.secondCategory,
+      this.onlyInDb});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -38,10 +42,17 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     if (!nullToAbsent || pages != null) {
       map['pages'] = Variable<int>(pages);
     }
+    if (!nullToAbsent || tags != null) {
+      final converter = $DbBookTableTable.$convertertagsn;
+      map['tags'] = Variable<String>(converter.toSql(tags));
+    }
     if (!nullToAbsent || secondCategory != null) {
-      final converter = $DbBookTableTable.$convertersecondCategoryn;
+      final converter = $DbBookTableTable.$convertersecondCategory;
       map['second_category'] =
           Variable<String>(converter.toSql(secondCategory));
+    }
+    if (!nullToAbsent || onlyInDb != null) {
+      map['only_in_db'] = Variable<String>(onlyInDb);
     }
     return map;
   }
@@ -57,9 +68,13 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           price == null && nullToAbsent ? const Value.absent() : Value(price),
       pages:
           pages == null && nullToAbsent ? const Value.absent() : Value(pages),
+      tags: tags == null && nullToAbsent ? const Value.absent() : Value(tags),
       secondCategory: secondCategory == null && nullToAbsent
           ? const Value.absent()
           : Value(secondCategory),
+      onlyInDb: onlyInDb == null && nullToAbsent
+          ? const Value.absent()
+          : Value(onlyInDb),
     );
   }
 
@@ -74,8 +89,10 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       category: serializer.fromJson<BookCategory>(json['category']),
       price: serializer.fromJson<double?>(json['price']),
       pages: serializer.fromJson<int?>(json['pages']),
+      tags: serializer.fromJson<List<String>?>(json['tags']),
       secondCategory:
           serializer.fromJson<BookCategory?>(json['secondCategory']),
+      onlyInDb: serializer.fromJson<String?>(json['onlyInDb']),
     );
   }
   @override
@@ -89,7 +106,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       'category': serializer.toJson<BookCategory>(category),
       'price': serializer.toJson<double?>(price),
       'pages': serializer.toJson<int?>(pages),
+      'tags': serializer.toJson<List<String>?>(tags),
       'secondCategory': serializer.toJson<BookCategory?>(secondCategory),
+      'onlyInDb': serializer.toJson<String?>(onlyInDb),
     };
   }
 
@@ -101,7 +120,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           BookCategory? category,
           Value<double?> price = const Value.absent(),
           Value<int?> pages = const Value.absent(),
-          Value<BookCategory?> secondCategory = const Value.absent()}) =>
+          Value<List<String>?> tags = const Value.absent(),
+          Value<BookCategory?> secondCategory = const Value.absent(),
+          Value<String?> onlyInDb = const Value.absent()}) =>
       DbBook(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -110,8 +131,10 @@ class DbBook extends DataClass implements Insertable<DbBook> {
         category: category ?? this.category,
         price: price.present ? price.value : this.price,
         pages: pages.present ? pages.value : this.pages,
+        tags: tags.present ? tags.value : this.tags,
         secondCategory:
             secondCategory.present ? secondCategory.value : this.secondCategory,
+        onlyInDb: onlyInDb.present ? onlyInDb.value : this.onlyInDb,
       );
   @override
   String toString() {
@@ -123,14 +146,16 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           ..write('category: $category, ')
           ..write('price: $price, ')
           ..write('pages: $pages, ')
-          ..write('secondCategory: $secondCategory')
+          ..write('tags: $tags, ')
+          ..write('secondCategory: $secondCategory, ')
+          ..write('onlyInDb: $onlyInDb')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(id, name, publishingDate, isAvailable,
-      category, price, pages, secondCategory);
+      category, price, pages, tags, secondCategory, onlyInDb);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -142,7 +167,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           other.category == this.category &&
           other.price == this.price &&
           other.pages == this.pages &&
-          other.secondCategory == this.secondCategory);
+          other.tags == this.tags &&
+          other.secondCategory == this.secondCategory &&
+          other.onlyInDb == this.onlyInDb);
 }
 
 class DbBookTableCompanion extends UpdateCompanion<DbBook> {
@@ -153,7 +180,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<BookCategory> category;
   final Value<double?> price;
   final Value<int?> pages;
+  final Value<List<String>?> tags;
   final Value<BookCategory?> secondCategory;
+  final Value<String?> onlyInDb;
   const DbBookTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -162,7 +191,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.category = const Value.absent(),
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
+    this.tags = const Value.absent(),
     this.secondCategory = const Value.absent(),
+    this.onlyInDb = const Value.absent(),
   });
   DbBookTableCompanion.insert({
     this.id = const Value.absent(),
@@ -172,7 +203,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     required BookCategory category,
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
+    this.tags = const Value.absent(),
     this.secondCategory = const Value.absent(),
+    this.onlyInDb = const Value.absent(),
   })  : name = Value(name),
         publishingDate = Value(publishingDate),
         isAvailable = Value(isAvailable),
@@ -185,7 +218,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     Expression<String>? category,
     Expression<double>? price,
     Expression<int>? pages,
+    Expression<String>? tags,
     Expression<String>? secondCategory,
+    Expression<String>? onlyInDb,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -195,7 +230,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       if (category != null) 'category': category,
       if (price != null) 'price': price,
       if (pages != null) 'pages': pages,
+      if (tags != null) 'tags': tags,
       if (secondCategory != null) 'second_category': secondCategory,
+      if (onlyInDb != null) 'only_in_db': onlyInDb,
     });
   }
 
@@ -207,7 +244,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       Value<BookCategory>? category,
       Value<double?>? price,
       Value<int?>? pages,
-      Value<BookCategory?>? secondCategory}) {
+      Value<List<String>?>? tags,
+      Value<BookCategory?>? secondCategory,
+      Value<String?>? onlyInDb}) {
     return DbBookTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -216,7 +255,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       category: category ?? this.category,
       price: price ?? this.price,
       pages: pages ?? this.pages,
+      tags: tags ?? this.tags,
       secondCategory: secondCategory ?? this.secondCategory,
+      onlyInDb: onlyInDb ?? this.onlyInDb,
     );
   }
 
@@ -245,10 +286,17 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     if (pages.present) {
       map['pages'] = Variable<int>(pages.value);
     }
+    if (tags.present) {
+      final converter = $DbBookTableTable.$convertertagsn;
+      map['tags'] = Variable<String>(converter.toSql(tags.value));
+    }
     if (secondCategory.present) {
-      final converter = $DbBookTableTable.$convertersecondCategoryn;
+      final converter = $DbBookTableTable.$convertersecondCategory;
       map['second_category'] =
           Variable<String>(converter.toSql(secondCategory.value));
+    }
+    if (onlyInDb.present) {
+      map['only_in_db'] = Variable<String>(onlyInDb.value);
     }
     return map;
   }
@@ -263,7 +311,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
           ..write('category: $category, ')
           ..write('price: $price, ')
           ..write('pages: $pages, ')
-          ..write('secondCategory: $secondCategory')
+          ..write('tags: $tags, ')
+          ..write('secondCategory: $secondCategory, ')
+          ..write('onlyInDb: $onlyInDb')
           ..write(')'))
         .toString();
   }
@@ -320,6 +370,12 @@ class $DbBookTableTable extends DbBookTable
   late final GeneratedColumn<int> pages = GeneratedColumn<int>(
       'pages', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String> tags =
+      GeneratedColumn<String>('tags', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<List<String>?>($DbBookTableTable.$convertertagsn);
   static const VerificationMeta _secondCategoryMeta =
       const VerificationMeta('secondCategory');
   @override
@@ -328,7 +384,13 @@ class $DbBookTableTable extends DbBookTable
               'second_category', aliasedName, true,
               type: DriftSqlType.string, requiredDuringInsert: false)
           .withConverter<BookCategory?>(
-              $DbBookTableTable.$convertersecondCategoryn);
+              $DbBookTableTable.$convertersecondCategory);
+  static const VerificationMeta _onlyInDbMeta =
+      const VerificationMeta('onlyInDb');
+  @override
+  late final GeneratedColumn<String> onlyInDb = GeneratedColumn<String>(
+      'only_in_db', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -338,7 +400,9 @@ class $DbBookTableTable extends DbBookTable
         category,
         price,
         pages,
-        secondCategory
+        tags,
+        secondCategory,
+        onlyInDb
       ];
   @override
   String get aliasedName => _alias ?? 'db_book_table';
@@ -383,7 +447,12 @@ class $DbBookTableTable extends DbBookTable
       context.handle(
           _pagesMeta, pages.isAcceptableOrUnknown(data['pages']!, _pagesMeta));
     }
+    context.handle(_tagsMeta, const VerificationResult.success());
     context.handle(_secondCategoryMeta, const VerificationResult.success());
+    if (data.containsKey('only_in_db')) {
+      context.handle(_onlyInDbMeta,
+          onlyInDb.isAcceptableOrUnknown(data['only_in_db']!, _onlyInDbMeta));
+    }
     return context;
   }
 
@@ -408,9 +477,14 @@ class $DbBookTableTable extends DbBookTable
           .read(DriftSqlType.double, data['${effectivePrefix}price']),
       pages: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}pages']),
-      secondCategory: $DbBookTableTable.$convertersecondCategoryn.fromSql(
+      tags: $DbBookTableTable.$convertertagsn.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}tags'])),
+      secondCategory: $DbBookTableTable.$convertersecondCategory.fromSql(
           attachedDatabase.typeMapping.read(
               DriftSqlType.string, data['${effectivePrefix}second_category'])),
+      onlyInDb: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}only_in_db']),
     );
   }
 
@@ -421,10 +495,12 @@ class $DbBookTableTable extends DbBookTable
 
   static TypeConverter<BookCategory, String> $convertercategory =
       const BookTableBookCategoryConverter();
-  static TypeConverter<BookCategory, String> $convertersecondCategory =
-      const BookTableBookCategoryConverter();
-  static TypeConverter<BookCategory?, String?> $convertersecondCategoryn =
-      NullAwareTypeConverter.wrap($convertersecondCategory);
+  static TypeConverter<List<String>, String> $convertertags =
+      const StringListConverter();
+  static TypeConverter<List<String>?, String?> $convertertagsn =
+      NullAwareTypeConverter.wrap($convertertags);
+  static TypeConverter<BookCategory?, String?> $convertersecondCategory =
+      const BookTableBookCategoryNullableConverter();
 }
 
 abstract class _$ModelGeneratorExampleDatabase extends GeneratedDatabase {

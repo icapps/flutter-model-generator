@@ -9,7 +9,6 @@ class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
   IntColumn get id => integer().autoIncrement()();
-
 }
 
 extension DbPersonExtension on DbPerson {

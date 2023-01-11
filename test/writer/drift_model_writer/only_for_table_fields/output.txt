@@ -5,36 +5,21 @@ import 'package:model_generator_example/database/model_generator_example_databas
 import 'package:model_generator_example/model/user/person/person.dart';
 
 @DataClassName('DbPerson')
-///this is a person
 class DbPersonTable extends Table {
   TextColumn get firstName => text()();
 
-  BoolColumn get boolField => boolean()();
-
-  DateTimeColumn get birthDay => dateTime()();
-
-  RealColumn get doubleField => real()();
-
-  ///this is an int field
-  IntColumn get intField => integer()();
+  TextColumn get lastName => text().nullable()();
 }
 
 extension DbPersonExtension on DbPerson {
   Person get model => Person(
         firstName: firstName,
-        boolField: boolField,
-        birthDay: birthDay,
-        doubleField: doubleField,
-        intField: intField,
       );
 }
 
 extension PersonExtension on Person {
-  DbPerson get dbModel => DbPerson(
+  DbPerson getModel({String? lastName}) => DbPerson(
         firstName: firstName,
-        boolField: boolField,
-        birthDay: birthDay,
-        doubleField: doubleField,
-        intField: intField,
+        lastName: lastName,
       );
 }

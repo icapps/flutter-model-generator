@@ -1,0 +1,14 @@
+Person:
+  path: user/person/
+  generate_drift_table: true
+  properties:
+    firstName: string
+    prefferedGender: Gender
+    birthGender: Gender?
+Gender:
+  path: user/person/
+  type: enum
+  properties:
+    MALE:
+    FEMALE:
+    X:

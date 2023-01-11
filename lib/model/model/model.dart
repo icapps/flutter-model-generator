@@ -7,6 +7,7 @@ abstract class Model {
   final String? extendsModel;
   final String name;
   final List<String>? extraImports;
+  final List<String>? extraImportsForTable;
   final List<String>? extraAnnotations;
   final String? description;
 
@@ -14,8 +15,9 @@ abstract class Model {
     required this.name,
     required String? path,
     required String? baseDirectory,
-    required this.extraImports,
     required this.extraAnnotations,
+    this.extraImports = const [],
+    this.extraImportsForTable = const [],
     this.extendsModel,
     this.description,
   })  : path = getPath(path),

@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:model_generator_example/database/model/book/book.dart';
+import 'package:model_generator_example/model/book/book_category.dart';
 
 part 'model_generator_example_database.g.dart';
 
