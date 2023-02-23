@@ -103,6 +103,13 @@ class YmlGeneratorConfig {
             ? const StringType()
             : _parseSimpleType(value['item_type']);
 
+        if (itemType is! StringType &&
+            itemType is! IntegerType &&
+            itemType is! DoubleType) {
+          throw Exception(
+              'item_type should be a string or integer. model: $key');
+        }
+
         final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
           if (propertyValue != null && propertyValue is! YamlMap) {
