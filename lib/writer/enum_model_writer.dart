@@ -1,3 +1,4 @@
+import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 
@@ -27,9 +28,12 @@ class EnumModelWriter {
       if (description != null) {
         sb.writeln('  ///$description');
       }
-      sb
-        ..writeln("  @JsonValue('$jsonValue')")
-        ..writeln('  ${key.name},');
+      if (jsonModel.itemType is StringType) {
+        sb.writeln("  @JsonValue('$jsonValue')");
+      } else {
+        sb.writeln("  @JsonValue($jsonValue)");
+      }
+      sb.writeln('  ${key.name},');
     });
     sb.writeln('}');
 

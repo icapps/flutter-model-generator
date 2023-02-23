@@ -36,9 +36,7 @@ class CustomBaseDirectoryObj {
       '}';
 }
 
-CustomBaseDirectoryObj deserializeCustomBaseDirectoryObj(
-        Map<String, dynamic> json) =>
-    CustomBaseDirectoryObj.fromJson(json);
+const deserializeCustomBaseDirectoryObj = CustomBaseDirectoryObj.fromJson;
 
 Map<String, dynamic> serializeCustomBaseDirectoryObj(
         CustomBaseDirectoryObj object) =>
@@ -46,7 +44,7 @@ Map<String, dynamic> serializeCustomBaseDirectoryObj(
 
 List<CustomBaseDirectoryObj> deserializeCustomBaseDirectoryObjList(
         List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => CustomBaseDirectoryObj.fromJson(json)).toList();
+    jsonList.map(CustomBaseDirectoryObj.fromJson).toList();
 
 List<Map<String, dynamic>> serializeCustomBaseDirectoryObjList(
         List<CustomBaseDirectoryObj> objects) =>

@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/status/status.dart';
 
 part 'project.g.dart';
 
@@ -16,10 +17,14 @@ class Project {
   final String name;
   @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;
+  @JsonKey(
+      name: 'status', includeIfNull: false, unknownEnumValue: Status.STATUS_0)
+  final Status? status;
 
   const Project({
     this.name = 'test',
     this.cost = 0.2,
+    this.status,
   });
 
   factory Project.fromJson(Object? json) =>
@@ -36,24 +41,26 @@ class Project {
       other is Project &&
           runtimeType == other.runtimeType &&
           name == other.name &&
-          cost == other.cost;
+          cost == other.cost &&
+          status == other.status;
 
   @override
-  int get hashCode => name.hashCode ^ cost.hashCode;
+  int get hashCode => name.hashCode ^ cost.hashCode ^ status.hashCode;
 
   @override
   String toString() => 'Project{'
       'name: $name, '
-      'cost: $cost'
+      'cost: $cost, '
+      'status: $status'
       '}';
 }
 
-Project deserializeProject(Map<String, dynamic> json) => Project.fromJson(json);
+const deserializeProject = Project.fromJson;
 
 Map<String, dynamic> serializeProject(Project object) => object.toJson();
 
 List<Project> deserializeProjectList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => Project.fromJson(json)).toList();
+    jsonList.map(Project.fromJson).toList();
 
 List<Map<String, dynamic>> serializeProjectList(List<Project> objects) =>
     objects.map((object) => object.toJson()).toList();

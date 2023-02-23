@@ -1,7 +1,10 @@
+import 'package:model_generator/model/item_type/item_type.dart';
+import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/model.dart';
 
 class EnumModel extends Model {
   final List<EnumField>? fields;
+  final ItemType itemType;
   final bool generateMap;
   final bool generateExtensions;
 
@@ -10,6 +13,7 @@ class EnumModel extends Model {
     String? path,
     String? baseDirectory,
     this.fields,
+    this.itemType = const StringType(),
     List<String>? extraImports,
     List<String>? extraAnnotations,
     this.generateMap = false,

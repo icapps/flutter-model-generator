@@ -37,9 +37,7 @@ class NoCustomBaseDirectoryObj {
       '}';
 }
 
-NoCustomBaseDirectoryObj deserializeNoCustomBaseDirectoryObj(
-        Map<String, dynamic> json) =>
-    NoCustomBaseDirectoryObj.fromJson(json);
+const deserializeNoCustomBaseDirectoryObj = NoCustomBaseDirectoryObj.fromJson;
 
 Map<String, dynamic> serializeNoCustomBaseDirectoryObj(
         NoCustomBaseDirectoryObj object) =>
@@ -47,7 +45,7 @@ Map<String, dynamic> serializeNoCustomBaseDirectoryObj(
 
 List<NoCustomBaseDirectoryObj> deserializeNoCustomBaseDirectoryObjList(
         List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => NoCustomBaseDirectoryObj.fromJson(json)).toList();
+    jsonList.map(NoCustomBaseDirectoryObj.fromJson).toList();
 
 List<Map<String, dynamic>> serializeNoCustomBaseDirectoryObjList(
         List<NoCustomBaseDirectoryObj> objects) =>

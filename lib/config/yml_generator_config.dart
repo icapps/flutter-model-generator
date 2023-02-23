@@ -99,6 +99,9 @@ class YmlGeneratorConfig {
       if (type == 'enum') {
         final uppercaseEnums =
             (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
+        final itemType = value['item_type'] == null
+            ? const StringType()
+            : _parseSimpleType(value['item_type']);
 
         final fields = <EnumField>[];
         properties.forEach((propertyKey, propertyValue) {
@@ -108,7 +111,9 @@ class YmlGeneratorConfig {
           fields.add(EnumField(
             name: uppercaseEnums ? propertyKey.toUpperCase() : propertyKey,
             rawName: propertyKey,
-            value: propertyValue == null ? null : propertyValue['value'],
+            value: propertyValue == null
+                ? null
+                : propertyValue['value'].toString(),
             description:
                 propertyValue == null ? null : propertyValue['description'],
           ));
@@ -120,6 +125,7 @@ class YmlGeneratorConfig {
           generateExtensions: value['generate_extensions'] == true,
           baseDirectory: baseDirectory,
           fields: fields,
+          itemType: itemType,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
           description: description,

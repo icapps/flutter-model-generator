@@ -18,3 +18,16 @@ Gender:
       value:
     GENDER_lap:
       value: GENDER_lap
+Status:
+  path: status
+  type: enum
+  item_type: int
+  properties:
+    status_0:
+      value: 0
+    status_1:
+      value: 1
+    status_2:
+      value: 2
+    status_3:
+      value: 3
