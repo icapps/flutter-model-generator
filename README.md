@@ -378,7 +378,7 @@ Items post-fixed with `?` will be marked optional.
 
 ## Enum support
 
-Add enums with custom values
+Add enums with custom values (can be mapped to String,double,int)
 
 ```yaml
 Gender:
