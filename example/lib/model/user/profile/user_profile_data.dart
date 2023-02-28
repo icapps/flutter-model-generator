@@ -100,15 +100,14 @@ class UserProfileData {
       '}';
 }
 
-UserProfileData deserializeUserProfileData(Map<String, dynamic> json) =>
-    UserProfileData.fromJson(json);
+const deserializeUserProfileData = UserProfileData.fromJson;
 
 Map<String, dynamic> serializeUserProfileData(UserProfileData object) =>
     object.toJson();
 
 List<UserProfileData> deserializeUserProfileDataList(
         List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => UserProfileData.fromJson(json)).toList();
+    jsonList.map(UserProfileData.fromJson).toList();
 
 List<Map<String, dynamic>> serializeUserProfileDataList(
         List<UserProfileData> objects) =>

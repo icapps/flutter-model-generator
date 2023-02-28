@@ -1,4 +1,7 @@
 # Changelog
+## [6.2.0] - 2023-02-23
+- Better enum support. Right now, String, int, double can be used to map a value to an enum.
+
 ## [6.1.0] - 2022-10-14
 - Support passing a directory instead of a file. All .yaml files inside this folder (recursively) will be used to build the final model data.
 

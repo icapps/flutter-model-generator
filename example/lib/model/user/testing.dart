@@ -43,12 +43,12 @@ class Testing {
   Map<String, dynamic> toJson() => _$TestingToJson(this);
 }
 
-Testing deserializeTesting(Map<String, dynamic> json) => Testing.fromJson(json);
+const deserializeTesting = Testing.fromJson;
 
 Map<String, dynamic> serializeTesting(Testing object) => object.toJson();
 
 List<Testing> deserializeTestingList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => Testing.fromJson(json)).toList();
+    jsonList.map(Testing.fromJson).toList();
 
 List<Map<String, dynamic>> serializeTestingList(List<Testing> objects) =>
     objects.map((object) => object.toJson()).toList();

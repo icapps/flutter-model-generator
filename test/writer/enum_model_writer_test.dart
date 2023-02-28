@@ -1,3 +1,5 @@
+import 'package:model_generator/model/item_type/double_type.dart';
+import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:test/test.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 
@@ -25,6 +27,51 @@ void main() {
         ],
       );
       WriterTestHelper.testEnumModelWriter(model, 'normal');
+    });
+
+    test('Normal EnumModel with int type', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        itemType: IntegerType(),
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: '1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: '2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(model, 'normal_with_int_type');
+    });
+    test('Normal EnumModel with double type', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        itemType: DoubleType(),
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: '1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: '2.2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(model, 'normal_with_double_type');
     });
 
     test('Normal EnumModel custom value', () {

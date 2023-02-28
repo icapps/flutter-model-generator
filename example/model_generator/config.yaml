@@ -175,8 +175,6 @@ Project:
     cost:
       type: double
       default_value: 0.2
-
-
-
-
-
+    status:
+      type: Status
+      unknown_enum_value: STATUS_0

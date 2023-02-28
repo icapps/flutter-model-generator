@@ -103,12 +103,12 @@ class OGM {
       '}';
 }
 
-OGM deserializeOGM(Map<String, dynamic> json) => OGM.fromJson(json);
+const deserializeOGM = OGM.fromJson;
 
 Map<String, dynamic> serializeOGM(OGM object) => object.toJson();
 
 List<OGM> deserializeOGMList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map((json) => OGM.fromJson(json)).toList();
+    jsonList.map(OGM.fromJson).toList();
 
 List<Map<String, dynamic>> serializeOGMList(List<OGM> objects) =>
     objects.map((object) => object.toJson()).toList();

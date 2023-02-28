@@ -30,9 +30,8 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     structuredMessage: json['structuredMessage'] as String?,
     securityRole: json['securityIndicator'] as String?,
     mutableProperty: json['mutableProperty'] as String?,
-    dateChange: json['dateChange'] == null
-        ? null
-        : DateTime.parse(json['dateChange'] as String),
+    dateChange: _$JsonConverterFromJson<String, DateTime>(
+        json['dateChange'], const DateTimeConverter().fromJson),
     fields: (json['fields'] as List<dynamic>?)
         ?.map((e) => (e as List<dynamic>)
             .map((e) => Testing.fromJson(e as Map<String, dynamic>))
@@ -63,9 +62,24 @@ Map<String, dynamic> _$OGMToJson(OGM instance) {
 
   writeNotNull('securityIndicator', instance.securityRole);
   writeNotNull('mutableProperty', instance.mutableProperty);
-  writeNotNull('dateChange', instance.dateChange?.toIso8601String());
+  writeNotNull(
+      'dateChange',
+      _$JsonConverterToJson<String, DateTime>(
+          instance.dateChange, const DateTimeConverter().toJson));
   writeNotNull('fields',
       instance.fields?.map((e) => e.map((e) => e.toJson()).toList()).toList());
   val['simpleMap'] = instance.simpleMap?.map((k, e) => MapEntry(k, e.toJson()));
   return val;
 }
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);
