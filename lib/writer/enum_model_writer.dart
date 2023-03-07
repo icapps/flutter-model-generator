@@ -37,10 +37,10 @@ class EnumModelWriter {
     sb.writeln('}');
 
     if (jsonModel.generateMap) {
-      final jsonModelNameSnakeCase = CaseUtil(jsonModel.name).snakeCase;
+      final jsonModelNameCamalCase = CaseUtil(jsonModel.name).camelCase;
       sb
         ..writeln()
-        ..writeln('const ${jsonModelNameSnakeCase}Mapping = {');
+        ..writeln('const ${jsonModelNameCamalCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
@@ -73,7 +73,7 @@ class EnumModelWriter {
         sb
           ..writeln()
           ..writeln('extension ${jsonModel.name}Extension on ${jsonModel.name} {')
-          ..writeln('  ${jsonModel.itemType.name} get ${jsonModel.itemType.name}Value => ${jsonModelNameSnakeCase}Mapping[this]!;')
+          ..writeln('  ${jsonModel.itemType.name} get ${jsonModel.itemType.name}Value => ${jsonModelNameCamalCase}Mapping[this]!;')
           ..writeln('}')
           ..writeln()
           ..writeln('extension ${jsonModel.name}${jsonModel.itemType.name}Extension on ${jsonModel.itemType.name} {')
