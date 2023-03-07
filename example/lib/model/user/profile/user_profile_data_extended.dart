@@ -42,8 +42,7 @@ class UserProfileDataExtended extends UserProfileData {
           personsById: personsById,
         );
 
-  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileDataExtendedFromJson(json);
+  factory UserProfileDataExtended.fromJson(Map<String, dynamic> json) => _$UserProfileDataExtendedFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$UserProfileDataExtendedToJson(this);
@@ -57,10 +56,13 @@ class UserProfileDataExtended extends UserProfileData {
           super == other;
 
   @override
-  int get hashCode => additionalField.hashCode ^ super.hashCode;
+  int get hashCode =>
+      additionalField.hashCode ^ 
+      super.hashCode;
 
   @override
-  String toString() => 'UserProfileDataExtended{'
+  String toString() =>
+      'UserProfileDataExtended{'
       'additionalField: $additionalField, '
       'firstName: $firstName, '
       'lastName: $lastName, '
@@ -74,18 +76,15 @@ class UserProfileDataExtended extends UserProfileData {
       'persons: $persons, '
       'personsById: $personsById'
       '}';
+
 }
 
 const deserializeUserProfileDataExtended = UserProfileDataExtended.fromJson;
 
-Map<String, dynamic> serializeUserProfileDataExtended(
-        UserProfileDataExtended object) =>
-    object.toJson();
+Map<String, dynamic> serializeUserProfileDataExtended(UserProfileDataExtended object) => object.toJson();
 
-List<UserProfileDataExtended> deserializeUserProfileDataExtendedList(
-        List<Map<String, dynamic>> jsonList) =>
-    jsonList.map(UserProfileDataExtended.fromJson).toList();
+List<UserProfileDataExtended> deserializeUserProfileDataExtendedList(List<Map<String, dynamic>> jsonList)
+    => jsonList.map(UserProfileDataExtended.fromJson).toList();
 
-List<Map<String, dynamic>> serializeUserProfileDataExtendedList(
-        List<UserProfileDataExtended> objects) =>
-    objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializeUserProfileDataExtendedList(List<UserProfileDataExtended> objects)
+    => objects.map((object) => object.toJson()).toList();

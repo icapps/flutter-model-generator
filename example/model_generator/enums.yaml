@@ -18,10 +18,13 @@ Gender:
       value:
     GENDER_lap:
       value: GENDER_lap
+
 Status:
   path: status
   type: enum
   item_type: int
+  generate_map: true
+  generate_extensions: true
   properties:
     status_0:
       value: 0

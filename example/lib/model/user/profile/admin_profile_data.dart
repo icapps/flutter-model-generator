@@ -44,8 +44,7 @@ class AdminProfileData extends UserProfileDataExtended {
           personsById: personsById,
         );
 
-  factory AdminProfileData.fromJson(Map<String, dynamic> json) =>
-      _$AdminProfileDataFromJson(json);
+  factory AdminProfileData.fromJson(Map<String, dynamic> json) => _$AdminProfileDataFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$AdminProfileDataToJson(this);
@@ -59,10 +58,13 @@ class AdminProfileData extends UserProfileDataExtended {
           super == other;
 
   @override
-  int get hashCode => privileges.hashCode ^ super.hashCode;
+  int get hashCode =>
+      privileges.hashCode ^ 
+      super.hashCode;
 
   @override
-  String toString() => 'AdminProfileData{'
+  String toString() =>
+      'AdminProfileData{'
       'privileges: $privileges, '
       'additionalField: $additionalField, '
       'firstName: $firstName, '
@@ -77,17 +79,15 @@ class AdminProfileData extends UserProfileDataExtended {
       'persons: $persons, '
       'personsById: $personsById'
       '}';
+
 }
 
 const deserializeAdminProfileData = AdminProfileData.fromJson;
 
-Map<String, dynamic> serializeAdminProfileData(AdminProfileData object) =>
-    object.toJson();
+Map<String, dynamic> serializeAdminProfileData(AdminProfileData object) => object.toJson();
 
-List<AdminProfileData> deserializeAdminProfileDataList(
-        List<Map<String, dynamic>> jsonList) =>
-    jsonList.map(AdminProfileData.fromJson).toList();
+List<AdminProfileData> deserializeAdminProfileDataList(List<Map<String, dynamic>> jsonList)
+    => jsonList.map(AdminProfileData.fromJson).toList();
 
-List<Map<String, dynamic>> serializeAdminProfileDataList(
-        List<AdminProfileData> objects) =>
-    objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializeAdminProfileDataList(List<AdminProfileData> objects)
+    => objects.map((object) => object.toJson()).toList();

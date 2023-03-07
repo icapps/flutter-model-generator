@@ -1,5 +1,6 @@
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
+import 'package:model_generator/util/case_util.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 
 class EnumModelWriter {
@@ -21,9 +22,7 @@ class EnumModelWriter {
 
     sb.writeln('enum ${jsonModel.name} {');
     jsonModel.fields?.forEach((key) {
-      final jsonValue = key.value == null || key.value?.isEmpty == null
-          ? key.serializedName
-          : key.value;
+      final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -38,17 +37,19 @@ class EnumModelWriter {
     sb.writeln('}');
 
     if (jsonModel.generateMap) {
+      final jsonModelNameSnakeCase = CaseUtil(jsonModel.name).snakeCase;
       sb
         ..writeln()
-        ..writeln('const ${jsonModel.name}Mapping = {');
+        ..writeln('const ${jsonModelNameSnakeCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
-        final jsonValue = key.value == null || key.value?.isEmpty == null
-            ? key.serializedName
-            : key.value;
-        sb
-          ..write('  ${jsonModel.name}.${key.name}: ')
-          ..writeln('\'$jsonValue\',');
+        final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
+        sb.write('  ${jsonModel.name}.${key.name}: ');
+        if (jsonModel.itemType is StringType) {
+          sb.writeln('\'$jsonValue\',');
+        } else {
+          sb.writeln('$jsonValue,');
+        }
       });
 
       sb
@@ -57,12 +58,13 @@ class EnumModelWriter {
         ..writeln('const reverse${jsonModel.name}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
-        final jsonValue = key.value == null || key.value?.isEmpty == null
-            ? key.serializedName
-            : key.value;
-        sb
-          ..write('  \'$jsonValue\': ')
-          ..writeln('${jsonModel.name}.${key.name},');
+        final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
+        if (jsonModel.itemType is StringType) {
+          sb.write('  \'$jsonValue\': ');
+        } else {
+          sb.write('  $jsonValue: ');
+        }
+        sb.writeln('${jsonModel.name}.${key.name},');
       });
 
       sb.writeln('};');
@@ -70,15 +72,12 @@ class EnumModelWriter {
       if (jsonModel.generateExtensions) {
         sb
           ..writeln()
-          ..writeln(
-              'extension ${jsonModel.name}Extension on ${jsonModel.name} {')
-          ..writeln(
-              '  String get stringValue => ${jsonModel.name}Mapping[this]!;')
+          ..writeln('extension ${jsonModel.name}Extension on ${jsonModel.name} {')
+          ..writeln('  ${jsonModel.itemType.name} get ${jsonModel.itemType.name}Value => ${jsonModelNameSnakeCase}Mapping[this]!;')
           ..writeln('}')
           ..writeln()
-          ..writeln('extension ${jsonModel.name}StringExtension on String {')
-          ..writeln(
-              '  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
+          ..writeln('extension ${jsonModel.name}${jsonModel.itemType.name}Extension on ${jsonModel.itemType.name} {')
+          ..writeln('  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
           ..writeln('}');
       }
     }

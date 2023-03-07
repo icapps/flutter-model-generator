@@ -12,3 +12,25 @@ enum Status {
   @JsonValue(3)
   STATUS_3,
 }
+
+const statusMapping = {
+  Status.STATUS_0: 0,
+  Status.STATUS_1: 1,
+  Status.STATUS_2: 2,
+  Status.STATUS_3: 3,
+};
+
+const reverseStatusMapping = {
+  0: Status.STATUS_0,
+  1: Status.STATUS_1,
+  2: Status.STATUS_2,
+  3: Status.STATUS_3,
+};
+
+extension StatusExtension on Status {
+  int get intValue => statusMapping[this]!;
+}
+
+extension StatusintExtension on int {
+  Status? get asStatus => reverseStatusMapping[this];
+}
