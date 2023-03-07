@@ -36,6 +36,6 @@ class Field {
     this.disallowNull = false,
     String? jsonKey,
   })  : serializedName = jsonKey ?? name,
-        name =
-            CaseUtil(KeywordHelper.instance.getCorrectKeyword(name)).camelCase;
+        name = CaseUtil(KeywordHelper.instance.getCorrectKeyword(name))
+            .lowerCamelCase;
 }

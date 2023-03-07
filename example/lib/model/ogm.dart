@@ -87,8 +87,7 @@ class OGM {
       simpleMap.hashCode;
 
   @override
-  String toString() =>
-      'OGM{'
+  String toString() => 'OGM{'
       'beneficiary: $beneficiary, '
       'beneficiaryIBAN: $beneficiaryIBAN, '
       'testTest: $testTest, '
@@ -102,15 +101,14 @@ class OGM {
       'fields: $fields, '
       'simpleMap: $simpleMap'
       '}';
-
 }
 
 const deserializeOGM = OGM.fromJson;
 
 Map<String, dynamic> serializeOGM(OGM object) => object.toJson();
 
-List<OGM> deserializeOGMList(List<Map<String, dynamic>> jsonList)
-    => jsonList.map(OGM.fromJson).toList();
+List<OGM> deserializeOGMList(List<Map<String, dynamic>> jsonList) =>
+    jsonList.map(OGM.fromJson).toList();
 
-List<Map<String, dynamic>> serializeOGMList(List<OGM> objects)
-    => objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializeOGMList(List<OGM> objects) =>
+    objects.map((object) => object.toJson()).toList();

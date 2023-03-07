@@ -51,6 +51,57 @@ void main() {
       );
       WriterTestHelper.testEnumModelWriter(model, 'normal_with_int_type');
     });
+
+    test('Normal EnumModel with int type generate map', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        itemType: IntegerType(),
+        generateMap: true,
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: '1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: '2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(model, 'normal_with_int_type_map');
+    });
+
+    test('Normal EnumModel with int type generate map extension', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        itemType: IntegerType(),
+        generateMap: true,
+        generateExtensions: true,
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: '1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: '2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(
+          model, 'normal_with_int_type_map_extension');
+    });
+
     test('Normal EnumModel with double type', () {
       final model = EnumModel(
         name: 'MyEnumModel',
@@ -72,6 +123,57 @@ void main() {
         ],
       );
       WriterTestHelper.testEnumModelWriter(model, 'normal_with_double_type');
+    });
+
+    test('Normal EnumModel with double type generate map', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        itemType: DoubleType(),
+        generateMap: true,
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: '1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: '2.2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(
+          model, 'normal_with_double_type_map');
+    });
+
+    test('Normal EnumModel with double type generate map extension', () {
+      final model = EnumModel(
+        name: 'MyEnumModel',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        itemType: DoubleType(),
+        generateMap: true,
+        generateExtensions: true,
+        fields: [
+          EnumField(
+            name: 'MY_VALUE_1',
+            rawName: 'MY_VALUE_1',
+            value: '1',
+            description: 'A good description of this field',
+          ),
+          EnumField(
+            name: 'MY_VALUE_2',
+            rawName: 'MY_VALUE_2',
+            value: '2.2',
+          ),
+        ],
+      );
+      WriterTestHelper.testEnumModelWriter(
+          model, 'normal_with_double_type_map_extension');
     });
 
     test('Normal EnumModel custom value', () {
@@ -125,7 +227,7 @@ void main() {
       WriterTestHelper.testEnumModelWriter(model, 'no-fields');
     });
 
-    test('Normal EnumModel generate map', () {
+    test('Custom EnumModel generate map', () {
       final model = EnumModel(
         name: 'MyEnumModel',
         path: 'path_to_my_model',
@@ -146,7 +248,7 @@ void main() {
       WriterTestHelper.testEnumModelWriter(model, 'custom-value-map');
     });
 
-    test('Normal EnumModel generate map extension', () {
+    test('Custom EnumModel generate map extension', () {
       final model = EnumModel(
         name: 'MyEnumModel',
         path: 'path_to_my_model',

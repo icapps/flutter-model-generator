@@ -31,6 +31,6 @@ extension StatusExtension on Status {
   int get intValue => statusMapping[this]!;
 }
 
-extension StatusintExtension on int {
+extension StatusIntExtension on int {
   Status? get asStatus => reverseStatusMapping[this];
 }

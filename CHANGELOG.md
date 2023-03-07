@@ -1,4 +1,7 @@
 # Changelog
+## [6.2.1] - 2023-03-07
+- Updated the enum model generator to correctly generate the (reverse)Mapping based on the item_type 
+
 ## [6.2.0] - 2023-02-23
 - Better enum support. Right now, String, int, double can be used to map a value to an enum.
 

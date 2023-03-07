@@ -15,7 +15,8 @@ class CustomBaseDirectoryObj {
     this.name,
   });
 
-  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) => _$CustomBaseDirectoryObjFromJson(json);
+  factory CustomBaseDirectoryObj.fromJson(Map<String, dynamic> json) =>
+      _$CustomBaseDirectoryObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$CustomBaseDirectoryObjToJson(this);
 
@@ -27,23 +28,24 @@ class CustomBaseDirectoryObj {
           name == other.name;
 
   @override
-  int get hashCode =>
-      name.hashCode;
+  int get hashCode => name.hashCode;
 
   @override
-  String toString() =>
-      'CustomBaseDirectoryObj{'
+  String toString() => 'CustomBaseDirectoryObj{'
       'name: $name'
       '}';
-
 }
 
 const deserializeCustomBaseDirectoryObj = CustomBaseDirectoryObj.fromJson;
 
-Map<String, dynamic> serializeCustomBaseDirectoryObj(CustomBaseDirectoryObj object) => object.toJson();
+Map<String, dynamic> serializeCustomBaseDirectoryObj(
+        CustomBaseDirectoryObj object) =>
+    object.toJson();
 
-List<CustomBaseDirectoryObj> deserializeCustomBaseDirectoryObjList(List<Map<String, dynamic>> jsonList)
-    => jsonList.map(CustomBaseDirectoryObj.fromJson).toList();
+List<CustomBaseDirectoryObj> deserializeCustomBaseDirectoryObjList(
+        List<Map<String, dynamic>> jsonList) =>
+    jsonList.map(CustomBaseDirectoryObj.fromJson).toList();
 
-List<Map<String, dynamic>> serializeCustomBaseDirectoryObjList(List<CustomBaseDirectoryObj> objects)
-    => objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializeCustomBaseDirectoryObjList(
+        List<CustomBaseDirectoryObj> objects) =>
+    objects.map((object) => object.toJson()).toList();

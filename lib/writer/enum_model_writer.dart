@@ -20,9 +20,14 @@ class EnumModelWriter {
       sb.writeln("///$modelDescription");
     }
 
-    sb.writeln('enum ${jsonModel.name} {');
+    final jsonModelName = CaseUtil(jsonModel.name);
+    final itemTypeName = CaseUtil(jsonModel.itemType.name);
+
+    sb.writeln('enum ${jsonModelName.upperCamelCase} {');
     jsonModel.fields?.forEach((key) {
-      final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
+      final jsonValue = key.value == null || key.value?.isEmpty == null
+          ? key.serializedName
+          : key.value;
       final description = key.description;
       if (description != null) {
         sb.writeln('  ///$description');
@@ -37,14 +42,15 @@ class EnumModelWriter {
     sb.writeln('}');
 
     if (jsonModel.generateMap) {
-      final jsonModelNameCamalCase = CaseUtil(jsonModel.name).camelCase;
       sb
         ..writeln()
-        ..writeln('const ${jsonModelNameCamalCase}Mapping = {');
+        ..writeln('const ${jsonModelName.lowerCamelCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
-        final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
-        sb.write('  ${jsonModel.name}.${key.name}: ');
+        final jsonValue = key.value == null || key.value?.isEmpty == null
+            ? key.serializedName
+            : key.value;
+        sb.write('  ${jsonModelName.upperCamelCase}.${key.name}: ');
         if (jsonModel.itemType is StringType) {
           sb.writeln('\'$jsonValue\',');
         } else {
@@ -55,16 +61,18 @@ class EnumModelWriter {
       sb
         ..writeln('};')
         ..writeln()
-        ..writeln('const reverse${jsonModel.name}Mapping = {');
+        ..writeln('const reverse${jsonModelName.upperCamelCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
-        final jsonValue = key.value == null || key.value?.isEmpty == null ? key.serializedName : key.value;
+        final jsonValue = key.value == null || key.value?.isEmpty == null
+            ? key.serializedName
+            : key.value;
         if (jsonModel.itemType is StringType) {
           sb.write('  \'$jsonValue\': ');
         } else {
           sb.write('  $jsonValue: ');
         }
-        sb.writeln('${jsonModel.name}.${key.name},');
+        sb.writeln('${jsonModelName.upperCamelCase}.${key.name},');
       });
 
       sb.writeln('};');
@@ -72,12 +80,16 @@ class EnumModelWriter {
       if (jsonModel.generateExtensions) {
         sb
           ..writeln()
-          ..writeln('extension ${jsonModel.name}Extension on ${jsonModel.name} {')
-          ..writeln('  ${jsonModel.itemType.name} get ${jsonModel.itemType.name}Value => ${jsonModelNameCamalCase}Mapping[this]!;')
+          ..writeln(
+              'extension ${jsonModelName.upperCamelCase}Extension on ${jsonModelName.upperCamelCase} {')
+          ..writeln(
+              '  ${itemTypeName.originalText} get ${itemTypeName.lowerCamelCase}Value => ${jsonModelName.lowerCamelCase}Mapping[this]!;')
           ..writeln('}')
           ..writeln()
-          ..writeln('extension ${jsonModel.name}${jsonModel.itemType.name}Extension on ${jsonModel.itemType.name} {')
-          ..writeln('  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
+          ..writeln(
+              'extension ${jsonModelName.upperCamelCase}${itemTypeName.upperCamelCase}Extension on ${itemTypeName.originalText} {')
+          ..writeln(
+              '  ${jsonModelName.upperCamelCase}? get as${jsonModelName.upperCamelCase} => reverse${jsonModelName.upperCamelCase}Mapping[this];')
           ..writeln('}');
       }
     }
