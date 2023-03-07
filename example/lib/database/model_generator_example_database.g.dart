@@ -3,6 +3,190 @@
 part of 'model_generator_example_database.dart';
 
 // ignore_for_file: type=lint
+class $DbBookTableTable extends DbBookTable
+    with TableInfo<$DbBookTableTable, DbBook> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DbBookTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _publishingDateMeta =
+      const VerificationMeta('publishingDate');
+  @override
+  late final GeneratedColumn<DateTime> publishingDate =
+      GeneratedColumn<DateTime>('publishing_date', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _isAvailableMeta =
+      const VerificationMeta('isAvailable');
+  @override
+  late final GeneratedColumn<bool> isAvailable =
+      GeneratedColumn<bool>('is_available', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_available" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }));
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumnWithTypeConverter<BookCategory, String> category =
+      GeneratedColumn<String>('category', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<BookCategory>($DbBookTableTable.$convertercategory);
+  static const VerificationMeta _priceMeta = const VerificationMeta('price');
+  @override
+  late final GeneratedColumn<double> price = GeneratedColumn<double>(
+      'price', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _pagesMeta = const VerificationMeta('pages');
+  @override
+  late final GeneratedColumn<int> pages = GeneratedColumn<int>(
+      'pages', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<String>?, String> tags =
+      GeneratedColumn<String>('tags', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<List<String>?>($DbBookTableTable.$convertertagsn);
+  static const VerificationMeta _secondCategoryMeta =
+      const VerificationMeta('secondCategory');
+  @override
+  late final GeneratedColumnWithTypeConverter<BookCategory?, String>
+      secondCategory = GeneratedColumn<String>(
+              'second_category', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<BookCategory?>(
+              $DbBookTableTable.$convertersecondCategory);
+  static const VerificationMeta _onlyInDbMeta =
+      const VerificationMeta('onlyInDb');
+  @override
+  late final GeneratedColumn<String> onlyInDb = GeneratedColumn<String>(
+      'only_in_db', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        name,
+        publishingDate,
+        isAvailable,
+        category,
+        price,
+        pages,
+        tags,
+        secondCategory,
+        onlyInDb
+      ];
+  @override
+  String get aliasedName => _alias ?? 'db_book_table';
+  @override
+  String get actualTableName => 'db_book_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<DbBook> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('publishing_date')) {
+      context.handle(
+          _publishingDateMeta,
+          publishingDate.isAcceptableOrUnknown(
+              data['publishing_date']!, _publishingDateMeta));
+    } else if (isInserting) {
+      context.missing(_publishingDateMeta);
+    }
+    if (data.containsKey('is_available')) {
+      context.handle(
+          _isAvailableMeta,
+          isAvailable.isAcceptableOrUnknown(
+              data['is_available']!, _isAvailableMeta));
+    } else if (isInserting) {
+      context.missing(_isAvailableMeta);
+    }
+    context.handle(_categoryMeta, const VerificationResult.success());
+    if (data.containsKey('price')) {
+      context.handle(
+          _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
+    }
+    if (data.containsKey('pages')) {
+      context.handle(
+          _pagesMeta, pages.isAcceptableOrUnknown(data['pages']!, _pagesMeta));
+    }
+    context.handle(_tagsMeta, const VerificationResult.success());
+    context.handle(_secondCategoryMeta, const VerificationResult.success());
+    if (data.containsKey('only_in_db')) {
+      context.handle(_onlyInDbMeta,
+          onlyInDb.isAcceptableOrUnknown(data['only_in_db']!, _onlyInDbMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DbBook map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbBook(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      publishingDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}publishing_date'])!,
+      isAvailable: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_available'])!,
+      category: $DbBookTableTable.$convertercategory.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!),
+      price: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}price']),
+      pages: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}pages']),
+      tags: $DbBookTableTable.$convertertagsn.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}tags'])),
+      secondCategory: $DbBookTableTable.$convertersecondCategory.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}second_category'])),
+      onlyInDb: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}only_in_db']),
+    );
+  }
+
+  @override
+  $DbBookTableTable createAlias(String alias) {
+    return $DbBookTableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<BookCategory, String> $convertercategory =
+      const BookTableBookCategoryConverter();
+  static TypeConverter<List<String>, String> $convertertags =
+      const StringListConverter();
+  static TypeConverter<List<String>?, String?> $convertertagsn =
+      NullAwareTypeConverter.wrap($convertertags);
+  static TypeConverter<BookCategory?, String?> $convertersecondCategory =
+      const BookTableBookCategoryNullableConverter();
+}
+
 class DbBook extends DataClass implements Insertable<DbBook> {
   final int id;
   final String name;
@@ -317,190 +501,6 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
           ..write(')'))
         .toString();
   }
-}
-
-class $DbBookTableTable extends DbBookTable
-    with TableInfo<$DbBookTableTable, DbBook> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $DbBookTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _publishingDateMeta =
-      const VerificationMeta('publishingDate');
-  @override
-  late final GeneratedColumn<DateTime> publishingDate =
-      GeneratedColumn<DateTime>('publishing_date', aliasedName, false,
-          type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _isAvailableMeta =
-      const VerificationMeta('isAvailable');
-  @override
-  late final GeneratedColumn<bool> isAvailable =
-      GeneratedColumn<bool>('is_available', aliasedName, false,
-          type: DriftSqlType.bool,
-          requiredDuringInsert: true,
-          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
-            SqlDialect.sqlite: 'CHECK ("is_available" IN (0, 1))',
-            SqlDialect.mysql: '',
-            SqlDialect.postgres: '',
-          }));
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
-  @override
-  late final GeneratedColumnWithTypeConverter<BookCategory, String> category =
-      GeneratedColumn<String>('category', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<BookCategory>($DbBookTableTable.$convertercategory);
-  static const VerificationMeta _priceMeta = const VerificationMeta('price');
-  @override
-  late final GeneratedColumn<double> price = GeneratedColumn<double>(
-      'price', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _pagesMeta = const VerificationMeta('pages');
-  @override
-  late final GeneratedColumn<int> pages = GeneratedColumn<int>(
-      'pages', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
-  @override
-  late final GeneratedColumnWithTypeConverter<List<String>?, String> tags =
-      GeneratedColumn<String>('tags', aliasedName, true,
-              type: DriftSqlType.string, requiredDuringInsert: false)
-          .withConverter<List<String>?>($DbBookTableTable.$convertertagsn);
-  static const VerificationMeta _secondCategoryMeta =
-      const VerificationMeta('secondCategory');
-  @override
-  late final GeneratedColumnWithTypeConverter<BookCategory?, String>
-      secondCategory = GeneratedColumn<String>(
-              'second_category', aliasedName, true,
-              type: DriftSqlType.string, requiredDuringInsert: false)
-          .withConverter<BookCategory?>(
-              $DbBookTableTable.$convertersecondCategory);
-  static const VerificationMeta _onlyInDbMeta =
-      const VerificationMeta('onlyInDb');
-  @override
-  late final GeneratedColumn<String> onlyInDb = GeneratedColumn<String>(
-      'only_in_db', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        name,
-        publishingDate,
-        isAvailable,
-        category,
-        price,
-        pages,
-        tags,
-        secondCategory,
-        onlyInDb
-      ];
-  @override
-  String get aliasedName => _alias ?? 'db_book_table';
-  @override
-  String get actualTableName => 'db_book_table';
-  @override
-  VerificationContext validateIntegrity(Insertable<DbBook> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('publishing_date')) {
-      context.handle(
-          _publishingDateMeta,
-          publishingDate.isAcceptableOrUnknown(
-              data['publishing_date']!, _publishingDateMeta));
-    } else if (isInserting) {
-      context.missing(_publishingDateMeta);
-    }
-    if (data.containsKey('is_available')) {
-      context.handle(
-          _isAvailableMeta,
-          isAvailable.isAcceptableOrUnknown(
-              data['is_available']!, _isAvailableMeta));
-    } else if (isInserting) {
-      context.missing(_isAvailableMeta);
-    }
-    context.handle(_categoryMeta, const VerificationResult.success());
-    if (data.containsKey('price')) {
-      context.handle(
-          _priceMeta, price.isAcceptableOrUnknown(data['price']!, _priceMeta));
-    }
-    if (data.containsKey('pages')) {
-      context.handle(
-          _pagesMeta, pages.isAcceptableOrUnknown(data['pages']!, _pagesMeta));
-    }
-    context.handle(_tagsMeta, const VerificationResult.success());
-    context.handle(_secondCategoryMeta, const VerificationResult.success());
-    if (data.containsKey('only_in_db')) {
-      context.handle(_onlyInDbMeta,
-          onlyInDb.isAcceptableOrUnknown(data['only_in_db']!, _onlyInDbMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  DbBook map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return DbBook(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      publishingDate: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}publishing_date'])!,
-      isAvailable: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_available'])!,
-      category: $DbBookTableTable.$convertercategory.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!),
-      price: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}price']),
-      pages: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}pages']),
-      tags: $DbBookTableTable.$convertertagsn.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}tags'])),
-      secondCategory: $DbBookTableTable.$convertersecondCategory.fromSql(
-          attachedDatabase.typeMapping.read(
-              DriftSqlType.string, data['${effectivePrefix}second_category'])),
-      onlyInDb: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}only_in_db']),
-    );
-  }
-
-  @override
-  $DbBookTableTable createAlias(String alias) {
-    return $DbBookTableTable(attachedDatabase, alias);
-  }
-
-  static TypeConverter<BookCategory, String> $convertercategory =
-      const BookTableBookCategoryConverter();
-  static TypeConverter<List<String>, String> $convertertags =
-      const StringListConverter();
-  static TypeConverter<List<String>?, String?> $convertertagsn =
-      NullAwareTypeConverter.wrap($convertertags);
-  static TypeConverter<BookCategory?, String?> $convertersecondCategory =
-      const BookTableBookCategoryNullableConverter();
 }
 
 abstract class _$ModelGeneratorExampleDatabase extends GeneratedDatabase {

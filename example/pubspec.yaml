@@ -9,6 +9,7 @@ dependencies:
   drift: ^2.3.0 # This is added since we can now generate database tables
   flutter:
     sdk: flutter
+  injectable: ^2.0.0
   json_serializable: ^6.5.4
   provider: ^6.0.0
 
@@ -32,4 +33,5 @@ model_generator:
   equals_and_hash_code: true
   to_string: true
   retrofit_compute: true
+  generate_injectable_in_daos: true
 #  base_directory: model

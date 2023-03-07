@@ -9,8 +9,7 @@ class PubspecConfig {
   static final _DEFAULT_CONFIG_PATH = // ignore: non_constant_identifier_names
       'model_generator${Platform.pathSeparator}config.yaml';
   static const _defaultBaseDirectory = 'model';
-  String _defaultDatabaseDirectory(String projectName) =>
-      'database/${projectName}_database.dart';
+  String _defaultDatabaseDirectory(String projectName) => 'database/${projectName}_database.dart';
 
   late String projectName;
   late String baseDirectory;
@@ -25,6 +24,7 @@ class PubspecConfig {
   late bool uppercaseEnums;
   late bool retrofitMappers;
   late bool disallowNullForDefaults;
+  late bool generateInjectableInDaos;
   LanguageVersion? languageVersion;
   final extraImports = <String>[];
   final extraAnnotations = <String>[];
@@ -38,8 +38,7 @@ class PubspecConfig {
     languageVersion = parseLanguageVersion(doc);
 
     if (projectName == null || projectName.isEmpty) {
-      throw Exception(
-          'Could not parse the pubspec.yaml, project name not found');
+      throw Exception('Could not parse the pubspec.yaml, project name not found');
     }
 
     this.projectName = projectName;
@@ -57,6 +56,7 @@ class PubspecConfig {
       uppercaseEnums = true;
       retrofitMappers = false;
       disallowNullForDefaults = false;
+      generateInjectableInDaos = true;
       return;
     }
 
@@ -64,26 +64,23 @@ class PubspecConfig {
     useFvm = (config['use_fvm'] ?? false) == true;
     generateForGenerics = (config['generate_for_generics'] ?? false) == true;
     configPath = config['config_path'] ?? _DEFAULT_CONFIG_PATH;
-    databasePath =
-        config['database_path'] ?? _defaultDatabaseDirectory(projectName);
+    databasePath = config['database_path'] ?? _defaultDatabaseDirectory(projectName);
     equalsHashCode = (config['equals_and_hash_code'] ?? false) == true;
     explicitToJson = (config['explicit_to_json'] ?? true) == true;
     generateToString = (config['to_string'] ?? false) == true;
     staticCreate = (config['static_create'] ?? false) == true;
     uppercaseEnums = (config['uppercase_enums'] ?? true) == true;
     retrofitMappers = (config['retrofit_compute'] ?? false) == true;
-    disallowNullForDefaults =
-        (config['disallow_null_for_defaults'] ?? false) == true;
+    disallowNullForDefaults = (config['disallow_null_for_defaults'] ?? false) == true;
+    generateInjectableInDaos = (config['generate_injectable_in_daos'] ?? true) == true;
 
     final extraImports = config['extra_imports'];
     if (extraImports != null) {
-      extraImports
-          .forEach((element) => this.extraImports.add(element.toString()));
+      extraImports.forEach((element) => this.extraImports.add(element.toString()));
     }
     final extraAnnotations = config['extra_annotations'];
     if (extraAnnotations != null) {
-      extraAnnotations
-          .forEach((element) => this.extraAnnotations.add(element.toString()));
+      extraAnnotations.forEach((element) => this.extraAnnotations.add(element.toString()));
     }
   }
 

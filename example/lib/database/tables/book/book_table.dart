@@ -50,7 +50,7 @@ extension DbBookExtension on DbBook {
 }
 
 extension BookExtension on Book {
-  DbBook getModel({String? onlyInDb}) => DbBook(
+  DbBook getDbModel({String? onlyInDb}) => DbBook(
         id: id,
         name: name,
         publishingDate: publishingDate,

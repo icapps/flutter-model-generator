@@ -11,6 +11,7 @@ class ObjectModel extends Model {
   final bool? staticCreate;
   final bool? disallowNullForDefaults;
   final bool? generateDriftTable;
+  final bool? generateDriftDaoStorage;
 
   ObjectModel({
     required String name,
@@ -20,6 +21,7 @@ class ObjectModel extends Model {
     required this.fields,
     required this.converters,
     this.generateDriftTable,
+    this.generateDriftDaoStorage,
     List<String>? extraImports,
     List<String>? extraImportsForTable,
     List<String>? extraAnnotations,
