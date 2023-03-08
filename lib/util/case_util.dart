@@ -41,20 +41,20 @@ class CaseUtil {
     return words;
   }
 
-  String get lowerCamelCase => _getLowerCamelCase();
+  String get camelCase => _getCamelCase();
 
-  String get upperCamelCase => _getUpperCamelCase();
+  String get pascalCase => _getPascalCase();
 
   String get snakeCase => _getSnakeCase();
 
-  String _getLowerCamelCase({String separator = ''}) {
+  String _getCamelCase({String separator = ''}) {
     final words = _words.map(_upperCaseFirstLetter).toList();
     words[0] = words[0].toLowerCase();
 
     return words.join(separator);
   }
 
-  String _getUpperCamelCase({String separator = ''}) =>
+  String _getPascalCase({String separator = ''}) =>
       _words.map(_upperCaseFirstLetter).toList().join(separator);
 
   String _getSnakeCase({String separator = '_'}) =>

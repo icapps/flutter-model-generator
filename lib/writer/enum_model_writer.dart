@@ -23,7 +23,7 @@ class EnumModelWriter {
     final jsonModelName = CaseUtil(jsonModel.name);
     final itemTypeName = CaseUtil(jsonModel.itemType.name);
 
-    sb.writeln('enum ${jsonModelName.upperCamelCase} {');
+    sb.writeln('enum ${jsonModelName.pascalCase} {');
     jsonModel.fields?.forEach((key) {
       final jsonValue = key.value == null || key.value?.isEmpty == null
           ? key.serializedName
@@ -44,13 +44,13 @@ class EnumModelWriter {
     if (jsonModel.generateMap) {
       sb
         ..writeln()
-        ..writeln('const ${jsonModelName.lowerCamelCase}Mapping = {');
+        ..writeln('const ${jsonModelName.camelCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null
             ? key.serializedName
             : key.value;
-        sb.write('  ${jsonModelName.upperCamelCase}.${key.name}: ');
+        sb.write('  ${jsonModelName.pascalCase}.${key.name}: ');
         if (jsonModel.itemType is StringType) {
           sb.writeln('\'$jsonValue\',');
         } else {
@@ -61,7 +61,7 @@ class EnumModelWriter {
       sb
         ..writeln('};')
         ..writeln()
-        ..writeln('const reverse${jsonModelName.upperCamelCase}Mapping = {');
+        ..writeln('const reverse${jsonModelName.pascalCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null
@@ -72,7 +72,7 @@ class EnumModelWriter {
         } else {
           sb.write('  $jsonValue: ');
         }
-        sb.writeln('${jsonModelName.upperCamelCase}.${key.name},');
+        sb.writeln('${jsonModelName.pascalCase}.${key.name},');
       });
 
       sb.writeln('};');
@@ -81,15 +81,15 @@ class EnumModelWriter {
         sb
           ..writeln()
           ..writeln(
-              'extension ${jsonModelName.upperCamelCase}Extension on ${jsonModelName.upperCamelCase} {')
+              'extension ${jsonModelName.pascalCase}Extension on ${jsonModelName.pascalCase} {')
           ..writeln(
-              '  ${itemTypeName.originalText} get ${itemTypeName.lowerCamelCase}Value => ${jsonModelName.lowerCamelCase}Mapping[this]!;')
+              '  ${itemTypeName.originalText} get ${itemTypeName.camelCase}Value => ${jsonModelName.camelCase}Mapping[this]!;')
           ..writeln('}')
           ..writeln()
           ..writeln(
-              'extension ${jsonModelName.upperCamelCase}${itemTypeName.upperCamelCase}Extension on ${itemTypeName.originalText} {')
+              'extension ${jsonModelName.pascalCase}${itemTypeName.pascalCase}Extension on ${itemTypeName.originalText} {')
           ..writeln(
-              '  ${jsonModelName.upperCamelCase}? get as${jsonModelName.upperCamelCase} => reverse${jsonModelName.upperCamelCase}Mapping[this];')
+              '  ${jsonModelName.pascalCase}? get as${jsonModelName.pascalCase} => reverse${jsonModelName.pascalCase}Mapping[this];')
           ..writeln('}');
       }
     }
