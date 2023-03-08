@@ -15,13 +15,25 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
     firstName: json['firstName'] as String,
     gender:
         $enumDecode(_$GenderEnumMap, json['gender'], unknownValue: Gender.X),
+    lastName: json['lastName'] as String?,
   );
 }
 
-Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
-      'firstName': instance.firstName,
-      'gender': _$GenderEnumMap[instance.gender]!,
-    };
+Map<String, dynamic> _$PersonToJson(Person instance) {
+  final val = <String, dynamic>{
+    'firstName': instance.firstName,
+    'gender': _$GenderEnumMap[instance.gender]!,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('lastName', instance.lastName);
+  return val;
+}
 
 const _$GenderEnumMap = {
   Gender.MALE: '_mAl3',

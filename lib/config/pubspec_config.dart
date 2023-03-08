@@ -27,6 +27,7 @@ class PubspecConfig {
   late bool generateInjectableInDaos;
   LanguageVersion? languageVersion;
   final extraImports = <String>[];
+  final extraImportsForTable = <String>[];
   final extraAnnotations = <String>[];
 
   PubspecConfig(String pubspecContent) {
@@ -77,6 +78,10 @@ class PubspecConfig {
     final extraImports = config['extra_imports'];
     if (extraImports != null) {
       extraImports.forEach((element) => this.extraImports.add(element.toString()));
+    }
+    final extraImportsForTable = config['extra_imports_for_table'];
+    if (extraImportsForTable != null) {
+      extraImportsForTable.forEach((element) => this.extraImportsForTable.add(element.toString()));
     }
     final extraAnnotations = config['extra_annotations'];
     if (extraAnnotations != null) {

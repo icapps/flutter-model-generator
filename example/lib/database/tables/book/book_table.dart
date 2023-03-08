@@ -20,6 +20,10 @@ class DbBookTable extends Table {
 
   BoolColumn get isAvailable => boolean()();
 
+  TextColumn get authorFirstName => text()();
+
+  TextColumn get authorLastName => text().nullable()();
+
   TextColumn get category => text().map(const BookTableBookCategoryConverter())();
 
   RealColumn get price => real().nullable()();
@@ -34,15 +38,20 @@ class DbBookTable extends Table {
 }
 
 extension DbBookExtension on DbBook {
-  Book getModel({required List<Person> authors, List<Person>? publishers}) => Book(
+  Book getModel({
+    required List<Person> publishers,
+    required Person author,
+    List<Person>? translators,
+  }) => Book(
         id: id,
         name: name,
         publishingDate: publishingDate,
         price: price,
         pages: pages,
         isAvailable: isAvailable,
-        authors: authors,
         publishers: publishers,
+        translators: translators,
+        author: author,
         tags: tags,
         category: category,
         secondCategory: secondCategory,
@@ -55,6 +64,8 @@ extension BookExtension on Book {
         name: name,
         publishingDate: publishingDate,
         isAvailable: isAvailable,
+        authorFirstName: author.firstName,
+        authorLastName: author.lastName,
         category: category,
         price: price,
         pages: pages,

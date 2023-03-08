@@ -1,7 +1,9 @@
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/item_type/array_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
+import 'package:model_generator/model/item_type/item_type.dart';
 import 'package:model_generator/model/item_type/map_type.dart';
 import 'package:model_generator/model/model/field_name_with_nullable.dart';
 import 'package:model_generator/model/model/object_model.dart';
@@ -74,6 +76,8 @@ class DriftModelWriter {
       print('WARNING: No primary key or auto increment found for ${jsonModel.name}.');
     }
 
+    final fieldsFromOtherTables = <Field>[];
+    final primaryKeys = <ItemType, List<Field>>{};
     for (final entry in fields.asMap().entries) {
       final field = entry.value;
       final description = field.description;
@@ -86,10 +90,25 @@ class DriftModelWriter {
         sb.write(
             "  TextColumn get ${field.name} => text().map(const ${modelNameUpperCamelCase}Table${CaseUtil(field.type.name).upperCamelCase}${field.isRequired ? '' : 'Nullable'}Converter())");
       } else {
-        if (field.type.driftColumn == null || field.type.driftType == null) {
-          throw Exception('No drift column or type for ${field.type.name} (${field.name})');
+        if (field.type is ArrayType) {
+          // TODO: Create table for lists and converter for dart types
+        } else if (field.type is MapType) {
+          throw Exception('We are not able to handle maps at this time. Unable to create column for ${field.type.name} (${field.name})');
+        } else if (field.type.driftColumn == null || field.type.driftType == null) {
+          fieldsFromOtherTables.add(field);
+          primaryKeys[field.type] ??= FieldUtil.getPrimaryKeys(field.type, yamlConfig);
+          for (final primaryKeyField in primaryKeys[field.type]!) {
+            sb.write("  ${primaryKeyField.type.driftColumn} get ${field.name}${CaseUtil(primaryKeyField.name).upperCamelCase} => ${primaryKeyField.type.driftType}()");
+            if ((!field.isRequired && !field.disallowNull) || (!primaryKeyField.isRequired && !primaryKeyField.disallowNull)) {
+              sb.write('.nullable()');
+            }
+            sb.writeln('();');
+            sb.writeln('');
+          }
+          continue;
+        } else {
+          sb.write("  ${field.type.driftColumn} get ${field.name} => ${field.type.driftType}()");
         }
-        sb.write("  ${field.type.driftColumn} get ${field.name} => ${field.type.driftType}()");
       }
 
       if (field.tableAutoIncrement) {
@@ -113,9 +132,11 @@ class DriftModelWriter {
       ..writeln('extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {');
 
     if (jsonModel.fields.any((element) => element.ignoreForTable && !element.onlyForTable)) {
-      final ignoredFields = jsonModel.fields.where((element) => element.ignoreForTable && !element.onlyForTable).toList();
-      final ignoredFieldsString = ignoredFields.map((e) => '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}').join(', ');
-      sb.writeln('  ${jsonModel.name} getModel({$ignoredFieldsString}) => ${jsonModel.name}(');
+      final fieldsNotInTable = FieldUtil.getFieldsNotInTable(jsonModel, sorted: true, additionalFields: fieldsFromOtherTables);
+      var fieldsNotInTableString =
+          fieldsNotInTable.map((e) => '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}').join(',${fieldsNotInTable.length > 1 ? '\n    ' : ' '}');
+      if (fieldsNotInTable.length > 1) fieldsNotInTableString = '\n    $fieldsNotInTableString,\n  ';
+      sb.writeln('  ${jsonModel.name} getModel({$fieldsNotInTableString}) => ${jsonModel.name}(');
     } else {
       sb.writeln('  ${jsonModel.name} get model => ${jsonModel.name}(');
     }
@@ -131,15 +152,24 @@ class DriftModelWriter {
       ..writeln('extension ${modelNameUpperCamelCase}Extension on $modelNameUpperCamelCase {');
 
     if (jsonModel.fields.any((element) => element.onlyForTable && !element.ignoreForTable)) {
-      final fieldsOnlyForTable = jsonModel.fields.where((element) => element.onlyForTable && !element.ignoreForTable).toList();
-      final fieldsOnlyForTableString = fieldsOnlyForTable.map((e) => '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}').join(', ');
+      final fieldsOnlyForTable = jsonModel.fields.where((element) => element.onlyForTable && !element.ignoreForTable).toList()
+        ..sort((a, b) => (a.isRequired == b.isRequired ? 0 : (a.isRequired ? -1 : 1)));
+      var fieldsOnlyForTableString =
+          fieldsOnlyForTable.map((e) => '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}').join(',${fieldsOnlyForTable.length > 1 ? '\n    ' : ' '}');
+      if (fieldsOnlyForTable.length > 1) fieldsOnlyForTableString = '\n    $fieldsOnlyForTableString,\n  ';
       sb.writeln('  Db$modelNameUpperCamelCase getDbModel({$fieldsOnlyForTableString}) => Db$modelNameUpperCamelCase(');
     } else {
       sb.writeln('  Db$modelNameUpperCamelCase get dbModel => Db$modelNameUpperCamelCase(');
     }
 
     for (final field in fields.where((element) => !element.ignoreForTable)) {
-      sb.writeln('        ${field.name}: ${field.name},');
+      if (fieldsFromOtherTables.contains(field)) {
+        for (final primaryKey in primaryKeys[field.type]!) {
+          sb.writeln('        ${field.name}${CaseUtil(primaryKey.name).upperCamelCase}: ${field.name}.${primaryKey.name},');
+        }
+      } else {
+        sb.writeln('        ${field.name}: ${field.name},');
+      }
     }
 
     sb

@@ -1,10 +1,9 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'book_dao_storage.dart';
+part of 'person_dao_storage.dart';
 
 // ignore_for_file: type=lint
-mixin _$_BookDaoStorageMixin
+mixin _$_PersonDaoStorageMixin
     on DatabaseAccessor<ModelGeneratorExampleDatabase> {
-  $DbBookTableTable get dbBookTable => attachedDatabase.dbBookTable;
   $DbPersonTableTable get dbPersonTable => attachedDatabase.dbPersonTable;
 }

@@ -128,10 +128,16 @@ UserProfileData:
 Person:
   path: user/person/
   type: object
+  generate_drift_table: true
+  generate_drift_dao_storage: true
   properties:
     firstName:
       required: true
       type: string
+      is_table_primary_key: true
+    lastName:
+      type: string
+      is_table_primary_key: true
     gender:
       required: true
       unknown_enum_value: X
@@ -192,18 +198,19 @@ Book:
     price: double?
     pages: int?
     isAvailable: bool
-    authors:
+    publishers:
       type: array
       required: true # this is required, so will be added to the getModel method as required
       ignore_for_table: true
       items:
         type: Person
-    publishers:
+    translators:
       type: array
       required: false # this is NOT required, so will be added to the getModel method as optional
       ignore_for_table: true
       items:
         type: Person
+    author: Person
     tags:
       type: array
       items:

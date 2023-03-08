@@ -13,10 +13,13 @@ class Person {
   final String firstName;
   @JsonKey(name: 'gender', required: true, includeIfNull: false, unknownEnumValue: Gender.X)
   final Gender gender;
+  @JsonKey(name: 'lastName', includeIfNull: false)
+  final String? lastName;
 
   const Person({
     required this.firstName,
     required this.gender,
+    this.lastName,
   });
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
@@ -29,18 +32,21 @@ class Person {
       other is Person &&
           runtimeType == other.runtimeType &&
           firstName == other.firstName &&
-          gender == other.gender;
+          gender == other.gender &&
+          lastName == other.lastName;
 
   @override
   int get hashCode =>
       firstName.hashCode ^
-      gender.hashCode;
+      gender.hashCode ^
+      lastName.hashCode;
 
   @override
   String toString() =>
       'Person{'
       'firstName: $firstName, '
-      'gender: $gender'
+      'gender: $gender, '
+      'lastName: $lastName'
       '}';
 
 }

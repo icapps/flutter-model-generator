@@ -1,12 +1,11 @@
 import 'package:drift/drift.dart';
 import 'package:model_generator_example/database/tables/book/book_table.dart';
+import 'package:model_generator_example/database/tables/user/person/person_table.dart';
 import 'package:model_generator_example/model/book/book_category.dart';
 
 part 'model_generator_example_database.g.dart';
 
-@DriftDatabase(tables: [
-  DbBookTable,
-])
+@DriftDatabase(tables: [DbBookTable, DbPersonTable])
 class ModelGeneratorExampleDatabase extends _$ModelGeneratorExampleDatabase {
   ModelGeneratorExampleDatabase(QueryExecutor db) : super(db);
 
