@@ -1,5 +1,7 @@
+import 'package:model_generator/model/item_type/double_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
+import 'package:model_generator/util/case_util.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 
 class EnumModelWriter {
@@ -19,7 +21,10 @@ class EnumModelWriter {
       sb.writeln("///$modelDescription");
     }
 
-    sb.writeln('enum ${jsonModel.name} {');
+    final jsonModelName = CaseUtil(jsonModel.name);
+    final itemTypeName = CaseUtil(jsonModel.itemType.name);
+
+    sb.writeln('enum ${jsonModelName.pascalCase} {');
     jsonModel.fields?.forEach((key) {
       final jsonValue = key.value == null || key.value?.isEmpty == null
           ? key.serializedName
@@ -29,9 +34,12 @@ class EnumModelWriter {
         sb.writeln('  ///$description');
       }
       if (jsonModel.itemType is StringType) {
-        sb.writeln("  @JsonValue('$jsonValue')");
+        sb.writeln('  @JsonValue(\'$jsonValue\')');
+      } else if (jsonModel.itemType is DoubleType && jsonValue != null) {
+        final doubleValue = double.tryParse(jsonValue);
+        sb.writeln('  @JsonValue($doubleValue)');
       } else {
-        sb.writeln("  @JsonValue($jsonValue)");
+        sb.writeln('  @JsonValue($jsonValue)');
       }
       sb.writeln('  ${key.name},');
     });
@@ -40,29 +48,46 @@ class EnumModelWriter {
     if (jsonModel.generateMap) {
       sb
         ..writeln()
-        ..writeln('const ${jsonModel.name}Mapping = {');
+        ..writeln('const ${jsonModelName.camelCase}Mapping = {');
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null
             ? key.serializedName
             : key.value;
-        sb
-          ..write('  ${jsonModel.name}.${key.name}: ')
-          ..writeln('\'$jsonValue\',');
+        sb.write('  ${jsonModelName.pascalCase}.${key.name}: ');
+        if (jsonModel.itemType is StringType) {
+          sb.writeln('\'$jsonValue\',');
+        } else if (jsonModel.itemType is DoubleType && jsonValue != null) {
+          final doubleValue = double.tryParse(jsonValue);
+          sb.writeln('$doubleValue,');
+        } else {
+          sb.writeln('$jsonValue,');
+        }
       });
 
       sb
         ..writeln('};')
-        ..writeln()
-        ..writeln('const reverse${jsonModel.name}Mapping = {');
+        ..writeln();
+
+      if (jsonModel.itemType is DoubleType) {
+        sb.writeln('final reverse${jsonModelName.pascalCase}Mapping = {');
+      } else {
+        sb.writeln('const reverse${jsonModelName.pascalCase}Mapping = {');
+      }
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null
             ? key.serializedName
             : key.value;
-        sb
-          ..write('  \'$jsonValue\': ')
-          ..writeln('${jsonModel.name}.${key.name},');
+        if (jsonModel.itemType is StringType) {
+          sb.write('  \'$jsonValue\': ');
+        } else if (jsonModel.itemType is DoubleType && jsonValue != null) {
+          final doubleValue = double.tryParse(jsonValue);
+          sb.write('  $doubleValue: ');
+        } else {
+          sb.write('  $jsonValue: ');
+        }
+        sb.writeln('${jsonModelName.pascalCase}.${key.name},');
       });
 
       sb.writeln('};');
@@ -71,14 +96,15 @@ class EnumModelWriter {
         sb
           ..writeln()
           ..writeln(
-              'extension ${jsonModel.name}Extension on ${jsonModel.name} {')
+              'extension ${jsonModelName.pascalCase}Extension on ${jsonModelName.pascalCase} {')
           ..writeln(
-              '  String get stringValue => ${jsonModel.name}Mapping[this]!;')
+              '  ${itemTypeName.originalText} get ${itemTypeName.camelCase}Value => ${jsonModelName.camelCase}Mapping[this]!;')
           ..writeln('}')
           ..writeln()
-          ..writeln('extension ${jsonModel.name}StringExtension on String {')
           ..writeln(
-              '  ${jsonModel.name}? get as${jsonModel.name} => reverse${jsonModel.name}Mapping[this];')
+              'extension ${jsonModelName.pascalCase}${itemTypeName.pascalCase}Extension on ${itemTypeName.originalText} {')
+          ..writeln(
+              '  ${jsonModelName.pascalCase}? get as${jsonModelName.pascalCase} => reverse${jsonModelName.pascalCase}Mapping[this];')
           ..writeln('}');
       }
     }
