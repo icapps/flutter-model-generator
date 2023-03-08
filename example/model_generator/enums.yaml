@@ -34,3 +34,19 @@ Status:
       value: 2
     status_3:
       value: 3
+
+DoubleStatus:
+  path: status
+  type: enum
+  item_type: double
+  generate_map: true
+  generate_extensions: true
+  properties:
+    status_0:
+      value: 0.0
+    status_1:
+      value: 1.0
+    status_2:
+      value: 2.0
+    status_3:
+      value: 3.0

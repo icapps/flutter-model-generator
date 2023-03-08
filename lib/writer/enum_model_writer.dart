@@ -1,3 +1,4 @@
+import 'package:model_generator/model/item_type/double_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/util/case_util.dart';
@@ -33,9 +34,12 @@ class EnumModelWriter {
         sb.writeln('  ///$description');
       }
       if (jsonModel.itemType is StringType) {
-        sb.writeln("  @JsonValue('$jsonValue')");
+        sb.writeln('  @JsonValue(\'$jsonValue\')');
+      } else if (jsonModel.itemType is DoubleType && jsonValue != null) {
+        final doubleValue = double.tryParse(jsonValue);
+        sb.writeln('  @JsonValue($doubleValue)');
       } else {
-        sb.writeln("  @JsonValue($jsonValue)");
+        sb.writeln('  @JsonValue($jsonValue)');
       }
       sb.writeln('  ${key.name},');
     });
@@ -53,6 +57,9 @@ class EnumModelWriter {
         sb.write('  ${jsonModelName.pascalCase}.${key.name}: ');
         if (jsonModel.itemType is StringType) {
           sb.writeln('\'$jsonValue\',');
+        } else if (jsonModel.itemType is DoubleType && jsonValue != null) {
+          final doubleValue = double.tryParse(jsonValue);
+          sb.writeln('$doubleValue,');
         } else {
           sb.writeln('$jsonValue,');
         }
@@ -60,8 +67,13 @@ class EnumModelWriter {
 
       sb
         ..writeln('};')
-        ..writeln()
-        ..writeln('const reverse${jsonModelName.pascalCase}Mapping = {');
+        ..writeln();
+
+      if (jsonModel.itemType is DoubleType) {
+        sb.writeln('final reverse${jsonModelName.pascalCase}Mapping = {');
+      } else {
+        sb.writeln('const reverse${jsonModelName.pascalCase}Mapping = {');
+      }
 
       jsonModel.fields?.forEach((key) {
         final jsonValue = key.value == null || key.value?.isEmpty == null
@@ -69,6 +81,9 @@ class EnumModelWriter {
             : key.value;
         if (jsonModel.itemType is StringType) {
           sb.write('  \'$jsonValue\': ');
+        } else if (jsonModel.itemType is DoubleType && jsonValue != null) {
+          final doubleValue = double.tryParse(jsonValue);
+          sb.write('  $doubleValue: ');
         } else {
           sb.write('  $jsonValue: ');
         }

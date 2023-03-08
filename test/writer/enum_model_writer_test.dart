@@ -112,7 +112,7 @@ void main() {
           EnumField(
             name: 'MY_VALUE_1',
             rawName: 'MY_VALUE_1',
-            value: '1',
+            value: '1.0',
             description: 'A good description of this field',
           ),
           EnumField(
@@ -136,7 +136,7 @@ void main() {
           EnumField(
             name: 'MY_VALUE_1',
             rawName: 'MY_VALUE_1',
-            value: '1',
+            value: '1.0',
             description: 'A good description of this field',
           ),
           EnumField(
@@ -162,7 +162,7 @@ void main() {
           EnumField(
             name: 'MY_VALUE_1',
             rawName: 'MY_VALUE_1',
-            value: '1',
+            value: '1.0',
             description: 'A good description of this field',
           ),
           EnumField(

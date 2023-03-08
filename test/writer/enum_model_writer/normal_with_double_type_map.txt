@@ -4,18 +4,18 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum MyEnumModel {
   ///A good description of this field
-  @JsonValue(1)
+  @JsonValue(1.0)
   MY_VALUE_1,
   @JsonValue(2.2)
   MY_VALUE_2,
 }
 
 const myEnumModelMapping = {
-  MyEnumModel.MY_VALUE_1: 1,
+  MyEnumModel.MY_VALUE_1: 1.0,
   MyEnumModel.MY_VALUE_2: 2.2,
 };
 
-const reverseMyEnumModelMapping = {
-  1: MyEnumModel.MY_VALUE_1,
+final reverseMyEnumModelMapping = {
+  1.0: MyEnumModel.MY_VALUE_1,
   2.2: MyEnumModel.MY_VALUE_2,
 };
