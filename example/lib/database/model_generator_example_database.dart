@@ -5,7 +5,12 @@ import 'package:model_generator_example/model/book/book_category.dart';
 
 part 'model_generator_example_database.g.dart';
 
-@DriftDatabase(tables: [DbBookTable, DbPersonTable])
+@DriftDatabase(tables: [
+  DbBookTable,
+  DbPersonTable,
+  DbBookEditorsTable,
+  DbBookTranslatorsTable,
+])
 class ModelGeneratorExampleDatabase extends _$ModelGeneratorExampleDatabase {
   ModelGeneratorExampleDatabase(QueryExecutor db) : super(db);
 

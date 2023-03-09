@@ -28,13 +28,11 @@ abstract class PersonDaoStorage {
 class _PersonDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> with _$_PersonDaoStorageMixin implements PersonDaoStorage {
   _PersonDaoStorage(super.db);
 
-  Selectable<Person> _getAll() => select(dbPersonTable).map((item) => item.model);
+  @override
+  Stream<List<Person>> getAllPersonsStream() => select(dbPersonTable).map((item) => item.model).watch();
 
   @override
-  Stream<List<Person>> getAllPersonsStream() => _getAll().watch();
-
-  @override
-  Future<List<Person>> getAllPersons() => _getAll().get();
+  Future<List<Person>> getAllPersons() => getAllPersonsStream().first;
 
   @override
   Future<void> createPerson(Person person) async => into(dbPersonTable).insert(person.dbModel);

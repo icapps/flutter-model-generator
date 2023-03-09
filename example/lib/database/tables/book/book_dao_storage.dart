@@ -6,6 +6,7 @@ import 'package:model_generator_example/database/model_generator_example_databas
 import 'package:model_generator_example/database/tables/book/book_table.dart';
 import 'package:model_generator_example/database/tables/user/person/person_table.dart';
 import 'package:model_generator_example/model/book/book.dart';
+import 'package:model_generator_example/model/user/person/person.dart';
 
 part 'book_dao_storage.g.dart';
 
@@ -25,16 +26,64 @@ abstract class BookDaoStorage {
 
 @DriftAccessor(tables: [
   DbBookTable,
+  DbBookEditorsTable,
+  DbBookTranslatorsTable,
   DbPersonTable,
 ])
 class _BookDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> with _$_BookDaoStorageMixin implements BookDaoStorage {
   _BookDaoStorage(super.db);
 
   @override
-  Stream<List<Book>> getAllBooksStream() => select(dbBookTable).map((item) => item.getModel(publishers: publishers, translators: translators)).watch();
+  Stream<List<Book>> getAllBooksStream() {
+    final editorsTable = dbPersonTable.createAlias('editors');
+    final translatorsTable = dbPersonTable.createAlias('translators');
+    final authorTable = dbPersonTable.createAlias('author');
+    final publisherTable = dbPersonTable.createAlias('publisher');
+    return select(dbBookTable)
+        .join([
+          leftOuterJoin(dbBookEditorsTable, dbBookEditorsTable.id.equalsExp(dbBookTable.id)),
+          leftOuterJoin(editorsTable, editorsTable.firstName.equalsExp(dbBookEditorsTable.editorsFirstName) & editorsTable.lastName.equalsExp(dbBookEditorsTable.editorsLastName)),
+          leftOuterJoin(dbBookTranslatorsTable, dbBookTranslatorsTable.id.equalsExp(dbBookTable.id)),
+          leftOuterJoin(translatorsTable, translatorsTable.firstName.equalsExp(dbBookTranslatorsTable.translatorsFirstName) & translatorsTable.lastName.equalsExp(dbBookTranslatorsTable.translatorsLastName)),
+          leftOuterJoin(authorTable, authorTable.firstName.equalsExp(dbBookTable.authorFirstName) & authorTable.lastName.equalsExp(dbBookTable.authorLastName)),
+          leftOuterJoin(publisherTable, publisherTable.firstName.equalsExp(dbBookTable.publisherFirstName) & publisherTable.lastName.equalsExp(dbBookTable.publisherLastName)),
+        ])
+        .watch()
+        .map((rows) {
+          final items = <DbBook>[];
+          final editorsMap = <DbBook, List<Person>>{};
+          final translatorsMap = <DbBook, List<Person>>{};
+          final authorMap = <DbBook, Person>{};
+          final publisherMap = <DbBook, Person>{};
+          for (final row in rows) {
+            final item = row.readTable(dbBookTable);
+            final editors = row.readTable(editorsTable);
+            editorsMap[item] ??= [];
+            editorsMap[item]!.add(editors.model);
+            final translators = row.readTableOrNull(translatorsTable);
+            if (translators != null) {
+              translatorsMap[item] ??= [];
+              translatorsMap[item]!.add(translators.model);
+            }
+            final author = row.readTable(authorTable);
+            authorMap[item] = author.model;
+            final publisher = row.readTableOrNull(publisherTable);
+            if (publisher != null) publisherMap[item] = publisher.model;
+          }
+
+          return items
+              .map((item) => item.getModel(
+                    editors: editorsMap[item]!,
+                    translators: translatorsMap[item],
+                    author: authorMap[item]!,
+                    publisher: publisherMap[item],
+                  ))
+              .toList();
+        });
+  }
 
   @override
-  Future<List<Book>> getAllBooks() => select(dbBookTable).map((item) => item.getModel(publishers: publishers, translators: translators)).get();
+  Future<List<Book>> getAllBooks() => getAllBooksStream().first;
 
   @override
   Future<void> createBook(Book book) async => into(dbBookTable).insert(book.getDbModel());

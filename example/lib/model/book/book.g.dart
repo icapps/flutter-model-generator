@@ -14,7 +14,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
       'name',
       'publishingDate',
       'isAvailable',
-      'publishers',
+      'editors',
       'author',
       'category'
     ],
@@ -24,7 +24,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     publishingDate: DateTime.parse(json['publishingDate'] as String),
     isAvailable: json['isAvailable'] as bool,
-    publishers: (json['publishers'] as List<dynamic>)
+    editors: (json['editors'] as List<dynamic>)
         .map((e) => Person.fromJson(e as Map<String, dynamic>))
         .toList(),
     author: Person.fromJson(json['author'] as Map<String, dynamic>),
@@ -34,6 +34,9 @@ Book _$BookFromJson(Map<String, dynamic> json) {
     translators: (json['translators'] as List<dynamic>?)
         ?.map((e) => Person.fromJson(e as Map<String, dynamic>))
         .toList(),
+    publisher: json['publisher'] == null
+        ? null
+        : Person.fromJson(json['publisher'] as Map<String, dynamic>),
     tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
     secondCategory:
         $enumDecodeNullable(_$BookCategoryEnumMap, json['secondCategory']),
@@ -46,7 +49,7 @@ Map<String, dynamic> _$BookToJson(Book instance) {
     'name': instance.name,
     'publishingDate': instance.publishingDate.toIso8601String(),
     'isAvailable': instance.isAvailable,
-    'publishers': instance.publishers.map((e) => e.toJson()).toList(),
+    'editors': instance.editors.map((e) => e.toJson()).toList(),
     'author': instance.author.toJson(),
     'category': _$BookCategoryEnumMap[instance.category]!,
     'price': instance.price,
@@ -61,6 +64,7 @@ Map<String, dynamic> _$BookToJson(Book instance) {
 
   writeNotNull(
       'translators', instance.translators?.map((e) => e.toJson()).toList());
+  val['publisher'] = instance.publisher?.toJson();
   writeNotNull('tags', instance.tags);
   val['secondCategory'] = _$BookCategoryEnumMap[instance.secondCategory];
   return val;

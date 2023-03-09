@@ -66,6 +66,18 @@ class $DbBookTableTable extends DbBookTable
   late final GeneratedColumn<int> pages = GeneratedColumn<int>(
       'pages', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _publisherFirstNameMeta =
+      const VerificationMeta('publisherFirstName');
+  @override
+  late final GeneratedColumn<String> publisherFirstName =
+      GeneratedColumn<String>('publisher_first_name', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _publisherLastNameMeta =
+      const VerificationMeta('publisherLastName');
+  @override
+  late final GeneratedColumn<String> publisherLastName =
+      GeneratedColumn<String>('publisher_last_name', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
   @override
   late final GeneratedColumnWithTypeConverter<List<String>?, String> tags =
@@ -98,6 +110,8 @@ class $DbBookTableTable extends DbBookTable
         category,
         price,
         pages,
+        publisherFirstName,
+        publisherLastName,
         tags,
         secondCategory,
         onlyInDb
@@ -159,6 +173,18 @@ class $DbBookTableTable extends DbBookTable
       context.handle(
           _pagesMeta, pages.isAcceptableOrUnknown(data['pages']!, _pagesMeta));
     }
+    if (data.containsKey('publisher_first_name')) {
+      context.handle(
+          _publisherFirstNameMeta,
+          publisherFirstName.isAcceptableOrUnknown(
+              data['publisher_first_name']!, _publisherFirstNameMeta));
+    }
+    if (data.containsKey('publisher_last_name')) {
+      context.handle(
+          _publisherLastNameMeta,
+          publisherLastName.isAcceptableOrUnknown(
+              data['publisher_last_name']!, _publisherLastNameMeta));
+    }
     context.handle(_tagsMeta, const VerificationResult.success());
     context.handle(_secondCategoryMeta, const VerificationResult.success());
     if (data.containsKey('only_in_db')) {
@@ -193,6 +219,10 @@ class $DbBookTableTable extends DbBookTable
           .read(DriftSqlType.double, data['${effectivePrefix}price']),
       pages: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}pages']),
+      publisherFirstName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}publisher_first_name']),
+      publisherLastName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}publisher_last_name']),
       tags: $DbBookTableTable.$convertertagsn.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}tags'])),
@@ -229,6 +259,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   final BookCategory category;
   final double? price;
   final int? pages;
+  final String? publisherFirstName;
+  final String? publisherLastName;
   final List<String>? tags;
   final BookCategory? secondCategory;
   final String? onlyInDb;
@@ -242,6 +274,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       required this.category,
       this.price,
       this.pages,
+      this.publisherFirstName,
+      this.publisherLastName,
       this.tags,
       this.secondCategory,
       this.onlyInDb});
@@ -265,6 +299,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     }
     if (!nullToAbsent || pages != null) {
       map['pages'] = Variable<int>(pages);
+    }
+    if (!nullToAbsent || publisherFirstName != null) {
+      map['publisher_first_name'] = Variable<String>(publisherFirstName);
+    }
+    if (!nullToAbsent || publisherLastName != null) {
+      map['publisher_last_name'] = Variable<String>(publisherLastName);
     }
     if (!nullToAbsent || tags != null) {
       final converter = $DbBookTableTable.$convertertagsn;
@@ -296,6 +336,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           price == null && nullToAbsent ? const Value.absent() : Value(price),
       pages:
           pages == null && nullToAbsent ? const Value.absent() : Value(pages),
+      publisherFirstName: publisherFirstName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(publisherFirstName),
+      publisherLastName: publisherLastName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(publisherLastName),
       tags: tags == null && nullToAbsent ? const Value.absent() : Value(tags),
       secondCategory: secondCategory == null && nullToAbsent
           ? const Value.absent()
@@ -319,6 +365,10 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       category: serializer.fromJson<BookCategory>(json['category']),
       price: serializer.fromJson<double?>(json['price']),
       pages: serializer.fromJson<int?>(json['pages']),
+      publisherFirstName:
+          serializer.fromJson<String?>(json['publisherFirstName']),
+      publisherLastName:
+          serializer.fromJson<String?>(json['publisherLastName']),
       tags: serializer.fromJson<List<String>?>(json['tags']),
       secondCategory:
           serializer.fromJson<BookCategory?>(json['secondCategory']),
@@ -338,6 +388,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       'category': serializer.toJson<BookCategory>(category),
       'price': serializer.toJson<double?>(price),
       'pages': serializer.toJson<int?>(pages),
+      'publisherFirstName': serializer.toJson<String?>(publisherFirstName),
+      'publisherLastName': serializer.toJson<String?>(publisherLastName),
       'tags': serializer.toJson<List<String>?>(tags),
       'secondCategory': serializer.toJson<BookCategory?>(secondCategory),
       'onlyInDb': serializer.toJson<String?>(onlyInDb),
@@ -354,6 +406,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           BookCategory? category,
           Value<double?> price = const Value.absent(),
           Value<int?> pages = const Value.absent(),
+          Value<String?> publisherFirstName = const Value.absent(),
+          Value<String?> publisherLastName = const Value.absent(),
           Value<List<String>?> tags = const Value.absent(),
           Value<BookCategory?> secondCategory = const Value.absent(),
           Value<String?> onlyInDb = const Value.absent()}) =>
@@ -368,6 +422,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
         category: category ?? this.category,
         price: price.present ? price.value : this.price,
         pages: pages.present ? pages.value : this.pages,
+        publisherFirstName: publisherFirstName.present
+            ? publisherFirstName.value
+            : this.publisherFirstName,
+        publisherLastName: publisherLastName.present
+            ? publisherLastName.value
+            : this.publisherLastName,
         tags: tags.present ? tags.value : this.tags,
         secondCategory:
             secondCategory.present ? secondCategory.value : this.secondCategory,
@@ -385,6 +445,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           ..write('category: $category, ')
           ..write('price: $price, ')
           ..write('pages: $pages, ')
+          ..write('publisherFirstName: $publisherFirstName, ')
+          ..write('publisherLastName: $publisherLastName, ')
           ..write('tags: $tags, ')
           ..write('secondCategory: $secondCategory, ')
           ..write('onlyInDb: $onlyInDb')
@@ -403,6 +465,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       category,
       price,
       pages,
+      publisherFirstName,
+      publisherLastName,
       tags,
       secondCategory,
       onlyInDb);
@@ -419,6 +483,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           other.category == this.category &&
           other.price == this.price &&
           other.pages == this.pages &&
+          other.publisherFirstName == this.publisherFirstName &&
+          other.publisherLastName == this.publisherLastName &&
           other.tags == this.tags &&
           other.secondCategory == this.secondCategory &&
           other.onlyInDb == this.onlyInDb);
@@ -434,6 +500,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<BookCategory> category;
   final Value<double?> price;
   final Value<int?> pages;
+  final Value<String?> publisherFirstName;
+  final Value<String?> publisherLastName;
   final Value<List<String>?> tags;
   final Value<BookCategory?> secondCategory;
   final Value<String?> onlyInDb;
@@ -447,6 +515,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.category = const Value.absent(),
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
+    this.publisherFirstName = const Value.absent(),
+    this.publisherLastName = const Value.absent(),
     this.tags = const Value.absent(),
     this.secondCategory = const Value.absent(),
     this.onlyInDb = const Value.absent(),
@@ -461,6 +531,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     required BookCategory category,
     this.price = const Value.absent(),
     this.pages = const Value.absent(),
+    this.publisherFirstName = const Value.absent(),
+    this.publisherLastName = const Value.absent(),
     this.tags = const Value.absent(),
     this.secondCategory = const Value.absent(),
     this.onlyInDb = const Value.absent(),
@@ -479,6 +551,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     Expression<String>? category,
     Expression<double>? price,
     Expression<int>? pages,
+    Expression<String>? publisherFirstName,
+    Expression<String>? publisherLastName,
     Expression<String>? tags,
     Expression<String>? secondCategory,
     Expression<String>? onlyInDb,
@@ -493,6 +567,9 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       if (category != null) 'category': category,
       if (price != null) 'price': price,
       if (pages != null) 'pages': pages,
+      if (publisherFirstName != null)
+        'publisher_first_name': publisherFirstName,
+      if (publisherLastName != null) 'publisher_last_name': publisherLastName,
       if (tags != null) 'tags': tags,
       if (secondCategory != null) 'second_category': secondCategory,
       if (onlyInDb != null) 'only_in_db': onlyInDb,
@@ -509,6 +586,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       Value<BookCategory>? category,
       Value<double?>? price,
       Value<int?>? pages,
+      Value<String?>? publisherFirstName,
+      Value<String?>? publisherLastName,
       Value<List<String>?>? tags,
       Value<BookCategory?>? secondCategory,
       Value<String?>? onlyInDb}) {
@@ -522,6 +601,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       category: category ?? this.category,
       price: price ?? this.price,
       pages: pages ?? this.pages,
+      publisherFirstName: publisherFirstName ?? this.publisherFirstName,
+      publisherLastName: publisherLastName ?? this.publisherLastName,
       tags: tags ?? this.tags,
       secondCategory: secondCategory ?? this.secondCategory,
       onlyInDb: onlyInDb ?? this.onlyInDb,
@@ -559,6 +640,12 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     if (pages.present) {
       map['pages'] = Variable<int>(pages.value);
     }
+    if (publisherFirstName.present) {
+      map['publisher_first_name'] = Variable<String>(publisherFirstName.value);
+    }
+    if (publisherLastName.present) {
+      map['publisher_last_name'] = Variable<String>(publisherLastName.value);
+    }
     if (tags.present) {
       final converter = $DbBookTableTable.$convertertagsn;
       map['tags'] = Variable<String>(converter.toSql(tags.value));
@@ -586,6 +673,8 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
           ..write('category: $category, ')
           ..write('price: $price, ')
           ..write('pages: $pages, ')
+          ..write('publisherFirstName: $publisherFirstName, ')
+          ..write('publisherLastName: $publisherLastName, ')
           ..write('tags: $tags, ')
           ..write('secondCategory: $secondCategory, ')
           ..write('onlyInDb: $onlyInDb')
@@ -812,14 +901,469 @@ class DbPersonTableCompanion extends UpdateCompanion<DbPerson> {
   }
 }
 
+class $DbBookEditorsTableTable extends DbBookEditorsTable
+    with TableInfo<$DbBookEditorsTableTable, DbBookEditors> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DbBookEditorsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _editorsFirstNameMeta =
+      const VerificationMeta('editorsFirstName');
+  @override
+  late final GeneratedColumn<String> editorsFirstName = GeneratedColumn<String>(
+      'editors_first_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _editorsLastNameMeta =
+      const VerificationMeta('editorsLastName');
+  @override
+  late final GeneratedColumn<String> editorsLastName = GeneratedColumn<String>(
+      'editors_last_name', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [id, editorsFirstName, editorsLastName];
+  @override
+  String get aliasedName => _alias ?? 'db_book_editors_table';
+  @override
+  String get actualTableName => 'db_book_editors_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<DbBookEditors> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('editors_first_name')) {
+      context.handle(
+          _editorsFirstNameMeta,
+          editorsFirstName.isAcceptableOrUnknown(
+              data['editors_first_name']!, _editorsFirstNameMeta));
+    } else if (isInserting) {
+      context.missing(_editorsFirstNameMeta);
+    }
+    if (data.containsKey('editors_last_name')) {
+      context.handle(
+          _editorsLastNameMeta,
+          editorsLastName.isAcceptableOrUnknown(
+              data['editors_last_name']!, _editorsLastNameMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  DbBookEditors map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbBookEditors(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      editorsFirstName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}editors_first_name'])!,
+      editorsLastName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}editors_last_name']),
+    );
+  }
+
+  @override
+  $DbBookEditorsTableTable createAlias(String alias) {
+    return $DbBookEditorsTableTable(attachedDatabase, alias);
+  }
+}
+
+class DbBookEditors extends DataClass implements Insertable<DbBookEditors> {
+  final int id;
+  final String editorsFirstName;
+  final String? editorsLastName;
+  const DbBookEditors(
+      {required this.id, required this.editorsFirstName, this.editorsLastName});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['editors_first_name'] = Variable<String>(editorsFirstName);
+    if (!nullToAbsent || editorsLastName != null) {
+      map['editors_last_name'] = Variable<String>(editorsLastName);
+    }
+    return map;
+  }
+
+  DbBookEditorsTableCompanion toCompanion(bool nullToAbsent) {
+    return DbBookEditorsTableCompanion(
+      id: Value(id),
+      editorsFirstName: Value(editorsFirstName),
+      editorsLastName: editorsLastName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(editorsLastName),
+    );
+  }
+
+  factory DbBookEditors.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbBookEditors(
+      id: serializer.fromJson<int>(json['id']),
+      editorsFirstName: serializer.fromJson<String>(json['editorsFirstName']),
+      editorsLastName: serializer.fromJson<String?>(json['editorsLastName']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'editorsFirstName': serializer.toJson<String>(editorsFirstName),
+      'editorsLastName': serializer.toJson<String?>(editorsLastName),
+    };
+  }
+
+  DbBookEditors copyWith(
+          {int? id,
+          String? editorsFirstName,
+          Value<String?> editorsLastName = const Value.absent()}) =>
+      DbBookEditors(
+        id: id ?? this.id,
+        editorsFirstName: editorsFirstName ?? this.editorsFirstName,
+        editorsLastName: editorsLastName.present
+            ? editorsLastName.value
+            : this.editorsLastName,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DbBookEditors(')
+          ..write('id: $id, ')
+          ..write('editorsFirstName: $editorsFirstName, ')
+          ..write('editorsLastName: $editorsLastName')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, editorsFirstName, editorsLastName);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbBookEditors &&
+          other.id == this.id &&
+          other.editorsFirstName == this.editorsFirstName &&
+          other.editorsLastName == this.editorsLastName);
+}
+
+class DbBookEditorsTableCompanion extends UpdateCompanion<DbBookEditors> {
+  final Value<int> id;
+  final Value<String> editorsFirstName;
+  final Value<String?> editorsLastName;
+  const DbBookEditorsTableCompanion({
+    this.id = const Value.absent(),
+    this.editorsFirstName = const Value.absent(),
+    this.editorsLastName = const Value.absent(),
+  });
+  DbBookEditorsTableCompanion.insert({
+    required int id,
+    required String editorsFirstName,
+    this.editorsLastName = const Value.absent(),
+  })  : id = Value(id),
+        editorsFirstName = Value(editorsFirstName);
+  static Insertable<DbBookEditors> custom({
+    Expression<int>? id,
+    Expression<String>? editorsFirstName,
+    Expression<String>? editorsLastName,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (editorsFirstName != null) 'editors_first_name': editorsFirstName,
+      if (editorsLastName != null) 'editors_last_name': editorsLastName,
+    });
+  }
+
+  DbBookEditorsTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? editorsFirstName,
+      Value<String?>? editorsLastName}) {
+    return DbBookEditorsTableCompanion(
+      id: id ?? this.id,
+      editorsFirstName: editorsFirstName ?? this.editorsFirstName,
+      editorsLastName: editorsLastName ?? this.editorsLastName,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (editorsFirstName.present) {
+      map['editors_first_name'] = Variable<String>(editorsFirstName.value);
+    }
+    if (editorsLastName.present) {
+      map['editors_last_name'] = Variable<String>(editorsLastName.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbBookEditorsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('editorsFirstName: $editorsFirstName, ')
+          ..write('editorsLastName: $editorsLastName')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DbBookTranslatorsTableTable extends DbBookTranslatorsTable
+    with TableInfo<$DbBookTranslatorsTableTable, DbBookTranslators> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DbBookTranslatorsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _translatorsFirstNameMeta =
+      const VerificationMeta('translatorsFirstName');
+  @override
+  late final GeneratedColumn<String> translatorsFirstName =
+      GeneratedColumn<String>('translators_first_name', aliasedName, false,
+          type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _translatorsLastNameMeta =
+      const VerificationMeta('translatorsLastName');
+  @override
+  late final GeneratedColumn<String> translatorsLastName =
+      GeneratedColumn<String>('translators_last_name', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, translatorsFirstName, translatorsLastName];
+  @override
+  String get aliasedName => _alias ?? 'db_book_translators_table';
+  @override
+  String get actualTableName => 'db_book_translators_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<DbBookTranslators> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('translators_first_name')) {
+      context.handle(
+          _translatorsFirstNameMeta,
+          translatorsFirstName.isAcceptableOrUnknown(
+              data['translators_first_name']!, _translatorsFirstNameMeta));
+    } else if (isInserting) {
+      context.missing(_translatorsFirstNameMeta);
+    }
+    if (data.containsKey('translators_last_name')) {
+      context.handle(
+          _translatorsLastNameMeta,
+          translatorsLastName.isAcceptableOrUnknown(
+              data['translators_last_name']!, _translatorsLastNameMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  DbBookTranslators map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DbBookTranslators(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      translatorsFirstName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}translators_first_name'])!,
+      translatorsLastName: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}translators_last_name']),
+    );
+  }
+
+  @override
+  $DbBookTranslatorsTableTable createAlias(String alias) {
+    return $DbBookTranslatorsTableTable(attachedDatabase, alias);
+  }
+}
+
+class DbBookTranslators extends DataClass
+    implements Insertable<DbBookTranslators> {
+  final int id;
+  final String translatorsFirstName;
+  final String? translatorsLastName;
+  const DbBookTranslators(
+      {required this.id,
+      required this.translatorsFirstName,
+      this.translatorsLastName});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['translators_first_name'] = Variable<String>(translatorsFirstName);
+    if (!nullToAbsent || translatorsLastName != null) {
+      map['translators_last_name'] = Variable<String>(translatorsLastName);
+    }
+    return map;
+  }
+
+  DbBookTranslatorsTableCompanion toCompanion(bool nullToAbsent) {
+    return DbBookTranslatorsTableCompanion(
+      id: Value(id),
+      translatorsFirstName: Value(translatorsFirstName),
+      translatorsLastName: translatorsLastName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(translatorsLastName),
+    );
+  }
+
+  factory DbBookTranslators.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbBookTranslators(
+      id: serializer.fromJson<int>(json['id']),
+      translatorsFirstName:
+          serializer.fromJson<String>(json['translatorsFirstName']),
+      translatorsLastName:
+          serializer.fromJson<String?>(json['translatorsLastName']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'translatorsFirstName': serializer.toJson<String>(translatorsFirstName),
+      'translatorsLastName': serializer.toJson<String?>(translatorsLastName),
+    };
+  }
+
+  DbBookTranslators copyWith(
+          {int? id,
+          String? translatorsFirstName,
+          Value<String?> translatorsLastName = const Value.absent()}) =>
+      DbBookTranslators(
+        id: id ?? this.id,
+        translatorsFirstName: translatorsFirstName ?? this.translatorsFirstName,
+        translatorsLastName: translatorsLastName.present
+            ? translatorsLastName.value
+            : this.translatorsLastName,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DbBookTranslators(')
+          ..write('id: $id, ')
+          ..write('translatorsFirstName: $translatorsFirstName, ')
+          ..write('translatorsLastName: $translatorsLastName')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, translatorsFirstName, translatorsLastName);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbBookTranslators &&
+          other.id == this.id &&
+          other.translatorsFirstName == this.translatorsFirstName &&
+          other.translatorsLastName == this.translatorsLastName);
+}
+
+class DbBookTranslatorsTableCompanion
+    extends UpdateCompanion<DbBookTranslators> {
+  final Value<int> id;
+  final Value<String> translatorsFirstName;
+  final Value<String?> translatorsLastName;
+  const DbBookTranslatorsTableCompanion({
+    this.id = const Value.absent(),
+    this.translatorsFirstName = const Value.absent(),
+    this.translatorsLastName = const Value.absent(),
+  });
+  DbBookTranslatorsTableCompanion.insert({
+    required int id,
+    required String translatorsFirstName,
+    this.translatorsLastName = const Value.absent(),
+  })  : id = Value(id),
+        translatorsFirstName = Value(translatorsFirstName);
+  static Insertable<DbBookTranslators> custom({
+    Expression<int>? id,
+    Expression<String>? translatorsFirstName,
+    Expression<String>? translatorsLastName,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (translatorsFirstName != null)
+        'translators_first_name': translatorsFirstName,
+      if (translatorsLastName != null)
+        'translators_last_name': translatorsLastName,
+    });
+  }
+
+  DbBookTranslatorsTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? translatorsFirstName,
+      Value<String?>? translatorsLastName}) {
+    return DbBookTranslatorsTableCompanion(
+      id: id ?? this.id,
+      translatorsFirstName: translatorsFirstName ?? this.translatorsFirstName,
+      translatorsLastName: translatorsLastName ?? this.translatorsLastName,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (translatorsFirstName.present) {
+      map['translators_first_name'] =
+          Variable<String>(translatorsFirstName.value);
+    }
+    if (translatorsLastName.present) {
+      map['translators_last_name'] =
+          Variable<String>(translatorsLastName.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbBookTranslatorsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('translatorsFirstName: $translatorsFirstName, ')
+          ..write('translatorsLastName: $translatorsLastName')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$ModelGeneratorExampleDatabase extends GeneratedDatabase {
   _$ModelGeneratorExampleDatabase(QueryExecutor e) : super(e);
   late final $DbBookTableTable dbBookTable = $DbBookTableTable(this);
   late final $DbPersonTableTable dbPersonTable = $DbPersonTableTable(this);
+  late final $DbBookEditorsTableTable dbBookEditorsTable =
+      $DbBookEditorsTableTable(this);
+  late final $DbBookTranslatorsTableTable dbBookTranslatorsTable =
+      $DbBookTranslatorsTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [dbBookTable, dbPersonTable];
+      [dbBookTable, dbPersonTable, dbBookEditorsTable, dbBookTranslatorsTable];
 }

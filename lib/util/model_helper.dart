@@ -16,7 +16,7 @@ class ModelHelper {
     required Set<String> initialImports,
     required ObjectModel jsonModel,
     required PubspecConfig pubspecConfig,
-    required YmlGeneratorConfig yamlConfig,
+    required YmlGeneratorConfig ymlConfig,
     required List<Field> extendsFields,
     required StringBuffer sb,
     bool isForTable = false,
@@ -36,24 +36,24 @@ class ModelHelper {
 
     if (!isForDao) {
       if (extendsModel != null && !TypeChecker.isKnownDartType(extendsModel)) {
-        imports.addAll(_getImportsFromPath(extendsModel, pubspecConfig, yamlConfig));
+        imports.addAll(_getImportsFromPath(extendsModel, pubspecConfig, ymlConfig));
       }
 
       for (final field in jsonModel.fields) {
         final type = field.type;
         if (!TypeChecker.isKnownDartType(type.name) && type.name != jsonModel.name) {
-          imports.addAll(_getImportsFromPath(type.name, pubspecConfig, yamlConfig));
+          imports.addAll(_getImportsFromPath(type.name, pubspecConfig, ymlConfig));
         }
         if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
-          imports.addAll(_getImportsFromPath(type.valueName, pubspecConfig, yamlConfig));
+          imports.addAll(_getImportsFromPath(type.valueName, pubspecConfig, ymlConfig));
         }
       }
       for (final field in extendsFields) {
-        imports.addAll(_getImportsFromField(field, pubspecConfig, yamlConfig));
+        imports.addAll(_getImportsFromField(field, pubspecConfig, ymlConfig));
       }
 
       for (final converter in jsonModel.converters) {
-        imports.addAll(_getImportsFromPath(converter, pubspecConfig, yamlConfig));
+        imports.addAll(_getImportsFromPath(converter, pubspecConfig, ymlConfig));
       }
     }
     (imports.toList()..sort((i1, i2) => i1.compareTo(i2))).forEach(sb.writeln);
@@ -73,24 +73,24 @@ class ModelHelper {
     }
   }
 
-  static Iterable<String> _getImportsFromField(Field field, PubspecConfig pubspecConfig, YmlGeneratorConfig yamlConfig) {
+  static Iterable<String> _getImportsFromField(Field field, PubspecConfig pubspecConfig, YmlGeneratorConfig ymlConfig) {
     final imports = <String>{};
     final type = field.type;
     if (!TypeChecker.isKnownDartType(type.name)) {
-      imports.addAll(_getImportsFromPath(type.name, pubspecConfig, yamlConfig));
+      imports.addAll(_getImportsFromPath(type.name, pubspecConfig, ymlConfig));
     }
     if (type is MapType && !TypeChecker.isKnownDartType(type.valueName)) {
-      imports.addAll(_getImportsFromPath(type.valueName, pubspecConfig, yamlConfig));
+      imports.addAll(_getImportsFromPath(type.valueName, pubspecConfig, ymlConfig));
     }
     return imports;
   }
 
-  static Iterable<String> _getImportsFromPath(String name, PubspecConfig pubspecConfig, YmlGeneratorConfig yamlConfig) {
+  static Iterable<String> _getImportsFromPath(String name, PubspecConfig pubspecConfig, YmlGeneratorConfig ymlConfig) {
     final imports = <String>{};
     for (final leaf in DartType(name).leaves) {
       final projectName = pubspecConfig.projectName;
       final reCaseFieldName = CaseUtil(leaf);
-      final paths = yamlConfig.getPathsForName(pubspecConfig, leaf);
+      final paths = ymlConfig.getPathsForName(pubspecConfig, leaf);
       for (final path in paths) {
         String pathWithPackage;
         if (path.startsWith('package:')) {

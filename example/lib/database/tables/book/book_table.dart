@@ -30,6 +30,10 @@ class DbBookTable extends Table {
 
   IntColumn get pages => integer().nullable()();
 
+  TextColumn get publisherFirstName => text().nullable()();
+
+  TextColumn get publisherLastName => text().nullable()();
+
   TextColumn get tags => text().map(const StringListConverter()).nullable()();
 
   TextColumn get secondCategory => text().map(const BookTableBookCategoryNullableConverter()).nullable()();
@@ -37,10 +41,31 @@ class DbBookTable extends Table {
   TextColumn get onlyInDb => text().nullable()();
 }
 
+@DataClassName('DbBookEditors')
+class DbBookEditorsTable extends Table {
+  IntColumn get id => integer()();
+
+  TextColumn get editorsFirstName => text()();
+
+  TextColumn get editorsLastName => text().nullable()();
+
+}
+
+@DataClassName('DbBookTranslators')
+class DbBookTranslatorsTable extends Table {
+  IntColumn get id => integer()();
+
+  TextColumn get translatorsFirstName => text()();
+
+  TextColumn get translatorsLastName => text().nullable()();
+
+}
+
 extension DbBookExtension on DbBook {
   Book getModel({
-    required List<Person> publishers,
     required Person author,
+    required List<Person> editors,
+    Person? publisher,
     List<Person>? translators,
   }) => Book(
         id: id,
@@ -49,9 +74,10 @@ extension DbBookExtension on DbBook {
         price: price,
         pages: pages,
         isAvailable: isAvailable,
-        publishers: publishers,
+        editors: editors,
         translators: translators,
         author: author,
+        publisher: publisher,
         tags: tags,
         category: category,
         secondCategory: secondCategory,
@@ -69,6 +95,8 @@ extension BookExtension on Book {
         category: category,
         price: price,
         pages: pages,
+        publisherFirstName: publisher?.firstName,
+        publisherLastName: publisher?.lastName,
         tags: tags,
         secondCategory: secondCategory,
         onlyInDb: onlyInDb,

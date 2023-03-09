@@ -15,17 +15,17 @@ import 'package:path/path.dart';
 class DriftModelWriter {
   final PubspecConfig pubspecConfig;
   final ObjectModel jsonModel;
-  final YmlGeneratorConfig yamlConfig;
+  final YmlGeneratorConfig ymlConfig;
 
   const DriftModelWriter(
     this.pubspecConfig,
     this.jsonModel,
-    this.yamlConfig,
+    this.ymlConfig,
   );
 
   String write() {
-    final extendsFields = FieldUtil.getExtendedFields(jsonModel, yamlConfig);
-    final enumFields = FieldUtil.getEnumFields(jsonModel, yamlConfig);
+    final extendsFields = FieldUtil.getExtendedFields(jsonModel, ymlConfig);
+    final enumFields = FieldUtil.getEnumFields(jsonModel, ymlConfig);
 
     final sb = StringBuffer();
     final modelDirectory = [pubspecConfig.projectName, jsonModel.baseDirectory, jsonModel.path, '${jsonModel.fileName}.dart'].whereType<String>();
@@ -38,7 +38,7 @@ class DriftModelWriter {
       },
       jsonModel: jsonModel,
       pubspecConfig: pubspecConfig,
-      yamlConfig: yamlConfig,
+      ymlConfig: ymlConfig,
       extendsFields: extendsFields,
       sb: sb,
       isForTable: true,
@@ -53,10 +53,9 @@ class DriftModelWriter {
     }
     sb.writeln('class Db${modelNameUpperCamelCase}Table extends Table {');
 
-    for (final field
-        in jsonModel.fields.where((element) => !element.ignoreForTable && (element.type is ArrayType || element.type is MapType) && element.typeConverterForTable == null)) {
+    for (final field in jsonModel.fields.where((element) => !element.ignoreForTable && element.type is MapType && element.typeConverterForTable == null)) {
       throw Exception(
-          '${field.name} is ${field.type is ArrayType ? 'an array' : 'a map'} which is not a supported column. You should create a separate table for this and ignore the field. You can ignore this field by adding ignore_for_table: true');
+          '${field.name} is a map which is not a supported column. You should create a separate table for this and ignore the field. You can ignore this field by adding ignore_for_table: true');
     }
 
     final fields = jsonModel.fields.where((element) => !element.ignoreForTable).toList();
@@ -76,6 +75,7 @@ class DriftModelWriter {
       print('WARNING: No primary key or auto increment found for ${jsonModel.name}.');
     }
 
+    final otherTablesToCreate = <Field, ObjectModel>{};
     final fieldsFromOtherTables = <Field>[];
     final primaryKeys = <ItemType, List<Field>>{};
     for (final entry in fields.asMap().entries) {
@@ -91,12 +91,15 @@ class DriftModelWriter {
             "  TextColumn get ${field.name} => text().map(const ${modelNameUpperCamelCase}Table${CaseUtil(field.type.name).upperCamelCase}${field.isRequired ? '' : 'Nullable'}Converter())");
       } else {
         if (field.type is ArrayType) {
-          // TODO: Create table for lists and converter for dart types
+          final model = FieldUtil.getModelByType(field.type, ymlConfig);
+          print('arrayType: ${field.type.name} (${field.name}) model: $model');
+          if (model != null) otherTablesToCreate.addAll({field: model});
+          continue;
         } else if (field.type is MapType) {
           throw Exception('We are not able to handle maps at this time. Unable to create column for ${field.type.name} (${field.name})');
         } else if (field.type.driftColumn == null || field.type.driftType == null) {
           fieldsFromOtherTables.add(field);
-          primaryKeys[field.type] ??= FieldUtil.getPrimaryKeys(field.type, yamlConfig);
+          primaryKeys[field.type] ??= FieldUtil.getPrimaryKeys(field.type, ymlConfig);
           for (final primaryKeyField in primaryKeys[field.type]!) {
             sb.write("  ${primaryKeyField.type.driftColumn} get ${field.name}${CaseUtil(primaryKeyField.name).upperCamelCase} => ${primaryKeyField.type.driftType}()");
             if ((!field.isRequired && !field.disallowNull) || (!primaryKeyField.isRequired && !primaryKeyField.disallowNull)) {
@@ -128,11 +131,37 @@ class DriftModelWriter {
 
     sb
       ..writeln('}')
-      ..writeln('')
-      ..writeln('extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {');
+      ..writeln('');
 
-    if (jsonModel.fields.any((element) => element.ignoreForTable && !element.onlyForTable)) {
-      final fieldsNotInTable = FieldUtil.getFieldsNotInTable(jsonModel, sorted: true, additionalFields: fieldsFromOtherTables);
+    for (final entry in otherTablesToCreate.entries) {
+      final field = entry.key;
+      final table = entry.value;
+      sb.writeln("@DataClassName('Db${jsonModel.name}${CaseUtil(field.name).upperCamelCase}')");
+      sb.writeln('class Db${jsonModel.name}${CaseUtil(field.name).upperCamelCase}Table extends Table {');
+      for (final primaryKeyField in jsonModel.fields.where((element) => element.isTablePrimaryKey)) {
+        sb.write("  ${primaryKeyField.type.driftColumn} get ${primaryKeyField.name} => ${primaryKeyField.type.driftType}()");
+        if (!primaryKeyField.isRequired && !primaryKeyField.disallowNull) {
+          sb.write('.nullable()');
+        }
+        sb.writeln('();');
+        sb.writeln('');
+      }
+      for (final primaryKeyField in table.fields.where((element) => element.isTablePrimaryKey)) {
+        sb.write("  ${primaryKeyField.type.driftColumn} get ${field.name}${CaseUtil(primaryKeyField.name).upperCamelCase} => ${primaryKeyField.type.driftType}()");
+        if (!primaryKeyField.isRequired && !primaryKeyField.disallowNull) {
+          sb.write('.nullable()');
+        }
+        sb.writeln('();');
+        sb.writeln('');
+      }
+      sb.writeln('}');
+      sb.writeln('');
+    }
+
+    sb.writeln('extension Db${modelNameUpperCamelCase}Extension on Db$modelNameUpperCamelCase {');
+
+    final fieldsNotInTable = FieldUtil.getFieldsNotInTable(jsonModel, sorted: true, additionalFields: fieldsFromOtherTables..addAll(otherTablesToCreate.keys));
+    if (fieldsNotInTable.isNotEmpty) {
       var fieldsNotInTableString =
           fieldsNotInTable.map((e) => '${e.isRequired ? 'required ' : ''}${ModelHelper.getKeyType(e)} ${e.name}').join(',${fieldsNotInTable.length > 1 ? '\n    ' : ' '}');
       if (fieldsNotInTable.length > 1) fieldsNotInTableString = '\n    $fieldsNotInTableString,\n  ';
@@ -163,9 +192,11 @@ class DriftModelWriter {
     }
 
     for (final field in fields.where((element) => !element.ignoreForTable)) {
-      if (fieldsFromOtherTables.contains(field)) {
+      if (otherTablesToCreate.containsKey(field)) {
+        continue;
+      } else if (fieldsFromOtherTables.contains(field)) {
         for (final primaryKey in primaryKeys[field.type]!) {
-          sb.writeln('        ${field.name}${CaseUtil(primaryKey.name).upperCamelCase}: ${field.name}.${primaryKey.name},');
+          sb.writeln('        ${field.name}${CaseUtil(primaryKey.name).upperCamelCase}: ${field.name}${!field.isRequired && !field.disallowNull ? '?' : ''}.${primaryKey.name},');
         }
       } else {
         sb.writeln('        ${field.name}: ${field.name},');

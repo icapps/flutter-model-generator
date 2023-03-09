@@ -198,19 +198,18 @@ Book:
     price: double?
     pages: int?
     isAvailable: bool
-    publishers:
+    editors:
       type: array
       required: true # this is required, so will be added to the getModel method as required
-      ignore_for_table: true
       items:
         type: Person
     translators:
       type: array
       required: false # this is NOT required, so will be added to the getModel method as optional
-      ignore_for_table: true
       items:
         type: Person
     author: Person
+    publisher: Person?
     tags:
       type: array
       items:

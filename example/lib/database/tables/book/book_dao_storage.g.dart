@@ -6,5 +6,9 @@ part of 'book_dao_storage.dart';
 mixin _$_BookDaoStorageMixin
     on DatabaseAccessor<ModelGeneratorExampleDatabase> {
   $DbBookTableTable get dbBookTable => attachedDatabase.dbBookTable;
+  $DbBookEditorsTableTable get dbBookEditorsTable =>
+      attachedDatabase.dbBookEditorsTable;
+  $DbBookTranslatorsTableTable get dbBookTranslatorsTable =>
+      attachedDatabase.dbBookTranslatorsTable;
   $DbPersonTableTable get dbPersonTable => attachedDatabase.dbPersonTable;
 }

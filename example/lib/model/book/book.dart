@@ -18,8 +18,8 @@ class Book {
   final DateTime publishingDate;
   @JsonKey(name: 'isAvailable', required: true)
   final bool isAvailable;
-  @JsonKey(name: 'publishers', required: true, includeIfNull: false)
-  final List<Person> publishers;
+  @JsonKey(name: 'editors', required: true, includeIfNull: false)
+  final List<Person> editors;
   @JsonKey(name: 'author', required: true)
   final Person author;
   @JsonKey(name: 'category', required: true)
@@ -30,6 +30,8 @@ class Book {
   final int? pages;
   @JsonKey(name: 'translators', includeIfNull: false)
   final List<Person>? translators;
+  @JsonKey(name: 'publisher')
+  final Person? publisher;
   @JsonKey(name: 'tags', includeIfNull: false)
   final List<String>? tags;
   @JsonKey(name: 'secondCategory')
@@ -40,12 +42,13 @@ class Book {
     required this.name,
     required this.publishingDate,
     required this.isAvailable,
-    required this.publishers,
+    required this.editors,
     required this.author,
     required this.category,
     this.price,
     this.pages,
     this.translators,
+    this.publisher,
     this.tags,
     this.secondCategory,
   });
@@ -63,12 +66,13 @@ class Book {
           name == other.name &&
           publishingDate == other.publishingDate &&
           isAvailable == other.isAvailable &&
-          publishers == other.publishers &&
+          editors == other.editors &&
           author == other.author &&
           category == other.category &&
           price == other.price &&
           pages == other.pages &&
           translators == other.translators &&
+          publisher == other.publisher &&
           tags == other.tags &&
           secondCategory == other.secondCategory;
 
@@ -78,12 +82,13 @@ class Book {
       name.hashCode ^
       publishingDate.hashCode ^
       isAvailable.hashCode ^
-      publishers.hashCode ^
+      editors.hashCode ^
       author.hashCode ^
       category.hashCode ^
       price.hashCode ^
       pages.hashCode ^
       translators.hashCode ^
+      publisher.hashCode ^
       tags.hashCode ^
       secondCategory.hashCode;
 
@@ -94,12 +99,13 @@ class Book {
       'name: $name, '
       'publishingDate: $publishingDate, '
       'isAvailable: $isAvailable, '
-      'publishers: $publishers, '
+      'editors: $editors, '
       'author: $author, '
       'category: $category, '
       'price: $price, '
       'pages: $pages, '
       'translators: $translators, '
+      'publisher: $publisher, '
       'tags: $tags, '
       'secondCategory: $secondCategory'
       '}';
