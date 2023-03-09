@@ -40,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: StreamBuilder(
               stream: _daoStorage.getAllBooksStream(),
               builder: (context, snapshot) {
-                print('snapshot: $snapshot');
                 if (!snapshot.hasData && !snapshot.hasError) {
                   return const Center(child: Text('Loading...'));
                 } else if (snapshot.hasError) {

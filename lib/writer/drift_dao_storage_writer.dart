@@ -139,19 +139,20 @@ class DriftDaoStorageWriter {
       sb.writeln('        ])');
       sb.writeln('        .watch()');
       sb.writeln('        .map((rows) {');
-      sb.writeln('          final items = <Db$modelNameUpperCamelCase>[];');
+      sb.writeln('          final items = <Db$modelNameUpperCamelCase>{};');
       for (final field in fieldsFromOtherTables) {
-        final fieldType = field.type is ArrayType ? 'List<${field.type.name}>' : field.type.name;
+        final fieldType = field.type is ArrayType ? 'Set<${field.type.name}>' : field.type.name;
         sb.writeln('          final ${field.name}Map = <Db$modelNameUpperCamelCase, $fieldType>{};');
       }
       sb.writeln('          for (final row in rows) {');
       sb.writeln('            final item = row.readTable(db${modelNameUpperCamelCase}Table);');
+      sb.writeln('            items.add(item);');
       for (final field in fieldsFromOtherTables) {
         final isNullable = !field.isRequired && !field.disallowNull;
         sb.writeln('            final ${field.name} = row.readTable${isNullable || field.type is ArrayType ? 'OrNull' : ''}(${field.name}Table);');
         if (field.type is ArrayType) {
           if (isNullable) sb.writeln('            if (${field.name} != null) {');
-          sb.writeln('            ${isNullable ? '  ' : ''}${field.name}Map[item] ??= [];');
+          sb.writeln('            ${isNullable ? '  ' : ''}${field.name}Map[item] ??= {};');
           if (!isNullable) sb.writeln('            if (${field.name} != null) {');
           sb.writeln('              ${field.name}Map[item]!.add(${field.name}.model);');
           sb.writeln('            }');
@@ -167,7 +168,11 @@ class DriftDaoStorageWriter {
       sb.writeln('          return items');
       sb.writeln('              .map((item) => item.getModel(');
       for (final field in fieldsFromOtherTables) {
-        sb.writeln('                    ${field.name}: ${field.name}Map[item]${field.isRequired || field.disallowNull ? '!' : ''},');
+        if (field.type is ArrayType) {
+          sb.writeln('                    ${field.name}: ${field.name}Map[item]${field.isRequired || field.disallowNull ? '!' : '?'}.toList(),');
+        } else {
+          sb.writeln('                    ${field.name}: ${field.name}Map[item]${field.isRequired || field.disallowNull ? '!' : ''},');
+        }
       }
       sb.writeln('                  ))');
       sb.writeln('              .toList();');

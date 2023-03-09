@@ -50,21 +50,22 @@ class _BookDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> wi
         ])
         .watch()
         .map((rows) {
-          final items = <DbBook>[];
-          final editorsMap = <DbBook, List<Person>>{};
-          final translatorsMap = <DbBook, List<Person>>{};
+          final items = <DbBook>{};
+          final editorsMap = <DbBook, Set<Person>>{};
+          final translatorsMap = <DbBook, Set<Person>>{};
           final authorMap = <DbBook, Person>{};
           final publisherMap = <DbBook, Person>{};
           for (final row in rows) {
             final item = row.readTable(dbBookTable);
+            items.add(item);
             final editors = row.readTableOrNull(editorsTable);
-            editorsMap[item] ??= [];
+            editorsMap[item] ??= {};
             if (editors != null) {
               editorsMap[item]!.add(editors.model);
             }
             final translators = row.readTableOrNull(translatorsTable);
             if (translators != null) {
-              translatorsMap[item] ??= [];
+              translatorsMap[item] ??= {};
               translatorsMap[item]!.add(translators.model);
             }
             final author = row.readTable(authorTable);
@@ -75,8 +76,8 @@ class _BookDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> wi
 
           return items
               .map((item) => item.getModel(
-                    editors: editorsMap[item]!,
-                    translators: translatorsMap[item],
+                    editors: editorsMap[item]!.toList(),
+                    translators: translatorsMap[item]?.toList(),
                     author: authorMap[item]!,
                     publisher: publisherMap[item],
                   ))
