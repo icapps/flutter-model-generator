@@ -147,13 +147,14 @@ class DriftDaoStorageWriter {
       sb.writeln('          for (final row in rows) {');
       sb.writeln('            final item = row.readTable(db${modelNameUpperCamelCase}Table);');
       for (final field in fieldsFromOtherTables) {
-        sb.writeln('            final ${field.name} = row.readTable${field.isRequired || field.disallowNull ? '' : 'OrNull'}(${field.name}Table);');
         final isNullable = !field.isRequired && !field.disallowNull;
+        sb.writeln('            final ${field.name} = row.readTable${isNullable || field.type is ArrayType ? 'OrNull' : ''}(${field.name}Table);');
         if (field.type is ArrayType) {
           if (isNullable) sb.writeln('            if (${field.name} != null) {');
           sb.writeln('            ${isNullable ? '  ' : ''}${field.name}Map[item] ??= [];');
-          sb.writeln('            ${isNullable ? '  ' : ''}${field.name}Map[item]!.add(${field.name}.model);');
-          if (isNullable) sb.writeln('            }');
+          if (!isNullable) sb.writeln('            if (${field.name} != null) {');
+          sb.writeln('              ${field.name}Map[item]!.add(${field.name}.model);');
+          sb.writeln('            }');
         } else {
           sb.write('            ');
           if (isNullable) sb.write('if (${field.name} != null) ');
@@ -182,8 +183,44 @@ class DriftDaoStorageWriter {
     sb.writeln('  Future<List<$modelNameUpperCamelCase>> getAll${modelNameUpperCamelCase}s() => getAll${modelNameUpperCamelCase}sStream().first;');
     sb.writeln('');
     sb.writeln('  @override');
-    sb.writeln(
-        '  Future<void> create$modelNameUpperCamelCase($modelNameUpperCamelCase $modelNameLowerCamelCase) async => into(db${modelNameUpperCamelCase}Table).insert($modelNameLowerCamelCase.$getDbModelCall);');
+    sb.writeln('  Future<void> create$modelNameUpperCamelCase($modelNameUpperCamelCase $modelNameLowerCamelCase) async {');
+    final hasDbModelMethod = jsonModel.fields.any((element) => element.onlyForTable && !element.ignoreForTable);
+    sb.writeln('    await into(db${modelNameUpperCamelCase}Table).insert($modelNameLowerCamelCase.${hasDbModelMethod ? 'getDbModel()' : 'dbModel'});');
+    for (final field in fieldsFromOtherTables) {
+      final nullable = !field.isRequired && !field.disallowNull;
+      if (field.type is ArrayType) {
+        final table = 'db$modelNameUpperCamelCase${CaseUtil(field.name).upperCamelCase}Table';
+        final tableModel = 'Db$modelNameUpperCamelCase${CaseUtil(field.name).upperCamelCase}';
+        if (nullable) {
+          sb.writeln('    if ($modelNameLowerCamelCase.${field.name} != null && $modelNameLowerCamelCase.${field.name}!.isNotEmpty) {');
+        } else {
+          sb.writeln('    if ($modelNameLowerCamelCase.${field.name}.isNotEmpty) {');
+        }
+        sb.writeln('      await batch((batch) {');
+        sb.writeln('        batch');
+        sb.writeln('          ..insertAll(');
+        sb.writeln('              $table,');
+        sb.writeln('              $modelNameLowerCamelCase.${field.name}${nullable ? '!' : ''}.map((item) => $tableModel(');
+        sb.write(jsonModel.fields
+            .where((element) => element.isTablePrimaryKey)
+            .map((primaryKeyField) => '                    ${primaryKeyField.name}: $modelNameLowerCamelCase.${primaryKeyField.name},\n')
+            .join());
+        sb.write(primaryKeys[field.type]!
+            .map((primaryKeyField) => '                    ${field.name}${CaseUtil(primaryKeyField.name).upperCamelCase}: item.${primaryKeyField.name},\n')
+            .join());
+        sb.writeln('                  )))');
+        sb.writeln('          ..insertAll(db${field.type.name}Table, $modelNameLowerCamelCase.${field.name}${nullable ? '!' : ''}.map((item) => item.dbModel));');
+        sb.writeln('      });');
+        sb.writeln('    }');
+      } else {
+        final table = 'db${field.type.name}Table';
+        sb.write('    ');
+        if (nullable) sb.write('if ($modelNameLowerCamelCase.${field.name} != null) ');
+        sb.writeln('await into($table).insert($modelNameLowerCamelCase.${field.name}${nullable ? '!' : ''}.dbModel);'); // TODO: dbModel vs getDbModel()
+      }
+    }
+    sb.writeln('  }');
+
     sb.writeln('');
     sb.writeln('  @override');
     sb.writeln(

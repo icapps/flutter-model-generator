@@ -92,7 +92,6 @@ class DriftModelWriter {
       } else {
         if (field.type is ArrayType) {
           final model = FieldUtil.getModelByType(field.type, ymlConfig);
-          print('arrayType: ${field.type.name} (${field.name}) model: $model');
           if (model != null) otherTablesToCreate.addAll({field: model});
           continue;
         } else if (field.type is MapType) {

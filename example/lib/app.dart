@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:model_generator_example/screen/home_screen.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -8,12 +9,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('model generator'),
-        ),
-        body: Container(),
-      ),
+      home: HomeScreen(),
     );
   }
 }

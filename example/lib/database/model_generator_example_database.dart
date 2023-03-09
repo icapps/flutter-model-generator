@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:model_generator_example/database/tables/book/book_table.dart';
 import 'package:model_generator_example/database/tables/user/person/person_table.dart';
 import 'package:model_generator_example/model/book/book_category.dart';
+import 'package:model_generator_example/model/user/person/gender.dart';
+import 'package:model_generator_example/util/converters/string_list_converter.dart';
 
 part 'model_generator_example_database.g.dart';
 

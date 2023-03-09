@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:drift/native.dart';
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:model_generator_example/database/model_generator_example_database.dart';
 import 'package:model_generator_example/database/tables/book/book_dao_storage.dart';
@@ -7,8 +8,6 @@ import 'package:model_generator_example/model/book/book.dart';
 import 'package:model_generator_example/util/book_util.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = 'home';
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -30,21 +29,33 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: StreamBuilder(
-        stream: _daoStorage.getAllBooksStream(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData && !snapshot.hasError) {
-            return const Center(child: Text('Loading...'));
-          } else if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
-          final data = snapshot.data as List<Book>;
-          return ListView.separated(
-            itemCount: data.length,
-            itemBuilder: (context, index) => BookWidget(book: data[index]),
-            separatorBuilder: (context, index) => const Divider(),
-          );
-        },
+      body: Column(
+        children: [
+          MaterialButton(
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DriftDbViewer(_database))),
+            child: const Text('Show Database'),
+          ),
+          const SizedBox(height: 8),
+          Expanded(
+            child: StreamBuilder(
+              stream: _daoStorage.getAllBooksStream(),
+              builder: (context, snapshot) {
+                print('snapshot: $snapshot');
+                if (!snapshot.hasData && !snapshot.hasError) {
+                  return const Center(child: Text('Loading...'));
+                } else if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
+                final data = snapshot.data as List<Book>;
+                return ListView.separated(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) => BookWidget(book: data[index]),
+                  separatorBuilder: (context, index) => const Divider(),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

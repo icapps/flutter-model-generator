@@ -57,9 +57,11 @@ class _BookDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> wi
           final publisherMap = <DbBook, Person>{};
           for (final row in rows) {
             final item = row.readTable(dbBookTable);
-            final editors = row.readTable(editorsTable);
+            final editors = row.readTableOrNull(editorsTable);
             editorsMap[item] ??= [];
-            editorsMap[item]!.add(editors.model);
+            if (editors != null) {
+              editorsMap[item]!.add(editors.model);
+            }
             final translators = row.readTableOrNull(translatorsTable);
             if (translators != null) {
               translatorsMap[item] ??= [];
@@ -86,7 +88,37 @@ class _BookDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> wi
   Future<List<Book>> getAllBooks() => getAllBooksStream().first;
 
   @override
-  Future<void> createBook(Book book) async => into(dbBookTable).insert(book.getDbModel());
+  Future<void> createBook(Book book) async {
+    await into(dbBookTable).insert(book.getDbModel());
+    if (book.editors.isNotEmpty) {
+      await batch((batch) {
+        batch
+          ..insertAll(
+              dbBookEditorsTable,
+              book.editors.map((item) => DbBookEditors(
+                    id: book.id,
+                    editorsFirstName: item.firstName,
+                    editorsLastName: item.lastName,
+                  )))
+          ..insertAll(dbPersonTable, book.editors.map((item) => item.dbModel));
+      });
+    }
+    if (book.translators != null && book.translators!.isNotEmpty) {
+      await batch((batch) {
+        batch
+          ..insertAll(
+              dbBookTranslatorsTable,
+              book.translators!.map((item) => DbBookTranslators(
+                    id: book.id,
+                    translatorsFirstName: item.firstName,
+                    translatorsLastName: item.lastName,
+                  )))
+          ..insertAll(dbPersonTable, book.translators!.map((item) => item.dbModel));
+      });
+    }
+    await into(dbPersonTable).insert(book.author.dbModel);
+    if (book.publisher != null) await into(dbPersonTable).insert(book.publisher!.dbModel);
+  }
 
   @override
   Future<void> updateBook(Book book) => update(dbBookTable).replace(book.getDbModel());
