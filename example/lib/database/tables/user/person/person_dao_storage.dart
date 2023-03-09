@@ -35,7 +35,9 @@ class _PersonDaoStorage extends DatabaseAccessor<ModelGeneratorExampleDatabase> 
   Future<List<Person>> getAllPersons() => getAllPersonsStream().first;
 
   @override
-  Future<void> createPerson(Person person) async => into(dbPersonTable).insert(person.dbModel);
+  Future<void> createPerson(Person person) async {
+    await into(dbPersonTable).insert(person.dbModel);
+  }
 
   @override
   Future<void> updatePerson(Person person) => update(dbPersonTable).replace(person.dbModel);
