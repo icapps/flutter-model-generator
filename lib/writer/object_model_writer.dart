@@ -115,7 +115,14 @@ class ObjectModelWriter {
       }
 
       if (key.ignore) {
-        sb.write(', ignore: true');
+        sb.write(', includeFromJson: false, includeToJson: false');
+      } else {
+        if (!key.includeFromJson) {
+          sb.write(', includeFromJson: false');
+        }
+        if (!key.includeToJson) {
+          sb.write(', includeToJson: false');
+        }
       }
 
       if (key.unknownEnumValue != null) {

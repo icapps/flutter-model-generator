@@ -24,6 +24,8 @@ void main() {
               type: StringType(),
               isRequired: false,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -34,9 +36,7 @@ void main() {
       WriterTestHelper.testObjectModelWriter(model, [], 'normal');
     });
 
-    test(
-        'Normal ObjectModelWriter with not required field - equals and hashcode',
-        () {
+    test('Normal ObjectModelWriter with not required field - equals and hashcode', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -49,6 +49,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             ignoreEquality: false,
             includeIfNull: true,
             nonFinal: false,
@@ -56,8 +58,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'normal-equals-hashcode');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-equals-hashcode');
     });
 
     test('Normal ObjectModelWriter with explicit to json false', () {
@@ -75,14 +76,15 @@ void main() {
             ignoreEquality: false,
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'explicit-to-json-false');
+      WriterTestHelper.testObjectModelWriter(model, [], 'explicit-to-json-false');
     });
     test('Normal ObjectModelWriter with explicit to json false in pubspec', () {
       final model = ObjectModel(
@@ -97,6 +99,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -104,8 +108,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'explicit-to-json-false-pubspec');
+      WriterTestHelper.testObjectModelWriter(model, [], 'explicit-to-json-false-pubspec');
     });
     test('Normal ObjectModelWriter with extra annotations', () {
       final model = ObjectModel(
@@ -121,6 +124,8 @@ void main() {
             isRequired: false,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -143,6 +148,8 @@ void main() {
             ignoreEquality: false,
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -166,6 +173,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -173,8 +182,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'extra-imports-on-model');
+      WriterTestHelper.testObjectModelWriter(model, [], 'extra-imports-on-model');
     });
     test('Normal ObjectModelWriter with required field', () {
       final model = ObjectModel(
@@ -190,6 +198,8 @@ void main() {
             isRequired: true,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -212,6 +222,8 @@ void main() {
             ignoreEquality: false,
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -221,6 +233,8 @@ void main() {
             isRequired: false,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -243,6 +257,8 @@ void main() {
             type: StringType(),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             ignoreEquality: false,
             includeIfNull: true,
             nonFinal: false,
@@ -250,8 +266,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'generate-for-generics');
+      WriterTestHelper.testObjectModelWriter(model, [], 'generate-for-generics');
     });
 
     test('ObjectModelWriter with generate for generics override option', () {
@@ -268,14 +283,15 @@ void main() {
             isRequired: true,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'generate-for-generics-override');
+      WriterTestHelper.testObjectModelWriter(model, [], 'generate-for-generics-override');
     });
 
     test('ObjectModelWriter with generate for generics override option 2', () {
@@ -291,6 +307,8 @@ void main() {
             type: StringType(),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -298,11 +316,10 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'generate-for-generics-override-2');
+      WriterTestHelper.testObjectModelWriter(model, [], 'generate-for-generics-override-2');
     });
 
-    test('Normal ObjectModelWriter with ignroe field', () {
+    test('Normal ObjectModelWriter with includeFromJson field', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -314,7 +331,9 @@ void main() {
             name: 'firstName',
             type: StringType(),
             isRequired: false,
-            ignore: true,
+            ignore: false,
+            includeFromJson: false,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -322,7 +341,56 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(model, [], 'ignore');
+      WriterTestHelper.testObjectModelWriter(model, [], 'includeFromJson');
+    });
+    test('Normal ObjectModelWriter with includeToJson field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeFromJson: true,
+            includeToJson: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, [], 'includeToJson');
+    });
+
+    test('Normal ObjectModelWriter with includeFromJson and includeToJson field', () {
+      final model = ObjectModel(
+        name: 'Person',
+        path: 'path_to_my_model',
+        baseDirectory: 'base_dir',
+        generateForGenerics: false,
+        staticCreate: false,
+        fields: [
+          Field(
+            name: 'firstName',
+            type: StringType(),
+            isRequired: false,
+            ignore: false,
+            includeFromJson: false,
+            includeToJson: false,
+            includeIfNull: true,
+            ignoreEquality: false,
+            nonFinal: false,
+          ),
+        ],
+        converters: [],
+      );
+      WriterTestHelper.testObjectModelWriter(model, [], 'includeToJson-includeFromJson');
     });
 
     test('Normal ObjectModelWriter with import sorting', () {
@@ -338,6 +406,8 @@ void main() {
             type: ObjectType('AModel'),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -361,6 +431,8 @@ void main() {
             type: ArrayType('String'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -384,6 +456,8 @@ void main() {
             type: MapType(key: 'String', valueName: 'int'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             ignoreEquality: false,
@@ -407,6 +481,8 @@ void main() {
             type: MapType(key: 'String', valueName: 'Person'),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -431,6 +507,8 @@ void main() {
             isRequired: false,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: true,
           ),
@@ -454,6 +532,8 @@ void main() {
             isRequired: false,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: false,
             nonFinal: false,
           ),
@@ -476,6 +556,8 @@ void main() {
             type: ObjectType('Gender'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             unknownEnumValue: 'X',
@@ -501,6 +583,8 @@ void main() {
             isRequired: false,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: true,
           ),
@@ -523,6 +607,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             ignoreEquality: false,
             includeIfNull: true,
             nonFinal: false,
@@ -533,6 +619,8 @@ void main() {
             isRequired: true,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -541,6 +629,8 @@ void main() {
             type: StringType(),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             ignoreEquality: false,
@@ -565,6 +655,8 @@ void main() {
             isRequired: false,
             ignoreEquality: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
           ),
@@ -589,6 +681,8 @@ void main() {
             type: ObjectType('Address'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             ignoreEquality: false,
             includeIfNull: true,
             nonFinal: false,
@@ -612,6 +706,8 @@ void main() {
             type: StringType(),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             ignoreEquality: false,
@@ -625,13 +721,14 @@ void main() {
           type: StringType(),
           isRequired: true,
           ignore: false,
+          includeFromJson: true,
+          includeToJson: true,
           includeIfNull: true,
           nonFinal: false,
           ignoreEquality: false,
         ),
       ];
-      WriterTestHelper.testObjectModelWriter(
-          model, extendsFields, 'extend-fields');
+      WriterTestHelper.testObjectModelWriter(model, extendsFields, 'extend-fields');
     });
 
     test('Normal ObjectModelWriter with extended fields', () {
@@ -647,6 +744,8 @@ void main() {
             type: StringType(),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             ignoreEquality: false,
@@ -660,6 +759,8 @@ void main() {
           type: ObjectType('Address'),
           isRequired: true,
           ignore: false,
+          includeFromJson: true,
+          includeToJson: true,
           includeIfNull: true,
           nonFinal: false,
           ignoreEquality: false,
@@ -669,13 +770,14 @@ void main() {
           type: MapType(key: 'String', valueName: 'Address'),
           isRequired: false,
           ignore: false,
+          includeFromJson: true,
+          includeToJson: true,
           includeIfNull: true,
           nonFinal: false,
           ignoreEquality: false,
         ),
       ];
-      WriterTestHelper.testObjectModelWriter(
-          model, extendsFields, 'extend-fields-with-non-dart-type');
+      WriterTestHelper.testObjectModelWriter(model, extendsFields, 'extend-fields-with-non-dart-type');
     });
 
     test('Normal ObjectModelWriter with extended fields twice', () {
@@ -691,6 +793,8 @@ void main() {
             type: StringType(),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             ignoreEquality: false,
@@ -704,6 +808,8 @@ void main() {
           type: StringType(),
           isRequired: true,
           ignore: false,
+          includeFromJson: true,
+          includeToJson: true,
           includeIfNull: true,
           nonFinal: false,
           ignoreEquality: false,
@@ -713,13 +819,14 @@ void main() {
           type: StringType(),
           isRequired: true,
           ignore: false,
+          includeFromJson: true,
+          includeToJson: true,
           includeIfNull: true,
           nonFinal: false,
           ignoreEquality: false,
         ),
       ];
-      WriterTestHelper.testObjectModelWriter(
-          model, extendsFields, 'extend-fields-twice');
+      WriterTestHelper.testObjectModelWriter(model, extendsFields, 'extend-fields-twice');
     });
 
     test('Normal ObjectModelWriter with package import', () {
@@ -735,6 +842,8 @@ void main() {
             type: ObjectType('Address'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -758,6 +867,8 @@ void main() {
             type: ObjectType('Address'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -781,6 +892,8 @@ void main() {
             type: ObjectType('Address'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             ignoreEquality: false,
@@ -804,6 +917,8 @@ void main() {
             type: ObjectType('Address'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             nonFinal: false,
             toJson: 'handleToJson',
@@ -830,6 +945,8 @@ void main() {
             type: ObjectType('Address'),
             isRequired: true,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -839,8 +956,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'to-json-from-json-handler');
+      WriterTestHelper.testObjectModelWriter(model, [], 'to-json-from-json-handler');
     });
 
     test('Normal ObjectModelWriter with static create', () {
@@ -856,6 +972,8 @@ void main() {
               type: StringType(),
               isRequired: false,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -866,9 +984,7 @@ void main() {
       WriterTestHelper.testObjectModelWriter(model, [], 'normal-static-create');
     });
 
-    test(
-        'Normal ObjectModelWriter with all fields ignored from equals hashcode',
-        () {
+    test('Normal ObjectModelWriter with all fields ignored from equals hashcode', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -882,6 +998,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: true,
             nonFinal: false,
@@ -889,12 +1007,9 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'normal-equals-hashcode-empty');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-equals-hashcode-empty');
     });
-    test(
-        'Normal ObjectModelWriter with some fields ignored from equals hashcode',
-        () {
+    test('Normal ObjectModelWriter with some fields ignored from equals hashcode', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -908,6 +1023,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: true,
             nonFinal: false,
@@ -917,6 +1034,8 @@ void main() {
             type: StringType(),
             isRequired: false,
             ignore: false,
+            includeFromJson: true,
+            includeToJson: true,
             includeIfNull: true,
             ignoreEquality: false,
             nonFinal: false,
@@ -924,8 +1043,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'normal-equals-hashcode-some-ignored');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-equals-hashcode-some-ignored');
     });
     test('Normal ObjectModelWriter with default field', () {
       final model = ObjectModel(
@@ -940,6 +1058,8 @@ void main() {
               type: StringType(),
               isRequired: false,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -963,6 +1083,8 @@ void main() {
                 type: StringType(),
                 isRequired: false,
                 ignore: false,
+                includeFromJson: true,
+                includeToJson: true,
                 includeIfNull: true,
                 ignoreEquality: false,
                 nonFinal: false,
@@ -971,8 +1093,7 @@ void main() {
           ],
           converters: [],
           description: 'A good class description');
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'normal-with-description');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-with-description');
     });
     test('Normal ObjectModelWriter with default required field', () {
       final model = ObjectModel(
@@ -987,6 +1108,8 @@ void main() {
               type: StringType(),
               isRequired: true,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -995,11 +1118,9 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'default-field-required');
+      WriterTestHelper.testObjectModelWriter(model, [], 'default-field-required');
     });
-    test('Normal ObjectModelWriter with default required field disallow null',
-        () {
+    test('Normal ObjectModelWriter with default required field disallow null', () {
       final model = ObjectModel(
         name: 'Person',
         path: 'path_to_my_model',
@@ -1012,6 +1133,8 @@ void main() {
               type: StringType(),
               isRequired: true,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -1021,8 +1144,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'default-field-required-null-disallowed');
+      WriterTestHelper.testObjectModelWriter(model, [], 'default-field-required-null-disallowed');
     });
     test('Normal ObjectModelWriter with retrofit compute', () {
       final model = ObjectModel(
@@ -1037,6 +1159,8 @@ void main() {
               type: StringType(),
               isRequired: false,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -1044,8 +1168,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'normal-retrofit-compute');
+      WriterTestHelper.testObjectModelWriter(model, [], 'normal-retrofit-compute');
     });
     test('Normal ObjectModelWriter with retrofit compute - tearoff', () {
       final model = ObjectModel(
@@ -1060,6 +1183,8 @@ void main() {
               type: StringType(),
               isRequired: false,
               ignore: false,
+              includeFromJson: true,
+              includeToJson: true,
               includeIfNull: true,
               ignoreEquality: false,
               nonFinal: false,
@@ -1067,8 +1192,7 @@ void main() {
         ],
         converters: [],
       );
-      WriterTestHelper.testObjectModelWriter(
-          model, [], 'retrofit-compute-tearoff');
+      WriterTestHelper.testObjectModelWriter(model, [], 'retrofit-compute-tearoff');
     });
   });
 }

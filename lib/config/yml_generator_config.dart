@@ -184,6 +184,10 @@ class YmlGeneratorConfig {
           property.containsKey('required') && property['required'] == true;
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
+      final includeFromJson = !property.containsKey('includeFromJson') ||
+          property['includeFromJson'] == true;
+      final includeToJson = !property.containsKey('includeToJson') ||
+          property['includeToJson'] == true;
       final nonFinal = ignored ||
           property.containsKey('non_final') && property['non_final'] == true;
       final includeIfNull = property.containsKey('include_if_null') &&
@@ -241,6 +245,8 @@ class YmlGeneratorConfig {
         type: itemType,
         isRequired: required,
         ignore: ignored,
+        includeFromJson: includeFromJson,
+        includeToJson: includeToJson,
         jsonKey: jsonKey,
         nonFinal: nonFinal,
         description: description,
@@ -269,6 +275,8 @@ class YmlGeneratorConfig {
       type: type,
       isRequired: !optional,
       ignore: false,
+      includeToJson: true,
+      includeFromJson: true,
       includeIfNull: true,
       nonFinal: false,
       ignoreEquality: false,

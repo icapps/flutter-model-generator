@@ -8,6 +8,8 @@ class Field {
   final ItemType type;
   final bool isRequired;
   final bool ignore;
+  final bool includeFromJson;
+  final bool includeToJson;
   final bool includeIfNull;
   final bool nonFinal;
   final String? unknownEnumValue;
@@ -25,6 +27,8 @@ class Field {
     required this.type,
     required this.isRequired,
     required this.ignore,
+    required this.includeFromJson,
+    required this.includeToJson,
     required this.includeIfNull,
     required this.nonFinal,
     required this.ignoreEquality,
