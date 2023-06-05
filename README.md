@@ -323,7 +323,13 @@ UserModel:
       include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
       type: String
     ignoreField:
-      ignore: false #this field will not be final, and not be used in the json parsing
+      ignore: false #This field is ignored in the to & from json methods
+      type: String
+    ignoreFieldOnlyInFrom:
+      includeFromJson: false #This field is ignored in the from json method
+      type: String
+    ignoreFieldOnlyInTo:
+      includeToJson: false #This field is ignored in the to json method
       type: String
     mutableField:
       non_final: true #Field will not be marked final

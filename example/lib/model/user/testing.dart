@@ -10,7 +10,11 @@ part 'testing.g.dart';
 class Testing {
   @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
   final String beneficiary;
-  @JsonKey(name: 'isFavourite', includeIfNull: false, ignore: true)
+  @JsonKey(
+      name: 'isFavourite',
+      includeIfNull: false,
+      includeFromJson: false,
+      includeToJson: false)
   String? isFavourite;
   @JsonKey(name: 'structuredMessage', includeIfNull: false)
   final String? structuredMessage;

@@ -1,6 +1,13 @@
 # Changelog
+## [6.3.0] - 2023-06-05
+- Fixed the deprecated `ignore` field. Added
+```
+    includeFromJson: false
+    includeToJson: false
+```
+
 ## [6.2.1] - 2023-03-07
-- Updated the enum model generator to correctly generate the (reverse)Mapping based on the item_type 
+- Updated the enum model generator to correctly generate the (reverse)Mapping based on the item_type
 
 ## [6.2.0] - 2023-02-23
 - Better enum support. Right now, String, int, double can be used to map a value to an enum.

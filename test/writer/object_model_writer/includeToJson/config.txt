@@ -1,0 +1,8 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      required: false
+      includeToJson: false
+      type: string
