@@ -2,8 +2,8 @@
 ## [6.3.0] - 2023-06-05
 - Fixed the deprecated `ignore` field. Added
 ```
-    includeFromJson: true
-    includeToJson: true,
+    includeFromJson: false
+    includeToJson: false
 ```
 
 ## [6.2.1] - 2023-03-07
