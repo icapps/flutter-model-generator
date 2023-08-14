@@ -24,17 +24,15 @@ OGM:
       required: true
       type: string
     securityRole:
-      type: string
+      type: string?
       jsonKey: securityIndicator
     mutableProperty:
-      type: string
+      type: string?
       non_final: true
     dateChange:
-      type: datetime
+      type: datetime?
     fields:
-      type: array
-      items:
-        type: List<Testing>
+      type: List<List<Testing>>?
     simpleFields: List<Testing>
     simpleMap: Map<String, Testing>?
 
@@ -48,20 +46,20 @@ Testing:
   properties:
     isFavourite:
       ignore: true
-      type: string
+      type: string?
     structuredMessage:
-      type: string
+      type: string?
     beneficiary:
       required: true
       type: string
     beneficiaryIBAN:
-      type: string
+      type: string?
     dynamicField:
-      type: dynamic
+      type: dynamic?
     duration:
-      type: Duration
+      type: Duration?
     duration_from_json_test:
-      type: DurationFromToJson
+      type: DurationFromToJson?
 
 AdminProfileData:
   path: user/profile
@@ -107,23 +105,14 @@ UserProfileData:
       type: OGM
     offTrack:
       include_if_null: false
-      type: array
-      items:
-        type: string
+      type: List<string>?
     onTrack:
       include_if_null: true
-      type: array
-      items:
-        type: OGM
+      type: List<OGM>?
     persons:
-      type: array
-      items:
-        type: Person
+      type: List<Person>?
     personsById:
-      type: map
-      items:
-        key: String
-        value: Person
+      type: Map<String, Person>?
 
 Person:
   path: user/person/
@@ -150,13 +139,13 @@ CustomBaseDirectoryObj:
   path: article
   properties:
     name:
-      type: string
+      type: string?
 
 NoCustomBaseDirectoryObj:
   path: article
   properties:
     customBaseDirectoryObj:
-      type: CustomBaseDirectoryObj
+      type: CustomBaseDirectoryObj?
 
 DateTimeConverter:
   type: json_converter
@@ -173,8 +162,8 @@ Project:
       type: string
       default_value: "'test'"
     cost:
-      type: double
+      type: double?
       default_value: 0.2
     status:
-      type: Status
+      type: Status?
       unknown_enum_value: STATUS_0

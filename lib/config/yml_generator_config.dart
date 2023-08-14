@@ -366,7 +366,7 @@ class YmlGeneratorConfig {
   }
 
   ItemType _parseSimpleType(String type) {
-    final listRegex = RegExp(r'^\s*[Ll]ist<\s*([a-zA-Z_0-9]*)\s*>\s*$');
+    final listRegex = RegExp(r'^\s*[Ll]ist<\s*([a-zA-Z_0-9<>]*)\s*>\s*$');
     final mapRegex =
         RegExp(r'^\s*[Mm]ap<([a-zA-Z_0-9]*)\s*,\s*([a-zA-Z_0-9]*)\s*>\s*$');
 
