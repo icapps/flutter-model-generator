@@ -180,8 +180,6 @@ class YmlGeneratorConfig {
   Field getField(String name, YamlMap property,
       {required bool disallowNullForDefaults}) {
     try {
-      final required =
-          property.containsKey('required') && property['required'] == true;
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
       final includeFromJson = !property.containsKey('includeFromJson') ||
@@ -210,40 +208,15 @@ class YmlGeneratorConfig {
       if (type == null) {
         throw Exception('$name has no defined type');
       }
-      final lowerType = type.toLowerCase();
-      if (lowerType == 'object' ||
-          lowerType == 'dynamic' ||
-          lowerType == 'any') {
-        itemType = DynamicType();
-      } else if (type == 'bool' || lowerType == 'boolean') {
-        itemType = BooleanType();
-      } else if (lowerType == 'string') {
-        itemType = StringType();
-      } else if (lowerType == 'date' || lowerType == 'datetime') {
-        itemType = DateTimeType();
-      } else if (lowerType == 'double') {
-        itemType = DoubleType();
-      } else if (type == 'int' || type == 'integer') {
-        itemType = IntegerType();
-      } else if (lowerType == 'array') {
-        final items = property['items'];
-        final arrayType = items['type'];
-        itemType = ArrayType(_makeGenericName(arrayType));
-      } else if (lowerType == 'map') {
-        final items = property['items'];
-        final keyType = items['key'];
-        final valueType = items['value'];
-        itemType = MapType(
-          key: _makeGenericName(keyType),
-          valueName: _makeGenericName(valueType),
-        );
-      } else {
-        itemType = ObjectType(type);
-      }
+
+      final optional = type.endsWith('?');
+      final typeString = optional ? type.substring(0, type.length - 1) : type;
+
+      itemType = _parseSimpleType(typeString);
       return Field(
         name: name,
         type: itemType,
-        isRequired: required,
+        isRequired: !optional,
         ignore: ignored,
         includeFromJson: includeFromJson,
         includeToJson: includeToJson,
