@@ -2,7 +2,4 @@ Person:
   type: object
   properties:
     firstName:
-        type: map
-        items:
-          key: string
-          value: List<int>
+        type: Map<String, List<int>>
