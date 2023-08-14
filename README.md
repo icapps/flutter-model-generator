@@ -378,6 +378,32 @@ UserModel:
     roles: List<string>
     customProperties: Map<String, Property>?
 ```
+since 6.4.0 inline types are supported now even when adding extra configuration:
+
+before:
+```yaml
+BookCase:
+  path: webservice/BookCases
+  properties:
+    id: int
+    books:
+      type: array
+      items:
+        type: Book
+      required: false
+      include_if_null: false
+```
+
+now:
+```yaml
+BookCase:
+  path: webservice/BookCases
+  properties:
+    id: int
+    books:
+      type: List<Book>
+      include_if_null: false
+```
 
 Currently all basic types are supported, simple Lists and Maps (no nested types, no nullable generic parameters) as well as references to other objects.
 Items post-fixed with `?` will be marked optional.
