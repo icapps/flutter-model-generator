@@ -1,6 +1,6 @@
 import 'dart:io';
 
-const packageName = 'custom_image_crop';
+const packageName = 'model_generator';
 
 void main() {
   Logger.debug(
