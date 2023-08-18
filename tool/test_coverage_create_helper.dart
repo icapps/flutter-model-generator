@@ -3,7 +3,8 @@ import 'dart:io';
 const packageName = 'custom_image_crop';
 
 void main() {
-  Logger.debug('First create a file with all other files imported so flutter test coverage uses all files');
+  Logger.debug(
+      'First create a file with all other files imported so flutter test coverage uses all files');
   final imports = Directory('lib').listSync(recursive: true).where((element) {
     if (Directory(element.path).existsSync()) return false;
     if (!element.path.endsWith('.dart')) return false;
