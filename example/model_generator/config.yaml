@@ -7,30 +7,30 @@ OGM:
   extra_imports:
     -
   properties:
-    structuredMessage: string?
+    structuredMessage: String?
     beneficiary:
       required: true
-      type: string
+      type: String
     beneficiaryIBAN:
       required: true
-      type: string
+      type: String
     test_Test:
       required: true
-      type: string
+      type: String
     some_Thing:
       required: true
-      type: string
+      type: String
     some_ThinG_huGE:
       required: true
-      type: string
+      type: String
     securityRole:
-      type: string?
+      type: String?
       jsonKey: securityIndicator
     mutableProperty:
-      type: string?
+      type: String?
       non_final: true
     dateChange:
-      type: datetime?
+      type: DateTime?
     fields:
       type: List<List<Testing>>?
     simpleFields: List<Testing>
@@ -46,14 +46,14 @@ Testing:
   properties:
     isFavourite:
       ignore: true
-      type: string?
+      type: String?
     structuredMessage:
-      type: string?
+      type: String?
     beneficiary:
       required: true
-      type: string
+      type: String
     beneficiaryIBAN:
-      type: string?
+      type: String?
     dynamicField:
       type: dynamic?
     duration:
@@ -67,7 +67,7 @@ AdminProfileData:
   properties:
     privileges:
       required: true
-      type: string
+      type: String
 
 UserProfileDataExtended:
   path: user/profile
@@ -75,7 +75,7 @@ UserProfileDataExtended:
   properties:
     additionalField:
       required: true
-      type: string
+      type: String
 
 UserProfileData:
   path: user/profile
@@ -84,19 +84,19 @@ UserProfileData:
   properties:
     firstName:
       required: true
-      type: string
+      type: String
     lastName:
       required: true
-      type: string
+      type: String
     standardLanguage:
       required: true
-      type: string
+      type: String
     mainAccountNumber:
       required: true
-      type: string
+      type: String
     legalEmail:
       required: true
-      type: string
+      type: String
     phones:
       required: true
       type: Testing
@@ -105,7 +105,7 @@ UserProfileData:
       type: OGM
     offTrack:
       include_if_null: false
-      type: List<string>?
+      type: List<String>?
     onTrack:
       include_if_null: true
       type: List<OGM>?
@@ -120,7 +120,7 @@ Person:
   properties:
     firstName:
       required: true
-      type: string
+      type: String
     gender:
       required: true
       unknown_enum_value: X
@@ -139,7 +139,7 @@ CustomBaseDirectoryObj:
   path: article
   properties:
     name:
-      type: string?
+      type: String?
 
 NoCustomBaseDirectoryObj:
   path: article
@@ -159,7 +159,7 @@ Project:
   properties:
     name:
       required: true
-      type: string
+      type: String
       default_value: "'test'"
     cost:
       type: double?
