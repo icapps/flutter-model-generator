@@ -378,7 +378,7 @@ UserModel:
     roles: List<string>
     customProperties: Map<String, Property>?
 ```
-since 6.4.0 inline types are supported now even when adding extra configuration:
+since 7.0.0 inline types are supported now even when adding extra configuration:
 
 before:
 ```yaml

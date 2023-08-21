@@ -1,5 +1,5 @@
 # Changelog
-## [6.4.0] - 2023-08-14
+## [7.0.0] - 2023-08-14
 *BREAKING CHANGE*: Every type is now defined inline, this means that 'required' is no longer supported, if a field isn't nullable it is automatically required. This also means that the 'array' type is no longer supported and is instead just defined like 'List<T>'.
 
 ## [6.3.0] - 2023-06-05
