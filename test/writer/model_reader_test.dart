@@ -110,6 +110,51 @@ TestModel:
       expect(requiredString2.isRequired, true);
     });
 
+    test('Test List not supported anymore', () {
+      dynamic error;
+      try {
+        final config = YmlGeneratorConfig(
+            PubspecConfig("name: test"),
+            """
+TestModel:
+  properties:
+    list: 
+      type: array
+      items:
+        type: String
+""",
+            '');
+
+        config.checkIfTypesAvailable();
+      } catch (e) {
+        error = e;
+      }
+      expect(error, isNotNull);
+    });
+
+    test('Test Map not supported anymore', () {
+      dynamic error;
+      try {
+        final config = YmlGeneratorConfig(
+            PubspecConfig("name: test"),
+            """
+TestModel:
+  properties:
+    list: 
+      type: map
+      items:
+        key: String
+        value: String
+""",
+            '');
+
+        config.checkIfTypesAvailable();
+      } catch (e) {
+        error = e;
+      }
+      expect(error, isNotNull);
+    });
+
     test('Test simple generic fields', () {
       final models = YmlGeneratorConfig(
               PubspecConfig("name: test"),
