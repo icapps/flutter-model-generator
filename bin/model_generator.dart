@@ -141,9 +141,9 @@ void writeToFiles(
   }
 }
 
-Future<Process> _runProcess(String command, List<String> args) async {
+Future<void> _runProcess(String command, List<String> args) async {
   print('\n$command ${args.join(' ')}\n');
-  final completer = Completer<Process>();
+  final completer = Completer<void>();
   final result = await Process.start(
     command,
     args,
@@ -156,7 +156,7 @@ Future<Process> _runProcess(String command, List<String> args) async {
   subscription.onDone(() {
     print(
         '======================================================================');
-    completer.complete(result);
+    completer.complete();
   });
   subscription.onError((dynamic error) =>
       completer.completeError('Failed to complete process run: $error'));
