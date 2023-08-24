@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -139,35 +141,43 @@ void writeToFiles(
   }
 }
 
-Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
-  ProcessResult result;
-  if (useFvm) {
-    result = Process.runSync('fvm', [
-      'flutter',
-      'packages',
-      'pub',
-      'run',
-      'build_runner',
-      'build',
-      '--delete-conflicting-outputs',
-    ]);
-  } else {
-    result = Process.runSync('flutter', [
-      'packages',
-      'pub',
-      'run',
-      'build_runner',
-      'build',
-      '--delete-conflicting-outputs',
-    ]);
-  }
-  if (result.exitCode == 0) {
-    print('Successfully generated the jsonSerializable generated files');
-    print('');
-  } else {
+Future<Process> _runProcess(String command, List<String> args) async {
+  print('\n$command ${args.join(' ')}\n');
+  final completer = Completer<Process>();
+  final result = await Process.start(
+    command,
+    args,
+    mode: ProcessStartMode.detachedWithStdio,
+  );
+  print(
+      '======================================================================');
+  final subscription =
+      result.stdout.listen((codeUnits) => stdout.write(utf8.decode(codeUnits)));
+  subscription.onDone(() {
     print(
-        'Failed to run `${useFvm ? 'fvm ' : ''}flutter packages pub run build_runner build --delete-conflicting-outputs`');
-    print('StdErr: ${result.stderr}');
-    print('StdOut: ${result.stdout}');
-  }
+        '======================================================================');
+    completer.complete(result);
+  });
+  subscription.onError((dynamic error) =>
+      completer.completeError('Failed to complete process run: $error'));
+  return completer.future;
+}
+
+Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
+  final arguments = [
+    if (useFvm) ...[
+      'fvm',
+    ],
+    'flutter',
+    'packages',
+    'pub',
+    'run',
+    'build_runner',
+    'build',
+    '--delete-conflicting-outputs',
+  ];
+  await _runProcess(
+    arguments.first,
+    arguments.skip(1).toList(),
+  );
 }
