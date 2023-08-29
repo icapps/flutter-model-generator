@@ -2,9 +2,9 @@ BModel:
   path: user/b_model/
   type: object
   properties:
-    firstName: AModel
+    firstName: AModel?
 AModel:
   path: user/a_model/
   type: object
   properties:
-    firstName: String
+    firstName: String?

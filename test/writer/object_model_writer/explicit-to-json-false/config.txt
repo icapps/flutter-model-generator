@@ -3,4 +3,4 @@ Person:
   type: object
   explicit_to_json: false
   properties:
-    firstName: String
+    firstName: String?

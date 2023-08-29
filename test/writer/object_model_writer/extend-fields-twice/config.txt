@@ -3,17 +3,17 @@ Admin:
   type: object
   extends: User
   properties:
-    permission: String
+    permission: String?
 
 User:
   path: user/person/
   type: object
   extends: Person
   properties:
-    email: String
+    email: String?
 
 Person:
   path: user/person/
   type: object
   properties:
-    name: String
+    name: String?

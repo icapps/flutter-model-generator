@@ -6,4 +6,4 @@ Person:
   extra_annotations:
     - '@veryGood'
   properties:
-    firstName: String
+    firstName: String?
