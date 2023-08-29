@@ -2,14 +2,10 @@ Person:
   path: user/custom_person.dart
   type: object
   properties:
-    address:
-      required: true
-      type: Address
+    address: Address
 
 Address:
   path: user/custom_address.dart
   type: object
   properties:
-    streetName:
-      required: true
-      type: string
+    streetName: String

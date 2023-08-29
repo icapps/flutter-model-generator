@@ -3,4 +3,4 @@ Person:
   type: object
   properties:
     firstName:
-      type: string
+      type: String

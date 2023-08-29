@@ -3,8 +3,4 @@ Person:
   type: object
   properties:
     info:
-      required: false
-      type: map
-      items:
-        key: string
-        value: Person
+      type: Map<String, Person>?

@@ -3,7 +3,4 @@ Person:
   type: object
   properties:
     info:
-      required: true
-      type: array
-      items:
-        type: string
+      type: List<String>

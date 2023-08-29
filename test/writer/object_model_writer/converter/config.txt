@@ -5,8 +5,7 @@ Person:
     - DateTimeConverter
   properties:
     birthDay:
-      required: true
-      type: datetime
+      type: DateTime
 DateTimeConverter:
   path: user/person/
   type: json_converter

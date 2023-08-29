@@ -3,9 +3,8 @@ Person:
   type: object
   properties:
     firstName:
-      required: false
       include_if_null: false
-      type: string
+      type: String?
 Gender:
   path: user/person/
   type: enum

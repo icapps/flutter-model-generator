@@ -2,9 +2,4 @@ Person:
   path: user/person/
   type: object
   properties:
-    info:
-      required: true
-      type: map
-      items:
-        key: string
-        value: int
+    info: Map<String, Int>

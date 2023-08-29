@@ -3,6 +3,4 @@ Person:
   type: object
   generate_for_generics: true
   properties:
-    firstName:
-      required: true
-      type: string
+    firstName: String

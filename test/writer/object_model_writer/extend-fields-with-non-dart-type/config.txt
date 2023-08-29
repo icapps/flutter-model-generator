@@ -3,8 +3,7 @@ User:
   type: object
   extends: Person
   properties:
-    email:
-      type: string
+    email: String
 
 Person:
   path: user/person/
@@ -12,17 +11,10 @@ Person:
   properties:
     address:
       type: Address
-    info:
-      type: map
-      required: false
-      items:
-        key: string
-        value: Address
+    info: Map<String, Address>?
 
 Address:
   path: user/custom_address.dart
   type: object
   properties:
-    streetName:
-      required: true
-      type: string
+    streetName: String

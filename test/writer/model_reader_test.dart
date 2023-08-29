@@ -68,46 +68,27 @@ TestModel:
     });
 
     test('Test required not definable anymore', () {
-      final models = YmlGeneratorConfig(
-              PubspecConfig("name: test"),
-              """
+      dynamic error;
+      try {
+        YmlGeneratorConfig(
+                PubspecConfig("name: test"),
+                """
 TestModel:
   properties:
-    optionalString1:
-        type: String?
+    requiredString:
+        type: String
         required: true
-    optionalString2:
-        type: String?
-    requiredString1:
+    optionalString:
         type: String
         required: false
-    requiredString2:
-        type: String
 """,
-              '')
-          .models;
+                '')
+            .models;
+      } catch (e) {
+        error = e;
+      }
 
-      expect(models.length, 1);
-      final model = models.first;
-      expect(model is ObjectModel, true);
-      model as ObjectModel;
-
-      final optionalString1 = model.fields.getByName("optionalString1");
-      final requiredString1 = model.fields.getByName("requiredString1");
-      final optionalString2 = model.fields.getByName("optionalString2");
-      final requiredString2 = model.fields.getByName("requiredString2");
-
-      expect(optionalString1.type, isA<StringType>());
-      expect(optionalString1.isRequired, false);
-
-      expect(requiredString1.type, isA<StringType>());
-      expect(requiredString1.isRequired, true);
-
-      expect(optionalString2.type, isA<StringType>());
-      expect(optionalString2.isRequired, false);
-
-      expect(requiredString2.type, isA<StringType>());
-      expect(requiredString2.isRequired, true);
+      expect(error, isNotNull);
     });
 
     test('Test List not supported anymore', () {
