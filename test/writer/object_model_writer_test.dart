@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
+import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 import 'package:test/test.dart';
 
@@ -20,8 +22,14 @@ void main() {
     if (jsonModel is! ObjectModel) {
       throw Exception('The first model in the config file must be an object model and will be validated. The model is ${ymlConfig.models.first.runtimeType}');
     }
-
-    final generateActual = ObjectModelWriter(pubspecConfig, jsonModel, [], ymlConfig).write;
+    final extendsModelfields = <Field>[];
+    var extendsModelextends = jsonModel.extendsModel;
+    while (extendsModelextends != null) {
+      final extendsModelextendsModel = ymlConfig.models.firstWhereOrNull((element) => element.name == extendsModelextends) as ObjectModel?; // ignore: avoid_as
+      extendsModelfields.addAll(extendsModelextendsModel?.fields ?? []);
+      extendsModelextends = extendsModelextendsModel?.extendsModel;
+    }
+    final generateActual = ObjectModelWriter(pubspecConfig, jsonModel, extendsModelfields, ymlConfig).write;
     if (expected.startsWith('Exception')) {
       expect(generateActual, throwsA(isA<Exception>()));
     } else {

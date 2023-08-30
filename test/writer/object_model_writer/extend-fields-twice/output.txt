@@ -12,11 +12,11 @@ class Admin extends User {
 
   const Admin({
     required this.permission,
-    required String name,
-    required String email,
+    String? email,
+    String? name,
   }) : super(
-          name: name,
           email: email,
+          name: name,
         );
 
   factory Admin.fromJson(Map<String, dynamic> json) => _$AdminFromJson(json);

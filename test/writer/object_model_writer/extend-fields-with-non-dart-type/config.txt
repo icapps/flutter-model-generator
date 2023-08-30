@@ -3,7 +3,7 @@ User:
   type: object
   extends: Person
   properties:
-    email: String?
+    email: String
 
 Person:
   path: user/person/
