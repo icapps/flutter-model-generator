@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -10,6 +9,7 @@ import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/run_process/run_process.dart';
 import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
@@ -141,28 +141,6 @@ void writeToFiles(
   }
 }
 
-Future<void> _runProcess(String command, List<String> args) async {
-  print('\n$command ${args.join(' ')}\n');
-  final completer = Completer<void>();
-  final result = await Process.start(
-    command,
-    args,
-    mode: ProcessStartMode.detachedWithStdio,
-  );
-  print(
-      '======================================================================');
-  final subscription =
-      result.stdout.listen((codeUnits) => stdout.write(utf8.decode(codeUnits)));
-  subscription.onDone(() {
-    print(
-        '======================================================================');
-    completer.complete();
-  });
-  subscription.onError((dynamic error) =>
-      completer.completeError('Failed to complete process run: $error'));
-  return completer.future;
-}
-
 Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
   final arguments = [
     if (useFvm) ...[
@@ -176,7 +154,7 @@ Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
     'build',
     '--delete-conflicting-outputs',
   ];
-  await _runProcess(
+  await ProcessRunner.runProcessVerbose(
     arguments.first,
     arguments.skip(1).toList(),
   );
