@@ -18,10 +18,12 @@ void main() {
     final ymlConfig = YmlGeneratorConfig(pubspecConfig, configContent, '');
     final jsonModel = ymlConfig.models.first;
     if (jsonModel is! ObjectModel) {
-      throw Exception('The first model in the config file must be an object model and will be validated. The model is ${ymlConfig.models.first.runtimeType}');
+      throw Exception(
+          'The first model in the config file must be an object model and will be validated. The model is ${ymlConfig.models.first.runtimeType}');
     }
 
-    final generateActual = ObjectModelWriter(pubspecConfig, jsonModel, ymlConfig).write;
+    final generateActual =
+        ObjectModelWriter(pubspecConfig, jsonModel, ymlConfig).write;
     if (expected.startsWith('Exception')) {
       expect(generateActual, throwsA(isA<Exception>()));
     } else {
