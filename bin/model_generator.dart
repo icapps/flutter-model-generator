@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -8,6 +9,7 @@ import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/run_process/run_process.dart';
 import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
@@ -140,34 +142,20 @@ void writeToFiles(
 }
 
 Future<void> generateJsonGeneratedModels({required bool useFvm}) async {
-  ProcessResult result;
-  if (useFvm) {
-    result = Process.runSync('fvm', [
-      'flutter',
-      'packages',
-      'pub',
-      'run',
-      'build_runner',
-      'build',
-      '--delete-conflicting-outputs',
-    ]);
-  } else {
-    result = Process.runSync('flutter', [
-      'packages',
-      'pub',
-      'run',
-      'build_runner',
-      'build',
-      '--delete-conflicting-outputs',
-    ]);
-  }
-  if (result.exitCode == 0) {
-    print('Successfully generated the jsonSerializable generated files');
-    print('');
-  } else {
-    print(
-        'Failed to run `${useFvm ? 'fvm ' : ''}flutter packages pub run build_runner build --delete-conflicting-outputs`');
-    print('StdErr: ${result.stderr}');
-    print('StdOut: ${result.stdout}');
-  }
+  final arguments = [
+    if (useFvm) ...[
+      'fvm',
+    ],
+    'flutter',
+    'packages',
+    'pub',
+    'run',
+    'build_runner',
+    'build',
+    '--delete-conflicting-outputs',
+  ];
+  await ProcessRunner.runProcessVerbose(
+    arguments.first,
+    arguments.skip(1).toList(),
+  );
 }
