@@ -3,6 +3,5 @@ Person:
   type: object
   properties:
     gender:
-      required: false
       non_final: true
-      type: string
+      type: String?

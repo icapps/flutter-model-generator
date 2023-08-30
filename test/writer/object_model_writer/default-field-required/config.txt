@@ -4,6 +4,5 @@ Person:
   properties:
     firstName:
       description: A good description
-      type: string
-      required: true
+      type: String
       default_field: "'test'"

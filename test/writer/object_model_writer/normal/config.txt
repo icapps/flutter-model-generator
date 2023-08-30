@@ -4,4 +4,4 @@ Person:
   properties:
     firstName:
       description: A good description
-      type: string
+      type: String?

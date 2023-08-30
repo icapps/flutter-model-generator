@@ -180,6 +180,10 @@ class YmlGeneratorConfig {
   Field getField(String name, YamlMap property,
       {required bool disallowNullForDefaults}) {
     try {
+      if (property.containsKey('required')) {
+        throw ArgumentError(
+            'required is removed, follow the migration to version 7.0.0');
+      }
       final ignored =
           property.containsKey('ignore') && property['ignore'] == true;
       final includeFromJson = !property.containsKey('includeFromJson') ||
