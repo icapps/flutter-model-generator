@@ -89,6 +89,10 @@ TestModel:
       }
 
       expect(error, isNotNull);
+      expect(error, isArgumentError);
+      if (error is ArgumentError) {
+        expect(error.message, 'required is removed, follow the migration to version 7.0.0');
+      }
     });
 
     test('Test List not supported anymore', () {
@@ -111,6 +115,10 @@ TestModel:
         error = e;
       }
       expect(error, isNotNull);
+      expect(error, isException);
+      if (error is Exception) {
+        expect(error.toString(), 'Exception: Could not generate all models. `array` is not added to the config file');
+      }
     });
 
     test('Test Map not supported anymore', () {
@@ -134,6 +142,10 @@ TestModel:
         error = e;
       }
       expect(error, isNotNull);
+      expect(error, isException);
+      if (error is Exception) {
+        expect(error.toString(), 'Exception: Could not generate all models. `map` is not added to the config file');
+      }
     });
 
     test('Test simple generic fields', () {
