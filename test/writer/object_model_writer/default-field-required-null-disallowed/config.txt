@@ -5,5 +5,5 @@ Person:
     firstName:
       description: A good description
       type: String
-      default_field: "'test'"
+      default_value: "'test'"
       disallow_null: true

@@ -2,7 +2,7 @@ Person:
   path: user/person/
   type: object
   properties:
-    time: Time
+    time: Time?
 Time:
   path: user/person/
   type: custom_from_to_json

@@ -5,4 +5,5 @@ Person:
     firstName:
       includeFromJson: false
       includeToJson: false
+      include_if_null: false
       type: String?
