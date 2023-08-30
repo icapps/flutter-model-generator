@@ -2,12 +2,13 @@ Person:
   path: user/custom_person.dart
   type: object
   properties:
-    address: Address
+    address:
+      type: Address
+      toJson: handleToJson
+      fromJson: handleFromJson
 
 Address:
   type: object
   properties:
     streetName:
       type: String
-      toJson: handleToJson
-      fromJson: handleFromJson
