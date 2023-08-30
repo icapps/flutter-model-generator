@@ -1,0 +1,7 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      include_if_null: true
+      type: String?
