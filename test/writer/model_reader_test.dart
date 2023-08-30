@@ -91,7 +91,8 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isArgumentError);
       if (error is ArgumentError) {
-        expect(error.message, 'required is removed, follow the migration to version 7.0.0');
+        expect(error.message,
+            'required is removed, follow the migration to version 7.0.0');
       }
     });
 
@@ -117,7 +118,8 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(), 'Exception: Could not generate all models. `array` is not added to the config file');
+        expect(error.toString(),
+            'Exception: Could not generate all models. `array` is not added to the config file');
       }
     });
 
@@ -144,7 +146,8 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(), 'Exception: Could not generate all models. `map` is not added to the config file');
+        expect(error.toString(),
+            'Exception: Could not generate all models. `map` is not added to the config file');
       }
     });
 
