@@ -3,6 +3,5 @@ Person:
   type: object
   properties:
     firstName:
-      required: false
       ignore: true
-      type: string
+      type: String?

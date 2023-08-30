@@ -7,34 +7,27 @@ OGM:
   extra_imports:
     -
   properties:
-    structuredMessage: string?
+    structuredMessage: String?
     beneficiary:
-      required: true
-      type: string
+      type: String
     beneficiaryIBAN:
-      required: true
-      type: string
+      type: String
     test_Test:
-      required: true
-      type: string
+      type: String
     some_Thing:
-      required: true
-      type: string
+      type: String
     some_ThinG_huGE:
-      required: true
-      type: string
+      type: String
     securityRole:
-      type: string
+      type: String?
       jsonKey: securityIndicator
     mutableProperty:
-      type: string
+      type: String?
       non_final: true
     dateChange:
-      type: datetime
+      type: DateTime?
     fields:
-      type: array
-      items:
-        type: List<Testing>
+      type: List<List<Testing>>?
     simpleFields: List<Testing>
     simpleMap: Map<String, Testing>?
 
@@ -48,36 +41,33 @@ Testing:
   properties:
     isFavourite:
       ignore: true
-      type: string
+      type: String?
     structuredMessage:
-      type: string
+      type: String?
     beneficiary:
-      required: true
-      type: string
+      type: String
     beneficiaryIBAN:
-      type: string
+      type: String?
     dynamicField:
-      type: dynamic
+      type: dynamic?
     duration:
-      type: Duration
+      type: Duration?
     duration_from_json_test:
-      type: DurationFromToJson
+      type: DurationFromToJson?
 
 AdminProfileData:
   path: user/profile
   extends: UserProfileDataExtended
   properties:
     privileges:
-      required: true
-      type: string
+      type: String
 
 UserProfileDataExtended:
   path: user/profile
   extends: UserProfileData
   properties:
     additionalField:
-      required: true
-      type: string
+      type: String
 
 UserProfileData:
   path: user/profile
@@ -85,55 +75,37 @@ UserProfileData:
   explicit_to_json: true
   properties:
     firstName:
-      required: true
-      type: string
+      type: String
     lastName:
-      required: true
-      type: string
+      type: String
     standardLanguage:
-      required: true
-      type: string
+      type: String
     mainAccountNumber:
-      required: true
-      type: string
+      type: String
     legalEmail:
-      required: true
-      type: string
+      type: String
     phones:
-      required: true
       type: Testing
     legalAddress:
-      required: true
       type: OGM
     offTrack:
       include_if_null: false
-      type: array
-      items:
-        type: string
+      type: List<String>?
     onTrack:
       include_if_null: true
-      type: array
-      items:
-        type: OGM
+      type: List<OGM>?
     persons:
-      type: array
-      items:
-        type: Person
+      type: List<Person>?
     personsById:
-      type: map
-      items:
-        key: String
-        value: Person
+      type: Map<String, Person>?
 
 Person:
   path: user/person/
   type: object
   properties:
     firstName:
-      required: true
-      type: string
+      type: String
     gender:
-      required: true
       unknown_enum_value: X
       type: Gender
 
@@ -150,13 +122,13 @@ CustomBaseDirectoryObj:
   path: article
   properties:
     name:
-      type: string
+      type: String?
 
 NoCustomBaseDirectoryObj:
   path: article
   properties:
     customBaseDirectoryObj:
-      type: CustomBaseDirectoryObj
+      type: CustomBaseDirectoryObj?
 
 DateTimeConverter:
   type: json_converter
@@ -169,12 +141,11 @@ Project:
   static_create: true
   properties:
     name:
-      required: true
-      type: string
+      type: String
       default_value: "'test'"
     cost:
-      type: double
+      type: double?
       default_value: 0.2
     status:
-      type: Status
+      type: Status?
       unknown_enum_value: STATUS_0

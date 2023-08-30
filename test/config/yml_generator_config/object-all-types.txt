@@ -26,58 +26,32 @@ Person:
     address:
         type: Address
     listString:
-        type: array
-        items:
-            type: string
+        type: List<string>
     listString2:
-        type: array
-        items:
-            type: String
+        type: List<String>
     listInt:
-        type: array
-        items:
-            type: int
+        type: List<int>
     listInt2:
-        type: array
-        items:
-            type: integer
+        type: List<Integer>
     listDouble:
-        type: array
-        items:
-            type: double
+        type: List<double>
     listBoolean:
-        type: array
-        items:
-            type: bool
+        type: List<bool>
     listBoolean2:
-        type: array
-        items:
-            type: boolean
+        type: List<boolean>
     listDynamic:
-        type: array
-        items:
-            type: dynamic
+        type: List<dynamic>
     listDynamic2:
-        type: array
-        items:
-            type: any
+        type: List<any>
     listDynamic3:
-        type: array
-        items:
-            type: object
+        type: List<object>
     listDateTime1:
-        type: array
-        items:
-            type: date
+        type: List<date>
     listDateTime2:
-        type: array
-        items:
-            type: datetime
+        type: List<dateTime>
     listObject:
         description: A cool list of items
-        type: array
-        items:
-            type: Address
+        type: List<Address>
 
 
 Address:

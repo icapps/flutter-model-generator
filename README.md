@@ -69,8 +69,7 @@ UserModel:
   path: webservice/user
   equals_and_hash_code: false
   properties:
-    id:
-      type: int
+    id: int
 ```
 
 ### Ignored fields
@@ -87,8 +86,7 @@ UserModel:
     id:
       type: int
       ignore_equality: true
-    include:
-      type: String
+    include: String
 ```
 
 ## explicit_to_json
@@ -108,8 +106,7 @@ UserModel:
   path: webservice/user
   explicit_to_json: false
   properties:
-    id:
-      type: int
+    id: int
 ```
 
 ## toString
@@ -129,8 +126,7 @@ UserModel:
   path: webservice/user
   to_string: false
   properties:
-    id:
-      type: int
+    id: int
 ```
 
 ## Extra imports and annotations
@@ -154,8 +150,7 @@ UserModel:
   extra_annotations:
     - '@someAnnotation'
   properties:
-    id:
-      type: int
+    id: int
 ```
 
 ## Default values
@@ -178,7 +173,6 @@ UserModel:
       default_value: 1
     name:
       type: String
-      required: true
       default_value: "'an example quoted string'"
 ```
 
@@ -208,7 +202,6 @@ UserModel:
       default_value: 1
     name:
       type: String
-      required: true
       default_value: "'an example quoted string'"
 ```
 
@@ -223,7 +216,6 @@ UserModel:
       default_value: 1
     name:
       type: String
-      required: true
       default_value: "'an example quoted string'"
       disallow_null: true
 ```
@@ -246,8 +238,7 @@ UserModel:
   converters:
     - DateTimeConverter
   properties:
-    id:
-      type: int
+    id: int
 ```
 
 ## Extends
@@ -261,8 +252,7 @@ UserDetails:
   path: webservice/user
   extends: UserModel
   properties:
-    name:
-      type: String
+    name: String
 ```
 
 ## Builtin types
@@ -288,37 +278,21 @@ UserModel:
   converters:
     - DateTimeConverter
   properties:
-    id:
-      type: int
-    name:
-      type: String
-    salary:
-      type: double
-    something:
-      type: dynamic
+    id: int
+    name: String
+    salary: double
+    something: dynamic
     isLoggedIn:
       type: bool
       default_value: false
-    roles:
-      type: array
-      items:
-        type: String
-    birthday:
-      type: date
-    addresses:
-      type: array
-      items:
-        type: Address
-    idToAddress:
-      type: map
-      items:
-        key: String
-        value: Address
+    roles: List<String>
+    birthday: date
+    addresses: List<Address>
+    idToAddress: Map<String, Address>
     securityRole:
       type: String
       jsonKey: securityIndicator
-    dynamicField:
-      type: dynamic
+    dynamicField: dynamic
     includeIfNullField:
       include_if_null: false #If this field is null, this field will not be added to your json object (used for PATCH models)
       type: String
@@ -335,26 +309,20 @@ UserModel:
       non_final: true #Field will not be marked final
       type: String
     changedAt:
-      type: datetime
-    idToAddressList:
-      type: map
-      items:
-        key: String
-        value: List<Address>
+      type: DateTime
+    idToAddressList: Map<String, List<Address>>
 
 Address:
   path: webservice/user #Can also be package:... and/or end with the actual file (.dart)
   properties:
-    street:
-      type: String
+    street: String
 
 #Custom base_directory
 CustomBaseDirectoryObject:
   base_directory: custom_models
   path: webservice
   properties:
-    path:
-      type: String
+    path: String
 
 #Custom json converter. Use with converters property on models
 DateTimeConverter:
@@ -377,6 +345,32 @@ UserModel:
     created_at: DateTime
     roles: List<string>
     customProperties: Map<String, Property>?
+```
+since 7.0.0 inline types are supported now even when adding extra configuration:
+
+before:
+```yaml
+BookCase:
+  path: webservice/BookCases
+  properties:
+    id: int
+    books:
+      type: array
+      items:
+        type: Book
+      required: false
+      include_if_null: false
+```
+
+now:
+```yaml
+BookCase:
+  path: webservice/BookCases
+  properties:
+    id: int
+    books:
+      type: List<Book>?
+      include_if_null: false
 ```
 
 Currently all basic types are supported, simple Lists and Maps (no nested types, no nullable generic parameters) as well as references to other objects.
@@ -537,8 +531,7 @@ UserModel:
   converters:
     - DateTimeConverter
   properties:
-    changedAt:
-      type: datetime
+    changedAt: DateTime
 ```
 
 Specify the custom JsonConverter object as a known type to resolve it
@@ -561,8 +554,7 @@ UserModel:
     - DateTimeConverter
   properties:
     description: The time at which the user has last updated his information
-    changedAt:
-      type: datetime
+    changedAt: DateTime
 ```
 
 ## Static creator support
@@ -575,8 +567,7 @@ UserModel:
   path: webservice/user
   static_create: true
   properties:
-    changedAt:
-      type: datetime
+    changedAt: DateTime
 ```
 
 ## Retrofit compute support

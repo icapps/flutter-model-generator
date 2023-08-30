@@ -3,5 +3,5 @@ Person:
   type: object
   properties:
     firstName:
-      type: string
+      type: String?
       ignore_equality: true

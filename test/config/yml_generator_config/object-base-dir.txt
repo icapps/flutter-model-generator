@@ -2,12 +2,6 @@ Person:
   type: object
   base_directory: custom_base_dir
   properties:
-    firstName:
-        required: true
-        type: string
-    lastName:
-        required: true
-        type: string
-    age:
-        required: false
-        type: int
+    firstName: string
+    lastName: string
+    age: int?

@@ -3,7 +3,6 @@ Person:
   type: object
   properties:
     firstName:
-      required: false
       includeFromJson: false
       includeToJson: false
-      type: string
+      type: String?
