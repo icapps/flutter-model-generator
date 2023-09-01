@@ -12,7 +12,7 @@ void main() {
       ],
       (line) => lines.add(line),
     );
-     
+
     expect(lines.join('\n'), 'hello world\n');
   });
 }

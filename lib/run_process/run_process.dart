@@ -17,17 +17,20 @@ class ProcessRunner {
       args,
       mode: ProcessStartMode.detachedWithStdio,
     );
-    print('======================================================================');
+    print(
+        '======================================================================');
     final subscription = result.stdout.listen((codeUnits) {
       final line = utf8.decode(codeUnits);
       onLineWrite?.call(line);
       stdout.write(line);
     });
     subscription.onDone(() {
-      print('======================================================================');
+      print(
+          '======================================================================');
       completer.complete();
     });
-    subscription.onError((dynamic error) => completer.completeError('Failed to complete process run: $error'));
+    subscription.onError((dynamic error) =>
+        completer.completeError('Failed to complete process run: $error'));
     return completer.future;
   }
 }
