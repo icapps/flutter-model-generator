@@ -20,6 +20,7 @@ void main() {
               PubspecConfig("name: test"),
               """
 TestModel:
+  disallow_null_for_defaults: true
   properties:
     simpleString: string
     nullableString: string?
@@ -65,6 +66,8 @@ TestModel:
 
       expect(simpleDateTime.type, isA<DateTimeType>());
       expect(simpleDateTime.isRequired, false);
+
+      expect(model.disallowNullForDefaults, true);
     });
 
     test('Test required not definable anymore', () {
