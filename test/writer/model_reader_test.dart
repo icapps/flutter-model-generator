@@ -91,8 +91,7 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isArgumentError);
       if (error is ArgumentError) {
-        expect(error.message,
-            'required is removed, follow the migration to version 7.0.0');
+        expect(error.message, 'required is removed, follow the migration to version 7.0.0');
       }
     });
 
@@ -118,8 +117,7 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(),
-            'Exception: Could not generate all models. `array` is not added to the config file');
+        expect(error.toString(), 'Exception: Could not generate all models. `array` is not added to the config file');
       }
     });
 
@@ -146,8 +144,7 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(),
-            'Exception: Could not generate all models. `map` is not added to the config file');
+        expect(error.toString(), 'Exception: Could not generate all models. `map` is not added to the config file');
       }
     });
 
@@ -215,6 +212,34 @@ TestModel2:
 
       expect(nullableRef.type, isA<ObjectType>());
       expect(nullableRef.isRequired, false);
+    });
+
+    test('Test enum item_type should be string or integer', () {
+      dynamic error;
+      try {
+        YmlGeneratorConfig(
+                PubspecConfig("name: test"),
+                """
+Gender:
+  path: user/person/
+  type: enum
+  item_type: List
+  properties:
+    MALE:
+      value: male
+    FEMALE:
+      value: female
+""",
+                '')
+            .models;
+      } catch (e) {
+        error = e;
+      }
+      expect(error, isNotNull);
+      expect(error, isException);
+      if(error is Exception){
+        expect(error.toString(), 'Exception: item_type should be a string or integer. model: Gender');
+      }
     });
   });
 }
