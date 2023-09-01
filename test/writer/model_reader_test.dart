@@ -94,7 +94,8 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isArgumentError);
       if (error is ArgumentError) {
-        expect(error.message, 'required is removed, follow the migration to version 7.0.0');
+        expect(error.message,
+            'required is removed, follow the migration to version 7.0.0');
       }
     });
 
@@ -120,7 +121,8 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(), 'Exception: Could not generate all models. `array` is not added to the config file');
+        expect(error.toString(),
+            'Exception: Could not generate all models. `array` is not added to the config file');
       }
     });
 
@@ -147,27 +149,34 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(), 'Exception: Could not generate all models. `map` is not added to the config file');
+        expect(error.toString(),
+            'Exception: Could not generate all models. `map` is not added to the config file');
       }
     });
 
     test('Test simple generic fields', () {
-      final models = YmlGeneratorConfig(
-              PubspecConfig("name: test"),
-              """
+      dynamic error;
+      final config = YmlGeneratorConfig(
+          PubspecConfig("name: test"),
+          """
 TestModel:
   properties:
     simpleStringList: List<string>
     nullableStringList: List<string>?
     simpleMap: Map<String, int>
 """,
-              '')
-          .models;
+          '');
+      final models = config.models;
 
       expect(models.length, 1);
       final model = models.first;
       expect(model is ObjectModel, true);
       model as ObjectModel;
+      try {
+        config.checkIfTypesAvailable();
+      } catch (e) {
+        error = e;
+      }
 
       final simpleStringList = model.fields.getByName("simpleStringList");
       final nullableStringList = model.fields.getByName("nullableStringList");
@@ -181,6 +190,8 @@ TestModel:
 
       expect(simpleMap.type, isA<MapType>());
       expect(simpleMap.isRequired, true);
+
+      expect(error, isNull);
     });
     test('Test simple object reference fields', () {
       final models = YmlGeneratorConfig(
@@ -240,8 +251,9 @@ Gender:
       }
       expect(error, isNotNull);
       expect(error, isException);
-      if(error is Exception){
-        expect(error.toString(), 'Exception: item_type should be a string or integer. model: Gender');
+      if (error is Exception) {
+        expect(error.toString(),
+            'Exception: item_type should be a string or integer. model: Gender');
       }
     });
   });
