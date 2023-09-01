@@ -15,7 +15,8 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
       'test_Test',
       'some_Thing',
       'some_ThinG_huGE',
-      'simpleFields'
+      'simpleFields',
+      'listMap'
     ],
   );
   return OGM(
@@ -27,6 +28,10 @@ OGM _$OGMFromJson(Map<String, dynamic> json) {
     simpleFields: (json['simpleFields'] as List<dynamic>)
         .map((e) => Testing.fromJson(e as Map<String, dynamic>))
         .toList(),
+    listMap: (json['listMap'] as Map<String, dynamic>).map(
+      (k, e) => MapEntry(
+          int.parse(k), (e as List<dynamic>).map((e) => e as String).toList()),
+    ),
     structuredMessage: json['structuredMessage'] as String?,
     securityRole: json['securityIndicator'] as String?,
     mutableProperty: json['mutableProperty'] as String?,
@@ -51,6 +56,7 @@ Map<String, dynamic> _$OGMToJson(OGM instance) {
     'some_Thing': instance.someThing,
     'some_ThinG_huGE': instance.someThinGHuGE,
     'simpleFields': instance.simpleFields.map((e) => e.toJson()).toList(),
+    'listMap': instance.listMap.map((k, e) => MapEntry(k.toString(), e)),
     'structuredMessage': instance.structuredMessage,
   };
 

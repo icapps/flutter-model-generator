@@ -30,6 +30,7 @@ OGM:
       type: List<List<Testing>>?
     simpleFields: List<Testing>
     simpleMap: Map<String, Testing>?
+    listMap: Map<Int, List<String>>
 
 Testing:
   path: user

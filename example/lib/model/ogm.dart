@@ -21,6 +21,8 @@ class OGM {
   final String someThinGHuGE;
   @JsonKey(name: 'simpleFields', required: true)
   final List<Testing> simpleFields;
+  @JsonKey(name: 'listMap', required: true)
+  final Map<int, List<String>> listMap;
   @JsonKey(name: 'structuredMessage')
   final String? structuredMessage;
   @JsonKey(name: 'securityIndicator', includeIfNull: false)
@@ -41,6 +43,7 @@ class OGM {
     required this.someThing,
     required this.someThinGHuGE,
     required this.simpleFields,
+    required this.listMap,
     this.structuredMessage,
     this.securityRole,
     this.mutableProperty,
@@ -64,6 +67,7 @@ class OGM {
           someThing == other.someThing &&
           someThinGHuGE == other.someThinGHuGE &&
           simpleFields == other.simpleFields &&
+          listMap == other.listMap &&
           structuredMessage == other.structuredMessage &&
           securityRole == other.securityRole &&
           mutableProperty == other.mutableProperty &&
@@ -79,6 +83,7 @@ class OGM {
       someThing.hashCode ^
       someThinGHuGE.hashCode ^
       simpleFields.hashCode ^
+      listMap.hashCode ^
       structuredMessage.hashCode ^
       securityRole.hashCode ^
       mutableProperty.hashCode ^
@@ -94,6 +99,7 @@ class OGM {
       'someThing: $someThing, '
       'someThinGHuGE: $someThinGHuGE, '
       'simpleFields: $simpleFields, '
+      'listMap: $listMap, '
       'structuredMessage: $structuredMessage, '
       'securityRole: $securityRole, '
       'mutableProperty: $mutableProperty, '
