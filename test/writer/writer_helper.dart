@@ -10,7 +10,7 @@ class WriterHelper {
     String expected,
     YmlGeneratorConfig config,
     PubspecConfig pubspecConfig,
-  }) prepareYmlConfig({
+  }) prepareWriterTest({
     required String path,
     String? pubspecPath,
   }) {

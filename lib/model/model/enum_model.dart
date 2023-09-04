@@ -1,5 +1,6 @@
 import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/item_type.dart';
+import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/model.dart';
 
 class EnumModel extends Model {
@@ -56,5 +57,5 @@ class EnumProperty {
   EnumProperty({
     required this.value,
     required this.name,
-  }) : type = IntegerType();
+  }) : type = StringType();
 }

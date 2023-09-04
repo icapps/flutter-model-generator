@@ -8,7 +8,7 @@ import 'writer_helper.dart';
 
 void main() {
   void testObjectModelWriter(String path) {
-    final result = WriterHelper.prepareYmlConfig(path: path);
+    final result = WriterHelper.prepareWriterTest(path: path);
     final jsonModel = result.config.models.first;
     if (jsonModel is! ObjectModel) {
       throw Exception('The first model in the config file must be an object model and will be validated. The model is ${jsonModel.runtimeType}');

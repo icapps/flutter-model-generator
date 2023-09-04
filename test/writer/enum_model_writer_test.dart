@@ -8,7 +8,7 @@ import 'writer_helper.dart';
 
 void main() {
   void testEnumModelWriter(String path) {
-    final result = WriterHelper.prepareYmlConfig(
+    final result = WriterHelper.prepareWriterTest(
       path: path,
       pubspecPath: 'test/writer/enum_model_writer',
     );

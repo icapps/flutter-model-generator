@@ -28,10 +28,11 @@ class EnumModelWriter {
     jsonModel.fields?.forEach((key) {
       final keyProperty = key.enumProperties.firstWhereOrNull((element) => element.name.toLowerCase() == jsonModel.keyProperty);
       final jsonValue = keyProperty?.value ?? key.serializedName;
+      final propertyType = keyProperty?.type;
 
-      if (keyProperty?.type is StringType) {
+      if (propertyType is StringType || propertyType == null) {
         sb.writeln('  @JsonValue(\'$jsonValue\')');
-      } else if (keyProperty?.type is DoubleType) {
+      } else if (propertyType is DoubleType) {
         final doubleValue = double.tryParse(jsonValue);
         sb.writeln('  @JsonValue($doubleValue)');
       } else {
