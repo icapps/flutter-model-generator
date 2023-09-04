@@ -6,19 +6,27 @@ User:
 
 Gender:
   type: enum
+  key_property: value
   properties:
     MALE:
+      value: male
     FEMALE:
       value: femAle
     other:
+      value: other
     X:
+      value: x
 
 Vehicles:
   type: enum
+  key_property: value
   uppercase_enums: false
   properties:
     male:
+      value: male
     female:
       value: femAle
     other:
+      value: other
     X:
+      value: x
