@@ -98,9 +98,9 @@ class YmlGeneratorConfig {
           if (propertyValue != null && propertyValue is! YamlMap) {
             throw Exception('$propertyKey should be an object');
           }
-          final propertiesYaml = propertyValue as YamlMap;
+          final propertiesYaml = propertyValue as YamlMap?;
           final properties = <EnumProperty>[];
-          propertiesYaml.forEach((propertyKey, propertyValue) {
+          propertiesYaml?.forEach((propertyKey, propertyValue) {
             properties.add(EnumProperty(
               value: propertyValue,
               name: propertyKey,

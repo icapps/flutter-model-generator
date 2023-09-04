@@ -4,7 +4,7 @@ import 'package:model_generator/model/model/model.dart';
 
 class EnumModel extends Model {
   final List<EnumField>? fields;
-  final String keyProperty;
+  final String? keyProperty;
 
   EnumModel({
     required String name,
