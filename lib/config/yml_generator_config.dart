@@ -126,6 +126,7 @@ class YmlGeneratorConfig {
 
         values?.forEach((key, value) {
           final properties = value?['properties'] as YamlMap?;
+          final description = value?['description'];
           final enumValues = <EnumValue>[];
 
           properties?.forEach((key, value) {
@@ -140,6 +141,7 @@ class YmlGeneratorConfig {
             name: uppercaseEnums ? key.toUpperCase() : key,
             rawName: key,
             values: enumValues,
+            description: description,
           ));
         });
 

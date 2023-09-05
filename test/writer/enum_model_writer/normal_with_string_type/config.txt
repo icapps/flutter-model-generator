@@ -1,0 +1,14 @@
+MyEnumModel:
+  path: test/enum/
+  type: enum
+  properties:
+    value:
+      type: String
+      is_json_key: true
+  values:
+    MY_VALUE_1:
+      properties:
+        value: my_value1
+    MY_VALUE_2:
+      properties:
+        value: my_value2

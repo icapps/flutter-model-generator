@@ -35,6 +35,9 @@ class EnumModelWriter {
       final propertyType = keyProperty?.type;
       final isLast = jsonModel.fields.indexOf(key) == (jsonModel.fields.length - 1);
 
+      if (key.description != null) {
+        sb.writeln('  ///${key.description}');
+      }
       if (propertyType is StringType || propertyType == null) {
         sb.writeln('  @JsonValue(\'$jsonValue\')');
       } else if (propertyType is DoubleType) {

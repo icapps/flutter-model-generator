@@ -1,0 +1,20 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+
+enum MyEnumModel {
+  @JsonValue('my_value1')
+  MY_VALUE_1(
+    value: 'my_value1',
+  ),
+  @JsonValue('my_value2')
+  MY_VALUE_2(
+    value: 'my_value2',
+  );
+
+  final String value;
+
+  const MyEnumModel({
+    required this.value,
+  });
+}

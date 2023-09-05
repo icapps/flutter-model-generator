@@ -1,20 +1,29 @@
 Person:
   path: test/enum/
   type: enum
+  description: This is a enum of a person
   properties:
     jsonKey: 
       is_json_key: true
       type: int
     firstName: String
     lastName: String
+    age: int
+    height: double
   values:
     MAN:
+      description: enum of a man
       properties:
         jsonKey: 1
         firstName: firstName1
         lastName: lastName1
+        age: 12
+        height: 12.4
     WOMAN:
+      description: enum of a woman
       properties:
         jsonKey: 2
         firstName: firstName2
         lastName: lastName2
+        age: 16
+        height: 22

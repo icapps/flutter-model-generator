@@ -29,23 +29,27 @@ class EnumModel extends Model {
 class EnumField {
   final String name;
   final String serializedName;
+  final String? description;
   final List<EnumValue> values;
 
   EnumField._({
     required this.name,
     required this.serializedName,
     required this.values,
+    this.description,
   });
 
   factory EnumField({
     required String name,
     required String rawName,
     required List<EnumValue> values,
+    String? description,
   }) =>
       EnumField._(
         name: name,
         serializedName: rawName,
         values: values,
+        description: description,
       );
 }
 
