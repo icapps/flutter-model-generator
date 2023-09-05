@@ -80,16 +80,24 @@ class EnumModelWriter {
       sb.writeln('  final String jsonValue;');
     }
     for (var property in properties) {
-      sb.writeln('  final ${property.type.name} ${property.name};');
+      sb.write('  final ${property.type.name}');
+      if (property.isOptional) {
+        sb.write('?');
+      }
+      sb.writeln(' ${property.name};');
     }
     if (addProperties) {
       sb.writeln();
       sb.writeln('  const ${jsonModelName.pascalCase}({');
-      for (var property in properties) {
-        sb.writeln('    required this.${property.name},');
-      }
       if (addDefaultJsonKey) {
         sb.writeln('    required this.jsonValue,');
+      }
+      for (var property in properties) {
+        sb.write('    ');
+        if(!property.isOptional){
+          sb.write('required ');
+        }
+        sb.writeln('this.${property.name},');
       }
       sb.writeln('  });');
     }

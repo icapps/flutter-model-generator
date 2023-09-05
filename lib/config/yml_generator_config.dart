@@ -96,26 +96,33 @@ class YmlGeneratorConfig {
         final fields = <EnumField>[];
         final enumProperties = <EnumProperty>[];
         properties?.forEach((propertyKey, propertyValue) {
-          final ItemType type;
+          final ItemType itemType;
+          final String type;
           final bool isJsonKey;
           final String name = propertyKey;
 
           if (propertyValue is YamlMap) {
-            type = propertyValue['type'] != null ? _parseSimpleType(propertyValue['type']) : StringType();
+            type = propertyValue['type'];
             isJsonKey = propertyValue['is_json_key'] == true;
           } else {
-            type = _parseSimpleType(propertyValue);
-            isJsonKey = false;
+            type = propertyValue;
+            isJsonKey = false;  
           }
 
-          if (type is! StringType && type is! DoubleType && type is! IntegerType) {
+          final optional = type.endsWith('?');
+          final typeString = optional ? type.substring(0, type.length - 1) : type;
+
+          itemType = _parseSimpleType(typeString);
+
+          if (itemType is! StringType && itemType is! DoubleType && itemType is! IntegerType) {
             throw Exception('$propertyKey should have a type of integer, double or string');
           }
 
           enumProperties.add(EnumProperty(
             name: name,
-            type: type,
+            type: itemType,
             isJsonKey: isJsonKey,
+            isOptional: optional,
           ));
         });
 
