@@ -2,6 +2,6 @@ MyEnumModel:
   path: test/enum/
   type: enum
   description: A good description of this enum
-  properties:
+  values:
     MY_VALUE_1:
     MY_VALUE_2:

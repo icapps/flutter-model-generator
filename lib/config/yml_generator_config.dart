@@ -84,10 +84,10 @@ class YmlGeneratorConfig {
         ));
         return;
       }
-      if (properties == null) {
+      if (properties == null && type != 'enum') {
         throw Exception('Properties can not be null. model: $key');
       }
-      if (properties is! YamlMap) {
+      if (properties is! YamlMap && type != 'enum') {
         throw Exception('Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
@@ -95,7 +95,7 @@ class YmlGeneratorConfig {
 
         final fields = <EnumField>[];
         final enumProperties = <EnumProperty>[];
-        properties.forEach((propertyKey, propertyValue) {
+        properties?.forEach((propertyKey, propertyValue) {
           final ItemType type;
           final bool isJsonKey;
           final String name = propertyKey;
@@ -119,19 +119,19 @@ class YmlGeneratorConfig {
           ));
         });
 
-        final values = value['values'];
+        final values = value['values'] as YamlMap?;
         if (values == null && properties.isNotEmpty == true) {
           throw Exception('The enum $key has defined properties, but a default value is not defined');
         }
 
         values?.forEach((key, value) {
-          final properties = value['properties'];
+          final properties = value?['properties'] as YamlMap?;
           final enumValues = <EnumValue>[];
 
-          properties.forEach((key, value) {
+          properties?.forEach((key, value) {
             enumValues.add(
               EnumValue(
-                value: value,
+                value: value.toString(),
                 propertyName: key,
               ),
             );
