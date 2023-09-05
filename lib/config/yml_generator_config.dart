@@ -94,30 +94,61 @@ class YmlGeneratorConfig {
         final uppercaseEnums = (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
 
         final fields = <EnumField>[];
+        final enumProperties = <EnumProperty>[];
         properties.forEach((propertyKey, propertyValue) {
-          if (propertyValue != null && propertyValue is! YamlMap) {
-            throw Exception('$propertyKey should be an object');
+          final ItemType type;
+          final bool isJsonKey;
+          final String name = propertyKey;
+
+          if (propertyValue is YamlMap) {
+            type = propertyValue['type'] != null ? _parseSimpleType(propertyValue['type']) : StringType();
+            isJsonKey = propertyValue['is_json_key'] == true;
+          } else {
+            type = _parseSimpleType(propertyValue);
+            isJsonKey = false;
           }
-          final propertiesYaml = propertyValue as YamlMap?;
-          final properties = <EnumProperty>[];
-          propertiesYaml?.forEach((propertyKey, propertyValue) {
-            properties.add(EnumProperty(
-              value: propertyValue,
-              name: propertyKey,
-            ));
-          });
-          fields.add(EnumField(
-            name: uppercaseEnums ? propertyKey.toUpperCase() : propertyKey,
-            rawName: propertyKey,
-            enumProperties: properties,
+
+          if (type is! StringType && type is! DoubleType && type is! IntegerType) {
+            throw Exception('$propertyKey should have a type of integer, double or string');
+          }
+
+          enumProperties.add(EnumProperty(
+            name: name,
+            type: type,
+            isJsonKey: isJsonKey,
           ));
         });
+
+        final values = value['values'];
+        if (values == null && properties.isNotEmpty == true) {
+          throw Exception('The enum $key has defined properties, but a default value is not defined');
+        }
+
+        values?.forEach((key, value) {
+          final properties = value['properties'];
+          final enumValues = <EnumValue>[];
+
+          properties.forEach((key, value) {
+            enumValues.add(
+              EnumValue(
+                value: value,
+                propertyName: key,
+              ),
+            );
+          });
+          fields.add(EnumField(
+            name: uppercaseEnums ? key.toUpperCase() : key,
+            rawName: key,
+            values: enumValues,
+          ));
+        });
+
         models.add(EnumModel(
           name: key,
           path: path,
-          keyProperty: value['key_property'],
           baseDirectory: baseDirectory,
           fields: fields,
+          properties: enumProperties,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
           description: description,

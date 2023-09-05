@@ -1,15 +1,14 @@
 import 'package:model_generator/model/item_type/item_type.dart';
-import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/model.dart';
 
 class EnumModel extends Model {
   final List<EnumField> fields;
-  final String? keyProperty;
+  final List<EnumProperty> properties;
 
   EnumModel({
     required String name,
-    required this.keyProperty,
     required this.fields,
+    required this.properties,
     String? path,
     String? baseDirectory,
     List<String>? extraImports,
@@ -27,34 +26,45 @@ class EnumModel extends Model {
 
 class EnumField {
   final String name;
-  final List<EnumProperty> enumProperties;
   final String serializedName;
+  final List<EnumValue> values;
 
   EnumField._({
     required this.name,
     required this.serializedName,
-    required this.enumProperties,
+    required this.values,
   });
 
   factory EnumField({
     required String name,
-    required List<EnumProperty> enumProperties,
     required String rawName,
+    required List<EnumValue> values,
   }) =>
       EnumField._(
         name: name,
-        enumProperties: enumProperties,
         serializedName: rawName,
+        values: values,
       );
 }
 
 class EnumProperty {
-  final String value;
+  final bool isJsonKey;
   final String name;
-  final ItemType type;
+  ItemType type;
 
   EnumProperty({
-    required this.value,
     required this.name,
-  }) : type = StringType();
+    required this.type,
+    this.isJsonKey = false,
+  });
+}
+
+class EnumValue {
+  final String value;
+  final String propertyName;
+
+  EnumValue({
+    required this.value,
+    required this.propertyName,
+  });
 }

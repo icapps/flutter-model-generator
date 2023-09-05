@@ -23,12 +23,12 @@ class EnumModelWriter {
     }
 
     final jsonModelName = CaseUtil(jsonModel.name);
-    final properties = jsonModel.fields.first.enumProperties;
+    final properties = jsonModel.properties;
 
     sb.writeln('enum ${jsonModelName.pascalCase} {');
     for (var key in jsonModel.fields) {
-      final keyProperty = key.enumProperties.firstWhereOrNull((element) => element.name.toLowerCase() == jsonModel.keyProperty);
-      final jsonValue = keyProperty?.value ?? key.serializedName;
+      final keyProperty = properties.firstWhereOrNull((property) => property.isJsonKey);
+      final jsonValue = key.values.firstWhereOrNull((value) => value.propertyName == keyProperty?.name)?.value ?? key.serializedName;
       final propertyType = keyProperty?.type;
       final isLast = jsonModel.fields.indexOf(key) == (jsonModel.fields.length - 1);
 
@@ -41,7 +41,7 @@ class EnumModelWriter {
         sb.writeln('  @JsonValue($jsonValue)');
       }
       sb.write('  ${key.name}');
-      if (key.enumProperties.isNotEmpty && isLast) {
+      if (properties.isNotEmpty && isLast) {
         sb.writeln(';');
       } else {
         sb.writeln(',');
@@ -53,7 +53,7 @@ class EnumModelWriter {
     }
 
     for (var property in properties) {
-      sb.writeln('final ${property.type} ${property.name};');
+      sb.writeln('final ${property.type.name} ${property.name};');
     }
     if (properties.isNotEmpty) {
       sb.write('Const ${jsonModel.name} ({');

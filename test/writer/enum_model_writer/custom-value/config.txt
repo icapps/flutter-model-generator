@@ -1,9 +1,16 @@
 MyEnumModel:
   path: test/enum/
   type: enum
-  key_property: value
   properties:
+    technical_key2: 
+      is_json_key: true
+      type: int
+  values:
     MY_VALUE_1:
-        value: '1'
-    MY_VALUE_2:
-        value: '2'
+      properties:
+        technical_key: 'some_key'
+        technical_key2: '1'
+    MY_VALUE_1:
+      properties:
+        technical_key: 'some_key'
+        technical_key2: '2'

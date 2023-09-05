@@ -6,27 +6,41 @@ User:
 
 Gender:
   type: enum
-  key_property: value
   properties:
+    value:
+      type: String
+      is_json_key: true
+  values:
     MALE:
-      value: male
+      properties:
+        value: male
     FEMALE:
-      value: femAle
+      properties:
+        value: femAle
     other:
-      value: other
+      properties:
+        value: other
     X:
-      value: x
+      properties:
+        value: x
 
 Vehicles:
   type: enum
-  key_property: value
   uppercase_enums: false
   properties:
+    value:
+      type: String
+      is_json_key: true
+  values:
     male:
-      value: male
+      properties:
+        value: male
     female:
-      value: femAle
+      properties:
+        value: femAle
     other:
-      value: other
-    X:
-      value: x
+      properties:
+        value: other
+    x:
+      properties:
+        value: x
