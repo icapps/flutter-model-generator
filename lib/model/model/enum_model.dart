@@ -4,11 +4,13 @@ import 'package:model_generator/model/model/model.dart';
 class EnumModel extends Model {
   final List<EnumField> fields;
   final List<EnumProperty> properties;
+  final bool addJsonKeyToProperties;
 
   EnumModel({
     required String name,
     required this.fields,
     required this.properties,
+    this.addJsonKeyToProperties = true,
     String? path,
     String? baseDirectory,
     List<String>? extraImports,

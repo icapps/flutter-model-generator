@@ -1,14 +1,20 @@
-MyEnumModel:
+Person:
   path: test/enum/
   type: enum
   properties:
     jsonKey: 
       is_json_key: true
       type: int
+    firstName: String
+    lastName: String
   values:
     MY_VALUE_1:
       properties:
         jsonKey: 1
+        firstName: firstName1
+        lastName: lastName1
     MY_VALUE_2:
       properties:
         jsonKey: 2
+        firstName: firstName2
+        lastName: lastName2

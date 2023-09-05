@@ -1,4 +1,5 @@
 import 'package:model_generator/model/item_type/double_type.dart';
+import 'package:model_generator/model/item_type/item_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/util/case_util.dart';
@@ -24,10 +25,12 @@ class EnumModelWriter {
 
     final jsonModelName = CaseUtil(jsonModel.name);
     final properties = jsonModel.properties;
+    final keyProperty = properties.firstWhereOrNull((property) => property.isJsonKey);
+    final addDefaultJsonKey = keyProperty == null && jsonModel.addJsonKeyToProperties;
+    final addProperties = properties.isNotEmpty || addDefaultJsonKey;
 
     sb.writeln('enum ${jsonModelName.pascalCase} {');
     for (var key in jsonModel.fields) {
-      final keyProperty = properties.firstWhereOrNull((property) => property.isJsonKey);
       final jsonValue = key.values.firstWhereOrNull((value) => value.propertyName == keyProperty?.name)?.value ?? key.serializedName;
       final propertyType = keyProperty?.type;
       final isLast = jsonModel.fields.indexOf(key) == (jsonModel.fields.length - 1);
@@ -41,30 +44,58 @@ class EnumModelWriter {
         sb.writeln('  @JsonValue($jsonValue)');
       }
       sb.write('  ${key.name}');
-      if (properties.isNotEmpty && isLast) {
-        sb.writeln(';');
+
+      if (addProperties) {
+        sb.writeln('(');
+        if (addDefaultJsonKey) {
+          sb.writeln('    jsonValue: \'$jsonValue\',');
+        }
+        for (var value in key.values) {
+          final type = itemTypeForProperty(value.propertyName, properties);
+          sb.write('    ${value.propertyName}: ');
+          if (type is StringType) {
+            sb.writeln('\'${value.value}\',');
+          } else {
+            sb.writeln('${value.value},');
+          }
+        }
+        if (isLast) {
+          sb.writeln('  );');
+        } else {
+          sb.writeln('  ),');
+        }
       } else {
         sb.writeln(',');
       }
     }
 
-    if (properties.isNotEmpty) {
+    if (addProperties) {
       sb.writeln();
     }
 
-    for (var property in properties) {
-      sb.writeln('final ${property.type.name} ${property.name};');
+    if (addDefaultJsonKey) {
+      sb.writeln('  final String jsonValue;');
     }
-    if (properties.isNotEmpty) {
-      sb.write('Const ${jsonModel.name} ({');
+    for (var property in properties) {
+      sb.writeln('  final ${property.type.name} ${property.name};');
+    }
+    if (addProperties) {
+      sb.writeln();
+      sb.writeln('  const ${jsonModelName.pascalCase}({');
       for (var property in properties) {
-        sb.write('required this.${property.name}, ');
+        sb.writeln('    required this.${property.name},');
       }
-      sb.writeln('})');
+      if (addDefaultJsonKey) {
+        sb.writeln('    required this.jsonValue,');
+      }
+      sb.writeln('  });');
     }
 
     sb.writeln('}');
 
     return sb.toString();
   }
+
+  ItemType itemTypeForProperty(String propertyName, List<EnumProperty> properties) =>
+      properties.firstWhereOrNull((property) => property.name == propertyName)?.type ?? StringType();
 }

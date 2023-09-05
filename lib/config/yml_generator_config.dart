@@ -144,6 +144,7 @@ class YmlGeneratorConfig {
         });
 
         models.add(EnumModel(
+          addJsonKeyToProperties: value['use_default_json_key'] ?? true,
           name: key,
           path: path,
           baseDirectory: baseDirectory,
