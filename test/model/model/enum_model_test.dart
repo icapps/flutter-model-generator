@@ -10,6 +10,7 @@ void main() {
           name: 'MyEnumModel',
           path: 'path_to_my_model',
           baseDirectory: 'base_dir',
+          fields: [],
         );
         expect(model.name, 'MyEnumModel');
         expect(model.path, 'path_to_my_model');
@@ -23,6 +24,7 @@ void main() {
           name: 'MyEnumModel',
           path: 'path_to_my_model/',
           baseDirectory: 'base_dir',
+          fields: [],
         );
         expect(model.name, 'MyEnumModel');
         expect(model.path, 'path_to_my_model');
@@ -35,6 +37,7 @@ void main() {
           name: 'MyEnumModel',
           path: 'path_to_my_model',
           baseDirectory: 'base_dir/',
+          fields: [],
         );
         expect(model.name, 'MyEnumModel');
         expect(model.path, 'path_to_my_model');

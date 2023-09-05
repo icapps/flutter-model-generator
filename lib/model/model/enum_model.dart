@@ -1,18 +1,17 @@
-import 'package:model_generator/model/item_type/integer_type.dart';
 import 'package:model_generator/model/item_type/item_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/model.dart';
 
 class EnumModel extends Model {
-  final List<EnumField>? fields;
+  final List<EnumField> fields;
   final String? keyProperty;
 
   EnumModel({
     required String name,
     required this.keyProperty,
+    required this.fields,
     String? path,
     String? baseDirectory,
-    this.fields,
     List<String>? extraImports,
     List<String>? extraAnnotations,
     String? description,
