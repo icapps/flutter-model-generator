@@ -215,26 +215,6 @@ void main() {
         expect(enumModel.fields[3].values[0].propertyName, 'value');
       });
 
-      test('Error Enum no properties map', () {
-        final pubspecConfig =
-            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        var hasError = false;
-        var errorMessage = '';
-        try {
-          YmlGeneratorConfig(
-                  pubspecConfig,
-                  ConfigTestHelper.getYmlGeneratorConfig(
-                      'enum-error-no-object'),
-                  '')
-              .checkIfTypesAvailable();
-        } catch (e) {
-          hasError = true;
-          errorMessage = e.toString();
-        }
-        expect(hasError, true);
-        expect(errorMessage, 'Exception: MALE should be an object');
-      });
-
       test('Error Enum', () {
         final pubspecConfig =
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));

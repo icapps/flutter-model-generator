@@ -92,7 +92,7 @@ class YmlGeneratorConfig {
       if (properties == null && type != 'enum') {
         throw Exception('Properties can not be null. model: $key');
       }
-      if (properties is! YamlMap && type != 'enum') {
+      if (properties is! YamlMap?) {
         throw Exception(
             'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
@@ -213,7 +213,7 @@ class YmlGeneratorConfig {
                 ? (value['disallow_null_for_defaults'] == true)
                 : pubspecConfig.disallowNullForDefaults;
         final fields = <Field>[];
-        properties.forEach((propertyKey, propertyValue) {
+        properties?.forEach((propertyKey, propertyValue) {
           if (propertyValue is YamlMap) {
             fields.add(getField(propertyKey, propertyValue,
                 disallowNullForDefaults: disallowNullForDefaults));
