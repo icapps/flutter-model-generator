@@ -6,15 +6,23 @@ enum MyEnumModel {
   @JsonValue('MY_VALUE_1')
   MY_VALUE_1(
     jsonValue: 'MY_VALUE_1',
+    firstName: 'firstName',
+    lastName: 'lastName',
   ),
   @JsonValue('MY_VALUE_2')
   MY_VALUE_2(
     jsonValue: 'MY_VALUE_2',
+    firstName: 'firstName',
+    lastName: 'lastName',
   );
 
   final String jsonValue;
+  final String firstName;
+  final String? lastName;
 
   const MyEnumModel({
     required this.jsonValue,
+    required this.firstName,
+    this.lastName,
   });
 }
