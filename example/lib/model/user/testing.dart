@@ -10,11 +10,7 @@ part 'testing.g.dart';
 class Testing {
   @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
   final String beneficiary;
-  @JsonKey(
-      name: 'isFavourite',
-      includeIfNull: false,
-      includeFromJson: false,
-      includeToJson: false)
+  @JsonKey(name: 'isFavourite', includeIfNull: false, includeFromJson: false, includeToJson: false)
   String? isFavourite;
   @JsonKey(name: 'structuredMessage', includeIfNull: false)
   final String? structuredMessage;
@@ -24,11 +20,7 @@ class Testing {
   final dynamic dynamicField;
   @JsonKey(name: 'duration', includeIfNull: false)
   final Duration? duration;
-  @JsonKey(
-      name: 'duration_from_json_test',
-      includeIfNull: false,
-      fromJson: handleDurationFromToJsonFromJson,
-      toJson: handleDurationFromToJsonToJson)
+  @JsonKey(name: 'duration_from_json_test', includeIfNull: false, fromJson: handleDurationFromToJsonFromJson, toJson: handleDurationFromToJsonToJson)
   final DurationFromToJson? durationFromJsonTest;
 
   Testing({
@@ -41,18 +33,18 @@ class Testing {
     this.durationFromJsonTest,
   });
 
-  factory Testing.fromJson(Map<String, dynamic> json) =>
-      _$TestingFromJson(json);
+  factory Testing.fromJson(Map<String, dynamic> json) => _$TestingFromJson(json);
 
   Map<String, dynamic> toJson() => _$TestingToJson(this);
+
 }
 
 const deserializeTesting = Testing.fromJson;
 
 Map<String, dynamic> serializeTesting(Testing object) => object.toJson();
 
-List<Testing> deserializeTestingList(List<Map<String, dynamic>> jsonList) =>
-    jsonList.map(Testing.fromJson).toList();
+List<Testing> deserializeTestingList(List<Map<String, dynamic>> jsonList)
+    => jsonList.map(Testing.fromJson).toList();
 
-List<Map<String, dynamic>> serializeTestingList(List<Testing> objects) =>
-    objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializeTestingList(List<Testing> objects)
+    => objects.map((object) => object.toJson()).toList();

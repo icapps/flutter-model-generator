@@ -91,6 +91,21 @@ class YmlGeneratorConfig {
         throw Exception('Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
+        final deprecatedItemType = value['item_type'];
+        if (deprecatedItemType != null) {
+          throw Exception('item_type is removed, follow the migration to version 7.0.0');
+        }
+
+        final deprecatedGenerateExtensions = value['generate_extensions'];
+        if (deprecatedGenerateExtensions != null) {
+          throw Exception('generate_extensions is removed, follow the migration to version 7.0.0');
+        }
+
+        final deprecatedGenerateMap = value['generate_map'];
+        if (deprecatedGenerateMap != null) {
+          throw Exception('generate_map is removed, follow the migration to version 7.0.0');
+        }
+
         final uppercaseEnums = (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
 
         final fields = <EnumField>[];
@@ -102,7 +117,7 @@ class YmlGeneratorConfig {
           final ItemType itemType;
 
           final String name = propertyKey;
-
+          
           if (propertyValue is YamlMap) {
             type = propertyValue['type'];
             isJsonKey = propertyValue['is_json_key'] == true;

@@ -251,5 +251,48 @@ Gender:
         isMale: hello
 """,
             ));
+
+    test(
+        'item_type not supported anymore',
+        () => testEnumError(
+              expectedError: 'Exception: item_type is removed, follow the migration to version 7.0.0',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  item_type: double
+  values:
+    MALE:
+    FEMALE:
+""",
+            ));
+    test(
+        'generate_map not supported anymore',
+        () => testEnumError(
+              expectedError: 'Exception: generate_map is removed, follow the migration to version 7.0.0',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  generate_map: true
+  values:
+    MALE:
+    FEMALE:
+""",
+            ));
+    test(
+        'generate_extensions not supported anymore',
+        () => testEnumError(
+              expectedError: 'Exception: generate_extensions is removed, follow the migration to version 7.0.0',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  generate_extensions: true
+  values:
+    MALE:
+    FEMALE:
+""",
+            ));
   });
 }

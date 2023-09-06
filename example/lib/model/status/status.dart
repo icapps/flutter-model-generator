@@ -4,33 +4,25 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum Status {
   @JsonValue(0)
-  STATUS_0,
+  STATUS_0(
+    value: 0,
+  ),
   @JsonValue(1)
-  STATUS_1,
+  STATUS_1(
+    value: 1,
+  ),
   @JsonValue(2)
-  STATUS_2,
+  STATUS_2(
+    value: 2,
+  ),
   @JsonValue(3)
-  STATUS_3,
-}
+  STATUS_3(
+    value: 3,
+  );
 
-const statusMapping = {
-  Status.STATUS_0: 0,
-  Status.STATUS_1: 1,
-  Status.STATUS_2: 2,
-  Status.STATUS_3: 3,
-};
+  final int value;
 
-const reverseStatusMapping = {
-  0: Status.STATUS_0,
-  1: Status.STATUS_1,
-  2: Status.STATUS_2,
-  3: Status.STATUS_3,
-};
-
-extension StatusExtension on Status {
-  int get intValue => statusMapping[this]!;
-}
-
-extension StatusIntExtension on int {
-  Status? get asStatus => reverseStatusMapping[this];
+  const Status({
+    required this.value,
+  });
 }

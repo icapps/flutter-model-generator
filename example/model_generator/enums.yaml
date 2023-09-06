@@ -2,51 +2,76 @@ Gender:
   path: user/person/
   type: enum
   properties:
+    value:
+      type: String
+      is_json_key: true
+  values:
     MALE:
-      value: _mAl3
+      properties:
+        value: _mAl3
     FEMALE:
-      value: femAle
+      properties:
+        value: femAle
     X:
-      value: X
+      properties:
+        value: X
     GENDER_X:
+      properties:
+        value: gender_x
     GENDER_Y:
-      value:
+      properties:
+        value: gender_y
     GENDER_z:
-      value: gender_z
+      properties:
+        value: gender_z
     GENDER_abC:
+      properties:
+        value: gender_abc
     GENDER_def:
-      value:
+      properties:
+        value: gender_def
     GENDER_lap:
-      value: GENDER_lap
+      properties:
+        value: GENDER_lap
 
 Status:
   path: status
   type: enum
-  item_type: int
-  generate_map: true
-  generate_extensions: true
   properties:
+    value:
+      type: int
+      is_json_key: true
+  values:
     status_0:
-      value: 0
+      properties:
+        value: 0
     status_1:
-      value: 1
+      properties:
+        value: 1
     status_2:
-      value: 2
+      properties:
+        value: 2
     status_3:
-      value: 3
+      properties:
+        value: 3
 
 DoubleStatus:
   path: status
   type: enum
-  item_type: double
-  generate_map: true
-  generate_extensions: true
   properties:
+    value:
+      type: double
+      is_json_key: true
+  values:
     status_0:
-      value: 0.0
+      properties:
+        value: 0.1
     status_1:
-      value: 1.0
+      properties:
+        value: 1.1
     status_2:
-      value: 2.0
+      properties:
+        value: 2.2
     status_3:
-      value: 3.0
+      properties:
+        value: 3.3
