@@ -24,6 +24,18 @@ class EnumModel extends Model {
           extraAnnotations: extraAnnotations,
           description: description,
         );
+
+  String? validate() {
+    for (final property in properties) {
+      for (final field in fields) {
+        final containsProperty = field.values.map((value) => value.propertyName).contains(property.name);
+        if (!containsProperty && !property.isOptional && property.defaultValue == null) {
+          return 'There is no value defined for property ${property.name} for the enum value ${field.name} in model $name. Either make this property optional or give it a value';
+        }
+      }
+    }
+    return null;
+  }
 }
 
 class EnumField {

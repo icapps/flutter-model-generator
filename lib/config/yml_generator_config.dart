@@ -157,7 +157,7 @@ class YmlGeneratorConfig {
           ));
         });
 
-        models.add(EnumModel(
+        final enumModel = EnumModel(
           addJsonKeyToProperties: value['use_default_json_key'] ?? true,
           name: key,
           path: path,
@@ -167,7 +167,15 @@ class YmlGeneratorConfig {
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
           description: description,
-        ));
+        );
+        
+        final error = enumModel.validate();
+
+        if (error != null) {
+          throw Exception(error);
+        }
+
+        models.add(enumModel);
       } else {
         final staticCreate = (value['static_create'] ?? false) == true;
         final disallowNullForDefaults = value.containsKey('disallow_null_for_defaults') ? (value['disallow_null_for_defaults'] == true) : pubspecConfig.disallowNullForDefaults;
