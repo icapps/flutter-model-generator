@@ -141,7 +141,8 @@ Gender:
     test(
         'Test enum with unsupported type',
         () => testEnumError(
-              expectedError: 'Exception: list should have a type of integer, boolean, double or string',
+              expectedError:
+                  'Exception: list should have a type of integer, boolean, double or string',
               enumYml: """
 Gender:
   path: user/person/
@@ -186,7 +187,8 @@ Gender:
     test(
         'Test enum with incorrect type bool',
         () => testEnumError(
-              expectedError: 'Exception: Model: Gender, Property isMale is of type bool but the corresponding value on enum value MALE is not, make sure they have the same type',
+              expectedError:
+                  'Exception: Model: Gender, Property isMale is of type bool but the corresponding value on enum value MALE is not, make sure they have the same type',
               enumYml: """
 Gender:
   path: user/person/
@@ -209,7 +211,8 @@ Gender:
     test(
         'Test enum with incorrect type integer',
         () => testEnumError(
-              expectedError: 'Exception: Model: Gender, Property isMale is of type int but the corresponding value on enum value MALE is not, make sure they have the same type',
+              expectedError:
+                  'Exception: Model: Gender, Property isMale is of type int but the corresponding value on enum value MALE is not, make sure they have the same type',
               enumYml: """
 Gender:
   path: user/person/
@@ -232,7 +235,8 @@ Gender:
     test(
         'Test enum with incorrect type double',
         () => testEnumError(
-              expectedError: 'Exception: Model: Gender, Property isMale is of type double but the corresponding value on enum value MALE is not, make sure they have the same type',
+              expectedError:
+                  'Exception: Model: Gender, Property isMale is of type double but the corresponding value on enum value MALE is not, make sure they have the same type',
               enumYml: """
 Gender:
   path: user/person/
@@ -255,7 +259,8 @@ Gender:
     test(
         'item_type not supported anymore',
         () => testEnumError(
-              expectedError: 'Exception: item_type is removed, follow the migration to version 7.0.0',
+              expectedError:
+                  'Exception: item_type is removed, follow the migration to version 7.0.0',
               enumYml: """
 Gender:
   path: user/person/
@@ -269,7 +274,8 @@ Gender:
     test(
         'generate_map not supported anymore',
         () => testEnumError(
-              expectedError: 'Exception: generate_map is removed, follow the migration to version 7.0.0',
+              expectedError:
+                  'Exception: generate_map is removed, follow the migration to version 7.0.0',
               enumYml: """
 Gender:
   path: user/person/
@@ -283,7 +289,8 @@ Gender:
     test(
         'generate_extensions not supported anymore',
         () => testEnumError(
-              expectedError: 'Exception: generate_extensions is removed, follow the migration to version 7.0.0',
+              expectedError:
+                  'Exception: generate_extensions is removed, follow the migration to version 7.0.0',
               enumYml: """
 Gender:
   path: user/person/

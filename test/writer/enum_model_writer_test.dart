@@ -14,7 +14,8 @@ void main() {
     );
     final jsonModel = result.config.models.first;
     if (jsonModel is! EnumModel) {
-      throw Exception('The first model in the config file must be an object model and will be validated. The model is ${jsonModel.runtimeType}');
+      throw Exception(
+          'The first model in the config file must be an object model and will be validated. The model is ${jsonModel.runtimeType}');
     }
 
     final generateActual = EnumModelWriter(jsonModel).write;

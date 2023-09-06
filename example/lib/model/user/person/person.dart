@@ -11,7 +11,11 @@ part 'person.g.dart';
 class Person {
   @JsonKey(name: 'firstName', required: true, includeIfNull: false)
   final String firstName;
-  @JsonKey(name: 'gender', required: true, includeIfNull: false, unknownEnumValue: Gender.X)
+  @JsonKey(
+      name: 'gender',
+      required: true,
+      includeIfNull: false,
+      unknownEnumValue: Gender.X)
   final Gender gender;
 
   const Person({
@@ -32,25 +36,21 @@ class Person {
           gender == other.gender;
 
   @override
-  int get hashCode =>
-      firstName.hashCode ^
-      gender.hashCode;
+  int get hashCode => firstName.hashCode ^ gender.hashCode;
 
   @override
-  String toString() =>
-      'Person{'
+  String toString() => 'Person{'
       'firstName: $firstName, '
       'gender: $gender'
       '}';
-
 }
 
 const deserializePerson = Person.fromJson;
 
 Map<String, dynamic> serializePerson(Person object) => object.toJson();
 
-List<Person> deserializePersonList(List<Map<String, dynamic>> jsonList)
-    => jsonList.map(Person.fromJson).toList();
+List<Person> deserializePersonList(List<Map<String, dynamic>> jsonList) =>
+    jsonList.map(Person.fromJson).toList();
 
-List<Map<String, dynamic>> serializePersonList(List<Person> objects)
-    => objects.map((object) => object.toJson()).toList();
+List<Map<String, dynamic>> serializePersonList(List<Person> objects) =>
+    objects.map((object) => object.toJson()).toList();

@@ -11,10 +11,12 @@ void main() {
     final result = WriterHelper.prepareWriterTest(path: path);
     final jsonModel = result.config.models.first;
     if (jsonModel is! ObjectModel) {
-      throw Exception('The first model in the config file must be an object model and will be validated. The model is ${jsonModel.runtimeType}');
+      throw Exception(
+          'The first model in the config file must be an object model and will be validated. The model is ${jsonModel.runtimeType}');
     }
 
-    final generateActual = ObjectModelWriter(result.pubspecConfig, jsonModel, result.config).write;
+    final generateActual =
+        ObjectModelWriter(result.pubspecConfig, jsonModel, result.config).write;
     if (result.expected.startsWith('Exception')) {
       expect(generateActual, throwsA(isA<Exception>()));
     } else {
