@@ -96,17 +96,21 @@ class YmlGeneratorConfig {
         final fields = <EnumField>[];
         final enumProperties = <EnumProperty>[];
         properties?.forEach((propertyKey, propertyValue) {
-          final ItemType itemType;
-          final String type;
           final bool isJsonKey;
+          final String type;
+          final String? defaultValue;
+          final ItemType itemType;
+
           final String name = propertyKey;
 
           if (propertyValue is YamlMap) {
             type = propertyValue['type'];
             isJsonKey = propertyValue['is_json_key'] == true;
+            defaultValue = propertyValue['default_value'];
           } else {
             type = propertyValue;
-            isJsonKey = false;  
+            isJsonKey = false;
+            defaultValue = null;
           }
 
           final optional = type.endsWith('?');
@@ -123,6 +127,7 @@ class YmlGeneratorConfig {
             type: itemType,
             isJsonKey: isJsonKey,
             isOptional: optional,
+            defaultValue: defaultValue,
           ));
         });
 

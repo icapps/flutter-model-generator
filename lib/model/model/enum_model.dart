@@ -57,12 +57,14 @@ class EnumProperty {
   final bool isJsonKey;
   final bool isOptional;
   final String name;
+  String? defaultValue;
   ItemType type;
 
   EnumProperty({
     required this.name,
     required this.type,
     required this.isOptional,
+    this.defaultValue,
     this.isJsonKey = false,
   });
 }

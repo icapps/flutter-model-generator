@@ -2,27 +2,47 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
+///This is a enum of a person
 enum Person {
+  ///enum of a man
   @JsonValue(1)
-  MY_VALUE_1(
+  MAN(
     jsonKey: 1,
     firstName: 'firstName1',
-    lastName: 'lastName1',
+    lastName: 'lastName',
+    age: 12,
+    height: 12.4,
   ),
+  ///enum of a woman
   @JsonValue(2)
-  MY_VALUE_2(
+  WOMAN(
     jsonKey: 2,
     firstName: 'firstName2',
-    lastName: 'lastName2',
+    lastName: 'lastName',
+    age: 16,
+    height: 22,
+  ),
+  ///enum of a other
+  @JsonValue(3)
+  OTHER(
+    jsonKey: 3,
+    firstName: 'firstName3',
+    lastName: 'SpecifiedLastName',
+    age: null,
+    height: null,
   );
 
   final int jsonKey;
   final String firstName;
   final String lastName;
+  final int? age;
+  final double? height;
 
   const Person({
     required this.jsonKey,
     required this.firstName,
     required this.lastName,
+    this.age,
+    this.height,
   });
 }

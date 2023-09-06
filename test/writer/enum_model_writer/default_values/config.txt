@@ -1,0 +1,19 @@
+MyEnumModel:
+  path: test/enum/
+  type: enum
+  properties:
+    firstName: String
+    lastName:
+        type: String
+        default_value: lastName
+  values:
+    MY_VALUE_1:
+      properties:
+        firstName: firstName
+    MY_VALUE_2:
+      properties:
+        firstName: firstName
+    MY_VALUE_3:
+      properties:
+        firstName: firstName
+        lastName: specifiedLastName

@@ -1,5 +1,4 @@
 import 'package:model_generator/model/item_type/double_type.dart';
-import 'package:model_generator/model/item_type/item_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/util/case_util.dart';
@@ -53,13 +52,14 @@ class EnumModelWriter {
         if (addDefaultJsonKey) {
           sb.writeln('    jsonValue: \'$jsonValue\',');
         }
-        for (var value in key.values) {
-          final type = itemTypeForProperty(value.propertyName, properties);
-          sb.write('    ${value.propertyName}: ');
-          if (type is StringType) {
-            sb.writeln('\'${value.value}\',');
+        for (var property in properties) {
+          final enumValue = valueForProperty(property.name, key.values);
+          final value = enumValue?.value ?? property.defaultValue;
+          sb.write('    ${property.name}: ');
+          if (property.type is StringType && value != null) {
+            sb.writeln('\'$value\',');
           } else {
-            sb.writeln('${value.value},');
+            sb.writeln('$value,');
           }
         }
         if (isLast) {
@@ -94,7 +94,7 @@ class EnumModelWriter {
       }
       for (var property in properties) {
         sb.write('    ');
-        if(!property.isOptional){
+        if (!property.isOptional) {
           sb.write('required ');
         }
         sb.writeln('this.${property.name},');
@@ -107,6 +107,9 @@ class EnumModelWriter {
     return sb.toString();
   }
 
-  ItemType itemTypeForProperty(String propertyName, List<EnumProperty> properties) =>
-      properties.firstWhereOrNull((property) => property.name == propertyName)?.type ?? StringType();
+  EnumValue? valueForProperty(
+    String propertyName,
+    List<EnumValue> values,
+  ) =>
+      values.firstWhereOrNull((value) => value.propertyName == propertyName);
 }
