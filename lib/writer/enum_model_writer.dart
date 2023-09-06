@@ -54,7 +54,8 @@ class EnumModelWriter {
         }
         for (var property in properties) {
           final enumValue = valueForProperty(property.name, key.values);
-          final value = enumValue?.value ?? property.defaultValue;
+          var value = enumValue?.value ?? property.defaultValue;
+
           sb.write('    ${property.name}: ');
           if (property.type is StringType && value != null) {
             sb.writeln('\'$value\',');

@@ -106,7 +106,7 @@ class YmlGeneratorConfig {
           if (propertyValue is YamlMap) {
             type = propertyValue['type'];
             isJsonKey = propertyValue['is_json_key'] == true;
-            defaultValue = propertyValue['default_value'];
+            defaultValue = propertyValue['default_value']?.toString();
           } else {
             type = propertyValue;
             isJsonKey = false;
@@ -118,8 +118,8 @@ class YmlGeneratorConfig {
 
           itemType = _parseSimpleType(typeString);
 
-          if (itemType is! StringType && itemType is! DoubleType && itemType is! IntegerType) {
-            throw Exception('$propertyKey should have a type of integer, double or string');
+          if (itemType is! StringType && itemType is! DoubleType && itemType is! IntegerType && itemType is! BooleanType) {
+            throw Exception('$propertyKey should have a type of integer, boolean, double or string');
           }
 
           enumProperties.add(EnumProperty(
@@ -132,11 +132,11 @@ class YmlGeneratorConfig {
         });
 
         final values = value['values'] as YamlMap?;
-        if (values == null && properties.isNotEmpty == true) {
-          throw Exception('The enum $key has defined properties, but a default value is not defined');
+        if (values == null) {
+          throw Exception('Values can not be null. model: $key');
         }
 
-        values?.forEach((key, value) {
+        values.forEach((key, value) {
           final properties = value?['properties'] as YamlMap?;
           final description = value?['description'];
           final enumValues = <EnumValue>[];
@@ -168,7 +168,7 @@ class YmlGeneratorConfig {
           extraAnnotations: extraAnnotations,
           description: description,
         );
-        
+
         final error = enumModel.validate();
 
         if (error != null) {

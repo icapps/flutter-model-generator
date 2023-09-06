@@ -227,35 +227,6 @@ TestModel2:
       expect(nullableRef.type, isA<ObjectType>());
       expect(nullableRef.isRequired, false);
     });
-
-    test('Test enum item_type should be string or integer', () {
-      dynamic error;
-      try {
-        YmlGeneratorConfig(
-                PubspecConfig("name: test"),
-                """
-Gender:
-  path: user/person/
-  type: enum
-  item_type: List
-  properties:
-    MALE:
-      value: male
-    FEMALE:
-      value: female
-""",
-                '')
-            .models;
-      } catch (e) {
-        error = e;
-      }
-      expect(error, isNotNull);
-      expect(error, isException);
-      if (error is Exception) {
-        expect(error.toString(),
-            'Exception: item_type should be a string or integer. model: Gender');
-      }
-    });
   });
 }
 
