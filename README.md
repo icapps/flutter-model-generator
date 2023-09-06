@@ -376,64 +376,106 @@ BookCase:
 Currently all basic types are supported, simple Lists and Maps (no nested types, no nullable generic parameters) as well as references to other objects.
 Items post-fixed with `?` will be marked optional.
 
-## Enum support
+## Enum support (as of v7.0.0 enums now support properties)
 
-Add enums with custom values (can be mapped to String,double,int)
+Add simple enums, the name of the enum value (MALE, FEMALE, X, Y) will be used when parsing from json
+
+```yaml
+Gender:
+  path: webservice/user
+  type: enum
+  values:
+    MALE:
+    FEMALE:
+    X:
+    Y:
+```
+
+Add enums with custom properties (currently supported types are int, double, bool and String)
 
 ```yaml
 Gender:
   path: webservice/user
   type: enum
   properties:
+    abbreviation: String
+  values:
     MALE:
-      value: _mAl3
+      properties:
+        abbreviation: m
     FEMALE:
-      value: femAle
+      properties:
+        abbreviation: f
     X:
-      value: X
+      properties:
+        abbreviation: x
     Y:
+      properties:
+        abbreviation: y
 ```
 
-### Generate mapping
-
-For enums, it is also possible to have a map generated that maps from the enum value to its string representation and reverse. To enable this, use `generate_map: true`
+Define custom json key using is_json_key, the value of this property will then be used to parse from json
 
 ```yaml
 Gender:
   path: webservice/user
   type: enum
-  generate_map: true
   properties:
+    key:
+      type: String
+      is_json_key: true
+    abbreviation: String
+  values:
     MALE:
-      value: _mAl3
+      properties:
+        key: male
+        abbreviation: m
     FEMALE:
-      value: femAle
+      properties:
+        key: female
+        abbreviation: f
     X:
-      value: X
+      properties:
+        key: x
+        abbreviation: x
     Y:
+      properties:
+        key: y
+        abbreviation: y
 ```
 
-### Generate mapping extensions
-
-When generating maps, it is also possible to specify that special extension functions should be added that return either the string value or that takes a string value and tries to
-convert it to the enum value. To enable this, use `generate_map: true` **AND** `generate_extensions: true`
+Optional and default values are supported. If value isn't defined for a property then it will use the defaultValue. If a property is optional and no value is given it is null.
 
 ```yaml
 Gender:
   path: webservice/user
   type: enum
-  generate_map: true
-  generate_extensions: true
   properties:
+    key:
+      type: String
+      is_json_key: true
+    abbreviation:
+      type: String
+      default_value: m
+    lastName: String?
+  values:
     MALE:
-      value: _mAl3
+      properties:
+        key: male
     FEMALE:
-      value: femAle
+      properties:
+        key: female
+        abbreviation: f
     X:
-      value: X
+      properties:
+        key: x
     Y:
+      properties:
+        key: y
+        lastName: lastName
 ```
 
+### Generate mapping extensions And Generate mapping are no longer supported as of V7.0.0, use properties instead
 ### Use unknownEnumValue
 
 ```yaml
