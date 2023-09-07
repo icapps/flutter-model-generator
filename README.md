@@ -475,7 +475,45 @@ Gender:
         lastName: lastName
 ```
 
-### Generate mapping extensions And Generate mapping are no longer supported as of V7.0.0, use properties instead
+### Generate mapping extensions
+
+It is possible to generate an extension for the enum that can turn the enum into it's corresponding jsonValue and the reverse.
+
+```yaml
+Person:
+  path: test/enum/
+  type: enum
+  generate_extension: true
+  properties:
+    jsonValue: 
+      is_json_value: true
+      type: int
+    firstName: String
+    lastName: String
+  values:
+    MAN:
+      properties:
+        jsonKey: 1
+        firstName: firstName1
+        lastName: lastName1
+    WOMAN:
+      properties:
+        jsonKey: 2
+        firstName: firstName2
+        lastName: lastName2
+
+```
+The above configuration will generate an enum with this extension.
+
+```dart
+extension PersonExtension on Person {
+  static Person fromJsonValue(int value) => Person.values.firstWhere((enumValue) => enumValue.jsonKey == value);
+
+  int toJsonValue() => jsonKey;
+}
+```
+
+### Generate mapping is no longer supported as of V7.0.0, use properties instead
 ### Use unknownEnumValue
 
 ```yaml
