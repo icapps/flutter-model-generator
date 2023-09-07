@@ -292,7 +292,7 @@ class YmlGeneratorConfig {
       ignore: false,
       includeToJson: true,
       includeFromJson: true,
-      includeIfNull: true,
+      includeIfNull: false,
       nonFinal: false,
       ignoreEquality: false,
     );
