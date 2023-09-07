@@ -57,7 +57,8 @@ class EnumModelWriter {
           var value = enumValue?.value ?? property.defaultValue;
 
           sb.write('    ${property.name}: ');
-          if (property.type is StringType && value != null) {
+          if (property.type is StringType && (value != null || property.isJsonvalue)) {
+            if (value == null && property.isJsonvalue) value = jsonValue;
             sb.writeln('\'$value\',');
           } else {
             sb.writeln('$value,');

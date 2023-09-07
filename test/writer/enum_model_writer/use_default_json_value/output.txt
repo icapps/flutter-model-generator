@@ -1,0 +1,28 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+
+enum DoubleStatus {
+  @JsonValue('customValue')
+  STATUS_0(
+    value: 'customValue',
+  ),
+  @JsonValue('status_1')
+  STATUS_1(
+    value: 'status_1',
+  ),
+  @JsonValue('status_2')
+  STATUS_2(
+    value: 'status_2',
+  ),
+  @JsonValue('status_3')
+  STATUS_3(
+    value: 'status_3',
+  );
+
+  final String value;
+
+  const DoubleStatus({
+    required this.value,
+  });
+}
