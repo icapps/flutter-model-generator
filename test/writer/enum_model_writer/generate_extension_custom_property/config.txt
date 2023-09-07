@@ -1,6 +1,7 @@
 Person:
   path: test/enum/
   type: enum
+  generate_extension: true
   properties:
     jsonKey: 
       is_json_value: true

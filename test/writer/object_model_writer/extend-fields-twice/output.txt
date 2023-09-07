@@ -7,7 +7,7 @@ part 'admin.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Admin extends User {
-  @JsonKey(name: 'permission', required: true)
+  @JsonKey(name: 'permission', required: true, includeIfNull: false)
   final String permission;
 
   const Admin({

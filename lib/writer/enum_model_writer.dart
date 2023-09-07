@@ -111,13 +111,13 @@ class EnumModelWriter {
       }
       sb.writeln('  });');
     }
+    sb.writeln('}');
 
     if (jsonModel.generateExtension) {
       final jsonValueName = addDefaultJsonKey ? 'jsonValue' : keyProperty?.name;
       final jsonValueType =
           addDefaultJsonKey ? StringType() : keyProperty?.type;
       final name = jsonModelName.pascalCase;
-      sb.writeln('}');
       sb.writeln();
       sb.writeln('extension ${name}Extension on $name {');
       sb.writeln(

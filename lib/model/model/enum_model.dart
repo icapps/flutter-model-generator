@@ -39,43 +39,48 @@ class EnumModel extends Model {
             ?.value;
         if (value == null &&
             !property.isOptional &&
-            property.defaultValue == null) {
+            property.defaultValue == null &&
+            !property.isJsonvalue) {
           return 'There is no value defined for property ${property.name} for the enum value ${field.name} in model $name. Either make this property optional or give it a value';
         }
         final toParseValue = value ?? property.defaultValue;
 
         String? error;
-        if (property.type is DoubleType) {
-          error = testValueType(
-            parser: double.tryParse,
-            typeName: DoubleType().name,
-            toParseValue: toParseValue!,
-            propertyName: property.name,
-            fieldName: field.name,
-          );
-        } else if (property.type is IntegerType) {
-          error = testValueType(
-            parser: int.tryParse,
-            typeName: IntegerType().name,
-            toParseValue: toParseValue!,
-            propertyName: property.name,
-            fieldName: field.name,
-          );
-        } else if (property.type is BooleanType) {
-          error = testValueType(
-            parser: bool.tryParse,
-            typeName: BooleanType().name,
-            toParseValue: toParseValue!,
-            propertyName: property.name,
-            fieldName: field.name,
-          );
+        if (toParseValue != null) {
+          if (property.type is DoubleType) {
+            error = testValueType(
+              parser: double.tryParse,
+              typeName: DoubleType().name,
+              toParseValue: toParseValue,
+              propertyName: property.name,
+              fieldName: field.name,
+            );
+          } else if (property.type is IntegerType) {
+            error = testValueType(
+              parser: int.tryParse,
+              typeName: IntegerType().name,
+              toParseValue: toParseValue,
+              propertyName: property.name,
+              fieldName: field.name,
+            );
+          } else if (property.type is BooleanType) {
+            error = testValueType(
+              parser: bool.tryParse,
+              typeName: BooleanType().name,
+              toParseValue: toParseValue,
+              propertyName: property.name,
+              fieldName: field.name,
+            );
+          }
         }
+
         if (error != null) return error;
       }
     }
     final keyProperty =
         properties.firstWhereOrNull((property) => property.isJsonvalue);
-    if (!addJsonValueToProperties && keyProperty == null) {
+    if ((!addJsonValueToProperties && keyProperty == null) &&
+        generateExtension) {
       return "Model: $name, a json value has to be defined when generating extensions for this model. Either enable a default json value by removing 'use_default_json_value: false' or define a property that is a json value by using 'is_json_value: true'";
     }
     return null;
