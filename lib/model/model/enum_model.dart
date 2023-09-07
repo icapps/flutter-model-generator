@@ -41,8 +41,10 @@ class EnumModel extends Model {
           return 'There is no value defined for property ${property.name} for the enum value ${field.name} in model $name. Either make this property optional or give it a value';
         }
         final toParseValue = value ?? property.defaultValue;
+
+        String? error;
         if (property.type is DoubleType) {
-          return testValueType(
+          error = testValueType(
             parser: double.tryParse,
             typeName: DoubleType().name,
             toParseValue: toParseValue!,
@@ -50,7 +52,7 @@ class EnumModel extends Model {
             fieldName: field.name,
           );
         } else if (property.type is IntegerType) {
-          return testValueType(
+          error = testValueType(
             parser: int.tryParse,
             typeName: IntegerType().name,
             toParseValue: toParseValue!,
@@ -58,7 +60,7 @@ class EnumModel extends Model {
             fieldName: field.name,
           );
         } else if (property.type is BooleanType) {
-          return testValueType(
+          error = testValueType(
             parser: bool.tryParse,
             typeName: BooleanType().name,
             toParseValue: toParseValue!,
@@ -66,6 +68,7 @@ class EnumModel extends Model {
             fieldName: field.name,
           );
         }
+        if (error != null) return error;
       }
     }
     return null;

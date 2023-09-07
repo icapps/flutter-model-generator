@@ -1,7 +1,9 @@
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
 import 'package:model_generator/model/item_type/boolean_type.dart';
+import 'package:model_generator/model/item_type/double_type.dart';
 import 'package:model_generator/model/item_type/integer_type.dart';
+import 'package:model_generator/model/item_type/item_type.dart';
 import 'package:model_generator/model/item_type/string_type.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:test/test.dart';
@@ -161,28 +163,38 @@ Gender:
         list: []
 """,
             ));
-
-    test(
-        'Test enum with missing values',
-        () => testEnumError(
-              expectedError:
-                  'Exception: There is no value defined for property name for the enum value MALE in model Gender. Either make this property optional or give it a value',
-              enumYml: """
+    void testEnumMissingValueForType({
+      required ItemType type,
+      required String value,
+    }) {
+      testEnumError(
+        expectedError:
+            'Exception: There is no value defined for property name for the enum value FEMALE in model Gender. Either make this property optional or give it a value',
+        enumYml: """
 Gender:
   path: user/person/
   type: enum
   description: this is an enum
   properties:
-    name: String
+    name: ${type.name}
   values:
     MALE:
       description: this is a enum of male
       properties:
+        name: $value
     FEMALE:
       description: this is a enum of female
       properties:
 """,
-            ));
+      );
+    }
+
+    test('Test enum with missing values', () {
+      testEnumMissingValueForType(type: StringType(), value: "'name'");
+      testEnumMissingValueForType(type: IntegerType(), value: '1');
+      testEnumMissingValueForType(type: DoubleType(), value: '1.1');
+      testEnumMissingValueForType(type: BooleanType(), value: 'true');
+    });
 
     test(
         'Test enum with incorrect type bool',
