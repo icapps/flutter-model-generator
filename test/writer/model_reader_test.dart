@@ -20,6 +20,7 @@ void main() {
               PubspecConfig("name: test"),
               """
 TestModel:
+  disallow_null_for_defaults: true
   properties:
     simpleString: string
     nullableString: string?
@@ -65,6 +66,8 @@ TestModel:
 
       expect(simpleDateTime.type, isA<DateTimeType>());
       expect(simpleDateTime.isRequired, false);
+
+      expect(model.disallowNullForDefaults, true);
     });
 
     test('Test required not definable anymore', () {
@@ -152,22 +155,28 @@ TestModel:
     });
 
     test('Test simple generic fields', () {
-      final models = YmlGeneratorConfig(
-              PubspecConfig("name: test"),
-              """
+      dynamic error;
+      final config = YmlGeneratorConfig(
+          PubspecConfig("name: test"),
+          """
 TestModel:
   properties:
     simpleStringList: List<string>
     nullableStringList: List<string>?
     simpleMap: Map<String, int>
 """,
-              '')
-          .models;
+          '');
+      final models = config.models;
 
       expect(models.length, 1);
       final model = models.first;
       expect(model is ObjectModel, true);
       model as ObjectModel;
+      try {
+        config.checkIfTypesAvailable();
+      } catch (e) {
+        error = e;
+      }
 
       final simpleStringList = model.fields.getByName("simpleStringList");
       final nullableStringList = model.fields.getByName("nullableStringList");
@@ -181,6 +190,8 @@ TestModel:
 
       expect(simpleMap.type, isA<MapType>());
       expect(simpleMap.isRequired, true);
+
+      expect(error, isNull);
     });
     test('Test simple object reference fields', () {
       final models = YmlGeneratorConfig(
@@ -215,6 +226,35 @@ TestModel2:
 
       expect(nullableRef.type, isA<ObjectType>());
       expect(nullableRef.isRequired, false);
+    });
+
+    test('Test enum item_type should be string or integer', () {
+      dynamic error;
+      try {
+        YmlGeneratorConfig(
+                PubspecConfig("name: test"),
+                """
+Gender:
+  path: user/person/
+  type: enum
+  item_type: List
+  properties:
+    MALE:
+      value: male
+    FEMALE:
+      value: female
+""",
+                '')
+            .models;
+      } catch (e) {
+        error = e;
+      }
+      expect(error, isNotNull);
+      expect(error, isException);
+      if (error is Exception) {
+        expect(error.toString(),
+            'Exception: item_type should be a string or integer. model: Gender');
+      }
     });
   });
 }

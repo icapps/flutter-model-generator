@@ -6,7 +6,10 @@ class ProcessRunner {
   ProcessRunner._();
 
   static Future<void> runProcessVerbose(
-      String command, List<String> args) async {
+    String command,
+    List<String> args, [
+    void Function(String lines)? onLineWrite,
+  ]) async {
     print('\n$command ${args.join(' ')}\n');
     final completer = Completer<void>();
     final result = await Process.start(
@@ -16,8 +19,11 @@ class ProcessRunner {
     );
     print(
         '======================================================================');
-    final subscription = result.stdout
-        .listen((codeUnits) => stdout.write(utf8.decode(codeUnits)));
+    final subscription = result.stdout.listen((codeUnits) {
+      final line = utf8.decode(codeUnits);
+      onLineWrite?.call(line);
+      stdout.write(line);
+    });
     subscription.onDone(() {
       print(
           '======================================================================');
