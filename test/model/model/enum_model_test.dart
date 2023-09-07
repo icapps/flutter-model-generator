@@ -6,6 +6,7 @@ void main() {
     group('Default', () {
       test('Normal EnumModel', () {
         final model = EnumModel(
+          generateExtension: true,
           name: 'MyEnumModel',
           path: 'path_to_my_model',
           baseDirectory: 'base_dir',
@@ -20,6 +21,7 @@ void main() {
     group('Custom Path', () {
       test('Normal Custom Path', () {
         final model = EnumModel(
+          generateExtension: true,
           name: 'MyEnumModel',
           path: 'path_to_my_model/',
           baseDirectory: 'base_dir',
@@ -33,6 +35,7 @@ void main() {
 
       test('Normal Custom Base Dir', () {
         final model = EnumModel(
+          generateExtension: true,
           name: 'MyEnumModel',
           path: 'path_to_my_model',
           baseDirectory: 'base_dir/',

@@ -8,13 +8,15 @@ import 'package:model_generator/util/list_extensions.dart';
 class EnumModel extends Model {
   final List<EnumField> fields;
   final List<EnumProperty> properties;
-  final bool addJsonKeyToProperties;
+  final bool addJsonValueToProperties;
+  final bool generateExtension;
 
   EnumModel({
     required String name,
     required this.fields,
     required this.properties,
-    this.addJsonKeyToProperties = true,
+    required this.generateExtension,
+    this.addJsonValueToProperties = true,
     String? path,
     String? baseDirectory,
     List<String>? extraImports,
@@ -70,6 +72,11 @@ class EnumModel extends Model {
         }
         if (error != null) return error;
       }
+    }
+    final keyProperty =
+        properties.firstWhereOrNull((property) => property.isJsonvalue);
+    if (!addJsonValueToProperties && keyProperty == null) {
+      return "Model: $name, a json value has to be defined when generating extensions for this model. Either enable a default json value by removing 'use_default_json_value: false' or define a property that is a json value by using 'is_json_value: true'";
     }
     return null;
   }

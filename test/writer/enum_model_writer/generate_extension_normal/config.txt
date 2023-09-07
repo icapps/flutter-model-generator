@@ -1,7 +1,7 @@
 MyEnumModel:
   path: test/enum/
-  use_default_json_value: false
   type: enum
+  generate_extension: true
   values:
     MY_VALUE_1:
     MY_VALUE_2:

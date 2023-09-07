@@ -27,7 +27,7 @@ class EnumModelWriter {
     final keyProperty =
         properties.firstWhereOrNull((property) => property.isJsonvalue);
     final addDefaultJsonKey =
-        keyProperty == null && jsonModel.addJsonKeyToProperties;
+        keyProperty == null && jsonModel.addJsonValueToProperties;
     final addProperties = properties.isNotEmpty || addDefaultJsonKey;
 
     sb.writeln('enum ${jsonModelName.pascalCase} {');
@@ -112,7 +112,20 @@ class EnumModelWriter {
       sb.writeln('  });');
     }
 
-    sb.writeln('}');
+    if (jsonModel.generateExtension) {
+      final jsonValueName = addDefaultJsonKey ? 'jsonValue' : keyProperty?.name;
+      final jsonValueType =
+          addDefaultJsonKey ? StringType() : keyProperty?.type;
+      final name = jsonModelName.pascalCase;
+      sb.writeln('}');
+      sb.writeln();
+      sb.writeln('extension ${name}Extension on $name {');
+      sb.writeln(
+          '  static $name fromJsonValue(${jsonValueType?.name} value) => $name.values.firstWhere((enumValue) => enumValue.$jsonValueName == value);');
+      sb.writeln('');
+      sb.writeln('  ${jsonValueType?.name} toJsonValue() => $jsonValueName;');
+      sb.writeln('}');
+    }
 
     return sb.toString();
   }

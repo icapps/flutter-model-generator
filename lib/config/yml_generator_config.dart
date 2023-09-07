@@ -103,12 +103,6 @@ class YmlGeneratorConfig {
               'item_type is removed, follow the migration to version 7.0.0');
         }
 
-        final deprecatedGenerateExtensions = value['generate_extensions'];
-        if (deprecatedGenerateExtensions != null) {
-          throw Exception(
-              'generate_extensions is removed, follow the migration to version 7.0.0');
-        }
-
         final deprecatedGenerateMap = value['generate_map'];
         if (deprecatedGenerateMap != null) {
           throw Exception(
@@ -188,7 +182,8 @@ class YmlGeneratorConfig {
         });
 
         final enumModel = EnumModel(
-          addJsonKeyToProperties: value['use_default_json_key'] ?? true,
+          addJsonValueToProperties: value['use_default_json_value'] ?? true,
+          generateExtension: value['generate_extension'] == true,
           name: key,
           path: path,
           baseDirectory: baseDirectory,

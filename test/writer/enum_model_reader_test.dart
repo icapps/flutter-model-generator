@@ -34,7 +34,7 @@ Gender:
 
       expect(model.properties, isEmpty);
       expect(model.fields.length, 2);
-      expect(model.addJsonKeyToProperties, true);
+      expect(model.addJsonValueToProperties, true);
       expect(model.description, 'this is an enum');
 
       expect(model.fields[0].description, 'this is a enum of male');
@@ -50,7 +50,7 @@ Gender:
   path: user/person/
   type: enum
   description: this is an enum
-  use_default_json_key: false
+  use_default_json_value: false
   properties:
     abbreviation: String
     isMale:
@@ -84,7 +84,7 @@ Gender:
 
       expect(model.properties.length, 4);
       expect(model.fields.length, 2);
-      expect(model.addJsonKeyToProperties, false);
+      expect(model.addJsonValueToProperties, false);
       expect(model.description, 'this is an enum');
 
       expect(model.properties[0].type, isA<StringType>());
@@ -298,19 +298,23 @@ Gender:
     FEMALE:
 """,
             ));
+
     test(
-        'generate_extensions not supported anymore',
+        'generate extension required jsonValue',
         () => testEnumError(
               expectedError:
-                  'Exception: generate_extensions is removed, follow the migration to version 7.0.0',
+                  "Exception: Model: DoubleStatus, a json value has to be defined when generating extensions for this model. Either enable a default json value by removing 'use_default_json_value: false' or define a property that is a json value by using 'is_json_value: true'",
               enumYml: """
-Gender:
-  path: user/person/
+DoubleStatus:
+  path: status
   type: enum
-  generate_extensions: true
+  generate_extension: true
+  use_default_json_value: false
   values:
-    MALE:
-    FEMALE:
+    status_0:
+    status_1:
+    status_2:
+    status_3:
 """,
             ));
   });
