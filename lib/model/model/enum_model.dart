@@ -32,8 +32,12 @@ class EnumModel extends Model {
   String? validate() {
     for (final property in properties) {
       for (final field in fields) {
-        final value = field.values.firstWhereOrNull((value) => value.propertyName == property.name)?.value;
-        if (value == null && !property.isOptional && property.defaultValue == null) {
+        final value = field.values
+            .firstWhereOrNull((value) => value.propertyName == property.name)
+            ?.value;
+        if (value == null &&
+            !property.isOptional &&
+            property.defaultValue == null) {
           return 'There is no value defined for property ${property.name} for the enum value ${field.name} in model $name. Either make this property optional or give it a value';
         }
         final toParseValue = value ?? property.defaultValue;
