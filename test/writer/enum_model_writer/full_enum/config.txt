@@ -4,7 +4,7 @@ Person:
   description: This is a enum of a person
   properties:
     jsonKey: 
-      is_json_key: true
+      is_json_value: true
       type: int
     firstName: String
     lastName:

@@ -4,7 +4,7 @@ MyEnumModel:
   properties:
     value:
       type: String
-      is_json_key: true
+      is_json_value: true
   values:
     MY_VALUE_1:
       properties:

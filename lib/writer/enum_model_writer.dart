@@ -24,22 +24,15 @@ class EnumModelWriter {
 
     final jsonModelName = CaseUtil(jsonModel.name);
     final properties = jsonModel.properties;
-    final keyProperty =
-        properties.firstWhereOrNull((property) => property.isJsonKey);
-    final addDefaultJsonKey =
-        keyProperty == null && jsonModel.addJsonKeyToProperties;
+    final keyProperty = properties.firstWhereOrNull((property) => property.isJsonvalue);
+    final addDefaultJsonKey = keyProperty == null && jsonModel.addJsonKeyToProperties;
     final addProperties = properties.isNotEmpty || addDefaultJsonKey;
 
     sb.writeln('enum ${jsonModelName.pascalCase} {');
     for (var key in jsonModel.fields) {
-      final jsonValue = key.values
-              .firstWhereOrNull(
-                  (value) => value.propertyName == keyProperty?.name)
-              ?.value ??
-          key.serializedName;
+      final jsonValue = key.values.firstWhereOrNull((value) => value.propertyName == keyProperty?.name)?.value ?? key.serializedName;
       final propertyType = keyProperty?.type;
-      final isLast =
-          jsonModel.fields.indexOf(key) == (jsonModel.fields.length - 1);
+      final isLast = jsonModel.fields.indexOf(key) == (jsonModel.fields.length - 1);
 
       if (key.description != null) {
         sb.writeln('  ///${key.description}');

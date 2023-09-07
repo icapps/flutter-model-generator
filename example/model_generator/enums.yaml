@@ -4,7 +4,7 @@ Gender:
   properties:
     value:
       type: String
-      is_json_key: true
+      is_json_value: true
   values:
     MALE:
       properties:
@@ -40,7 +40,7 @@ Status:
   properties:
     value:
       type: int
-      is_json_key: true
+      is_json_value: true
   values:
     status_0:
       properties:
@@ -61,7 +61,7 @@ DoubleStatus:
   properties:
     value:
       type: double
-      is_json_key: true
+      is_json_value: true
   values:
     status_0:
       properties:

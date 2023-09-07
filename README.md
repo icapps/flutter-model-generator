@@ -414,7 +414,7 @@ Gender:
         abbreviation: y
 ```
 
-Define custom json key using is_json_key, the value of this property will then be used to parse from json
+Define custom json key using is_json_value, the value of this property will then be used to parse from json
 
 ```yaml
 Gender:
@@ -423,7 +423,7 @@ Gender:
   properties:
     key:
       type: String
-      is_json_key: true
+      is_json_value: true
     abbreviation: String
   values:
     MALE:
@@ -453,7 +453,7 @@ Gender:
   properties:
     key:
       type: String
-      is_json_key: true
+      is_json_value: true
     abbreviation:
       type: String
       default_value: m
