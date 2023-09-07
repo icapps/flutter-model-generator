@@ -1,13 +1,16 @@
 Person:
   path: user/custom_person.dart
   type: object
+  extra_imports:
+  - testing:handler.dart
   properties:
-    address: Address
+    address:
+      type: Address
+      toJson: Handler.handleToJson
+      fromJson: Handler.handleFromJson
 
 Address:
   type: object
   properties:
     streetName:
       type: String
-      toJson: handleToJson
-      fromJson: handleFromJson

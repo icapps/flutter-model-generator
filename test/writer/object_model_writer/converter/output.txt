@@ -8,11 +8,11 @@ part 'person.g.dart';
 @JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class Person {
-  @JsonKey(name: 'birthday')
-  final DateTime? birthday;
+  @JsonKey(name: 'birthDay', includeIfNull: false)
+  final DateTime? birthDay;
 
   const Person({
-    this.birthday,
+    this.birthDay,
   });
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);

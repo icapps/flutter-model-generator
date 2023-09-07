@@ -2,9 +2,10 @@ Person:
   path: user/person/
   type: object
   properties:
-    firstName:
+    gender:
       include_if_null: false
-      type: String?
+      unknown_enum_value: X
+      type: Gender
 Gender:
   path: user/person/
   type: enum

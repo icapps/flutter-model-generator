@@ -4,13 +4,11 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:model_generator/config/pubspec_config.dart';
 import 'package:model_generator/config/yml_generator_config.dart';
-import 'package:model_generator/model/field.dart';
 import 'package:model_generator/model/model/custom_model.dart';
 import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/object_model.dart';
 import 'package:model_generator/run_process/run_process.dart';
-import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/writer/enum_model_writer.dart';
 import 'package:model_generator/writer/object_model_writer.dart';
 import 'package:path/path.dart';
@@ -100,20 +98,9 @@ void writeToFiles(
     }
     String? content;
     if (model is ObjectModel) {
-      final extendsModelfields = <Field>[];
-      var extendsModelextends = model.extendsModel;
-      while (extendsModelextends != null) {
-        final extendsModelextendsModel = modelGeneratorConfig.models
-                .firstWhereOrNull(
-                    (element) => element.name == extendsModelextends)
-            as ObjectModel?; // ignore: avoid_as
-        extendsModelfields.addAll(extendsModelextendsModel?.fields ?? []);
-        extendsModelextends = extendsModelextendsModel?.extendsModel;
-      }
       content = ObjectModelWriter(
         pubspecConfig,
         model,
-        extendsModelfields,
         modelGeneratorConfig,
       ).write();
     } else if (model is EnumModel) {

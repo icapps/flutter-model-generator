@@ -8,9 +8,9 @@ part 'person.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Person {
   @JsonKey(name: 'time', fromJson: handleTimeFromJson, toJson: handleTimeToJson)
-  Time? time;
+  final Time? time;
 
-  Person({
+  const Person({
     this.time,
   });
 

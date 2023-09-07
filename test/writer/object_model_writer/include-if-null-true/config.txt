@@ -3,7 +3,5 @@ Person:
   type: object
   properties:
     firstName:
-      includeFromJson: false
-      includeToJson: false
-      include_if_null: false
+      include_if_null: true
       type: String?

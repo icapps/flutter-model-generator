@@ -3,7 +3,7 @@ Admin:
   type: object
   extends: User
   properties:
-    permission: String?
+    permission: String
 
 User:
   path: user/person/
