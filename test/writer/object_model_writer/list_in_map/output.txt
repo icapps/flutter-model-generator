@@ -8,19 +8,19 @@ part 'project_wrapper.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ProjectWrapper {
-  @JsonKey(name: 'projectByInt', required: true, includeIfNull: false)
+  @JsonKey(name: 'projectByInt', required: true)
   final Map<int, List<Project>> projectByInt;
-  @JsonKey(name: 'projectByString', required: true, includeIfNull: false)
+  @JsonKey(name: 'projectByString', required: true)
   final Map<String, List<Project>> projectByString;
-  @JsonKey(name: 'projectByEnum', required: true, includeIfNull: false)
+  @JsonKey(name: 'projectByEnum', required: true)
   final Map<ProjectEnum, List<Project>> projectByEnum;
-  @JsonKey(name: 'StringsByString', required: true, includeIfNull: false)
+  @JsonKey(name: 'StringsByString', required: true)
   final Map<String, List<String>> stringsByString;
-  @JsonKey(name: 'intsByString', required: true, includeIfNull: false)
+  @JsonKey(name: 'intsByString', required: true)
   final Map<String, List<int>> intsByString;
-  @JsonKey(name: 'intsByDateTime', required: true, includeIfNull: false)
+  @JsonKey(name: 'intsByDateTime', required: true)
   final Map<DateTime, List<int>> intsByDateTime;
-  @JsonKey(name: 'intsBydynamic', required: true, includeIfNull: false)
+  @JsonKey(name: 'intsBydynamic', required: true)
   final Map<dynamic, List<int>> intsBydynamic;
 
   const ProjectWrapper({
