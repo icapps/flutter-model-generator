@@ -19,11 +19,11 @@ class OGM {
   final String someThing;
   @JsonKey(name: 'some_ThinG_huGE', required: true, includeIfNull: false)
   final String someThinGHuGE;
-  @JsonKey(name: 'simpleFields', required: true)
+  @JsonKey(name: 'simpleFields', required: true, includeIfNull: false)
   final List<Testing> simpleFields;
-  @JsonKey(name: 'listMap', required: true)
+  @JsonKey(name: 'listMap', required: true, includeIfNull: false)
   final Map<int, List<String>> listMap;
-  @JsonKey(name: 'structuredMessage')
+  @JsonKey(name: 'structuredMessage', includeIfNull: false)
   final String? structuredMessage;
   @JsonKey(name: 'securityIndicator', includeIfNull: false)
   final String? securityRole;
@@ -33,7 +33,7 @@ class OGM {
   final DateTime? dateChange;
   @JsonKey(name: 'fields', includeIfNull: false)
   final List<List<Testing>>? fields;
-  @JsonKey(name: 'simpleMap')
+  @JsonKey(name: 'simpleMap', includeIfNull: false)
   final Map<String, Testing>? simpleMap;
 
   OGM({

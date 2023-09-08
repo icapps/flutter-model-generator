@@ -150,3 +150,10 @@ Project:
     status:
       type: Status?
       unknown_enum_value: STATUS_0
+
+ProjectWrapper:
+  path: user/project/
+  type: object
+  properties:
+    projectListById:
+      type: Map<String, List<Project>>
