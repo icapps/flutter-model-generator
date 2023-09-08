@@ -333,7 +333,7 @@ DateTimeConverter:
 
 ## Inline types (since 6.0.0)
 
-In some cases, writing the full specification for simple fields is very verbose. Since 6.0.0 it is possible to write simple fields inline, without nesting below the field name:
+In some cases, writing the full specification for simple fields is very verbose. Since 6.0.0 it is possible to write simple fields inline, without nesting below the field name, since 7.0.0 nested lists and list in maps is also supported:
 
 ```yaml
 UserModel:
@@ -345,6 +345,7 @@ UserModel:
     created_at: DateTime
     roles: List<string>
     customProperties: Map<String, Property>?
+    customPropertiesList: Map<String, List<Property>>?
 ```
 since 7.0.0 inline types are supported now even when adding extra configuration:
 
@@ -373,7 +374,7 @@ BookCase:
       include_if_null: false
 ```
 
-Currently all basic types are supported, simple Lists and Maps (no nested types, no nullable generic parameters) as well as references to other objects.
+Currently all basic types are supported, simple Lists and Maps (no nullable generic parameters) as well as references to other objects.
 Items post-fixed with `?` will be marked optional.
 
 ## Enum support (as of v7.0.0 enums now support properties)

@@ -1,0 +1,40 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/project/project.dart';
+import 'package:model_generator_example/model/user/project/project_enum.dart';
+
+part 'project_wrapper.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class ProjectWrapper {
+  @JsonKey(name: 'projectByInt', required: true, includeIfNull: false)
+  final Map<int, List<Project>> projectByInt;
+  @JsonKey(name: 'projectByString', required: true, includeIfNull: false)
+  final Map<String, List<Project>> projectByString;
+  @JsonKey(name: 'projectByEnum', required: true, includeIfNull: false)
+  final Map<ProjectEnum, List<Project>> projectByEnum;
+  @JsonKey(name: 'StringsByString', required: true, includeIfNull: false)
+  final Map<String, List<String>> stringsByString;
+  @JsonKey(name: 'intsByString', required: true, includeIfNull: false)
+  final Map<String, List<int>> intsByString;
+  @JsonKey(name: 'intsByDateTime', required: true, includeIfNull: false)
+  final Map<DateTime, List<int>> intsByDateTime;
+  @JsonKey(name: 'intsBydynamic', required: true, includeIfNull: false)
+  final Map<dynamic, List<int>> intsBydynamic;
+
+  const ProjectWrapper({
+    required this.projectByInt,
+    required this.projectByString,
+    required this.projectByEnum,
+    required this.stringsByString,
+    required this.intsByString,
+    required this.intsByDateTime,
+    required this.intsBydynamic,
+  });
+
+  factory ProjectWrapper.fromJson(Map<String, dynamic> json) => _$ProjectWrapperFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProjectWrapperToJson(this);
+
+}
