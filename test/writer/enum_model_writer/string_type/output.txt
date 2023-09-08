@@ -4,11 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum MyEnumModel {
   @JsonValue('my_value1')
-  MY_VALUE_1(
+  my_value_1(
     value: 'my_value1',
   ),
   @JsonValue('my_value2')
-  MY_VALUE_2(
+  my_value_2(
     value: 'my_value2',
   );
 

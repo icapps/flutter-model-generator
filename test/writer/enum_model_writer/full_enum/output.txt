@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 enum Person {
   ///enum of a man
   @JsonValue(1)
-  MAN(
+  man(
     jsonKey: 1,
     firstName: 'firstName1',
     lastName: 'lastName',
@@ -15,7 +15,7 @@ enum Person {
   ),
   ///enum of a woman
   @JsonValue(2)
-  WOMAN(
+  woman(
     jsonKey: 2,
     firstName: 'firstName2',
     lastName: 'lastName',
@@ -24,7 +24,7 @@ enum Person {
   ),
   ///enum of a other
   @JsonValue(3)
-  OTHER(
+  other(
     jsonKey: 3,
     firstName: 'firstName3',
     lastName: 'SpecifiedLastName',

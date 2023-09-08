@@ -4,13 +4,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum Person {
   @JsonValue(1)
-  MAN(
+  man(
     jsonKey: 1,
     firstName: 'firstName1',
     lastName: 'lastName1',
   ),
   @JsonValue(2)
-  WOMAN(
+  woman(
     jsonKey: 2,
     firstName: 'firstName2',
     lastName: 'lastName2',
