@@ -9,7 +9,7 @@ part 'project_wrapper.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class ProjectWrapper {
-  @JsonKey(name: 'projectListById', required: true, includeIfNull: false)
+  @JsonKey(name: 'projectListById', required: true)
   final Map<String, List<Project>> projectListById;
 
   const ProjectWrapper({

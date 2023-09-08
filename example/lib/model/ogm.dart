@@ -9,19 +9,19 @@ part 'ogm.g.dart';
 @JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class OGM {
-  @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
+  @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
-  @JsonKey(name: 'beneficiaryIBAN', required: true, includeIfNull: false)
+  @JsonKey(name: 'beneficiaryIBAN', required: true)
   final String beneficiaryIBAN;
-  @JsonKey(name: 'test_Test', required: true, includeIfNull: false)
+  @JsonKey(name: 'test_Test', required: true)
   final String testTest;
-  @JsonKey(name: 'some_Thing', required: true, includeIfNull: false)
+  @JsonKey(name: 'some_Thing', required: true)
   final String someThing;
-  @JsonKey(name: 'some_ThinG_huGE', required: true, includeIfNull: false)
+  @JsonKey(name: 'some_ThinG_huGE', required: true)
   final String someThinGHuGE;
-  @JsonKey(name: 'simpleFields', required: true, includeIfNull: false)
+  @JsonKey(name: 'simpleFields', required: true)
   final List<Testing> simpleFields;
-  @JsonKey(name: 'listMap', required: true, includeIfNull: false)
+  @JsonKey(name: 'listMap', required: true)
   final Map<int, List<String>> listMap;
   @JsonKey(name: 'structuredMessage', includeIfNull: false)
   final String? structuredMessage;
