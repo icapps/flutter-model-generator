@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator/util/extension/list_extension.dart';
 
 enum MyEnumModel {
   @JsonValue('MY_VALUE_1')
@@ -20,7 +21,7 @@ enum MyEnumModel {
 }
 
 extension MyEnumModelExtension on MyEnumModel {
-  static MyEnumModel fromJsonValue(String value) => MyEnumModel.values.firstWhere((enumValue) => enumValue.jsonValue == value);
+  static MyEnumModel? fromJsonValue(String value) => MyEnumModel.values.firstWhereOrNull((enumValue) => enumValue.jsonValue == value);
 
   String toJsonValue() => jsonValue;
 }

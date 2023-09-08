@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator/util/extension/list_extension.dart';
 
 enum Person {
   @JsonValue(1)
@@ -28,7 +29,7 @@ enum Person {
 }
 
 extension PersonExtension on Person {
-  static Person fromJsonValue(int value) => Person.values.firstWhere((enumValue) => enumValue.jsonKey == value);
+  static Person? fromJsonValue(int value) => Person.values.firstWhereOrNull((enumValue) => enumValue.jsonKey == value);
 
   int toJsonValue() => jsonKey;
 }
