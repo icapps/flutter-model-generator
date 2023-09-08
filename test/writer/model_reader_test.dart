@@ -94,8 +94,7 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isArgumentError);
       if (error is ArgumentError) {
-        expect(error.message,
-            'required is removed, follow the migration to version 7.0.0');
+        expect(error.message, 'required is removed, follow the migration to version 7.0.0');
       }
     });
 
@@ -121,8 +120,7 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(),
-            'Exception: Could not generate all models. `array` is not added to the config file');
+        expect(error.toString(), 'Exception: Could not generate all models. `array` is not added to the config file');
       }
     });
 
@@ -149,8 +147,7 @@ TestModel:
       expect(error, isNotNull);
       expect(error, isException);
       if (error is Exception) {
-        expect(error.toString(),
-            'Exception: Could not generate all models. `map` is not added to the config file');
+        expect(error.toString(), 'Exception: Could not generate all models. `map` is not added to the config file');
       }
     });
 
@@ -164,6 +161,7 @@ TestModel:
     simpleStringList: List<string>
     nullableStringList: List<string>?
     simpleMap: Map<String, int>
+    nestedMap: Map<String, List<int>>
 """,
           '');
       final models = config.models;
@@ -181,6 +179,7 @@ TestModel:
       final simpleStringList = model.fields.getByName("simpleStringList");
       final nullableStringList = model.fields.getByName("nullableStringList");
       final simpleMap = model.fields.getByName("simpleMap");
+      final nestedMap = model.fields.getByName("nestedMap");
 
       expect(simpleStringList.type, isA<ArrayType>());
       expect(simpleStringList.isRequired, true);
@@ -190,6 +189,13 @@ TestModel:
 
       expect(simpleMap.type, isA<MapType>());
       expect(simpleMap.isRequired, true);
+
+      expect(nestedMap.type, isA<MapType>());
+      if (nestedMap.type is MapType) {
+        final type = nestedMap.type as MapType;
+        expect(type.valueName, 'List<int>');
+      }
+      expect(nestedMap.isRequired, true);
 
       expect(error, isNull);
     });
