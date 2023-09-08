@@ -392,6 +392,20 @@ Gender:
     Y:
 ```
 
+By default enums will be generated with a property called jsonValue. this is the value of the enum used when parsing from json. This will only be used when there isn't already a custom jsonValue defined using 'is_json_value: true' in the properties of the enum. To turn this behavior of you can use 'use_default_json_value: false'.
+
+```yaml
+Gender:
+  path: webservice/user
+  use_default_json_value: false
+  type: enum
+  values:
+    MALE:
+    FEMALE:
+    X:
+    Y:
+```
+
 Add enums with custom properties (currently supported types are int, double, bool and String)
 
 ```yaml
@@ -508,7 +522,7 @@ The above configuration will generate an enum with this extension.
 
 ```dart
 extension PersonExtension on Person {
-  static Person fromJsonValue(int value) => Person.values.firstWhere((enumValue) => enumValue.jsonKey == value);
+  static Person? fromJsonValue(int value) => Person.values.firstWhereOrNull((enumValue) => enumValue.jsonKey == value);
 
   int toJsonValue() => jsonKey;
 }
@@ -529,7 +543,7 @@ UnknownEnumTestObject:
 ### Automatic case conversion(v7.0.0)
 
 As of v7.0.0 by default all fields will be converted into lowercase instead of uppercase like before. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `false` (
-default) or `true`
+default) or `true`. This only affects the name of the enum when using it in dart code. the jsonValue will still be the name you type in the config.
 
 ```yaml
 model_generator:
@@ -627,6 +641,8 @@ DateTimeConverter:
 
 You can specify `description` on models, enum, fields and on enum entries. This description will be used verbatim to generate a code comment for that class/enum/field
 
+Example for a class:
+
 ```yaml
 UserModel:
   path: webservice/user
@@ -637,6 +653,23 @@ UserModel:
     description: The time at which the user has last updated his information
     changedAt: DateTime
 ```
+
+Example for a enum:
+
+```yaml
+Person:
+  path: test/enum/
+  type: enum
+  description: This is a enum of a person
+  values:
+    MAN:
+      description: enum of a man
+    WOMAN:
+      description: enum of a woman
+    OTHER:
+      description: enum of a other
+```
+
 
 ## Static creator support
 
