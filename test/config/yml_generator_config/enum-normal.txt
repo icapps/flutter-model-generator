@@ -26,7 +26,7 @@ Gender:
 
 Vehicles:
   type: enum
-  uppercase_enums: false
+  uppercase_enums: true
   properties:
     value:
       type: String

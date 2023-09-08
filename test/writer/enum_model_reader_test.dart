@@ -169,7 +169,7 @@ Gender:
     }) {
       testEnumError(
         expectedError:
-            'Exception: There is no value defined for property name for the enum value FEMALE in model Gender. Either make this property optional or give it a value',
+            'Exception: There is no value defined for property name for the enum value female in model Gender. Either make this property optional or give it a value',
         enumYml: """
 Gender:
   path: user/person/
@@ -200,7 +200,7 @@ Gender:
         'Test enum with incorrect type bool',
         () => testEnumError(
               expectedError:
-                  'Exception: Model: Gender, Property isMale is of type bool but the corresponding value on enum value MALE is not, make sure they have the same type',
+                  'Exception: Model: Gender, Property isMale is of type bool but the corresponding value on enum value male is not, make sure they have the same type',
               enumYml: """
 Gender:
   path: user/person/
@@ -224,7 +224,7 @@ Gender:
         'Test enum with incorrect type integer',
         () => testEnumError(
               expectedError:
-                  'Exception: Model: Gender, Property isMale is of type int but the corresponding value on enum value MALE is not, make sure they have the same type',
+                  'Exception: Model: Gender, Property isMale is of type int but the corresponding value on enum value male is not, make sure they have the same type',
               enumYml: """
 Gender:
   path: user/person/
@@ -248,7 +248,7 @@ Gender:
         'Test enum with incorrect type double',
         () => testEnumError(
               expectedError:
-                  'Exception: Model: Gender, Property isMale is of type double but the corresponding value on enum value MALE is not, make sure they have the same type',
+                  'Exception: Model: Gender, Property isMale is of type double but the corresponding value on enum value male is not, make sure they have the same type',
               enumYml: """
 Gender:
   path: user/person/
