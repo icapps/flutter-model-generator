@@ -4,39 +4,39 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum Gender {
   @JsonValue('_mAl3')
-  MALE(
+  male(
     value: '_mAl3',
   ),
   @JsonValue('femAle')
-  FEMALE(
+  female(
     value: 'femAle',
   ),
   @JsonValue('X')
-  X(
+  x(
     value: 'X',
   ),
   @JsonValue('gender_x')
-  GENDER_X(
+  gender_x(
     value: 'gender_x',
   ),
   @JsonValue('gender_y')
-  GENDER_Y(
+  gender_y(
     value: 'gender_y',
   ),
   @JsonValue('gender_z')
-  GENDER_Z(
+  gender_z(
     value: 'gender_z',
   ),
   @JsonValue('gender_abc')
-  GENDER_ABC(
+  gender_abc(
     value: 'gender_abc',
   ),
   @JsonValue('gender_def')
-  GENDER_DEF(
+  gender_def(
     value: 'gender_def',
   ),
   @JsonValue('GENDER_lap')
-  GENDER_LAP(
+  gender_lap(
     value: 'GENDER_lap',
   );
 

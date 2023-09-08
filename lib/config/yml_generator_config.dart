@@ -174,7 +174,7 @@ class YmlGeneratorConfig {
             );
           });
           fields.add(EnumField(
-            name: uppercaseEnums ? key.toUpperCase() : key,
+            name: uppercaseEnums ? key.toUpperCase() : key.toLowerCase(),
             rawName: key,
             values: enumValues,
             description: description,

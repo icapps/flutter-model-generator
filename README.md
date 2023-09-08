@@ -526,14 +526,14 @@ UnknownEnumTestObject:
       type: Gender
 ```
 
-### Automatic case conversion
+### Automatic case conversion(v7.0.0)
 
-By default all fields will be converted into uppercase. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `true` (
-default) or `false`
+As of v7.0.0 by default all fields will be converted into lowercase instead of uppercase like before. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `false` (
+default) or `true`
 
 ```yaml
 model_generator:
-  uppercase_enums: false
+  uppercase_enums: true
 ```
 
 or
@@ -541,7 +541,7 @@ or
 ```yaml
 UnknownEnumTestObject:
   path: webservice
-  uppercase_enums: false
+  uppercase_enums: true
   properties:
     path:
 ```

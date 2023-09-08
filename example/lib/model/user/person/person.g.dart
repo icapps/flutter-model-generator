@@ -14,7 +14,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
   return Person(
     firstName: json['firstName'] as String,
     gender:
-        $enumDecode(_$GenderEnumMap, json['gender'], unknownValue: Gender.X),
+        $enumDecode(_$GenderEnumMap, json['gender'], unknownValue: Gender.x),
   );
 }
 
@@ -24,13 +24,13 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
     };
 
 const _$GenderEnumMap = {
-  Gender.MALE: '_mAl3',
-  Gender.FEMALE: 'femAle',
-  Gender.X: 'X',
-  Gender.GENDER_X: 'gender_x',
-  Gender.GENDER_Y: 'gender_y',
-  Gender.GENDER_Z: 'gender_z',
-  Gender.GENDER_ABC: 'gender_abc',
-  Gender.GENDER_DEF: 'gender_def',
-  Gender.GENDER_LAP: 'GENDER_lap',
+  Gender.male: '_mAl3',
+  Gender.female: 'femAle',
+  Gender.x: 'X',
+  Gender.gender_x: 'gender_x',
+  Gender.gender_y: 'gender_y',
+  Gender.gender_z: 'gender_z',
+  Gender.gender_abc: 'gender_abc',
+  Gender.gender_def: 'gender_def',
+  Gender.gender_lap: 'GENDER_lap',
 };

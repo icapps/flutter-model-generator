@@ -50,7 +50,7 @@ class PubspecConfig {
       explicitToJson = true;
       generateToString = false;
       staticCreate = false;
-      uppercaseEnums = true;
+      uppercaseEnums = false;
       retrofitMappers = false;
       disallowNullForDefaults = false;
       return;
@@ -64,7 +64,7 @@ class PubspecConfig {
     explicitToJson = (config['explicit_to_json'] ?? true) == true;
     generateToString = (config['to_string'] ?? false) == true;
     staticCreate = (config['static_create'] ?? false) == true;
-    uppercaseEnums = (config['uppercase_enums'] ?? true) == true;
+    uppercaseEnums = (config['uppercase_enums'] ?? false) == true;
     retrofitMappers = (config['retrofit_compute'] ?? false) == true;
     disallowNullForDefaults =
         (config['disallow_null_for_defaults'] ?? false) == true;

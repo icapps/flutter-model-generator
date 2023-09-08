@@ -4,19 +4,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum Status {
   @JsonValue(0)
-  STATUS_0(
+  status_0(
     value: 0,
   ),
   @JsonValue(1)
-  STATUS_1(
+  status_1(
     value: 1,
   ),
   @JsonValue(2)
-  STATUS_2(
+  status_2(
     value: 2,
   ),
   @JsonValue(3)
-  STATUS_3(
+  status_3(
     value: 3,
   );
 

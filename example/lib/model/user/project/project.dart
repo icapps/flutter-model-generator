@@ -14,7 +14,7 @@ class Project {
   @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;
   @JsonKey(
-      name: 'status', includeIfNull: false, unknownEnumValue: Status.STATUS_0)
+      name: 'status', includeIfNull: false, unknownEnumValue: Status.status_0)
   final Status? status;
 
   const Project({

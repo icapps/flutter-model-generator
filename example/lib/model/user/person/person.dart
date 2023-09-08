@@ -11,7 +11,7 @@ part 'person.g.dart';
 class Person {
   @JsonKey(name: 'firstName', required: true)
   final String firstName;
-  @JsonKey(name: 'gender', required: true, unknownEnumValue: Gender.X)
+  @JsonKey(name: 'gender', required: true, unknownEnumValue: Gender.x)
   final Gender gender;
 
   const Person({
