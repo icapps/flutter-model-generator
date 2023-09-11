@@ -542,7 +542,7 @@ UnknownEnumTestObject:
 
 ### Automatic case conversion(v7.0.0)
 
-As of v7.0.0 by default all fields will be converted into lowercase instead of uppercase like before. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `false` (
+As of v7.0.0 by default all fields will be converted into lowercase camelcase instead of uppercase like before. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `false` (
 default) or `true`. This only affects the name of the enum when using it in dart code. the jsonValue will still be the name you type in the config.
 
 ```yaml
