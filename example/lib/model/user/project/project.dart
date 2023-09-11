@@ -9,7 +9,7 @@ part 'project.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class Project {
-  @JsonKey(name: 'name', required: false, disallowNullValue: false)
+  @JsonKey(name: 'name', required: false)
   final String name;
   @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;

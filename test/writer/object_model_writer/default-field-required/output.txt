@@ -7,7 +7,7 @@ part 'person.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Person {
   ///A good description
-  @JsonKey(name: 'firstName', required: false, disallowNullValue: false)
+  @JsonKey(name: 'firstName', required: false)
   final String firstName;
 
   const Person({
