@@ -10,7 +10,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       name: json['name'] as String? ?? 'test',
       cost: (json['cost'] as num?)?.toDouble() ?? 0.2,
       status: $enumDecodeNullable(_$StatusEnumMap, json['status'],
-          unknownValue: Status.status_0),
+          unknownValue: Status.status0),
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) {
@@ -30,8 +30,8 @@ Map<String, dynamic> _$ProjectToJson(Project instance) {
 }
 
 const _$StatusEnumMap = {
-  Status.status_0: 0,
-  Status.status_1: 1,
-  Status.status_2: 2,
-  Status.status_3: 3,
+  Status.status0: 0,
+  Status.status1: 1,
+  Status.status2: 2,
+  Status.status3: 3,
 };

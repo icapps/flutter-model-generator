@@ -16,6 +16,7 @@ import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/case_util.dart';
 import 'package:model_generator/util/generic_type.dart';
 import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/util/type_checker.dart';
@@ -174,7 +175,9 @@ class YmlGeneratorConfig {
             );
           });
           fields.add(EnumField(
-            name: uppercaseEnums ? key.toUpperCase() : key.toLowerCase(),
+            name: uppercaseEnums
+                ? key.toUpperCase()
+                : CaseUtil(key.toLowerCase()).camelCase,
             rawName: key,
             values: enumValues,
             description: description,

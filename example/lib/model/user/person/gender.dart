@@ -16,27 +16,27 @@ enum Gender {
     value: 'X',
   ),
   @JsonValue('gender_x')
-  gender_x(
+  genderX(
     value: 'gender_x',
   ),
   @JsonValue('gender_y')
-  gender_y(
+  genderY(
     value: 'gender_y',
   ),
   @JsonValue('gender_z')
-  gender_z(
+  genderZ(
     value: 'gender_z',
   ),
   @JsonValue('gender_abc')
-  gender_abc(
+  genderAbc(
     value: 'gender_abc',
   ),
   @JsonValue('gender_def')
-  gender_def(
+  genderDef(
     value: 'gender_def',
   ),
   @JsonValue('GENDER_lap')
-  gender_lap(
+  genderLap(
     value: 'GENDER_lap',
   );
 
