@@ -151,6 +151,11 @@ Project:
       type: Status?
       unknown_enum_value: status0
 
+SubProject:
+  path: user/project/
+  extends: Project
+  properties:
+  
 ProjectWrapper:
   path: user/project/
   type: object

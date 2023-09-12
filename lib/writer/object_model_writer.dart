@@ -212,7 +212,8 @@ class ObjectModelWriter {
             '  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json);');
     }
 
-    if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
+    if ((jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) &&
+        jsonModel.fields.isNotEmpty) {
       sb
         ..writeln()
         ..writeln('  @override')
