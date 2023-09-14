@@ -21,16 +21,16 @@ Gender:
     GENDER_Y:
       properties:
         value: gender_y
-    GENDER_z:
+    GENDER_Z:
       properties:
         value: gender_z
-    GENDER_abC:
+    GENDER_ABC:
       properties:
         value: gender_abc
-    GENDER_def:
+    GENDER_DEF:
       properties:
         value: gender_def
-    GENDER_lap:
+    GENDER_LAP:
       properties:
         value: GENDER_lap
 
