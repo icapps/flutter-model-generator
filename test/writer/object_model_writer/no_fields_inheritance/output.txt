@@ -1,0 +1,22 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:model_generator_example/model/user/person/base_person.dart';
+
+part 'person.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class Person extends BasePerson {
+
+  const Person({
+    String? firstName = 'test',
+  }) : super(
+          firstName: firstName,
+        );
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
+
+}

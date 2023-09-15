@@ -4,6 +4,7 @@
 - *BREAKING CHANGE*: The way enums are defined has changed, see readme for more information. You can now add properties to enums, optional and default values are supported.
 - *BREAKING CHANGE*: Enums are now by default not uppercase anymore, you can still enable this my adding 'uppercase_enums: true' to your pubspec or enum configuration
 - Logs of build runner now get shown in real time.
+- You are now allowed to have no properties configured for a class.
 
 ## [6.3.0] - 2023-06-05
 - Fixed the deprecated `ignore` field. Added

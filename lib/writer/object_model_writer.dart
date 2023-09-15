@@ -155,9 +155,13 @@ class ObjectModelWriter {
 
     final anyNonFinal = jsonModel.fields.any((element) => element.nonFinal) ||
         extendsFields.any((element) => element.nonFinal);
+
     sb
       ..writeln()
-      ..writeln('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}({');
+      ..write('  ${anyNonFinal ? '' : 'const '}${jsonModel.name}(');
+    if (jsonModel.fields.isNotEmpty || extendsModel != null) {
+      sb.writeln('{');
+    }
 
     for (final key in jsonModel.fields
         .where((key) => (key.isRequired && !key.hasDefaultValue))) {
@@ -177,8 +181,11 @@ class ObjectModelWriter {
       sb.writeln(
           '    ${_getKeyType(key)} ${key.name}${_fillDefaulValue(key)},');
     }
+    if (jsonModel.fields.isNotEmpty || extendsModel != null) {
+      sb.write('  }');
+    }
     if (extendsModel != null) {
-      sb.writeln('  }) : super(');
+      sb.writeln(') : super(');
       for (final key in extendsFields) {
         sb.writeln('          ${key.name}: ${key.name},');
       }
@@ -187,9 +194,10 @@ class ObjectModelWriter {
         ..writeln();
     } else {
       sb
-        ..writeln('  });')
+        ..writeln(');')
         ..writeln();
     }
+
     if (jsonModel.generateForGenerics) {
       sb.writeln(
           '  factory ${jsonModel.name}.fromJson(Object? json) => _\$${jsonModel.name}FromJson(json as Map<String, dynamic>); // ignore: avoid_as');
@@ -212,7 +220,8 @@ class ObjectModelWriter {
             '  static ${jsonModel.name} create(${jsonModel.generateForGenerics ? 'Object? json' : 'Map<String, dynamic> json'}) => ${jsonModel.name}.fromJson(json);');
     }
 
-    if (jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) {
+    if ((jsonModel.equalsAndHashCode ?? pubspecConfig.equalsHashCode) &&
+        jsonModel.fields.isNotEmpty) {
       sb
         ..writeln()
         ..writeln('  @override')
@@ -244,7 +253,9 @@ class ObjectModelWriter {
       if (c == 0) sb.write('      0');
       sb.writeln(';');
     }
-    if (jsonModel.generateToString ?? pubspecConfig.generateToString) {
+    if (jsonModel.generateToString ??
+        pubspecConfig.generateToString &&
+            (jsonModel.fields.isNotEmpty || extendsModel != null)) {
       sb
         ..writeln()
         ..writeln('  @override')

@@ -129,11 +129,10 @@ void main() {
         expect(errorMessage, 'Exception: firstName has no defined type');
       });
 
-      test('Error no properties', () {
+      test('no Error no properties', () {
         final pubspecConfig =
             PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
         var hasError = false;
-        var errorMessage = '';
         try {
           YmlGeneratorConfig(
                   pubspecConfig,
@@ -143,11 +142,8 @@ void main() {
               .checkIfTypesAvailable();
         } catch (e) {
           hasError = true;
-          errorMessage = e.toString();
         }
-        expect(hasError, true);
-        expect(errorMessage,
-            'Exception: Properties can not be null. model: Person');
+        expect(hasError, false);
       });
     });
     group('Custom', () {

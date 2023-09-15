@@ -1,0 +1,14 @@
+Person:
+  path: user/person/
+  type: object
+  extends: BasePerson
+  properties:
+
+BasePerson:
+  path: user/person/
+  type: object
+  properties:
+    firstName:
+      description: A good description
+      type: String?
+      default_value: "'test'"

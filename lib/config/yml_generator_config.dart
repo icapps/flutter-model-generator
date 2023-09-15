@@ -90,9 +90,6 @@ class YmlGeneratorConfig {
         ));
         return;
       }
-      if (properties == null && type != 'enum') {
-        throw Exception('Properties can not be null. model: $key');
-      }
       if (properties is! YamlMap?) {
         throw Exception(
             'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
