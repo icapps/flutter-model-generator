@@ -12,7 +12,7 @@ part 'admin_profile_data.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class AdminProfileData extends UserProfileDataExtended {
-  @JsonKey(name: 'privileges', required: true, includeIfNull: false)
+  @JsonKey(name: 'privileges', required: true)
   final String privileges;
 
   const AdminProfileData({

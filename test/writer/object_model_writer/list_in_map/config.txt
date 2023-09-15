@@ -1,0 +1,32 @@
+ProjectWrapper:
+  path: user/person/
+  type: object
+  properties:
+    projectByInt: Map<int, List<Project>>
+    projectByString: Map<String, List<Project>>
+    projectByEnum: Map<ProjectEnum, List<Project>>
+    StringsByString: Map<String, List<String>>
+    intsByString: Map<String, List<int>>
+    intsByDateTime: Map<DateTime, List<int>>
+    intsBydynamic: Map<dynamic, List<int>>
+
+Project:
+  path: user/project/
+  type: object
+  generate_for_generics: true
+  static_create: true
+  properties:
+    name:
+      type: String
+      default_value: "'test'"
+    cost:
+      type: double?
+      default_value: 0.2
+
+ProjectEnum:
+  path: user/project
+  type: enum
+  values:
+    smallProject:
+    mediumProject:
+    bigProject:

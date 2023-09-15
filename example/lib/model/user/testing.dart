@@ -8,7 +8,7 @@ part 'testing.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Testing {
-  @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
+  @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
   @JsonKey(
       name: 'isFavourite',

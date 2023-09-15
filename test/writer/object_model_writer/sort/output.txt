@@ -10,7 +10,7 @@ class Person {
   final String x;
   @JsonKey(name: 'a', required: true)
   final String a;
-  @JsonKey(name: 'b')
+  @JsonKey(name: 'b', includeIfNull: false)
   final String? b;
 
   const Person({

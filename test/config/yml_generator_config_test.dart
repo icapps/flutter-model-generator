@@ -173,58 +173,46 @@ void main() {
         expect(ymlConfig.models.first is ObjectModel, true);
         expect(ymlConfig.models[1] is EnumModel, true);
         expect(ymlConfig.models.last is EnumModel, true);
-        expect(pubspecConfig.uppercaseEnums, true);
+        expect(pubspecConfig.uppercaseEnums, false);
         final enumModel = ymlConfig.models[1] as EnumModel; // ignore: avoid_as
         final enumModel2 = ymlConfig.models[2] as EnumModel; // ignore: avoid_as
         expect(enumModel.fields, isNotNull);
-        expect(enumModel.fields!.length, 4);
-        expect(enumModel.fields![0].name, 'MALE');
-        expect(enumModel.fields![0].serializedName, 'MALE');
-        expect(enumModel.fields![0].value, null);
-        expect(enumModel.fields![1].name, 'FEMALE');
-        expect(enumModel.fields![1].serializedName, 'FEMALE');
-        expect(enumModel.fields![1].value, 'femAle');
-        expect(enumModel.fields![2].name, 'OTHER');
-        expect(enumModel.fields![2].serializedName, 'other');
-        expect(enumModel.fields![2].value, null);
-        expect(enumModel.fields![3].name, 'X');
-        expect(enumModel.fields![3].serializedName, 'X');
-        expect(enumModel.fields![3].value, null);
+        expect(enumModel.fields.length, 4);
+        expect(enumModel.fields[0].name, 'male');
+        expect(enumModel.fields[0].serializedName, 'MALE');
+        expect(enumModel.fields[0].values[0].value, 'male');
+        expect(enumModel.fields[0].values[0].propertyName, 'value');
+        expect(enumModel.fields[1].name, 'female');
+        expect(enumModel.fields[1].serializedName, 'FEMALE');
+        expect(enumModel.fields[1].values[0].value, 'femAle');
+        expect(enumModel.fields[1].values[0].propertyName, 'value');
+        expect(enumModel.fields[2].name, 'other');
+        expect(enumModel.fields[2].serializedName, 'other');
+        expect(enumModel.fields[2].values[0].value, 'other');
+        expect(enumModel.fields[2].values[0].propertyName, 'value');
+        expect(enumModel.fields[3].name, 'x');
+        expect(enumModel.fields[3].serializedName, 'X');
+        expect(enumModel.fields[3].values[0].value, 'x');
+        expect(enumModel.fields[3].values[0].propertyName, 'value');
 
         expect(enumModel2.fields, isNotNull);
-        expect(enumModel2.fields!.length, 4);
-        expect(enumModel2.fields![0].name, 'male');
-        expect(enumModel2.fields![0].serializedName, 'male');
-        expect(enumModel2.fields![0].value, null);
-        expect(enumModel2.fields![1].name, 'female');
-        expect(enumModel2.fields![1].serializedName, 'female');
-        expect(enumModel2.fields![1].value, 'femAle');
-        expect(enumModel2.fields![2].name, 'other');
-        expect(enumModel2.fields![2].serializedName, 'other');
-        expect(enumModel2.fields![2].value, null);
-        expect(enumModel2.fields![3].name, 'X');
-        expect(enumModel2.fields![3].serializedName, 'X');
-        expect(enumModel2.fields![3].value, null);
-      });
-
-      test('Error Enum no properties map', () {
-        final pubspecConfig =
-            PubspecConfig(ConfigTestHelper.getPubspecConfig('normal'));
-        var hasError = false;
-        var errorMessage = '';
-        try {
-          YmlGeneratorConfig(
-                  pubspecConfig,
-                  ConfigTestHelper.getYmlGeneratorConfig(
-                      'enum-error-no-object'),
-                  '')
-              .checkIfTypesAvailable();
-        } catch (e) {
-          hasError = true;
-          errorMessage = e.toString();
-        }
-        expect(hasError, true);
-        expect(errorMessage, 'Exception: MALE should be an object');
+        expect(enumModel2.fields.length, 4);
+        expect(enumModel2.fields[0].name, 'MALE');
+        expect(enumModel2.fields[0].serializedName, 'male');
+        expect(enumModel.fields[0].values[0].value, 'male');
+        expect(enumModel.fields[0].values[0].propertyName, 'value');
+        expect(enumModel2.fields[1].name, 'FEMALE');
+        expect(enumModel2.fields[1].serializedName, 'female');
+        expect(enumModel.fields[1].values[0].value, 'femAle');
+        expect(enumModel.fields[1].values[0].propertyName, 'value');
+        expect(enumModel2.fields[2].name, 'OTHER');
+        expect(enumModel2.fields[2].serializedName, 'other');
+        expect(enumModel.fields[2].values[0].value, 'other');
+        expect(enumModel.fields[2].values[0].propertyName, 'value');
+        expect(enumModel2.fields[3].name, 'X');
+        expect(enumModel2.fields[3].serializedName, 'x');
+        expect(enumModel.fields[3].values[0].value, 'x');
+        expect(enumModel.fields[3].values[0].propertyName, 'value');
       });
 
       test('Error Enum', () {

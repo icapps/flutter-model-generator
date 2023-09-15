@@ -57,7 +57,6 @@ Map<String, dynamic> _$OGMToJson(OGM instance) {
     'some_ThinG_huGE': instance.someThinGHuGE,
     'simpleFields': instance.simpleFields.map((e) => e.toJson()).toList(),
     'listMap': instance.listMap.map((k, e) => MapEntry(k.toString(), e)),
-    'structuredMessage': instance.structuredMessage,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -66,6 +65,7 @@ Map<String, dynamic> _$OGMToJson(OGM instance) {
     }
   }
 
+  writeNotNull('structuredMessage', instance.structuredMessage);
   writeNotNull('securityIndicator', instance.securityRole);
   writeNotNull('mutableProperty', instance.mutableProperty);
   writeNotNull(
@@ -74,7 +74,8 @@ Map<String, dynamic> _$OGMToJson(OGM instance) {
           instance.dateChange, const DateTimeConverter().toJson));
   writeNotNull('fields',
       instance.fields?.map((e) => e.map((e) => e.toJson()).toList()).toList());
-  val['simpleMap'] = instance.simpleMap?.map((k, e) => MapEntry(k, e.toJson()));
+  writeNotNull(
+      'simpleMap', instance.simpleMap?.map((k, e) => MapEntry(k, e.toJson())));
   return val;
 }
 

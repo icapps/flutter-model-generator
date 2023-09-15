@@ -333,7 +333,7 @@ DateTimeConverter:
 
 ## Inline types (since 6.0.0)
 
-In some cases, writing the full specification for simple fields is very verbose. Since 6.0.0 it is possible to write simple fields inline, without nesting below the field name:
+In some cases, writing the full specification for simple fields is very verbose. Since 6.0.0 it is possible to write simple fields inline, without nesting below the field name, since 7.0.0 nested lists and list in maps is also supported:
 
 ```yaml
 UserModel:
@@ -345,6 +345,7 @@ UserModel:
     created_at: DateTime
     roles: List<string>
     customProperties: Map<String, Property>?
+    customPropertiesList: Map<String, List<Property>>?
 ```
 since 7.0.0 inline types are supported now even when adding extra configuration:
 
@@ -373,67 +374,161 @@ BookCase:
       include_if_null: false
 ```
 
-Currently all basic types are supported, simple Lists and Maps (no nested types, no nullable generic parameters) as well as references to other objects.
+Currently all basic types are supported, simple Lists and Maps (no nullable generic parameters) as well as references to other objects.
 Items post-fixed with `?` will be marked optional.
 
-## Enum support
+## Enum support (as of v7.0.0 enums now support properties)
 
-Add enums with custom values (can be mapped to String,double,int)
+Add simple enums, the name of the enum value (MALE, FEMALE, X, Y) will be used when parsing from json
 
 ```yaml
 Gender:
   path: webservice/user
   type: enum
-  properties:
+  values:
     MALE:
-      value: _mAl3
     FEMALE:
-      value: femAle
     X:
-      value: X
     Y:
 ```
 
-### Generate mapping
+By default enums will be generated with a property called jsonValue. this is the value of the enum used when parsing from json. This will only be used when there isn't already a custom jsonValue defined using 'is_json_value: true' in the properties of the enum. To turn this behavior of you can use 'use_default_json_value: false'.
 
-For enums, it is also possible to have a map generated that maps from the enum value to its string representation and reverse. To enable this, use `generate_map: true`
+```yaml
+Gender:
+  path: webservice/user
+  use_default_json_value: false
+  type: enum
+  values:
+    MALE:
+    FEMALE:
+    X:
+    Y:
+```
+
+Add enums with custom properties (currently supported types are int, double, bool and String)
 
 ```yaml
 Gender:
   path: webservice/user
   type: enum
-  generate_map: true
   properties:
+    abbreviation: String
+  values:
     MALE:
-      value: _mAl3
+      properties:
+        abbreviation: m
     FEMALE:
-      value: femAle
+      properties:
+        abbreviation: f
     X:
-      value: X
+      properties:
+        abbreviation: x
     Y:
+      properties:
+        abbreviation: y
+```
+
+Define custom json key using is_json_value, the value of this property will then be used to parse from json
+
+```yaml
+Gender:
+  path: webservice/user
+  type: enum
+  properties:
+    key:
+      type: String
+      is_json_value: true
+    abbreviation: String
+  values:
+    MALE:
+      properties:
+        key: male
+        abbreviation: m
+    FEMALE:
+      properties:
+        key: female
+        abbreviation: f
+    X:
+      properties:
+        key: x
+        abbreviation: x
+    Y:
+      properties:
+        key: y
+        abbreviation: y
+```
+
+Optional and default values are supported. If value isn't defined for a property then it will use the defaultValue. If a property is optional and no value is given it is null.
+
+```yaml
+Gender:
+  path: webservice/user
+  type: enum
+  properties:
+    key:
+      type: String
+      is_json_value: true
+    abbreviation:
+      type: String
+      default_value: m
+    lastName: String?
+  values:
+    MALE:
+      properties:
+        key: male
+    FEMALE:
+      properties:
+        key: female
+        abbreviation: f
+    X:
+      properties:
+        key: x
+    Y:
+      properties:
+        key: y
+        lastName: lastName
 ```
 
 ### Generate mapping extensions
 
-When generating maps, it is also possible to specify that special extension functions should be added that return either the string value or that takes a string value and tries to
-convert it to the enum value. To enable this, use `generate_map: true` **AND** `generate_extensions: true`
+It is possible to generate an extension for the enum that can turn the enum into it's corresponding jsonValue and the reverse.
 
 ```yaml
-Gender:
-  path: webservice/user
+Person:
+  path: test/enum/
   type: enum
-  generate_map: true
-  generate_extensions: true
+  generate_extension: true
   properties:
-    MALE:
-      value: _mAl3
-    FEMALE:
-      value: femAle
-    X:
-      value: X
-    Y:
+    jsonValue: 
+      is_json_value: true
+      type: int
+    firstName: String
+    lastName: String
+  values:
+    MAN:
+      properties:
+        jsonKey: 1
+        firstName: firstName1
+        lastName: lastName1
+    WOMAN:
+      properties:
+        jsonKey: 2
+        firstName: firstName2
+        lastName: lastName2
+
+```
+The above configuration will generate an enum with this extension.
+
+```dart
+extension PersonExtension on Person {
+  static Person? fromJsonValue(int value) => Person.values.firstWhereOrNull((enumValue) => enumValue.jsonKey == value);
+
+  int toJsonValue() => jsonKey;
+}
 ```
 
+### Generate mapping is no longer supported as of V7.0.0, use properties instead
 ### Use unknownEnumValue
 
 ```yaml
@@ -445,14 +540,14 @@ UnknownEnumTestObject:
       type: Gender
 ```
 
-### Automatic case conversion
+### Automatic case conversion(v7.0.0)
 
-By default all fields will be converted into uppercase. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `true` (
-default) or `false`
+As of v7.0.0 by default all fields will be converted into lowercase camelcase instead of uppercase like before. You can control this behavior globally for all enums or per-enum by setting the `uppercase_enums` property to `false` (
+default) or `true`. This only affects the name of the enum when using it in dart code. the jsonValue will still be the name you type in the config.
 
 ```yaml
 model_generator:
-  uppercase_enums: false
+  uppercase_enums: true
 ```
 
 or
@@ -460,7 +555,7 @@ or
 ```yaml
 UnknownEnumTestObject:
   path: webservice
-  uppercase_enums: false
+  uppercase_enums: true
   properties:
     path:
 ```
@@ -546,6 +641,8 @@ DateTimeConverter:
 
 You can specify `description` on models, enum, fields and on enum entries. This description will be used verbatim to generate a code comment for that class/enum/field
 
+Example for a class:
+
 ```yaml
 UserModel:
   path: webservice/user
@@ -556,6 +653,23 @@ UserModel:
     description: The time at which the user has last updated his information
     changedAt: DateTime
 ```
+
+Example for a enum:
+
+```yaml
+Person:
+  path: test/enum/
+  type: enum
+  description: This is a enum of a person
+  values:
+    MAN:
+      description: enum of a man
+    WOMAN:
+      description: enum of a woman
+    OTHER:
+      description: enum of a other
+```
+
 
 ## Static creator support
 

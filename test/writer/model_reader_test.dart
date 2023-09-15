@@ -164,6 +164,7 @@ TestModel:
     simpleStringList: List<string>
     nullableStringList: List<string>?
     simpleMap: Map<String, int>
+    nestedMap: Map<String, List<int>>
 """,
           '');
       final models = config.models;
@@ -181,6 +182,7 @@ TestModel:
       final simpleStringList = model.fields.getByName("simpleStringList");
       final nullableStringList = model.fields.getByName("nullableStringList");
       final simpleMap = model.fields.getByName("simpleMap");
+      final nestedMap = model.fields.getByName("nestedMap");
 
       expect(simpleStringList.type, isA<ArrayType>());
       expect(simpleStringList.isRequired, true);
@@ -190,6 +192,13 @@ TestModel:
 
       expect(simpleMap.type, isA<MapType>());
       expect(simpleMap.isRequired, true);
+
+      expect(nestedMap.type, isA<MapType>());
+      if (nestedMap.type is MapType) {
+        final type = nestedMap.type as MapType;
+        expect(type.valueName, 'List<int>');
+      }
+      expect(nestedMap.isRequired, true);
 
       expect(error, isNull);
     });
@@ -226,35 +235,6 @@ TestModel2:
 
       expect(nullableRef.type, isA<ObjectType>());
       expect(nullableRef.isRequired, false);
-    });
-
-    test('Test enum item_type should be string or integer', () {
-      dynamic error;
-      try {
-        YmlGeneratorConfig(
-                PubspecConfig("name: test"),
-                """
-Gender:
-  path: user/person/
-  type: enum
-  item_type: List
-  properties:
-    MALE:
-      value: male
-    FEMALE:
-      value: female
-""",
-                '')
-            .models;
-      } catch (e) {
-        error = e;
-      }
-      expect(error, isNotNull);
-      expect(error, isException);
-      if (error is Exception) {
-        expect(error.toString(),
-            'Exception: item_type should be a string or integer. model: Gender');
-      }
     });
   });
 }

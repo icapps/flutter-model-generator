@@ -1,0 +1,28 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:json_annotation/json_annotation.dart';
+
+enum Person {
+  @JsonValue(1)
+  man(
+    jsonKey: 1,
+    firstName: 'firstName1',
+    lastName: 'lastName1',
+  ),
+  @JsonValue(2)
+  woman(
+    jsonKey: 2,
+    firstName: 'firstName2',
+    lastName: 'lastName2',
+  );
+
+  final int jsonKey;
+  final String firstName;
+  final String lastName;
+
+  const Person({
+    required this.jsonKey,
+    required this.firstName,
+    required this.lastName,
+  });
+}

@@ -1,0 +1,13 @@
+MyEnumModel:
+  path: test/enum/
+  type: enum
+  properties:
+    firstName: String
+    lastName: String?
+  values:
+    MY_VALUE_1:
+      properties:
+        firstName: firstName
+    MY_VALUE_2:
+      properties:
+        firstName: firstName

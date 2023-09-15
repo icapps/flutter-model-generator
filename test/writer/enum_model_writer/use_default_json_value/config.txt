@@ -1,0 +1,14 @@
+DoubleStatus:
+  path: status
+  type: enum
+  properties:
+    value:
+      type: String
+      is_json_value: true
+  values:
+    status_0:
+      properties:
+        value: customValue
+    status_1:
+    status_2:
+    status_3:
