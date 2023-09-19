@@ -317,5 +317,46 @@ DoubleStatus:
     status_3:
 """,
             ));
+    test(
+        'Value no longer supported',
+        () => testEnumError(
+              expectedError:
+                  'Exception: "value" in model DoubleStatus on property status_0 is not longer supported, the way enums are defined has been updated in v7.0.0. Follow the migration',
+              enumYml: """
+DoubleStatus:
+  path: status
+  type: enum
+  properties:
+    status_0:
+      value: true
+    status_1:
+      value: true
+    status_2:
+      value: true
+    status_3:
+      value: true
+""",
+            ));
+    test(
+        'type required',
+        () => testEnumError(
+              expectedError:
+                  'Exception: The required key "Type" is required in model Gender on property isMale',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  properties:
+    isMale:
+      is_json_key: true
+  values:
+    MALE:
+      properties:
+        isMale: hello
+    FEMALE:
+      properties:
+        isMale: hello
+""",
+            ));
   });
 }

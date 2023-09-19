@@ -121,6 +121,16 @@ class YmlGeneratorConfig {
           final String name = propertyKey;
 
           if (propertyValue is YamlMap) {
+            final deprecatedValue = propertyValue['value'];
+            if (deprecatedValue != null) {
+              throw Exception(
+                  '"value" in model $key on property $name is not longer supported, the way enums are defined has been updated in v7.0.0. Follow the migration');
+            }
+
+            if (propertyValue['type'] == null) {
+              throw Exception(
+                  'The required key "Type" is required in model $key on property $name');
+            }
             type = propertyValue['type'];
             isJsonvalue = propertyValue['is_json_value'] == true;
             defaultValue = propertyValue['default_value']?.toString();
