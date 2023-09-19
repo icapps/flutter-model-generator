@@ -358,5 +358,37 @@ Gender:
         isMale: hello
 """,
             ));
+    test(
+        'Simple enum declaration only works with empty properties',
+        () => testEnumError(
+              expectedError:
+                  'Exception: Simple enum declaration only works if no properties are defined, model: Gender',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  properties:
+    isMale:
+      is_json_key: true
+      type: String
+  values:
+    MALE: hello
+    FEMALE: hello
+""",
+            ));
+    test(
+        'Simple enum declaration only works with String, int and double',
+        () => testEnumError(
+              expectedError:
+                  'Exception: All values in a simple enum declaration should have the same value type, value int is not String. enum value: FEMALE',
+              enumYml: """
+Gender:
+  path: user/person/
+  type: enum
+  values:
+    MALE: 1
+    FEMALE: female
+""",
+            ));
   });
 }

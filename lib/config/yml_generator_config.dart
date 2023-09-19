@@ -163,24 +163,47 @@ class YmlGeneratorConfig {
           ));
         });
 
-        final values = value['values'] as YamlMap?;
+        final values = value['values'];
         if (values == null) {
           throw Exception('Values can not be null. model: $key');
         }
 
-        values.forEach((key, value) {
-          final properties = value?['properties'] as YamlMap?;
-          final description = value?['description'];
-          final enumValues = <EnumValue>[];
+        ItemType? simpleType;
 
-          properties?.forEach((key, value) {
-            enumValues.add(
-              EnumValue(
-                value: value.toString(),
-                propertyName: key,
-              ),
-            );
-          });
+        values.forEach((key, value) {
+          final enumValues = <EnumValue>[];
+          String? description;
+          if (value is YamlMap) {
+            final properties = value['properties'] as YamlMap?;
+            description = value['description'];
+
+            properties?.forEach((key, value) {
+              enumValues.add(
+                EnumValue(
+                  value: value.toString(),
+                  propertyName: key,
+                ),
+              );
+            });
+          } else if (value != null) {
+            final valueType = switch (value.runtimeType) {
+              String => StringType(),
+              int => IntegerType(),
+              double => DoubleType(),
+              _ => StringType(),
+            };
+            if (simpleType == null) {
+              simpleType = valueType;
+            } else if (simpleType?.name != valueType.name) {
+              throw Exception(
+                  'All values in a simple enum declaration should have the same value type, value ${simpleType?.name} is not ${valueType.name}. enum value: $key');
+            }
+            enumValues.add(EnumValue(
+              value: value.toString(),
+              propertyName: 'jsonValue',
+            ));
+          }
+
           fields.add(EnumField(
             name: uppercaseEnums ? key.toUpperCase() : CaseUtil(key).camelCase,
             rawName: key,
@@ -188,6 +211,21 @@ class YmlGeneratorConfig {
             description: description,
           ));
         });
+
+        if (simpleType != null) {
+          if (enumProperties.isNotEmpty) {
+            throw Exception(
+                'Simple enum declaration only works if no properties are defined, model: $key');
+          }
+          enumProperties.add(
+            EnumProperty(
+              name: 'jsonValue',
+              type: simpleType!,
+              isOptional: false,
+              isJsonvalue: true,
+            ),
+          );
+        }
 
         final enumModel = EnumModel(
           addJsonValueToProperties: value['use_default_json_value'] ?? true,
