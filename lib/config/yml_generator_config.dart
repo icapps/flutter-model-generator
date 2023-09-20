@@ -187,7 +187,6 @@ class YmlGeneratorConfig {
             });
           } else if (value != null) {
             final valueType = switch (value.runtimeType) {
-              String => StringType(),
               int => IntegerType(),
               double => DoubleType(),
               _ => StringType(),
