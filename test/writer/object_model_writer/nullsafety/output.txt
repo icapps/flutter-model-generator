@@ -8,7 +8,7 @@ part 'person.g.dart';
 class Person {
   @JsonKey(name: 'firstName', required: true)
   final String firstName;
-  @JsonKey(name: 'lastName')
+  @JsonKey(name: 'lastName', includeIfNull: false)
   final String? lastName;
 
   const Person({

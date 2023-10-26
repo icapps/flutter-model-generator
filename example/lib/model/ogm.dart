@@ -9,19 +9,21 @@ part 'ogm.g.dart';
 @JsonSerializable(explicitToJson: true)
 @DateTimeConverter()
 class OGM {
-  @JsonKey(name: 'beneficiary', required: true, includeIfNull: false)
+  @JsonKey(name: 'beneficiary', required: true)
   final String beneficiary;
-  @JsonKey(name: 'beneficiaryIBAN', required: true, includeIfNull: false)
+  @JsonKey(name: 'beneficiaryIBAN', required: true)
   final String beneficiaryIBAN;
-  @JsonKey(name: 'test_Test', required: true, includeIfNull: false)
+  @JsonKey(name: 'test_Test', required: true)
   final String testTest;
-  @JsonKey(name: 'some_Thing', required: true, includeIfNull: false)
+  @JsonKey(name: 'some_Thing', required: true)
   final String someThing;
-  @JsonKey(name: 'some_ThinG_huGE', required: true, includeIfNull: false)
+  @JsonKey(name: 'some_ThinG_huGE', required: true)
   final String someThinGHuGE;
   @JsonKey(name: 'simpleFields', required: true)
   final List<Testing> simpleFields;
-  @JsonKey(name: 'structuredMessage')
+  @JsonKey(name: 'listMap', required: true)
+  final Map<int, List<String>> listMap;
+  @JsonKey(name: 'structuredMessage', includeIfNull: false)
   final String? structuredMessage;
   @JsonKey(name: 'securityIndicator', includeIfNull: false)
   final String? securityRole;
@@ -31,7 +33,7 @@ class OGM {
   final DateTime? dateChange;
   @JsonKey(name: 'fields', includeIfNull: false)
   final List<List<Testing>>? fields;
-  @JsonKey(name: 'simpleMap')
+  @JsonKey(name: 'simpleMap', includeIfNull: false)
   final Map<String, Testing>? simpleMap;
 
   OGM({
@@ -41,6 +43,7 @@ class OGM {
     required this.someThing,
     required this.someThinGHuGE,
     required this.simpleFields,
+    required this.listMap,
     this.structuredMessage,
     this.securityRole,
     this.mutableProperty,
@@ -64,6 +67,7 @@ class OGM {
           someThing == other.someThing &&
           someThinGHuGE == other.someThinGHuGE &&
           simpleFields == other.simpleFields &&
+          listMap == other.listMap &&
           structuredMessage == other.structuredMessage &&
           securityRole == other.securityRole &&
           mutableProperty == other.mutableProperty &&
@@ -79,6 +83,7 @@ class OGM {
       someThing.hashCode ^
       someThinGHuGE.hashCode ^
       simpleFields.hashCode ^
+      listMap.hashCode ^
       structuredMessage.hashCode ^
       securityRole.hashCode ^
       mutableProperty.hashCode ^
@@ -94,6 +99,7 @@ class OGM {
       'someThing: $someThing, '
       'someThinGHuGE: $someThinGHuGE, '
       'simpleFields: $simpleFields, '
+      'listMap: $listMap, '
       'structuredMessage: $structuredMessage, '
       'securityRole: $securityRole, '
       'mutableProperty: $mutableProperty, '

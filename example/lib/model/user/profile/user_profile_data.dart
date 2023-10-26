@@ -11,19 +11,19 @@ part 'user_profile_data.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class UserProfileData {
-  @JsonKey(name: 'firstName', required: true, includeIfNull: false)
+  @JsonKey(name: 'firstName', required: true)
   final String firstName;
-  @JsonKey(name: 'lastName', required: true, includeIfNull: false)
+  @JsonKey(name: 'lastName', required: true)
   final String lastName;
-  @JsonKey(name: 'standardLanguage', required: true, includeIfNull: false)
+  @JsonKey(name: 'standardLanguage', required: true)
   final String standardLanguage;
-  @JsonKey(name: 'mainAccountNumber', required: true, includeIfNull: false)
+  @JsonKey(name: 'mainAccountNumber', required: true)
   final String mainAccountNumber;
-  @JsonKey(name: 'legalEmail', required: true, includeIfNull: false)
+  @JsonKey(name: 'legalEmail', required: true)
   final String legalEmail;
-  @JsonKey(name: 'phones', required: true, includeIfNull: false)
+  @JsonKey(name: 'phones', required: true)
   final Testing phones;
-  @JsonKey(name: 'legalAddress', required: true, includeIfNull: false)
+  @JsonKey(name: 'legalAddress', required: true)
   final OGM legalAddress;
   @JsonKey(name: 'offTrack', includeIfNull: false)
   final List<String>? offTrack;

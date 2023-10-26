@@ -9,7 +9,7 @@ Person:
 Gender:
   path: user/person/
   type: enum
-  properties:
+  values:
     MALE:
     FEMALE:
     X:

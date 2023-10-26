@@ -8,7 +8,7 @@ part 'person.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Person {
-  @JsonKey(name: 'address', required: true, includeIfNull: false, fromJson: Handler.handleFromJson, toJson: Handler.handleToJson)
+  @JsonKey(name: 'address', required: true, fromJson: Handler.handleFromJson, toJson: Handler.handleToJson)
   final Address address;
 
   const Person({

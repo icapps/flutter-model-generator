@@ -1,7 +1,10 @@
 # Changelog
 ## [7.0.0] - 2023-08-14
 - *BREAKING CHANGE*: Every type is now defined inline, this means that 'required' is no longer supported, if a field isn't nullable it is automatically required. This also means that the 'array' type is no longer supported and is instead just defined like 'List<T>'.
+- *BREAKING CHANGE*: The way enums are defined has changed, see readme for more information. You can now add properties to enums, optional and default values are supported.
+- *BREAKING CHANGE*: Enums are now by default not uppercase anymore, you can still enable this my adding 'uppercase_enums: true' to your pubspec or enum configuration
 - Logs of build runner now get shown in real time.
+- You are now allowed to have no properties configured for a class.
 
 ## [6.3.0] - 2023-06-05
 - Fixed the deprecated `ignore` field. Added

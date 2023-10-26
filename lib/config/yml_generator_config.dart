@@ -16,6 +16,7 @@ import 'package:model_generator/model/model/enum_model.dart';
 import 'package:model_generator/model/model/json_converter_model.dart';
 import 'package:model_generator/model/model/model.dart';
 import 'package:model_generator/model/model/object_model.dart';
+import 'package:model_generator/util/case_util.dart';
 import 'package:model_generator/util/generic_type.dart';
 import 'package:model_generator/util/list_extensions.dart';
 import 'package:model_generator/util/type_checker.dart';
@@ -89,54 +90,162 @@ class YmlGeneratorConfig {
         ));
         return;
       }
-      if (properties == null) {
-        throw Exception('Properties can not be null. model: $key');
-      }
-      if (properties is! YamlMap) {
+      if (properties is! YamlMap?) {
         throw Exception(
             'Properties should be a map, right now you are using a ${properties.runtimeType}. model: $key');
       }
       if (type == 'enum') {
-        final uppercaseEnums =
-            (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
-        final itemType = value['item_type'] == null
-            ? const StringType()
-            : _parseSimpleType(value['item_type']);
-
-        if (itemType is! StringType &&
-            itemType is! IntegerType &&
-            itemType is! DoubleType) {
+        final deprecatedItemType = value['item_type'];
+        if (deprecatedItemType != null) {
           throw Exception(
-              'item_type should be a string or integer. model: $key');
+              'item_type is removed, follow the migration to version 7.0.0');
         }
 
+        final deprecatedGenerateMap = value['generate_map'];
+        if (deprecatedGenerateMap != null) {
+          throw Exception(
+              'generate_map is removed, follow the migration to version 7.0.0');
+        }
+
+        final uppercaseEnums =
+            (value['uppercase_enums'] ?? pubspecConfig.uppercaseEnums) == true;
+
         final fields = <EnumField>[];
-        properties.forEach((propertyKey, propertyValue) {
-          if (propertyValue != null && propertyValue is! YamlMap) {
-            throw Exception('$propertyKey should be an object');
+        final enumProperties = <EnumProperty>[];
+        properties?.forEach((propertyKey, propertyValue) {
+          final bool isJsonvalue;
+          final String type;
+          final String? defaultValue;
+          final ItemType itemType;
+
+          final String name = propertyKey;
+
+          if (propertyValue is YamlMap) {
+            final deprecatedValue = propertyValue['value'];
+            if (deprecatedValue != null) {
+              throw Exception(
+                  '"value" in model $key on property $name is not longer supported, the way enums are defined has been updated in v7.0.0. Follow the migration');
+            }
+
+            if (propertyValue['type'] == null) {
+              throw Exception(
+                  'The required key "Type" is required in model $key on property $name');
+            }
+            type = propertyValue['type'];
+            isJsonvalue = propertyValue['is_json_value'] == true;
+            defaultValue = propertyValue['default_value']?.toString();
+          } else {
+            type = propertyValue;
+            isJsonvalue = false;
+            defaultValue = null;
           }
-          fields.add(EnumField(
-            name: uppercaseEnums ? propertyKey.toUpperCase() : propertyKey,
-            rawName: propertyKey,
-            value: propertyValue == null
-                ? null
-                : propertyValue['value'].toString(),
-            description:
-                propertyValue == null ? null : propertyValue['description'],
+
+          final optional = type.endsWith('?');
+          final typeString =
+              optional ? type.substring(0, type.length - 1) : type;
+
+          itemType = _parseSimpleType(typeString);
+
+          if (itemType is! StringType &&
+              itemType is! DoubleType &&
+              itemType is! IntegerType &&
+              itemType is! BooleanType) {
+            throw Exception(
+                '$propertyKey should have a type of integer, boolean, double or string');
+          }
+
+          enumProperties.add(EnumProperty(
+            name: name,
+            type: itemType,
+            isJsonvalue: isJsonvalue,
+            isOptional: optional,
+            defaultValue: defaultValue,
           ));
         });
-        models.add(EnumModel(
+
+        final values = value['values'];
+        if (values == null) {
+          throw Exception('Values can not be null. model: $key');
+        }
+
+        ItemType? simpleType;
+
+        values.forEach((key, value) {
+          final enumValues = <EnumValue>[];
+          String? description;
+          if (value is YamlMap) {
+            final properties = value['properties'] as YamlMap?;
+            description = value['description'];
+
+            properties?.forEach((key, value) {
+              enumValues.add(
+                EnumValue(
+                  value: value.toString(),
+                  propertyName: key,
+                ),
+              );
+            });
+          } else if (value != null) {
+            final valueType = switch (value.runtimeType) {
+              int => IntegerType(),
+              double => DoubleType(),
+              _ => StringType(),
+            };
+            if (simpleType == null) {
+              simpleType = valueType;
+            } else if (simpleType?.name != valueType.name) {
+              throw Exception(
+                  'All values in a simple enum declaration should have the same value type, value ${simpleType?.name} is not ${valueType.name}. enum value: $key');
+            }
+            enumValues.add(EnumValue(
+              value: value.toString(),
+              propertyName: 'jsonValue',
+            ));
+          }
+
+          fields.add(EnumField(
+            name: uppercaseEnums ? key.toUpperCase() : CaseUtil(key).camelCase,
+            rawName: key,
+            values: enumValues,
+            description: description,
+          ));
+        });
+
+        if (simpleType != null) {
+          if (enumProperties.isNotEmpty) {
+            throw Exception(
+                'Simple enum declaration only works if no properties are defined, model: $key');
+          }
+          enumProperties.add(
+            EnumProperty(
+              name: 'jsonValue',
+              type: simpleType!,
+              isOptional: false,
+              isJsonvalue: true,
+            ),
+          );
+        }
+
+        final enumModel = EnumModel(
+          addJsonValueToProperties: value['use_default_json_value'] ?? true,
+          generateExtension: value['generate_extension'] == true,
           name: key,
           path: path,
-          generateMap: value['generate_map'] == true,
-          generateExtensions: value['generate_extensions'] == true,
           baseDirectory: baseDirectory,
           fields: fields,
-          itemType: itemType,
+          properties: enumProperties,
           extraImports: extraImports,
           extraAnnotations: extraAnnotations,
           description: description,
-        ));
+        );
+
+        final error = enumModel.validate();
+
+        if (error != null) {
+          throw Exception(error);
+        }
+
+        models.add(enumModel);
       } else {
         final staticCreate = (value['static_create'] ?? false) == true;
         final disallowNullForDefaults =
@@ -144,7 +253,7 @@ class YmlGeneratorConfig {
                 ? (value['disallow_null_for_defaults'] == true)
                 : pubspecConfig.disallowNullForDefaults;
         final fields = <Field>[];
-        properties.forEach((propertyKey, propertyValue) {
+        properties?.forEach((propertyKey, propertyValue) {
           if (propertyValue is YamlMap) {
             fields.add(getField(propertyKey, propertyValue,
                 disallowNullForDefaults: disallowNullForDefaults));
@@ -227,7 +336,7 @@ class YmlGeneratorConfig {
         jsonKey: jsonKey,
         nonFinal: nonFinal,
         description: description,
-        includeIfNull: includeIfNull,
+        includeIfNull: optional ? includeIfNull : true,
         unknownEnumValue: unknownEnumValue,
         fromJson: fromJson,
         toJson: toJson,
@@ -254,7 +363,7 @@ class YmlGeneratorConfig {
       ignore: false,
       includeToJson: true,
       includeFromJson: true,
-      includeIfNull: true,
+      includeIfNull: optional ? false : true,
       nonFinal: false,
       ignoreEquality: false,
     );
@@ -372,7 +481,7 @@ class YmlGeneratorConfig {
   ItemType _parseSimpleType(String type) {
     final listRegex = RegExp(r'^\s*[Ll]ist<\s*([a-zA-Z_0-9<>]*)\s*>\s*$');
     final mapRegex =
-        RegExp(r'^\s*[Mm]ap<([a-zA-Z_0-9]*)\s*,\s*([a-zA-Z_0-9]*)\s*>\s*$');
+        RegExp(r'^\s*[Mm]ap<([a-zA-Z_0-9<>]*)\s*,\s*([a-zA-Z_0-9<>]*)\s*>\s*$');
 
     final lowerType = type.toLowerCase();
 

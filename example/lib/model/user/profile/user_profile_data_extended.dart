@@ -12,7 +12,7 @@ part 'user_profile_data_extended.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class UserProfileDataExtended extends UserProfileData {
-  @JsonKey(name: 'additionalField', required: true, includeIfNull: false)
+  @JsonKey(name: 'additionalField', required: true)
   final String additionalField;
 
   const UserProfileDataExtended({

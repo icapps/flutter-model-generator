@@ -9,16 +9,12 @@ part 'project.g.dart';
 @JsonSerializable(explicitToJson: true)
 @immutable
 class Project {
-  @JsonKey(
-      name: 'name',
-      required: false,
-      disallowNullValue: false,
-      includeIfNull: false)
+  @JsonKey(name: 'name', required: false)
   final String name;
   @JsonKey(name: 'cost', includeIfNull: false)
   final double? cost;
   @JsonKey(
-      name: 'status', includeIfNull: false, unknownEnumValue: Status.STATUS_0)
+      name: 'status', includeIfNull: false, unknownEnumValue: Status.status0)
   final Status? status;
 
   const Project({

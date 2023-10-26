@@ -30,6 +30,7 @@ OGM:
       type: List<List<Testing>>?
     simpleFields: List<Testing>
     simpleMap: Map<String, Testing>?
+    listMap: Map<Int, List<String>>
 
 Testing:
   path: user
@@ -106,7 +107,7 @@ Person:
     firstName:
       type: String
     gender:
-      unknown_enum_value: X
+      unknown_enum_value: x
       type: Gender
 
 Duration:
@@ -148,4 +149,16 @@ Project:
       default_value: 0.2
     status:
       type: Status?
-      unknown_enum_value: STATUS_0
+      unknown_enum_value: status0
+
+SubProject:
+  path: user/project/
+  extends: Project
+  properties:
+  
+ProjectWrapper:
+  path: user/project/
+  type: object
+  properties:
+    projectListById:
+      type: Map<String, List<Project>>

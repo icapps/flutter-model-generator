@@ -1,0 +1,6 @@
+MyEnumModel:
+  path: test/enum/
+  type: enum
+  values:
+    MY_VALUE_1:
+    MY_VALUE_2:

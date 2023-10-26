@@ -1,0 +1,4 @@
+Person:
+  path: user/person/
+  type: object
+  properties:
